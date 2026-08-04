@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Certificates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Blue & Black Professional Theme */
+            --bg-base: #0B1121;
+            --bg-surface: #151E32;
+            --bg-hover: #1E293B;
+            --primary: #3B82F6;
+            --primary-hover: #2563EB;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* --- Main Container --- */
+        .page-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* --- Certificate List --- */
+        .certificate-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .list-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .list-item:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .icon-box {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .item-text h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-text p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .view-btn {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- Empty / Motivational State --- */
+        .empty-state {
+            background: var(--bg-surface);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 4rem 2rem;
+            text-align: center;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .empty-state.active {
+            display: flex;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            max-width: 400px;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Modal Viewer --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 17, 33, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            width: 95%;
+            max-width: 1000px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-surface);
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #EF4444;
+        }
+
+        /* --- PDF Viewer --- */
+        .pdf-viewer {
+            flex-grow: 1;
+            background: #2A3649;
+            position: relative;
+        }
+
+        .pdf-viewer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- Action Buttons --- */
+        .modal-footer {
+            padding: 1.25rem 1.5rem;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-hover);
+            border-color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <header class="page-header">
+            <h1>My Achievements</h1>
+            <p>View, print, and download your earned course certificates.</p>
+        </header>
+
+        <div id="certificate-list" class="certificate-list">
+            </div>
+
+        <div id="empty-state" class="empty-state">
+            <div class="empty-icon">🚀</div>
+            <h3>No Certificates Yet</h3>
+            <p>Great things take time. Keep pushing forward, complete your first course, and your achievements will appear right here!</p>
+            <button class="btn btn-primary" onclick="alert('Redirecting to courses...')">Continue Learning</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="certificateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Certificate</h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+            </div>
+            
+            <div class="pdf-viewer">
+                <iframe id="pdfIframe" src="" title="Certificate PDF"></iframe>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="printBtn">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print
+                </button>
+                <button class="btn btn-primary" id="downloadBtn">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Mock Data (Toggle to test both states) ---
+        // To see the motivational empty state, change this array to: const userCertificates = [];
+        const userCertificates = [
+            {
+                id: 1,
+                courseName: "Full-Stack Web Development Bootcamp",
+                date: "August 12, 2026",
+                pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+                id: 2,
+                courseName: "Advanced UI/UX Design Masterclass",
+                date: "July 05, 2026",
+                pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            }
+        ];
+
+        // --- DOM Elements ---
+        const listContainer = document.getElementById('certificate-list');
+        const emptyState = document.getElementById('empty-state');
+        const modal = document.getElementById('certificateModal');
+        const modalTitle = document.getElementById('modal-title');
+        const pdfIframe = document.getElementById('pdfIframe');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const printBtn = document.getElementById('printBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let currentPdfUrl = "";
+        let currentCourseName = "";
+
+        // --- Initialization Logic ---
+        function renderPage() {
+            if (userCertificates.length === 0) {
+                // Show motivation if empty
+                emptyState.classList.add('active');
+                listContainer.style.display = 'none';
+            } else {
+                // Render list if populated
+                emptyState.classList.remove('active');
+                listContainer.style.display = 'flex';
+                
+                userCertificates.forEach(cert => {
+                    const itemHTML = `
+                        <div class="list-item" onclick="openModal('${cert.courseName}', '${cert.pdfUrl}')">
+                            <div class="item-info">
+                                <div class="icon-box">🏆</div>
+                                <div class="item-text">
+                                    <h3>${cert.courseName}</h3>
+                                    <p>Issued on ${cert.date}</p>
+                                </div>
+                            </div>
+                            <div class="view-btn">
+                                View Certificate 
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </div>
+                        </div>
+                    `;
+                    listContainer.insertAdjacentHTML('beforeend', itemHTML);
+                });
+            }
+        }
+
+        // --- Modal Logic ---
+        window.openModal = (courseName, pdfUrl) => {
+            currentPdfUrl = pdfUrl;
+            currentCourseName = courseName;
+            
+            modalTitle.textContent = `${courseName} - Certificate`;
+            pdfIframe.src = pdfUrl;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Clear iframe src after closing so it doesn't keep loading in background
+            setTimeout(() => { pdfIframe.src = ""; }, 300);
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // --- Print & Download Logic ---
+        printBtn.addEventListener('click', () => {
+            pdfIframe.contentWindow.focus();
+            pdfIframe.contentWindow.print();
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = currentPdfUrl;
+            // Format filename safely
+            const safeFileName = currentCourseName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            link.download = `${safeFileName}_certificate.pdf`; 
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Run on load
+        renderPage();
+    </script>
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../../../../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../../../../css/style.css">
+    <title>1.1 History of Python | Codify</title>
+
+    <style>
+        .lesson-complete-card {
+            background: rgba(13, 27, 42, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.25);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 50px;
+            backdrop-filter: blur(12px);
+        }
+
+        .complete-text h3 {
+            margin: 0 0 4px 0;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .complete-text p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .mark-btn {
+            background: rgba(10, 15, 28, 0.8);
+            border: 1px solid #00aaff;
+            color: #00aaff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .mark-btn.completed,
+        .mark-btn.is-completed {
+            background: #10b981;
+            border-color: #10b981;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .lesson-complete-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="codify-main-header">
+        <div class="codify-header-container">
+
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='../../../../../index.html'">
+                    Codify
+                </div>
+            </div>
+
+            <nav class="codify-center-nav" aria-label="Main menu links">
+                <ul class="codify-nav-links" id="navLinks">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../courses.html" class="active-link">Courses</a></li>
+                    <li><a href="../../exam.html">Quizzes & Exams</a></li>
+                    <li><a href="../../certificate.html">Certificates</a></li>
+                    <li><a href="../../contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="codify-right-group">
+                <div class="codify-search-box">
+                    <input type="text" id="siteSearchTrigger" placeholder="Search everything... (⌘K)" autocomplete="off">
+                    <span class="search-kbd"><kbd>⌘K</kbd></span>
+                </div>
+
+                <button class="mobile-search-trigger" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                </button>
+
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="../../../../auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="../../../../auth/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <header class="codify-breadcrumb-bar">
+        <button class="breadcrumb-sidebar-trigger" id="sidebarToggleMobile" aria-label="Toggle Course Index">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+            </svg>
+        </button>
+        <div class="breadcrumb-vertical-divider"></div>
+
+        <nav aria-label="breadcrumb">
+            <ol class="codify-breadcrumbs">
+                <li class="hidden-xs"><a href="../../courses.html">Courses</a></li>
+                <li class="breadcrumb-chevron hidden-xs">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+                <li class="hidden-xs"><a href="../../course-index.html?courseId=python-101">Python</a></li>
+                <li class="breadcrumb-chevron hidden-xs">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+                <li class="hidden-xs"><a href="1.1-history-of-python.html">1. Introduction to Python Programming</a></li>
+                <li class="breadcrumb-chevron hidden-xs">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+
+                <li><span class="current-crumb" id="breadcrumbCurrent">1.1 History of Python</span></li>
+            </ol>
+        </nav>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar-nav" id="sidebarNav">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Python Programming</h2>
+            </div>
+
+            <ul class="tree-root">
+                <li class="tree-branch expanded">
+                    <div class="tree-node">
+                        <span class="tree-arrow"><svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg></span>
+                        <span class="chapter-title">1. Introduction to Python Programming</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="1.1-history-of-python.html" class="topic-link" data-title="1.1 History of Python">1.1 History of Python</a></li>
+                        <li><a href="1.2-list-python-features.html" class="topic-link" data-title="1.2 List Python Features">1.2 List Python Features</a></li>
+                        <li><a href="1.3-list-and-explian-applications-of-python.html" class="topic-link" data-title="1.3 Applications of Python">1.3 List and Explain Applications of Python</a></li>
+                        <li><a href="1.4-explain-python-idle.html" class="topic-link" data-title="1.4 Python IDLE">1.4 Explain Python IDLE</a></li>
+                        <li><a href="1.5-explain-process-of-running-python-scripts.html" class="topic-link" data-title="1.5 Running Python Scripts">1.5 Explain Process of Running Python Script</a></li>
+                        <li><a href="1.6-explain-identifier-keywords-indentation.html" class="topic-link" data-title="1.6 Syntax Basics">1.6 Explain Identifier, Keywords, Indentation</a></li>
+                        <li><a href="1.7-list-and-explain-various-datatypes.html" class="topic-link" data-title="1.7 Data Types">1.7 List and Explain Various Datatypes</a></li>
+                        <li><a href="1.8-explain-declaration-initialization.html" class="topic-link" data-title="1.8 Variables">1.8 Explain Declaration, Initialization</a></li>
+                    </ul>
+                </li>
+                <li class="tree-branch">
+                    <div class="tree-node">
+                        <span class="tree-arrow"><svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg></span>
+                        <span class="chapter-title">Chapter 2: Variables & Types</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="#" class="topic-link" data-title="2.1 Data Types">2.1 Data Types</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="content-workspace">
+            <article class="content-body">
+                <header class="content-header-group">
+                    <h1 class="topic-title">1.1 The Definitive History and Evolution of Python</h1>
+                    <div class="content-nav-row top-nav-row">
+                        <a href="../../courses.html" class="codify-btn-outline nav-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                            Back to Dashboard
+                        </a>
+                        <a href="1.2-list-python-features.html" class="codify-btn-outline nav-btn">
+                            Next Topic
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="m9 18 6-6-6-6" />
+                            </svg>
+                        </a>
+                    </div>
+                </header>
+
+                <p class="content-intro">
+                    Welcome to Codify's Masterclass Notes! If you want to truly master a programming language, you
+                    cannot just memorize its syntax—you must understand its soul. And the soul of a language lies
+                    entirely in its history.
+                </p>
+                <p class="content-intro">
+                    This is the most comprehensive, deep-dive guide to the history of Python available on the internet.
+                    We will look at the secret corporate backstories, design failures that birthed successes, dramatic
+                    community arguments, and every single technical milestone from 1989 to the present day. Grab a
+                    coffee, get comfortable, and let's dive in!
+                </p>
+
+                <h2 class="content-subtitle">1. The Setting: The Late 1980s Tech Landscape</h2>
+                <p class="content-intro">To understand why Python was created, we first need to look at what programming
+                    was like in the late 1980s. If you wanted to build software back then, you generally had two
+                    choices:</p>
+
+                <ul class="content-points">
+                    <li><strong>High-Level Systems Languages (Like C or C++):</strong> These were incredibly fast and
+                        powerful, but writing them was tedious. You had to manually manage computer memory, write
+                        massive amounts of boilerplate code, and handle complex pointers. A simple mistake could crash
+                        the entire operating system.</li>
+                    <li><strong>Shell Scripting / Operating System Languages:</strong> These were used to automate basic
+                        tasks. They were quick to write but lacked advanced features like object-oriented programming,
+                        complex data structures, and proper error handling. They were terrible for building large
+                        software systems.</li>
+                </ul>
+                <div class="cyber-alert info">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-text">There was a massive, gaping void between these two extremes. The world
+                        desperately needed a bridge language—something that was as easy to write as a shell script but
+                        as powerful and extensible as C.</div>
+                </div>
+
+                <h2 class="content-subtitle">2. The Genesis: Guido’s Winter Boredom (1989)</h2>
+                <p class="content-intro">Enter <strong>Guido van Rossum</strong>, a Dutch research programmer working at
+                    the Centrum Wiskunde & Informatica (CWI) (National Research Institute for Mathematics and Computer
+                    Science) in Amsterdam, Netherlands.</p>
+                <p class="content-intro">In December 1989, the CWI labs were closing for a two-week winter holiday.
+                    Guido found himself facing a long, boring week with no access to his main work projects. Instead of
+                    relaxing, he decided to start a "hobby project" on his home computer. His goal? To write an
+                    interpreter for a new scripting language he had been sketching out in his mind.</p>
+
+                <div class="info-callout border-blue">
+                    <h4>The Amoeba OS Connection</h4>
+                    <p>At CWI, Guido was working on a project called the Amoeba Operating System—a microkernel-based
+                        distributed operating system. The team needed a way to automate administrative tasks across
+                        multiple computers easily. Guido realized that standard Unix shell scripts weren't powerful
+                        enough to interact with the complex systems of the Amoeba OS. He needed a language that could
+                        easily call C libraries and handle system-level exceptions cleanly. Thus, the practical need for
+                        Python was born directly out of the demands of distributed computing.</p>
+                </div>
+
+                <h2 class="content-subtitle">3. The Genetic Ancestors of Python</h2>
+                <p class="content-intro">Python did not appear out of thin air. Guido took heavy inspiration from
+                    several languages existing at the time:</p>
+
+                <h3 style="color: #00aaff; margin: 15px 0 5px 0;">A. The ABC Language (The Direct Parent)</h3>
+                <p class="content-intro">Guido spent years working on a language named ABC at CWI. ABC was designed to
+                    teach non-programmers how to code. It was elegant, highly readable, and introduced the concept of
+                    grouping code blocks by indentation rather than using curly braces <code
+                        class="code-highlight">{}</code> or begin/end keywords. However, ABC failed commercially. Why?
+                </p>
+                <ul class="content-points">
+                    <li><strong>Monolithic Architecture:</strong> It was a closed system. It was incredibly difficult to
+                        connect an ABC script to external files, networks, or C libraries.</li>
+                    <li><strong>No Extensibility:</strong> You couldn't easily add new features or data types to the
+                        language.</li>
+                    <li><strong>Tied to Specific Hardware:</strong> It didn't adapt well to the changing operating
+                        systems of the era.</li>
+                </ul>
+                <p class="content-intro">Guido loved the readability and syntax of ABC, but hated its limitations. He
+                    explicitly stated that his goal with Python was to build a successor to ABC that fixed all of these
+                    fatal flaws.</p>
+
+                <h3 style="color: #00aaff; margin: 15px 0 5px 0;">B. Other Core Influences</h3>
+                <ul class="content-points">
+                    <li><strong>Modula-3:</strong> Python adopted its module and package structure, as well as its
+                        specific approach to Object-Oriented Programming (specifically, the explicit use of <code
+                            class="code-highlight">self</code> inside classes).</li>
+                    <li><strong>C / C++:</strong> Python’s core interpreter was written in C, making it highly
+                        compatible with existing software infrastructure.</li>
+                    <li><strong>Unix Shell:</strong> The interactive Prompt (REPL - Read Eval Print Loop) and clean text
+                        processing capabilities were inspired by Unix shells.</li>
+                </ul>
+
+                <h2 class="content-subtitle">4. The Etymology: The Monty Python Mystery</h2>
+                <p class="content-intro">Let's clear up the biggest misconception in computer science: Python is not
+                    named after the snake. When Guido began implementing the language, he also needed a name. He wanted
+                    something short, unique, slightly mysterious, and memorable.</p>
+
+                <div style="display: flex; flex-direction: column; align-items: center; margin: 3rem 0;">
+                    <div style="color: #ff7b72; display: flex; flex-direction: column; align-items: center; margin: 0rem 0; background: #0d1220; padding: 20px; border-radius: 12px; border: 1px solid #ff7b72;">
+                        ✗ Reality check: Not Named After This 🐍
+                    </div>
+                    <div style="color: #64748b; font-size: 2rem; margin: 10px;">↓</div>
+                    <div style="color: #56d364; display: flex; flex-direction: column; align-items: center; margin: 0rem 0; background: #0d1220; padding: 20px; border-radius: 12px; border: 1px solid #56d364; font-weight: bold; font-size: 1.2rem; text-align: center;">
+                        ✓ Named After: Monty Python's Flying Circus (British Comedy Show) 🎭
+                    </div>
+                </div>
+
+                <p class="content-intro">At the time, Guido was reading published scripts from <em>Monty Python’s Flying
+                        Circus</em>, a legendary, surreal British comedy show from the 1970s. In a moment of whimsey, he
+                    decided to name the language Python.</p>
+                <div class="info-callout border-purple">
+                    <h4>Codify Culture Note</h4>
+                    <p>To this day, the Python community embraces this comedic heritage. Instead of using standard
+                        placeholder names like <code class="code-highlight">foo</code> and <code
+                            class="code-highlight">bar</code> in tutorials, official Python documentation prefers to use
+                        <code class="code-highlight">spam</code>, <code class="code-highlight">eggs</code>, and <code
+                            class="code-highlight">lumberjack</code>—all direct references to famous Monty Python
+                        sketches!</p>
+                </div>
+
+                <h2 class="content-subtitle">5. The Complete Historical Timeline & Version Evolution</h2>
+                <p class="content-intro">Python's journey from a solo hobby project to the foundation of modern
+                    artificial intelligence spanned several major eras.</p>
+
+                <div class="visual-timeline">
+                    <div class="timeline-node">
+                        <div class="timeline-dot"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                        </div>
+                        <div class="timeline-year"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            1989</div>
+                        <div class="timeline-desc"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            Conception</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                        </div>
+                        <div class="timeline-year"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            1991</div>
+                        <div class="timeline-desc"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            Version 0.9.0</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                        </div>
+                        <div class="timeline-year"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            1994</div>
+                        <div class="timeline-desc"
+                            onclick="document.getElementById('phase-1')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            Version 1.0</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"
+                            onclick="document.getElementById('phase-2')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                        </div>
+                        <div class="timeline-year"
+                            onclick="document.getElementById('phase-2')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            2000</div>
+                        <div class="timeline-desc"
+                            onclick="document.getElementById('phase-2')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            Version 2.0</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"
+                            onclick="document.getElementById('phase-3')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                        </div>
+                        <div class="timeline-year"
+                            onclick="document.getElementById('phase-3')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            2008</div>
+                        <div class="timeline-desc"
+                            onclick="document.getElementById('phase-3')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            Version 3.0</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"
+                            onclick="document.getElementById('phase-4')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                        </div>
+                        <div class="timeline-year"
+                            onclick="document.getElementById('phase-4')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            2020</div>
+                        <div class="timeline-desc"
+                            onclick="document.getElementById('phase-4')?.scrollIntoView({ block: 'center', behavior: 'smooth' })">
+                            Python 2 EOL</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #00aaff; margin: 15px 0 5px 0;" id="phase-1">Phase 1: The Incubation & Early Releases
+                    (1991–1999)</h3>
+                <ul class="content-points">
+                    <li><strong>February 1991 (Python 0.9.0):</strong> Guido posted the very first source code to the
+                        Usenet newsgroup <code class="code-highlight">alt.sources</code>. Remarkably, even at version
+                        0.9.0, Python already contained: Object-Oriented Programming features, Exception Handling (<code
+                            class="code-highlight">try...except</code>), Core built-in data types (<code
+                            class="code-highlight">list</code>, <code class="code-highlight">dict</code>, <code
+                            class="code-highlight">str</code>), and the module system.</li>
+                    <li><strong>January 1994 (Python 1.0):</strong> This marked the first official production-ready
+                        release. Major Additions included Functional programming tools (<code
+                            class="code-highlight">lambda</code>, <code class="code-highlight">map</code>, <code
+                            class="code-highlight">filter</code>, <code class="code-highlight">reduce</code>) added
+                        directly by a community Lisp developer.</li>
+                    <li><strong>1995 (Python 1.2):</strong> Guido moved to the Corporation for National Research
+                        Initiatives (CNRI) in Virginia, focusing on building a stronger community of web developers.
+                    </li>
+                </ul>
+
+                <h3 style="color: #00aaff; margin: 15px 0 5px 0;" id="phase-2">Phase 2: The Open Source Era & The Golden
+                    Age (2000–2007)</h3>
+                <ul class="content-points">
+                    <li><strong>October 2000 (Python 2.0):</strong> A massive architectural upgrade. Python shifted to a
+                        community-backed development model. It introduced <strong>List Comprehensions</strong> (borrowed
+                        from Haskell), <strong>Garbage Collection</strong> (to prevent memory leaks), and
+                        <strong>Unicode Support</strong>.</li>
+                    <li><strong>2001 (Python 2.2):</strong> Type-Class Unification occurred, allowing developers to
+                        inherit directly from built-in types.</li>
+                </ul>
+
+                <h3 style="color: #00aaff; margin: 15px 0 5px 0;" id="phase-3">Phase 3: The Great Fracture (Python 3.0 &
+                    Backward Incompatibility)</h3>
+                <p class="content-intro">In December 2008, Python 3 ("Py3K") was born out of a desperate need to clean
+                    up deep architectural flaws that had accumulated over twenty years. To fix these issues, Guido made
+                    a radical decision: <strong>Python 3.0 would be deliberately backward-incompatible.</strong> Code
+                    written for Python 2 would not run on Python 3.</p>
+                <p class="content-intro">Why did they break the code?</p>
+                <ul class="content-points">
+                    <li><strong>The Print Overhaul:</strong> In Python 2, <code class="code-highlight">print</code> was
+                        a keyword statement. In Python 3, it became a standard function <code
+                            class="code-highlight">print()</code>.</li>
+                    <li><strong>Text vs. Data Clarity:</strong> Python 3 made all strings strict Unicode by default and
+                        created a separate <code class="code-highlight">bytes</code> type for raw data.</li>
+                    <li><strong>Integer Division:</strong> In Python 2, <code class="code-highlight">5 / 2</code>
+                        equaled <code class="code-highlight">2</code>. In Python 3, it correctly evaluated to <code
+                            class="code-highlight">2.5</code>.</li>
+                </ul>
+
+                <div class="mac-code-window">
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights">
+                            <div class="mac-dot mac-red"></div>
+                            <div class="mac-dot mac-yellow"></div>
+                            <div class="mac-dot mac-green"></div>
+                        </div>
+                        <div class="mac-actions">
+                            <button class="mac-btn" onclick="copyCode('code-block-1', this)" title="Copy Code">
+                                <span class="tooltip">Copied!</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <button class="mac-btn" onclick="downloadCode('code-block-1', 'version_compare.py')"
+                                title="Download Script">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </button>
+                            <button class="mac-btn" onclick="runCode('output-1')" title="Run Preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mac-body" id="code-block-1"><span class="vs-comment"># Python 2 (Legacy)</span>
+<span class="vs-keyword">print</span> <span class="vs-string">"Hello, World!"</span>
+<span class="vs-keyword">print</span> <span class="vs-number">5</span> <span class="vs-operator">/</span> <span class="vs-number">2</span> <span class="vs-comment"># Evaluates to 2</span>
+
+<span class="vs-comment"># Python 3 (Modern)</span>
+<span class="vs-function">print</span>(<span class="vs-string">"Hello, World!"</span>)
+<span class="vs-function">print</span>(<span class="vs-number">5</span> <span class="vs-operator">/</span> <span class="vs-number">2</span>) <span class="vs-comment"># Correctly evaluates to 2.5</span>
+</div>
+                </div>
+                <div class="mac-output-container" id="output-1">Hello, World!
+2.5
+</div>
+
+                <p class="content-intro"><strong>The Great Transition Crisis:</strong> Because Python 3 broke existing
+                    software, thousands of corporations refused to upgrade. To prevent collapse, developers maintained
+                    both systems simultaneously, releasing Python 2.7 as a bridge version to prep systems for migration.
+                </p>
+
+                <h3 style="color: #00aaff; margin: 15px 0 5px 0;" id="phase-4">Phase 4: The Modern Era & The Death of
+                    Python 2 (2020–Present)</h3>
+                <p class="content-intro">On January 1, 2020, Python 2 reached End-of-Life (EOL). Modern versions now
+                    focus heavily on execution speed and developer convenience:</p>
+                <ul class="content-points">
+                    <li><strong>Python 3.5 (2015):</strong> Introduced structural async programming (<code
+                            class="code-highlight">async</code> and <code class="code-highlight">await</code>).</li>
+                    <li><strong>Python 3.6 (2016):</strong> Brought <strong>F-strings</strong> (<code
+                            class="code-highlight">f"Hello {name}"</code>), completely changing string formatting.</li>
+                    <li><strong>Python 3.8 (2019):</strong> Added the Walrus Operator (<code
+                            class="code-highlight">:=</code>), enabling assignment expressions inside conditions.</li>
+                    <li><strong>Python 3.10 (2021):</strong> Introduced Structural Pattern Matching (<code
+                            class="code-highlight">match...case</code>).</li>
+                    <li><strong>Python 3.11 / 3.12 / 3.13:</strong> Initiated the "Faster CPython" project, boosting
+                        speeds by up to 60% and paving the way to entirely remove the Global Interpreter Lock (GIL).
+                    </li>
+                </ul>
+
+                <h2 class="content-subtitle">6. The Governance of Python: The BDFL and Beyond</h2>
+                <p class="content-intro">For nearly three decades, Python operated as an absolute, benevolent monarchy
+                    under Guido van Rossum (the <strong>BDFL</strong>). While the community discussed features, Guido
+                    held absolute final veto power.</p>
+                <p class="content-intro"><strong>The Great Abdication (2018):</strong> A massive community debate
+                    erupted over PEP 572 (the Walrus Operator). The arguments became toxic, criticizing Guido's
+                    judgment. Exhausted, Guido abruptly resigned: <em>"I am tired, and I want to see if the community
+                        can run the language without me."</em></p>
+                <p class="content-intro"><strong>The Steering Committee Model:</strong> Python is now governed by a
+                    5-member Steering Committee, elected annually by Python's core developers.</p>
+
+                <h2 class="content-subtitle">7. The Python Software Foundation (PSF)</h2>
+                <p class="content-intro">Founded in 2001, the PSF is a non-profit dedicated to the advancement of
+                    Python. It manages IP rights, funds developer grants, maintains PyPI (Python Package Index), and
+                    organizes PyCon.</p>
+
+                <h2 class="content-subtitle">8. The PEP System: How Python Evolves</h2>
+                <p class="content-intro">Python follows a highly structured documentation process known as <strong>PEP
+                        (Python Enhancement Proposal)</strong>. Whenever a developer wants to add a feature, they must
+                    write a PEP outlining the technical specs, rationale, and backward compatibility. Essential PEPs
+                    include:</p>
+                <ul class="content-points">
+                    <li><strong>PEP 1:</strong> How the PEP process works.</li>
+                    <li><strong>PEP 8:</strong> The official Style Guide for formatting code (4 spaces, snake_case).
+                    </li>
+                    <li><strong>PEP 20:</strong> The Zen of Python. 19 software engineering design principles.</li>
+                </ul>
+
+                <div class="mac-code-window">
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights">
+                            <div class="mac-dot mac-red"></div>
+                            <div class="mac-dot mac-yellow"></div>
+                            <div class="mac-dot mac-green"></div>
+                        </div>
+                        <div class="mac-actions">
+                            <button class="mac-btn" onclick="copyCode('code-block-2', this)" title="Copy Code">
+                                <span class="tooltip">Copied!</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                            <button class="mac-btn" onclick="downloadCode('code-block-2', 'zen.py')"
+                                title="Download Script">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </button>
+                            <button class="mac-btn" onclick="runCode('output-2')" title="Run Preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mac-body" id="code-block-2"><span class="vs-comment"># Execute PEP 20 - The Zen of Python</span>
+<span class="vs-keyword">import</span> this
+</div>
+                </div>
+                <div class="mac-output-container" id="output-2">The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+...
+</div>
+
+                <h2 class="content-subtitle">9. Comprehensive Summary Table</h2>
+                <div class="table-container">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Date / Milestone</th>
+                                <th>Historical Era</th>
+                                <th>Crucial Cultural/Technical Shift</th>
+                                <th>Key Takeaway for Developers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Dec 1989</strong></td>
+                                <td>Conception</td>
+                                <td>Guido writes an interpreter at home over Christmas break.</td>
+                                <td>Born from individual passion, not corporate directives.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Feb 1991</strong></td>
+                                <td>Public Release (0.9.0)</td>
+                                <td>First public code shared via Usenet.</td>
+                                <td>Contained OOP and exception handling right out of the gate.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jan 1994</strong></td>
+                                <td>Python 1.0</td>
+                                <td>Open community begins contributing features.</td>
+                                <td>Established Python's open-source collaborative culture.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Oct 2000</strong></td>
+                                <td>Python 2.0</td>
+                                <td>Shifted to PEP model; added List Comprehensions & Garbage Collection.</td>
+                                <td>Transformed Python into a robust enterprise language.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dec 2008</strong></td>
+                                <td>Python 3.0</td>
+                                <td>Introduction of backward-incompatible architectural changes.</td>
+                                <td>Fixed long-standing flaws but split the user base for a decade.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>July 2018</strong></td>
+                                <td>End of BDFL Era</td>
+                                <td>Guido steps down after burnout from toxic debates over PEP 572.</td>
+                                <td>Moved governance from a single dictator to a democratic committee.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jan 2020</strong></td>
+                                <td>Python 2 EOL</td>
+                                <td>Complete deprecation of Python 2 support.</td>
+                                <td>The community consolidated behind a singular, modernized ecosystem.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Modern Era</strong></td>
+                                <td>Performance Renaissance</td>
+                                <td>Focus shifts to massive runtime speed optimizations.</td>
+                                <td>Ensuring Python remains competitive for intensive AI.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="content-subtitle">10. Codify Deep-Dive Quiz 🧠</h2>
+                <p class="content-intro">Test your memory with these conceptual and factual questions designed to
+                    prepare you for interviews and exams.</p>
+
+                <div class="interactive-quiz-container">
+
+                    <div class="quiz-question-block active-question" id="qb-1">
+                        <div class="quiz-header">
+                            <span class="quiz-tracker">Question 1 of 5</span>
+                        </div>
+                        <div class="quiz-prompt">Which operating system's administrative needs directly led Guido van
+                            Rossum to build Python?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">A) Linux</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 1)">B) Amoeba OS</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">C) MS-DOS</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">D) Unix System V</button>
+                        </div>
+                        <button class="next-question-btn" id="next-1" onclick="nextQuestion(1)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-2">
+                        <div class="quiz-header">
+                            <span class="quiz-tracker">Question 2 of 5</span>
+                        </div>
+                        <div class="quiz-prompt">Why did Python 3.0 deliberately break backward compatibility with
+                            Python 2?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">A) To charge corporations
+                                licensing fees for the new software.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">B) To completely remove
+                                Object-Oriented Programming support.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 2)">C) To resolve core
+                                architectural design flaws and eliminate data/text ambiguities.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">D) Because the creator lost
+                                the original source code repository.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-2" onclick="nextQuestion(2)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-3">
+                        <div class="quiz-header">
+                            <span class="quiz-tracker">Question 3 of 5</span>
+                        </div>
+                        <div class="quiz-prompt">What major language feature did Python inherit directly from its parent
+                            language, ABC?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">A) Pointers and direct
+                                memory allocation management.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 3)">B) Using structural code
+                                indentation rather than curly braces to define blocks.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">C) Structural pattern
+                                matching operators.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">D) Asynchronous web request
+                                engines.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-3" onclick="nextQuestion(3)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-4">
+                        <div class="quiz-header">
+                            <span class="quiz-tracker">Question 4 of 5</span>
+                        </div>
+                        <div class="quiz-prompt">What historical event triggered the shift from a BDFL leadership model
+                            to the Steering Committee model?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">A) The official expiration
+                                date of Python 2 in 2020.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">B) The incorporation of the
+                                Python Software Foundation in 2001.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 4)">C) Guido van Rossum’s
+                                resignation following intense community tension over PEP 572.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">D) A legal buyout of the
+                                open-source software rights by tech corporations.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-4" onclick="nextQuestion(4)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-5">
+                        <div class="quiz-header">
+                            <span class="quiz-tracker">Question 5 of 5</span>
+                        </div>
+                        <div class="quiz-prompt">If you want to check the baseline software engineering design
+                            principles of Python directly from an active terminal, what statement should you execute?
+                        </div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">A) import templates</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">B) get
+                                python_history</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 5)">C) import this</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">D) print(pep8)</button>
+                        </div>
+                        <button class="next-question-btn" id="next-5" onclick="finishQuiz()">Finish Quiz ➔</button>
+                    </div>
+
+                    <div class="quiz-completion" id="qb-complete">
+                        <h3 style="color: #00aaff; font-size: 2rem; margin-bottom: 10px;">Module Complete! 🚀</h3>
+                        <p style="color: #cfd8dc; font-size: 1.1rem;">You have successfully mastered the History of
+                            Python.</p>
+                    </div>
+
+                </div>
+
+                <div class="content-nav-row bottom-nav-row">
+                    <a href="../../courses.html" class="codify-btn-outline nav-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="1.2-list-python-features.html" class="codify-btn-outline nav-btn">
+                        Next Topic
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
+        <div class="search-modal-card">
+            <div class="search-modal-header">
+                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input type="text" id="modalSearchInput"
+                    placeholder="Type keywords (e.g., Python history, loop, identifiers...)" autocomplete="off">
+                <button class="search-modal-close" id="modalSearchClose" aria-label="Close Search">✕</button>
+            </div>
+            <div class="search-results-viewport">
+                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course
+                    parameters...</div>
+                <ul class="search-results-list" id="searchResultsList">
+                </ul>
+            </div>
+            <div class="search-modal-footer">
+                <span><kbd>↑↓</kbd> Navigate</span>
+                <span><kbd>Enter</kbd> Select</span>
+                <span><kbd>ESC</kbd> Close</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="lesson-complete-card">
+        <div class="complete-text">
+            <h3>Finished this topic?</h3>
+            <p>Marking this topic as finished updates your course completion matrix.</p>
+        </div>
+        <button id="markCompleteBtn" class="mark-btn" onclick="toggleLessonCompletion()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span id="completeBtnText">Mark as Completed</span>
+        </button>
+    </div>
+
+    <script src="../../../../js/script.js"></script>
+    <script type="module" src="../../../../js/auth/nav-auth.js"></script>
+    
+    <script type="module">
+        import { supabase } from '../../../../js/config/supabase-client.js';
+
+        async function protectRoute() {
+            // Fetch current authenticated user
+            const { data: { user }, error } = await supabase.auth.getUser();
+
+            // If no user session exists or an error occurs, redirect immediately
+            if (error || !user) {
+                // Save the attempted page URL so you can redirect them back after logging in
+                sessionStorage.setItem('redirectUrl', window.location.pathname);
+                
+                // Redirect to login page
+                window.location.href = '../../../../auth/login.html';
+            }
+        }
+        
+        // Run the check immediately on page load
+        protectRoute();
+    </script>
+
+    <script type="module">
+        import { supabase } from '../../../../js/config/supabase-client.js';
+
+        // Unique IDs for this current page
+        const COURSE_ID = 'python-101'; 
+        const LESSON_ID = 'python-1.1-history';
+
+        let currentUser = null;
+        let isCompleted = false;
+
+        async function initLessonProgress() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return; // User isn't logged in
+
+            currentUser = user;
+
+            // Check if user already marked this topic as completed
+            const { data } = await supabase
+                .from('user_progress')
+                .select('completed')
+                .eq('user_id', user.id)
+                .eq('course_id', COURSE_ID)
+                .eq('lesson_id', LESSON_ID)
+                .single();
+
+            if (data && data.completed) {
+                isCompleted = true;
+                updateButtonUI(true);
+            }
+        }
+
+        window.toggleLessonCompletion = async function() {
+            if (!currentUser) {
+                alert("Please log in to track your course progress!");
+                window.location.href = '../../../../auth/login.html';
+                return;
+            }
+
+            isCompleted = !isCompleted;
+            updateButtonUI(isCompleted);
+
+            try {
+                if (isCompleted) {
+                    // Save completed topic in database
+                    await supabase.from('user_progress').upsert({
+                        user_id: currentUser.id,
+                        course_id: COURSE_ID,
+                        lesson_id: LESSON_ID,
+                        completed: true
+                    });
+                } else {
+                    // Unmark topic
+                    await supabase.from('user_progress')
+                        .delete()
+                        .eq('user_id', currentUser.id)
+                        .eq('course_id', COURSE_ID)
+                        .eq('lesson_id', LESSON_ID);
+                }
+            } catch (err) {
+                console.error("Failed to update progress:", err);
+            }
+        };
+
+        function updateButtonUI(completed) {
+            const btn = document.getElementById('markCompleteBtn');
+            const text = document.getElementById('completeBtnText');
+            
+            if (completed) {
+                btn.classList.add('is-completed');
+                text.textContent = '✓ Completed';
+            } else {
+                btn.classList.remove('is-completed');
+                text.textContent = 'Mark as Completed';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initLessonProgress);
+    </script>
+</body>
+
+</html>

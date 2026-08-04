@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Create Account | Codify</title>
+
+    <style>
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .auth-page-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .auth-page-container::before,
+        .auth-page-container::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .auth-page-container::before { top: 10%; left: 15%; }
+        .auth-page-container::after { bottom: 10%; right: 15%; }
+
+        .auth-card {
+            background: rgba(13, 27, 42, 0.55);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            z-index: 1;
+            position: relative;
+            animation: authCardPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-sizing: border-box;
+        }
+
+        @keyframes authCardPop {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .auth-back-btn, .auth-close-btn {
+            position: absolute;
+            top: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 8px;
+            background: rgba(10, 15, 28, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .auth-back-btn { left: 24px; gap: 6px; font-size: 0.85rem; font-weight: 600; padding: 6px 12px; }
+        .auth-close-btn { right: 24px; width: 32px; height: 32px; }
+
+        .auth-back-btn:hover { color: #00aaff; border-color: #00aaff; background: rgba(0, 170, 255, 0.1); transform: translateX(-3px); }
+        .auth-close-btn:hover { color: #f87171; border-color: #f87171; background: rgba(239, 68, 68, 0.1); transform: scale(1.05); }
+
+        .auth-header { text-align: center; margin-bottom: 20px; margin-top: 16px; }
+        .auth-header .auth-logo { font-size: 2.2rem; font-weight: bold; color: #00aaff; text-shadow: 0 0 12px rgba(0, 170, 255, 0.5); margin-bottom: 6px; cursor: pointer; display: inline-block; transition: transform 0.3s ease; }
+        .auth-header .auth-logo:hover { transform: scale(1.05); }
+        .auth-header p { color: #94a3b8; font-size: 0.92rem; margin: 0; }
+
+        .progress-wrapper { margin-bottom: 24px; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 0.78rem; color: #94a3b8; margin-bottom: 6px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+        .progress-bar-bg { width: 100%; height: 6px; background-color: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0077ff, #00aaff); border-radius: 999px; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        .phase-step { display: none; }
+        .phase-step.active { display: block; animation: phaseFade 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes phaseFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .auth-social-group { display: flex; gap: 12px; margin-bottom: 20px; }
+        .btn-social-option { flex: 1; background: rgba(10, 15, 28, 0.6); border: 1px solid rgba(0, 170, 255, 0.2); color: #e0e6ed; padding: 10px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.25s ease; }
+        .btn-social-option:hover { border-color: #00aaff; background: rgba(0, 170, 255, 0.1); color: #ffffff; }
+
+        .auth-divider { text-align: center; border-bottom: 1px solid rgba(0, 170, 255, 0.15); line-height: 0.1em; margin: 20px 0; }
+        .auth-divider span { background: #0b1323; padding: 0 10px; font-size: 0.72rem; color: #64748b; font-weight: 800; letter-spacing: 0.5px; }
+
+        .input-row-split { display: flex; gap: 12px; }
+        .auth-form-group { margin-bottom: 20px; position: relative; width: 100%; }
+        .auth-form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #cfd8dc; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .auth-input { width: 100%; background: rgba(10, 15, 28, 0.6); border: 1px solid rgba(0, 170, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-size: 0.95rem; box-sizing: border-box; transition: all 0.3s ease; font-family: inherit; }
+        .auth-input:focus { outline: none; border-color: #00aaff; box-shadow: 0 0 12px rgba(0, 170, 255, 0.25); background: rgba(10, 15, 28, 0.85); }
+        
+        .password-toggle { position: absolute; right: 14px; background: none; border: none; color: #64748b; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.2s ease; }
+        .password-toggle:hover { color: #00aaff; }
+
+        .password-strength-meter { display: flex; gap: 4px; margin-top: 8px; }
+        .strength-segment { height: 3px; flex: 1; background: rgba(255, 255, 255, 0.1); border-radius: 2px; transition: background 0.3s ease; }
+        .strength-status-text { font-size: 0.75rem; margin-top: 4px; display: block; color: #64748b; }
+
+        .validation-alert { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; display: none; }
+
+        .auth-submit-btn { width: 100%; border: none; font-size: 1rem; font-weight: bold; color: #fff; background: linear-gradient(90deg, #0077ff, #00aaff); padding: 14px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25); cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
+        .auth-submit-btn:hover { background: linear-gradient(90deg, #00aaff, #0077ff); box-shadow: 0 6px 20px rgba(0, 170, 255, 0.45); transform: translateY(-1px); }
+
+        .terms-agreement { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: #94a3b8; margin-bottom: 20px; cursor: pointer; line-height: 1.4; user-select: none; }
+        .terms-agreement input[type="checkbox"] { accent-color: #00aaff; width: 16px; height: 16px; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
+        .terms-agreement a { color: #00aaff; text-decoration: none; }
+
+        .otp-box-grid { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+        .otp-box-input { width: 44px; height: 50px; text-align: center; font-size: 1.25rem; font-weight: 800; border-radius: 12px; border: 1px solid rgba(0, 170, 255, 0.3); background: rgba(10, 15, 28, 0.8); color: #00aaff; transition: all 0.2s ease; }
+        .otp-box-input:focus { outline: none; border-color: #00aaff; box-shadow: 0 0 12px rgba(0, 170, 255, 0.3); }
+
+        .otp-timer-wrapper { text-align: center; margin-bottom: 20px; color: #94a3b8; font-size: 0.88rem; }
+        .otp-resend-link { background: none; border: none; color: #00aaff; font-weight: 700; cursor: pointer; text-decoration: underline; margin-left: 6px; font-family: inherit; }
+        .otp-resend-link:disabled { color: #64748b; text-decoration: none; cursor: not-allowed; }
+
+        .avatar-scroll-container { max-height: 260px; overflow-y: auto; padding: 18px 14px; border-radius: 16px; background: rgba(10, 15, 28, 0.5); border: 1px solid rgba(0, 170, 255, 0.2); margin: 16px 0 20px 0; box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4); }
+        .avatar-scroll-container::-webkit-scrollbar { width: 6px; }
+        .avatar-scroll-container::-webkit-scrollbar-track { background: rgba(10, 15, 28, 0.6); border-radius: 8px; }
+        .avatar-scroll-container::-webkit-scrollbar-thumb { background: #00aaff; border-radius: 8px; }
+
+        .avatar-grid-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; justify-items: center; align-items: center; }
+        .avatar-option { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(0, 170, 255, 0.25); background: rgba(10, 15, 28, 0.8); padding: 3px; cursor: pointer; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease; display: flex; align-items: center; justify-content: center; position: relative; box-sizing: border-box; z-index: 1; }
+        .avatar-option img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; pointer-events: none; }
+        .avatar-option:hover { border-color: #00aaff; transform: scale(1.38); box-shadow: 0 0 20px rgba(0, 170, 255, 0.6); z-index: 10; }
+        .avatar-option.active { border-color: #00aaff; background: rgba(0, 170, 255, 0.25); box-shadow: 0 0 16px rgba(0, 170, 255, 0.5); transform: scale(1.1); }
+        .avatar-option.active:hover { transform: scale(1.38); z-index: 10; }
+        .avatar-option.active::after { content: '✓'; position: absolute; bottom: -2px; right: -2px; background: #00aaff; color: #0a0f1c; font-size: 10px; font-weight: 900; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #0a0f1c; z-index: 11; }
+
+        .auth-footer-prompt { text-align: center; margin-top: 24px; font-size: 0.9rem; color: #94a3b8; }
+        .auth-footer-prompt a { color: #00aaff; text-decoration: none; font-weight: 600; margin-left: 4px; }
+    </style>
+</head>
+
+<body>
+    <div class="auth-page-container">
+        <div class="auth-card">
+            <a href="../pages/courses.html" class="auth-back-btn" id="authBackBtn" aria-label="Go back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg> Back
+            </a>
+            <a href="../pages/courses.html" class="auth-close-btn" id="authCloseBtn" aria-label="Close registration">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </a>
+
+            <div class="auth-header">
+                <div class="auth-logo" onclick="window.location.href='../../index.html'">Codify</div>
+                <p id="phaseSubtitleText">Step 1: Personal Details</p>
+            </div>
+
+            <div class="progress-wrapper">
+                <div class="progress-header">
+                    <span id="progressStepText">Step 1 of 6</span>
+                    <span id="progressPercentText">16%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progressBarFill" class="progress-bar-fill" style="width: 16.66%;"></div>
+                </div>
+            </div>
+
+            <div id="validationAlert" class="validation-alert"></div>
+
+            <form id="signupForm" onsubmit="return false;">
+
+                <div id="phase1" class="phase-step active">
+                    <div class="auth-social-group">
+                        <button type="button" class="btn-social-option btn-google-signup">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.2 9 5 12 5z" />
+                                <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z" />
+                                <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15s.7 5.3 1.9 7.7l3.7-2.9c-.2-.7-.4-1.5-.4-2.3z" />
+                                <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.2-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z" />
+                            </svg> Google
+                        </button>
+                        <button type="button" class="btn-social-option btn-github-signup">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg> GitHub
+                        </button>
+                    </div>
+                    <div class="auth-divider"><span>OR CONTINUE WITH EMAIL</span></div>
+                    <div class="input-row-split">
+                        <div class="auth-form-group">
+                            <label for="firstName">FIRST NAME <span style="color:#00aaff">*</span></label>
+                            <div class="input-wrapper"><input type="text" id="firstName" class="auth-input"
+                                    placeholder="Owais" required autofocus></div>
+                        </div>
+                        <div class="auth-form-group">
+                            <label for="lastName">SECOND NAME</label>
+                            <div class="input-wrapper"><input type="text" id="lastName" class="auth-input"
+                                    placeholder="Mohammed"></div>
+                        </div>
+                    </div>
+                    <button type="button" id="btnNextPhase1" class="auth-submit-btn">Next: Email & Authentication</button>
+                </div>
+
+                <div id="phase2" class="phase-step">
+                    <div class="auth-form-group">
+                        <label for="userEmail">EMAIL ADDRESS <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="email" id="userEmail" class="auth-input" placeholder="name@domain.com" required autocomplete="email">
+                        </div>
+                    </div>
+                    <button type="button" id="btnNextPhase2" class="auth-submit-btn">Send OTP Code</button>
+                </div>
+
+                <div id="phase3" class="phase-step">
+                    <p style="text-align:center; font-size: 0.88rem; color:#94a3b8; margin-top:-5px;">Code sent to
+                        <strong id="sentEmailDisplay" style="color:#00aaff;">your email</strong></p>
+                    <div class="otp-box-grid">
+                        <input type="text" maxlength="1" class="otp-box-input">
+                        <input type="text" maxlength="1" class="otp-box-input">
+                        <input type="text" maxlength="1" class="otp-box-input">
+                        <input type="text" maxlength="1" class="otp-box-input">
+                        <input type="text" maxlength="1" class="otp-box-input">
+                        <input type="text" maxlength="1" class="otp-box-input">
+                    </div>
+                    <div class="otp-timer-wrapper">
+                        <span>Resend in: <strong id="timerDisplay" style="color:#fff;">02:00</strong></span>
+                        <button type="button" id="resendOtpBtn" class="otp-resend-link" disabled>Resend OTP</button>
+                    </div>
+                    <button type="button" id="btnVerifyOtp" class="auth-submit-btn">Verify Account</button>
+                </div>
+
+                <div id="phase4" class="phase-step">
+                    <div class="auth-form-group">
+                        <label for="usernameInput">CHOOSE USERNAME <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="usernameInput" class="auth-input" placeholder="e.g. alex_mercer"
+                                required autocomplete="username">
+                        </div>
+                        <small style="color: #94a3b8; font-size: 0.78rem; display: block; margin-top: 6px;">
+                            Allowed: Letters (a-z), numbers (0-9), dots (.), and underscores (_). Length: 3-20 chars.
+                        </small>
+                    </div>
+                    <button type="button" id="btnNextPhase4" class="auth-submit-btn">Next Step</button>
+                </div>
+
+                <div id="phase5" class="phase-step">
+                    <div class="auth-form-group">
+                        <label for="userPassword">CREATE PASSWORD <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" id="userPassword" class="auth-input" placeholder="••••••••" required autocomplete="new-password">
+                            <button type="button" id="togglePasswordBtn" class="password-toggle" aria-label="Toggle password visibility">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="password-strength-meter">
+                            <div class="strength-segment" id="seg-1"></div>
+                            <div class="strength-segment" id="seg-2"></div>
+                            <div class="strength-segment" id="seg-3"></div>
+                            <div class="strength-segment" id="seg-4"></div>
+                        </div>
+                        <span id="strengthStatusText" class="strength-status-text">Enter password</span>
+                    </div>
+
+                    <label class="terms-agreement">
+                        <input type="checkbox" id="termsCheck" required>
+                        <span>I agree to Codify's <a href="../pages/terms.html" target="_blank">Terms of Service</a> and
+                            <a href="../pages/privacy.html" target="_blank">Privacy Policy</a></span>
+                    </label>
+
+                    <button type="button" id="btnSetPassword" class="auth-submit-btn">Save & Continue</button>
+                </div>
+
+                <div id="phase6" class="phase-step">
+                    <div style="text-align: center; margin-bottom: 12px;">
+                        <h3 style="margin: 0; color: #fff; font-size: 1.15rem;">Choose Your Character</h3>
+                        <p style="margin: 4px 0 0 0; color: #94a3b8; font-size: 0.85rem;">Select an avatar to personalize your Codify profile</p>
+                    </div>
+
+                    <div class="avatar-scroll-container">
+                        <div class="avatar-grid-selector" id="avatarGridSelector">
+                            <script>
+                                for (let i = 1; i <= 20; i++) {
+                                    document.write(`
+                                    <div class="avatar-option ${i === 1 ? 'active' : ''}" data-avatar="../assets/images/avatars/avatar-${i}.png">
+                                        <img src="../assets/images/avatars/avatar-${i}.png" alt="Avatar ${i}" loading="lazy">
+                                    </div>`);
+                                }
+                            </script>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+                        <button type="button" id="btnSaveAvatar" class="auth-submit-btn">
+                            Complete Setup & Launch
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="auth-footer-prompt">
+                Already have an account? <a href="login.html">Log In</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/auth/signup-flow.js"></script>
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

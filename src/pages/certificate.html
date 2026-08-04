@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>My Certificates | Codify</title>
+
+    <style>
+        /* Base Reset & Core Layout */
+        html, body {
+            height: 100%;
+            margin: 0;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Prevent Layout Flicker */
+        .codify-auth-group, main {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+        }
+
+        .codify-auth-group.ready, main.ready {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Navigation Profile DP */
+        .nav-profile-dp {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00aaff;
+            background: linear-gradient(135deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+            transition: transform 0.25s ease;
+        }
+
+        .nav-profile-dp:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-profile-dp img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Main Workspace Bounds */
+        main {
+            flex: 1 0 auto;
+            margin-top: 110px !important;
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Summary Header Banner */
+        .cert-summary-banner {
+            background: rgba(13, 27, 42, 0.7);
+            border: 1px solid rgba(0, 170, 255, 0.25);
+            border-radius: 20px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .summary-info h2 {
+            margin: 0 0 6px 0;
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .summary-info p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .badge-counter {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399;
+            font-weight: 800;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+        }
+
+        /* Topic List Style (Matches Course Index Layout) */
+        .cert-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cert-list-item {
+            background: rgba(13, 27, 42, 0.6);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            padding: 18px 24px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .cert-list-item:hover {
+            transform: translateY(-2px);
+            border-color: #34d399;
+            background: rgba(13, 27, 42, 0.85);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+        }
+
+        .cert-item-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .cert-item-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .cert-item-details h3 {
+            margin: 0 0 4px 0;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .cert-item-details p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.88rem;
+        }
+
+        .cert-status-tag {
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Motivational Card (Shown when 0 certificates earned) */
+        .motivational-card {
+            background: rgba(13, 27, 42, 0.75);
+            border: 2px dashed rgba(0, 170, 255, 0.35);
+            border-radius: 20px;
+            padding: 48px 28px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .motivational-card h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin: 16px 0 10px 0;
+        }
+
+        .motivational-card p {
+            color: #94a3b8;
+            max-width: 580px;
+            margin: 0 auto 24px auto;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .btn-motive-action {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-weight: 800;
+            padding: 12px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 18px rgba(0, 170, 255, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn-motive-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 26px rgba(0, 170, 255, 0.5);
+        }
+
+        /* MODAL / VIEWER SECTION FOR PRINTING AND DOWNLOAD */
+        .cert-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 28, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .cert-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cert-modal-container {
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cert-modal-close {
+            position: absolute;
+            top: -15px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .cert-modal-close:hover {
+            background: rgba(255, 77, 77, 0.8);
+            border-color: #ff4d4d;
+        }
+
+        /* Certificate Layout Inside Modal */
+        .cert-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cert-primary {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0, 170, 255, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .btn-cert-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(0, 170, 255, 0.5);
+        }
+
+        .btn-cert-secondary {
+            background: rgba(13, 27, 42, 0.8);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #e0e6ed;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .btn-cert-secondary:hover {
+            border-color: #00aaff;
+            color: #00aaff;
+        }
+
+        .certificate-card {
+            background: rgba(13, 27, 42, 0.95);
+            border: 2px solid rgba(0, 170, 255, 0.35);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .certificate-card::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            border: 1px dashed rgba(0, 170, 255, 0.25);
+            border-radius: 18px;
+            pointer-events: none;
+        }
+
+        .cert-header-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #00aaff;
+            margin-bottom: 6px;
+        }
+
+        .cert-subtitle-top {
+            font-size: 0.82rem;
+            letter-spacing: 3px;
+            color: #64748b;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cert-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 14px 0;
+        }
+
+        .recipient-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 16px;
+            padding-bottom: 6px;
+            display: inline-block;
+            border-bottom: 2px solid #00aaff;
+            background: linear-gradient(90deg, #ffffff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cert-achievement-text {
+            max-width: 620px;
+            margin: 0 auto 28px auto;
+            color: #94a3b8;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .course-name-highlight {
+            color: #00aaff;
+            font-weight: 700;
+        }
+
+        .cert-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(0, 170, 255, 0.15);
+            align-items: end;
+        }
+
+        .cert-meta-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .cert-meta-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #e0e6ed;
+        }
+
+        .signature-line {
+            width: 130px;
+            height: 1px;
+            background: rgba(0, 170, 255, 0.4);
+            margin: 0 auto 6px auto;
+        }
+
+        .signature-title {
+            font-size: 0.82rem;
+            color: #00aaff;
+            font-weight: 700;
+        }
+
+        /* PRINT STYLESHEET */
+        @media print {
+            body * { visibility: hidden; }
+            .cert-modal-overlay.active, .cert-modal-overlay.active * { visibility: visible; }
+            .cert-modal-overlay { position: absolute; left: 0; top: 0; background: #ffffff !important; padding: 0 !important; }
+            .cert-action-bar, .cert-modal-close { display: none !important; }
+            .certificate-card { background: #ffffff !important; border: 4px double #0077ff !important; color: #000000 !important; box-shadow: none !important; }
+            .cert-title, .recipient-name { color: #000000 !important; -webkit-text-fill-color: #000000 !important; }
+            .cert-achievement-text, .cert-meta-value { color: #333333 !important; }
+        }
+
+        @media (max-width: 768px) {
+            .cert-meta-grid { grid-template-columns: 1fr; }
+            .certificate-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="codify-main-header">
+        <div class="codify-header-container">
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='../../index.html'">Codify</div>
+            </div>
+
+            <nav class="codify-center-nav">
+                <ul class="codify-nav-links">
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="courses/exam.html">Quizzes & Exams</a></li>
+                    <li><a href="#" class="active-link">Certificates</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="codify-right-group">
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="../auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="mainWorkspace">
+        
+        <div class="cert-summary-banner">
+            <div class="summary-info">
+                <h2>Your Earned Credentials</h2>
+                <p>Select any earned certificate below to view, share, or print your official document.</p>
+            </div>
+            <div class="badge-counter" id="earnedCounterDisplay">0 Earned</div>
+        </div>
+
+        <div class="motivational-card" id="motivationalCard" style="display: none;">
+            <div style="font-size: 3rem;">🎓</div>
+            <h3>No Certificates Earned Yet</h3>
+            <p>
+                Your collection is ready to grow! Complete all lessons in a course track and clear the final exam to generate your official, verifiable certificate.
+            </p>
+            <a href="courses.html" class="btn-motive-action">Browse Courses & Get Started →</a>
+        </div>
+
+        <div class="cert-list-container" id="certListContainer">
+            </div>
+
+    </main>
+
+    <div class="cert-modal-overlay" id="certModalOverlay">
+        <div class="cert-modal-container">
+            <button class="cert-modal-close" onclick="closeCertModal()">✕</button>
+
+            <div class="cert-action-bar">
+                <span style="color: #34d399; font-weight: 700; font-size: 0.9rem;">
+                    ✓ Official Verified Credential
+                </span>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-cert-secondary" onclick="copyCertLink()">📋 Copy Link</button>
+                    <button class="btn-cert-primary" onclick="window.print()">🖨️ Print / Download PDF</button>
+                </div>
+            </div>
+
+            <div class="certificate-card">
+                <div class="cert-header-logo">CODIFY</div>
+                <div class="cert-subtitle-top">ACADEMIC CREDENTIAL SPECIFICATION</div>
+                
+                <h1 class="cert-title">Certificate of Completion</h1>
+                <p style="color: #94a3b8; font-style: italic; margin-bottom: 8px;">This certifies that</p>
+                
+                <div class="recipient-name" id="modalStudentName">Student Name</div>
+
+                <p class="cert-achievement-text">
+                    has successfully completed all requirements, quizzes, and practical code implementations for the track 
+                    <br>
+                    <span class="course-name-highlight" id="modalCourseTitle">Python Programming Mastery</span>.
+                </p>
+
+                <div class="cert-meta-grid">
+                    <div class="cert-meta-item">
+                        <div class="cert-meta-label">Issued On</div>
+                        <div class="cert-meta-value" id="modalIssueDate">August 1, 2026</div>
+                    </div>
+                    <div class="cert-meta-item">
+                        <div class="signature-line"></div>
+                        <div class="signature-title">Codify Engineering Board</div>
+                    </div>
+                    <div class="cert-meta-item">
+                        <div class="cert-meta-label">Credential ID</div>
+                        <div class="cert-meta-value" id="modalCredentialId">CODIFY-PY-98421</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="codify-footer">
+        <div>
+            Built with precision for future developers • Developed by 
+            <span class="team-hover-wrapper">
+                <span class="team-trigger">Codify Team</span>
+                <div class="team-popover">
+                    <div class="popover-header">Core Engineers</div>
+                    <ul class="team-list">
+                        <li class="team-member"><span class="member-dot"></span>Mohammed Owais</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
+                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script type="module" src="../js/auth/nav-auth.js"></script>
+    <script type="module">
+        import { supabase } from '../js/config/supabase-client.js';
+
+async function setupProfileHeader() {
+    const authNavGroup = document.getElementById('authNavGroup');
+    if (!authNavGroup) return;
+
+    try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+            console.error("Supabase Auth Error:", error);
+        }
+
+        const user = session?.user;
+
+        if (user) {
+            const meta = user.user_metadata || {};
+            const avatarUrl = meta.avatar_url;
+            const firstName = meta.first_name || meta.full_name || user.email || 'User';
+            const initial = firstName.charAt(0).toUpperCase();
+
+            // Render Circular Profile DP
+            if (avatarUrl) {
+                authNavGroup.innerHTML = `
+                    <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
+                        <img src="${avatarUrl}" alt="${firstName}'s Profile">
+                    </a>`;
+            } else {
+                authNavGroup.innerHTML = `
+                    <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
+                        <span>${initial}</span>
+                    </a>`;
+            }
+        } else {
+            // Keep Login / Signup if user is logged out
+            authNavGroup.innerHTML = `
+                <a href="../auth/login.html" class="codify-btn-outline">Login</a>
+                <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>`;
+        }
+    } catch (err) {
+        console.error("Failed to load header profile:", err);
+    } finally {
+        // Reveal header once auth state is resolved
+        authNavGroup.classList.add('ready');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', setupProfileHeader);
+    </script>
+    <script type="module">
+        
+        import { supabase } from '../js/config/supabase-client.js';
+
+        // Master Courses Specification
+        const COURSES = [
+            { id: 'python-101', name: 'Python Programming Mastery', desc: 'Core syntax, OOPs, data handling, and automation scripting.' },
+            { id: 'c-101', name: 'C Language Fundamentals', desc: 'Pointers, manual memory allocation, and computer science logic.' },
+            { id: 'cpp-101', name: 'C++ & Object-Oriented Architecture', desc: 'High-performance programming, templates, and algorithms.' },
+            { id: 'html-101', name: 'HTML5 Web Architecture', desc: 'Semantic web markups, document structure, and accessibility.' },
+            { id: 'css-101', name: 'CSS3 Responsive UI Design', desc: 'Flexbox, Grid, keyframe animations, and custom theme systems.' },
+            { id: 'js-101', name: 'JavaScript ES6+ Development', desc: 'Asynchronous APIs, DOM manipulation, and dynamic web apps.' },
+            { id: 'sql-101', name: 'Relational SQL Databases', desc: 'Structured queries, multi-table joins, indexing, and schema design.' },
+            { id: 'java-101', name: 'Java Enterprise Development', desc: 'Robust cross-platform applications and backend development.' },
+            { id: 'dbms-101', name: 'DBMS Architecture & Logic', desc: 'Database systems, normalization forms, and ACID properties.' }
+        ];
+
+        let currentUser = null;
+        let passedCourseIds = new Set();
+
+        (async function initCertificatesDirectory() {
+            const authNavGroup = document.getElementById('authNavGroup');
+            const mainWorkspace = document.getElementById('mainWorkspace');
+
+            // 1. INSTANT LOCAL SESSION READ (0ms Delay)
+            const { data: { session } } = await supabase.auth.getSession();
+            currentUser = session?.user;
+
+            if (currentUser) {
+                const meta = currentUser.user_metadata || {};
+                const avatarUrl = meta.avatar_url;
+                const firstName = meta.first_name || currentUser.email.split('@')[0];
+                const initial = firstName.charAt(0).toUpperCase();
+
+                if (authNavGroup) {
+                    authNavGroup.innerHTML = avatarUrl ? `
+                        <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
+                            <img src="${avatarUrl}" alt="${firstName}'s Profile">
+                        </a>` : `
+                        <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
+                            <span>${initial}</span>
+                        </a>`;
+                }
+            }
+
+            if (authNavGroup) authNavGroup.classList.add('ready');
+
+            // 2. READ CACHED PASSED EXAMS FOR INSTANT 0ms RENDER
+            const cachedPassedExams = JSON.parse(localStorage.getItem('codify_passed_exams') || '[]');
+            passedCourseIds = new Set(cachedPassedExams);
+
+            renderEarnedCertificates();
+            if (mainWorkspace) mainWorkspace.classList.add('ready');
+
+            // 3. BACKGROUND SYNC WITH SUPABASE
+            if (currentUser) {
+                const { data: exams } = await supabase
+                    .from('exam_results')
+                    .select('course_id')
+                    .eq('user_id', currentUser.id)
+                    .eq('passed', true);
+
+                if (exams) {
+                    const livePassedIds = exams.map(e => e.course_id);
+                    localStorage.setItem('codify_passed_exams', JSON.stringify(livePassedIds));
+                    passedCourseIds = new Set(livePassedIds);
+                    renderEarnedCertificates();
+                }
+            }
+        })();
+
+        // RENDER LIST OF EARNED CERTIFICATES ONLY
+        function renderEarnedCertificates() {
+            const container = document.getElementById('certListContainer');
+            const motiveCard = document.getElementById('motivationalCard');
+            const counter = document.getElementById('earnedCounterDisplay');
+
+            if (!container) return;
+
+            // Filter courses to keep ONLY those the user earned
+            const earnedCourses = COURSES.filter(course => passedCourseIds.has(course.id));
+
+            if (counter) counter.innerText = `${earnedCourses.length} Earned`;
+
+            // If user has NO earned certificates, display motivational card
+            if (earnedCourses.length === 0) {
+                if (motiveCard) motiveCard.style.display = 'block';
+                container.innerHTML = '';
+                return;
+            }
+
+            // Hide motivational card when at least 1 certificate is earned
+            if (motiveCard) motiveCard.style.display = 'none';
+
+            // Populate earned items
+            container.innerHTML = earnedCourses.map(course => {
+                return `
+                    <div class="cert-list-item" onclick="openCertModal('${course.id}')">
+                        <div class="cert-item-left">
+                            <div class="cert-item-icon">📜</div>
+                            <div class="cert-item-details">
+                                <h3>${course.name}</h3>
+                                <p>${course.desc}</p>
+                            </div>
+                        </div>
+                        <div class="cert-status-tag">
+                            ✓ View & Print Certificate
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // OPEN CERTIFICATE MODAL
+        window.openCertModal = function(courseId) {
+            const courseObj = COURSES.find(c => c.id === courseId);
+            if (!courseObj || !currentUser) return;
+
+            const fullName = currentUser.user_metadata?.full_name || 
+                             `${currentUser.user_metadata?.first_name || ''} ${currentUser.user_metadata?.last_name || ''}`.trim() || 
+                             currentUser.email.split('@')[0];
+
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const shortHash = currentUser.id.split('-')[0].toUpperCase();
+
+            document.getElementById('modalStudentName').textContent = fullName;
+            document.getElementById('modalCourseTitle').textContent = courseObj.name;
+            document.getElementById('modalIssueDate').textContent = today;
+            document.getElementById('modalCredentialId').textContent = `CODIFY-${courseObj.id.toUpperCase().slice(0, 3)}-${shortHash}`;
+
+            document.getElementById('certModalOverlay').classList.add('active');
+        };
+
+        window.closeCertModal = function() {
+            document.getElementById('certModalOverlay').classList.remove('active');
+        };
+
+        window.copyCertLink = function() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("✓ Certificate link copied to clipboard!");
+        };
+    </script>
+</body>
+
+</html>

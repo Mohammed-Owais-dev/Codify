@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Welcome Back | Codify Login</title>
+    <style>
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .auth-page-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .auth-page-container::before,
+        .auth-page-container::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .auth-page-container::before { top: 10%; left: 15%; }
+        .auth-page-container::after { bottom: 10%; right: 15%; }
+
+        .auth-card {
+            background: rgba(13, 27, 42, 0.55);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            z-index: 1;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: authCardPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-sizing: border-box;
+        }
+
+        @keyframes authCardPop {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hidden { display: none !important; }
+
+        .auth-back-btn, .auth-close-btn {
+            position: absolute;
+            top: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 8px;
+            background: rgba(10, 15, 28, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .auth-back-btn { left: 24px; gap: 6px; font-size: 0.85rem; font-weight: 600; padding: 6px 12px; }
+        .auth-close-btn { right: 24px; width: 32px; height: 32px; }
+
+        .auth-back-btn:hover { color: #00aaff; border-color: #00aaff; background: rgba(0, 170, 255, 0.1); transform: translateX(-3px); }
+        .auth-close-btn:hover { color: #f87171; border-color: #f87171; background: rgba(239, 68, 68, 0.1); transform: scale(1.05); }
+
+        .auth-header { text-align: center; margin-bottom: 24px; margin-top: 16px; }
+        .auth-header .auth-logo { font-size: 2.2rem; font-weight: bold; color: #00aaff; text-shadow: 0 0 12px rgba(0, 170, 255, 0.5); margin-bottom: 6px; cursor: pointer; display: inline-block; transition: transform 0.3s ease; }
+        .auth-header .auth-logo:hover { transform: scale(1.05); }
+        .auth-header p { color: #94a3b8; font-size: 0.92rem; margin: 0; }
+
+        .validation-alert { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; display: none; animation: phaseFade 0.3s ease; }
+        @keyframes phaseFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        .auth-social-group { display: flex; gap: 12px; margin-bottom: 20px; }
+        .btn-social-option { flex: 1; background: rgba(10, 15, 28, 0.6); border: 1px solid rgba(0, 170, 255, 0.2); color: #e0e6ed; padding: 10px; border-radius: 12px; font-size: 0.88rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.25s ease; }
+        .btn-social-option:hover { border-color: #00aaff; background: rgba(0, 170, 255, 0.1); color: #ffffff; }
+
+        .auth-divider { text-align: center; border-bottom: 1px solid rgba(0, 170, 255, 0.15); line-height: 0.1em; margin: 20px 0; }
+        .auth-divider span { background: #0b1323; padding: 0 10px; font-size: 0.72rem; color: #64748b; font-weight: 800; letter-spacing: 0.5px; }
+
+        .auth-form-group { margin-bottom: 20px; position: relative; width: 100%; }
+        .auth-form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #cfd8dc; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .auth-input { width: 100%; background: rgba(10, 15, 28, 0.6); border: 1px solid rgba(0, 170, 255, 0.2); border-radius: 12px; padding: 14px 16px; color: #fff; font-size: 0.95rem; box-sizing: border-box; transition: all 0.3s ease; font-family: inherit; }
+        .auth-input:focus { outline: none; border-color: #00aaff; box-shadow: 0 0 12px rgba(0, 170, 255, 0.25); background: rgba(10, 15, 28, 0.85); }
+        .auth-input::placeholder { color: #64748b; }
+
+        .password-toggle { position: absolute; right: 14px; background: none; border: none; color: #64748b; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.2s ease; }
+        .password-toggle:hover { color: #00aaff; }
+
+        .auth-meta-links { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin-top: -4px; margin-bottom: 20px; }
+        .remember-me { display: flex; align-items: center; gap: 8px; color: #94a3b8; cursor: pointer; user-select: none; }
+        .remember-me input[type="checkbox"] { accent-color: #00aaff; width: 16px; height: 16px; cursor: pointer; }
+        .forgot-link { color: #00aaff; text-decoration: none; font-weight: 600; cursor: pointer; transition: color 0.2s ease; }
+        .forgot-link:hover { text-decoration: underline; }
+
+        .auth-submit-btn { width: 100%; border: none; font-size: 1rem; font-weight: bold; color: #fff; background: linear-gradient(90deg, #0077ff, #00aaff); padding: 14px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25); cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
+        .auth-submit-btn:hover { background: linear-gradient(90deg, #00aaff, #0077ff); box-shadow: 0 6px 20px rgba(0, 170, 255, 0.45); transform: translateY(-1px); }
+
+        .btn-text-link { background: none; border: none; color: #64748b; font-size: 0.88rem; font-weight: 600; cursor: pointer; padding: 8px; text-align: center; transition: color 0.2s ease; font-family: inherit; width: 100%; margin-top: 10px; }
+        .btn-text-link:hover { color: #e0e6ed; }
+
+        .otp-box-grid { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+        .otp-box-input { width: 44px; height: 50px; text-align: center; font-size: 1.25rem; font-weight: 800; border-radius: 12px; border: 1px solid rgba(0, 170, 255, 0.3); background: rgba(10, 15, 28, 0.8); color: #00aaff; transition: all 0.2s ease; }
+        .otp-box-input:focus { outline: none; border-color: #00aaff; box-shadow: 0 0 12px rgba(0, 170, 255, 0.3); }
+
+        .password-strength-meter { display: flex; gap: 4px; margin-top: 8px; }
+        .strength-segment { height: 3px; flex: 1; background: rgba(255, 255, 255, 0.1); border-radius: 2px; transition: background 0.3s ease; }
+        .strength-status-text { font-size: 0.75rem; margin-top: 4px; display: block; color: #64748b; }
+
+        .auth-footer-prompt { text-align: center; margin-top: 24px; font-size: 0.9rem; color: #94a3b8; }
+        .auth-footer-prompt a { color: #00aaff; text-decoration: none; font-weight: 600; margin-left: 4px; }
+
+        .auth-view { display: none; }
+        .auth-view.active { display: block; animation: phaseFade 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-page-container">
+
+        <div class="auth-card">
+            <a href="../pages/courses.html" class="auth-back-btn" id="authBackBtn" aria-label="Go back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path><polyline points="12 19 5 12 12 5"></polyline>
+                </svg> Back
+            </a>
+
+            <a href="../pages/courses.html" class="auth-close-btn" id="authCloseBtn" aria-label="Close login">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </a>
+
+            <div class="auth-header">
+                <div class="auth-logo" onclick="window.location.href='../../index.html'">Codify</div>
+                <p id="headerSubtitle">Compile insights & access your workspace</p>
+            </div>
+
+            <div id="validationAlert" class="validation-alert"></div>
+
+            <div id="loginView" class="auth-view active">
+                <div class="auth-social-group">
+                    <button type="button" class="btn-social-option btn-google-login">
+                        <svg width="18" height="18" viewBox="0 0 24 24">
+                            <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.2 9 5 12 5z" />
+                            <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z" />
+                            <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15s.7 5.3 1.9 7.7l3.7-2.9c-.2-.7-.4-1.5-.4-2.3z" />
+                            <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.2-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z" />
+                        </svg> Google
+                    </button>
+                    <button type="button" class="btn-social-option btn-github-login">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg> GitHub
+                    </button>
+                </div>
+
+                <div class="auth-divider"><span>OR CONTINUE WITH CREDENTIALS</span></div>
+
+                <form id="loginForm" onsubmit="return false;">
+                    <div class="auth-form-group">
+                        <label for="loginIdentifier">EMAIL OR USERNAME <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="loginIdentifier" class="auth-input" placeholder="name@domain.com or @username" required autocomplete="username" autofocus>
+                        </div>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label for="userPassword">PASSWORD <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" id="userPassword" class="auth-input" placeholder="••••••••" required autocomplete="current-password">
+                            <button type="button" id="toggleLoginPasswordBtn" class="password-toggle" aria-label="Toggle password visibility">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="auth-meta-links">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe"> Remember session
+                        </label>
+                        <a href="#" id="openForgotBtn" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="button" id="btnLoginSubmit" class="auth-submit-btn">
+                        Authenticate & Launch
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <div id="forgotStep1View" class="auth-view">
+                <form id="forgotFormStep1" onsubmit="return false;">
+                    <div class="auth-form-group">
+                        <label for="recoveryIdentifier">ENTER YOUR EMAIL OR USERNAME <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="recoveryIdentifier" class="auth-input" placeholder="name@domain.com or @username" required>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnSendRecoveryOtp" class="auth-submit-btn">
+                        Send Verification Code
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+
+                    <button type="button" class="btn-text-link backToLoginBtn">Cancel & Back to Login</button>
+                </form>
+            </div>
+
+            <div id="forgotStep2View" class="auth-view">
+                <form id="forgotFormStep2" onsubmit="return false;">
+                    <p style="text-align:center; font-size: 0.88rem; color:#94a3b8; margin-top:-5px;">
+                        Code sent to <strong id="recoveryEmailDisplay" style="color:#00aaff;">your email</strong>
+                    </p>
+
+                    <div class="otp-box-grid">
+                        <input type="text" maxlength="1" class="otp-box-input recovery-otp-box">
+                        <input type="text" maxlength="1" class="otp-box-input recovery-otp-box">
+                        <input type="text" maxlength="1" class="otp-box-input recovery-otp-box">
+                        <input type="text" maxlength="1" class="otp-box-input recovery-otp-box">
+                        <input type="text" maxlength="1" class="otp-box-input recovery-otp-box">
+                        <input type="text" maxlength="1" class="otp-box-input recovery-otp-box">
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label for="newPasswordInput">NEW PASSWORD <span style="color:#00aaff">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="password" id="newPasswordInput" class="auth-input" placeholder="••••••••" required autocomplete="new-password">
+                            <button type="button" id="toggleResetPasswordBtn" class="password-toggle" aria-label="Toggle password visibility">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="password-strength-meter">
+                            <div class="strength-segment" id="rseg-1"></div>
+                            <div class="strength-segment" id="rseg-2"></div>
+                            <div class="strength-segment" id="rseg-3"></div>
+                            <div class="strength-segment" id="rseg-4"></div>
+                        </div>
+                        <span id="resetStrengthStatusText" class="strength-status-text">Enter new password</span>
+                    </div>
+
+                    <button type="button" id="btnResetPasswordSubmit" class="auth-submit-btn">
+                        Update Password & Login
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+
+                    <button type="button" class="btn-text-link backToLoginBtn">Cancel & Back to Login</button>
+                </form>
+            </div>
+
+            <div class="auth-footer-prompt" id="footerPrompt">
+                New to the engine? <a href="signup.html">Create account</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { supabase } from '../js/config/supabase-client.js';
+
+        const validationAlert = document.getElementById('validationAlert');
+        const headerSubtitle = document.getElementById('headerSubtitle');
+        const footerPrompt = document.getElementById('footerPrompt');
+
+        const loginView = document.getElementById('loginView');
+        const forgotStep1View = document.getElementById('forgotStep1View');
+        const forgotStep2View = document.getElementById('forgotStep2View');
+
+        const loginIdentifier = document.getElementById('loginIdentifier');
+        const userPassword = document.getElementById('userPassword');
+        const recoveryIdentifier = document.getElementById('recoveryIdentifier');
+        const newPasswordInput = document.getElementById('newPasswordInput');
+        const recoveryEmailDisplay = document.getElementById('recoveryEmailDisplay');
+        const recoveryOtpBoxes = document.querySelectorAll('.recovery-otp-box');
+
+        const btnLoginSubmit = document.getElementById('btnLoginSubmit');
+        const openForgotBtn = document.getElementById('openForgotBtn');
+        const btnSendRecoveryOtp = document.getElementById('btnSendRecoveryOtp');
+        const btnResetPasswordSubmit = document.getElementById('btnResetPasswordSubmit');
+
+        let targetRecoveryEmail = '';
+
+        function showAlert(message, isError = true) {
+            if (!validationAlert) return;
+            validationAlert.style.display = 'block';
+            validationAlert.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+            validationAlert.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
+            validationAlert.style.color = isError ? '#f87171' : '#34d399';
+            validationAlert.innerHTML = message;
+        }
+
+        function hideAlert() {
+            if (validationAlert) validationAlert.style.display = 'none';
+        }
+
+        function switchView(targetView, subtitle) {
+            hideAlert();
+            [loginView, forgotStep1View, forgotStep2View].forEach(view => view.classList.remove('active'));
+            if (targetView) targetView.classList.add('active');
+            if (headerSubtitle && subtitle) headerSubtitle.innerText = subtitle;
+        }
+
+        function setupPasswordToggle(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
+            if (!input || !button) return;
+
+            button.addEventListener('click', () => {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                button.innerHTML = isPassword
+                    ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
+                    : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+            });
+        }
+
+        setupPasswordToggle('userPassword', 'toggleLoginPasswordBtn');
+        setupPasswordToggle('newPasswordInput', 'toggleResetPasswordBtn');
+
+        async function handleOAuth(provider) {
+            hideAlert();
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: provider,
+                options: {
+                    redirectTo: `${window.location.origin}/src/auth/signup.html`
+                }
+            });
+            if (error) showAlert(`❌ ${provider} login error: ${error.message}`);
+        }
+
+        document.querySelector('.btn-google-login')?.addEventListener('click', () => handleOAuth('google'));
+        document.querySelector('.btn-github-login')?.addEventListener('click', () => handleOAuth('github'));
+
+        // ==================================================
+        // RESOLVE IDENTIFIER (EMAIL vs USERNAME)
+        // ==================================================
+        async function resolveEmailFromIdentifier(identifier) {
+            let cleanIdentifier = identifier.trim().toLowerCase();
+            
+            // Strip @ if user types it as a prefix for their username
+            if (cleanIdentifier.startsWith('@')) {
+                cleanIdentifier = cleanIdentifier.substring(1);
+            } 
+            // If the string contains both an '@' and a dot (like .com), treat as an Email address
+            else if (cleanIdentifier.includes('@') && cleanIdentifier.includes('.')) {
+                return cleanIdentifier; 
+            }
+
+            // Otherwise, assume it is a Username and look up the linked Email in public.profiles
+            try {
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('email')
+                    .eq('username', cleanIdentifier)
+                    .maybeSingle();
+
+                if (profile && profile.email) return profile.email;
+            } catch (e) {
+                console.error('Username lookup error:', e);
+            }
+            return null;
+        }
+
+        async function executeLogin() {
+            hideAlert();
+            const identifierVal = loginIdentifier?.value.trim();
+            const passwordVal = userPassword?.value;
+
+            if (!identifierVal || !passwordVal) {
+                showAlert('Please enter both your email/username and password.');
+                return;
+            }
+
+            btnLoginSubmit.disabled = true;
+            btnLoginSubmit.style.opacity = '0.7';
+
+            try {
+                const emailToUse = await resolveEmailFromIdentifier(identifierVal);
+
+                if (!emailToUse) {
+                    showAlert(`❌ No account found for "${identifierVal.replace(/^@/, '')}"`);
+                    return;
+                }
+
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: emailToUse,
+                    password: passwordVal
+                });
+
+                if (error) throw error;
+
+                showAlert('✓ Access Granted. Redirecting to workspace...', false);
+                const redirectUrl = sessionStorage.getItem('redirectUrl') || '../pages/courses.html';
+                sessionStorage.removeItem('redirectUrl');
+
+                setTimeout(() => { window.location.href = redirectUrl; }, 800);
+
+            } catch (err) {
+                showAlert(`❌ ${err.message}`);
+            } finally {
+                btnLoginSubmit.disabled = false;
+                btnLoginSubmit.style.opacity = '1';
+            }
+        }
+
+        if (btnLoginSubmit) btnLoginSubmit.addEventListener('click', executeLogin);
+
+        [loginIdentifier, userPassword].forEach(input => {
+            input?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); executeLogin(); }
+            });
+        });
+
+        if (openForgotBtn) {
+            openForgotBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (loginIdentifier && loginIdentifier.value.trim()) {
+                    recoveryIdentifier.value = loginIdentifier.value.trim();
+                }
+                switchView(forgotStep1View, "Recover Access Code");
+                if (footerPrompt) footerPrompt.style.display = 'none';
+                setTimeout(() => recoveryIdentifier?.focus(), 100);
+            });
+        }
+
+        document.querySelectorAll('.backToLoginBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchView(loginView, "Compile insights & access your workspace");
+                if (footerPrompt) footerPrompt.style.display = 'block';
+                setTimeout(() => loginIdentifier?.focus(), 100);
+            });
+        });
+
+        async function executeSendRecovery() {
+            hideAlert();
+            const inputVal = recoveryIdentifier?.value.trim();
+
+            if (!inputVal) {
+                showAlert('Please enter your email or username.');
+                return;
+            }
+
+            btnSendRecoveryOtp.disabled = true;
+            btnSendRecoveryOtp.style.opacity = '0.7';
+
+            try {
+                const emailToUse = await resolveEmailFromIdentifier(inputVal);
+
+                if (!emailToUse) {
+                    showAlert(`❌ No account found for ${inputVal}`);
+                    return;
+                }
+
+                targetRecoveryEmail = emailToUse;
+                const { error } = await supabase.auth.resetPasswordForEmail(emailToUse);
+                if (error) throw error;
+
+                if (recoveryEmailDisplay) recoveryEmailDisplay.innerText = targetRecoveryEmail;
+                switchView(forgotStep2View, "Enter Verification Code & New Password");
+                setTimeout(() => recoveryOtpBoxes[0]?.focus(), 100);
+
+            } catch (err) {
+                showAlert(`❌ ${err.message}`);
+            } finally {
+                btnSendRecoveryOtp.disabled = false;
+                btnSendRecoveryOtp.style.opacity = '1';
+            }
+        }
+
+        if (btnSendRecoveryOtp) btnSendRecoveryOtp.addEventListener('click', executeSendRecovery);
+        recoveryIdentifier?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); executeSendRecovery(); }
+        });
+
+        recoveryOtpBoxes.forEach((box, index) => {
+            box.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < recoveryOtpBoxes.length - 1) recoveryOtpBoxes[index + 1].focus();
+            });
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !box.value && index > 0) recoveryOtpBoxes[index - 1].focus();
+            });
+            box.addEventListener('paste', (e) => {
+                const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+                if (/^\d{6}$/.test(pasteData)) {
+                    e.preventDefault();
+                    pasteData.split('').forEach((char, i) => { if (recoveryOtpBoxes[i]) recoveryOtpBoxes[i].value = char; });
+                    newPasswordInput?.focus();
+                }
+            });
+        });
+
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', () => {
+                const val = newPasswordInput.value;
+                let score = 0;
+                if (val.length >= 8) score++;
+                if (/[A-Z]/.test(val)) score++;
+                if (/[0-9]/.test(val)) score++;
+                if (/[^A-Za-z0-9]/.test(val)) score++;
+
+                const colors = ['#ef4444', '#f59e0b', '#00aaff', '#10b981'];
+                const labels = ['Weak', 'Fair', 'Good', 'Strong'];
+                const rsegs = [
+                    document.getElementById('rseg-1'), document.getElementById('rseg-2'),
+                    document.getElementById('rseg-3'), document.getElementById('rseg-4')
+                ];
+                const statusText = document.getElementById('resetStrengthStatusText');
+
+                rsegs.forEach((seg, i) => {
+                    if (seg) seg.style.backgroundColor = (val.length > 0 && i < score) ? colors[score - 1] : 'rgba(255, 255, 255, 0.1)';
+                });
+
+                if (statusText) {
+                    statusText.innerText = val.length === 0 ? 'Enter new password' : labels[Math.max(0, score - 1)];
+                    statusText.style.color = val.length === 0 ? '#64748b' : colors[Math.max(0, score - 1)];
+                }
+            });
+        }
+
+        async function executePasswordReset() {
+            hideAlert();
+            let token = '';
+            recoveryOtpBoxes.forEach(box => token += box.value);
+            const newPassword = newPasswordInput?.value;
+
+            if (token.length !== 6) { showAlert('Please enter all 6 digits of your verification code.'); return; }
+            if (!newPassword || newPassword.length < 6) { showAlert('New password must be at least 6 characters long.'); return; }
+
+            btnResetPasswordSubmit.disabled = true;
+            btnResetPasswordSubmit.style.opacity = '0.7';
+
+            try {
+                const { error: otpError } = await supabase.auth.verifyOtp({ email: targetRecoveryEmail, token: token, type: 'recovery' });
+                if (otpError) throw otpError;
+
+                const { error: pwdError } = await supabase.auth.updateUser({ password: newPassword });
+                if (pwdError) throw pwdError;
+
+                showAlert('✓ Password updated successfully! Logging you in...', false);
+                setTimeout(() => { window.location.href = '../pages/courses.html'; }, 1000);
+
+            } catch (err) {
+                showAlert(`❌ Reset failed: ${err.message}`);
+            } finally {
+                btnResetPasswordSubmit.disabled = false;
+                btnResetPasswordSubmit.style.opacity = '1';
+            }
+        }
+
+        if (btnResetPasswordSubmit) btnResetPasswordSubmit.addEventListener('click', executePasswordReset);
+        newPasswordInput?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); executePasswordReset(); }
+        });
+    </script>
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

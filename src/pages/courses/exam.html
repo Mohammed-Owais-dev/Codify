@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/style.css">
+    <title>Final Course Assessment | Codify</title>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glow */
+        .page-glow {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.14) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Force Main Visibility */
+        main {
+            display: flex !important;
+            flex-direction: column !important;
+            flex: 1 0 auto;
+            opacity: 1 !important;
+            visibility: visible !important;
+            margin-top: 110px !important;
+            padding: 20px;
+            max-width: 850px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        /* Header Card */
+        .exam-hero-card {
+            background: rgba(13, 27, 42, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.22);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            margin-bottom: 28px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .exam-hero-card h1 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+        }
+
+        .exam-hero-card h1 span {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .exam-hero-card p {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Question Container */
+        .question-card {
+            background: rgba(13, 27, 42, 0.45);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .question-number {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #00aaff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .question-title {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            padding: 14px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            color: #e0e6ed;
+        }
+
+        .option-label:hover {
+            border-color: #00aaff;
+            background: rgba(0, 170, 255, 0.08);
+        }
+
+        .option-label input[type="radio"] {
+            accent-color: #00aaff;
+            transform: scale(1.1);
+        }
+
+        /* Submit Button */
+        .submit-exam-btn {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 15px 36px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.35);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
+
+        .submit-exam-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 170, 255, 0.55);
+        }
+
+        /* Score Modal / Result Box */
+        .result-box {
+            background: rgba(13, 27, 42, 0.85);
+            border: 2px solid rgba(16, 185, 129, 0.4);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            display: none; /* Shown after grading */
+            margin-bottom: 40px;
+            backdrop-filter: blur(20px);
+        }
+
+        .result-box.failed {
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .result-score {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .result-box.passed .result-score { color: #34d399; }
+        .result-box.failed .result-score { color: #f87171; }
+
+        .result-msg {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+
+        /* Footer */
+        .codify-footer {
+            flex-shrink: 0;
+            margin-top: auto;
+            border-top: 1px solid rgba(0, 170, 255, 0.15);
+            padding: 24px 20px;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            background: rgba(10, 15, 28, 0.95);
+            position: relative;
+            z-index: 100;
+        }
+
+        .team-hover-wrapper { position: relative; display: inline-block; cursor: pointer; }
+        .team-trigger { color: #00aaff; font-weight: 700; }
+        .team-popover {
+            position: absolute;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            width: 240px;
+            background: rgba(13, 27, 42, 0.95);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .team-hover-wrapper:hover .team-popover { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+        .team-member { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #e0e6ed; }
+        .member-dot { width: 6px; height: 6px; background: #00aaff; border-radius: 50%; }
+    </style>
+</head>
+
+<body>
+
+    <header class="codify-main-header">
+        <div class="codify-header-container">
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='/'">Codify</div>
+            </div>
+
+            <nav class="codify-center-nav">
+                <ul class="codify-nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/src/course.html">Courses</a></li>
+                    <li><a href="/my-certificates.html">Certificates</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="codify-right-group">
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="/login.html" class="codify-btn-outline">Login</a>
+                    <a href="/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-glow"></div>
+
+    <main>
+        <section class="exam-hero-card">
+            <h1>Final Certification <span>Assessment</span></h1>
+            <p>Score 80% or higher on this comprehensive assessment to verify your track knowledge and unlock your official certificate.</p>
+        </section>
+
+        <form id="examForm" onsubmit="gradeExam(event)">
+            <div id="questionsContainer"></div>
+
+            <button type="submit" id="submitBtn" class="submit-exam-btn">
+                Submit Assessment for Grading
+            </button>
+        </form>
+
+        <div id="resultBox" class="result-box">
+            <div id="resultScore" class="result-score">0%</div>
+            <p id="resultMsg" class="result-msg"></p>
+            <div id="resultAction"></div>
+        </div>
+    </main>
+
+    <footer class="codify-footer">
+        <div>
+            Built with precision for future developers • Developed by 
+            <span class="team-hover-wrapper">
+                <span class="team-trigger">Codify Team</span>
+                <div class="team-popover">
+                    <ul class="team-list">
+                        <li class="team-member"><span class="member-dot"></span>Mohammed Owais</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
+                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script type="module" src="/nav-auth.js"></script>
+
+    <script type="module">
+        import { supabase } from '/supabase-client.js';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const COURSE_ID = urlParams.get('courseId') || 'python-101';
+
+        // Exam Question Bank
+        const EXAM_BANK = {
+            'python-101': [
+                {
+                    q: "Which keyword is used to declare a function in Python?",
+                    options: ["function", "def", "fun", "create"],
+                    answer: 1
+                },
+                {
+                    q: "What is the correct file extension for Python scripts?",
+                    options: [".python", ".pyt", ".py", ".pt"],
+                    answer: 2
+                },
+                {
+                    q: "How do you insert comments in Python code?",
+                    options: ["// comment", "/* comment */", "# comment", ""],
+                    answer: 2
+                },
+                {
+                    q: "Which built-in collection type is ordered and immutable?",
+                    options: ["List", "Dictionary", "Set", "Tuple"],
+                    answer: 3
+                },
+                {
+                    q: "Which operator is used for exponentiation (power)?",
+                    options: ["^", "**", "//", "%%"],
+                    answer: 1
+                }
+            ]
+        };
+
+        const currentQuestions = EXAM_BANK[COURSE_ID] || EXAM_BANK['python-101'];
+        let currentUser = null;
+
+        async function initExam() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                sessionStorage.setItem('redirectUrl', window.location.href);
+                window.location.href = '/login.html';
+                return;
+            }
+            currentUser = user;
+
+            // Render Questions
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            currentQuestions.forEach((qObj, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+
+                let optionsHTML = '';
+                qObj.options.forEach((opt, optIdx) => {
+                    optionsHTML += `
+                        <label class="option-label">
+                            <input type="radio" name="question_${index}" value="${optIdx}" required>
+                            ${opt}
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="question-number">Question ${index + 1} of ${currentQuestions.length}</div>
+                    <div class="question-title">${qObj.q}</div>
+                    <div class="options-list">${optionsHTML}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.gradeExam = async function(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Grading...';
+
+            let correctCount = 0;
+
+            currentQuestions.forEach((qObj, index) => {
+                const selected = document.querySelector(`input[name="question_${index}"]:checked`);
+                if (selected && parseInt(selected.value) === qObj.answer) {
+                    correctCount++;
+                }
+            });
+
+            const scorePercent = Math.round((correctCount / currentQuestions.length) * 100);
+            const passed = scorePercent >= 80;
+
+            // Save Result to Supabase
+            try {
+                await supabase
+                    .from('exam_results')
+                    .upsert({
+                        user_id: currentUser.id,
+                        course_id: COURSE_ID,
+                        score: scorePercent,
+                        passed: passed
+                    }, { onConflict: 'user_id,course_id' });
+
+            } catch (err) {
+                console.error("Failed to save exam score:", err);
+            }
+
+            // Render Result Box UI
+            document.getElementById('examForm').style.display = 'none';
+            const resultBox = document.getElementById('resultBox');
+            const resultScore = document.getElementById('resultScore');
+            const resultMsg = document.getElementById('resultMsg');
+            const resultAction = document.getElementById('resultAction');
+
+            resultBox.style.display = 'block';
+            resultScore.textContent = `${scorePercent}%`;
+
+            if (passed) {
+                resultBox.className = 'result-box passed';
+                resultMsg.textContent = '🎉 Congratulations! You have passed the assessment and unlocked your verifiable certificate.';
+                resultAction.innerHTML = `
+                    <a href="/certificate.html?courseId=${COURSE_ID}" 
+                       style="background: linear-gradient(90deg, #0077ff, #00aaff); color: #fff; text-decoration: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; display: inline-block;">
+                       View Official Certificate
+                    </a>
+                `;
+            } else {
+                resultBox.className = 'result-box failed';
+                resultMsg.textContent = 'You scored below the 80% passing threshold. Review the course topics and try again.';
+                resultAction.innerHTML = `
+                    <button onclick="window.location.reload()" 
+                            style="background: rgba(13, 27, 42, 0.8); border: 1px solid #00aaff; color: #00aaff; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer;">
+                            Retake Assessment
+                    </button>
+                `;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initExam);
+    </script>
+</body>
+
+</html>

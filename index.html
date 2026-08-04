@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="src/css/style.css">
+    <title>Codify | Master Computer Science & Development</title>
+
+    <style>
+        /* Base Reset & Layout Scope */
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* FORCE VISIBILITY ON MAIN & SECTIONS */
+        main {
+            display: flex !important;
+            flex-direction: column;
+            flex: 1;
+            opacity: 1 !important;
+            visibility: visible !important;
+            margin-top: 90px !important;
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        main section {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Ambient Glow Effect */
+        .hero-glow {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Hero Section Styling */
+        .hero-section {
+            display: block !important;
+            position: relative;
+            text-align: center;
+            max-width: 900px;
+            margin: 40px auto 40px auto;
+            padding: 0 20px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #00aaff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-glow {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.35);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(0, 170, 255, 0.5);
+        }
+
+        .btn-secondary-outline {
+            background: rgba(13, 27, 42, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.25);
+            color: #e0e6ed;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-outline:hover {
+            border-color: #00aaff;
+            color: #00aaff;
+            background: rgba(0, 170, 255, 0.1);
+        }
+
+        /* Features Section Grid */
+        .features-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 40px auto 80px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card {
+            background: rgba(13, 27, 42, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.18);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(16px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 170, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(0, 170, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Footer */
+        .codify-footer {
+            margin-top: auto;
+            border-top: 1px solid rgba(0, 170, 255, 0.15);
+            padding: 24px 20px;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            background: rgba(10, 15, 28, 0.9);
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Footer & Interactive Hover Card Styling */
+    .codify-footer {
+        margin-top: auto;
+        border-top: 1px solid rgba(0, 170, 255, 0.15);
+        padding: 24px 20px;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.88rem;
+        background: rgba(10, 15, 28, 0.9);
+        position: relative;
+        z-index: 10;
+    }
+
+    .team-hover-wrapper {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .team-trigger {
+        color: #00aaff;
+        font-weight: 700;
+        text-decoration: none;
+        padding: 2px 6px;
+        border-radius: 6px;
+        transition: all 0.25s ease;
+    }
+
+    .team-trigger:hover {
+        background: rgba(0, 170, 255, 0.12);
+        text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+    }
+
+    /* Floating Tooltip/Card */
+    .team-popover {
+        position: absolute;
+        bottom: 135%;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        width: 240px;
+        background: rgba(13, 27, 42, 0.95);
+        border: 1px solid rgba(0, 170, 255, 0.3);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 170, 255, 0.15);
+        backdrop-filter: blur(16px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 100;
+    }
+
+    /* Small Arrow Indicator on Popover */
+    .team-popover::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 6px;
+        border-style: solid;
+        border-color: rgba(13, 27, 42, 0.95) transparent transparent transparent;
+    }
+
+    /* Reveal Popover on Hover */
+    .team-hover-wrapper:hover .team-popover {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .popover-header {
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #00aaff;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+        padding-bottom: 6px;
+        text-align: left;
+    }
+
+    .team-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .team-member {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.85rem;
+        color: #e0e6ed;
+        font-weight: 600;
+        text-align: left;
+        transition: color 0.2s ease;
+    }
+
+    .team-member:hover {
+        color: #00aaff;
+    }
+
+    .member-dot {
+        width: 6px;
+        height: 6px;
+        background: #00aaff;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #00aaff;
+        flex-shrink: 0;
+    }
+    </style>
+</head>
+
+<body>
+
+    <header class="codify-main-header">
+    <div class="codify-header-container">
+
+        <div class="codify-left-group">
+            <div class="codify-logo" onclick="window.location.href='index.html'">
+                Codify
+            </div>
+        </div>
+
+        <nav class="codify-center-nav" aria-label="Main menu links">
+            <ul class="codify-nav-links" id="navLinks">
+                <li><a href="index.html" class="active-link">Home</a></li>
+                <li><a href="src/pages/courses.html">Courses</a></li>
+                <li><a href="src/pages/courses/exam.html">Quizzes & Exams</a></li>
+                <li><a href="src/pages/certificate.html">Certificates</a></li>
+                <li><a href="src/pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="codify-right-group">
+            <div class="codify-auth-group" id="authNavGroup">
+                <a href="src/auth/login.html" class="codify-btn-outline">Login</a>
+                <a href="src/auth/signup.html" class="codify-btn-outline">Signup</a>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+    <div class="hero-glow"></div>
+
+    <main>
+        <section class="hero-section visible">
+            <div class="hero-badge">
+                🚀 Welcome to Next-Gen Learning
+            </div>
+            
+            <h1 class="hero-title">
+                Go from "Hello World" to <span>"Hire Me"</span> without the headache.
+            </h1>
+            
+            <p class="hero-subtitle">
+                Master modern computer science, algorithms, and practical software development through interactive, step-by-step tutorials designed for modern developers.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="src/pages/courses.html" class="btn-primary-glow">
+                    Explore Courses
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a href="#features" class="btn-secondary-outline">Learn More</a>
+            </div>
+        </section>
+
+        <section class="features-grid visible" id="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                </div>
+                <h3>Structured Matrix</h3>
+                <p>Carefully hand-crafted course paths covering foundational C, C++, Python, Web Dev, and SQL databases.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h3>Hands-On Practice</h3>
+                <p>Learn by building real software projects and completing interactive quizzes to lock in core concepts.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
+                </div>
+                <h3>Self-Paced Progress</h3>
+                <p>Learn at your own speed with instant profile session persistence, workspace tracking, and saved updates.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="codify-footer">
+    <div>
+        Built with precision for future developers • Developed by 
+        <span class="team-hover-wrapper">
+            <span class="team-trigger">Codify Team</span>
+
+            <div class="team-popover">
+                <div class="popover-header">Core Engineers</div>
+                <ul class="team-list">
+                    <li class="team-member" style="font-weight: 740;"><span class="member-dot"></span>Mohammed Owais</li>
+                    <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
+                    <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
+                    <li class="team-member"><span class="member-dot"></span>M. Basha</li>
+                    <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
+                </ul>
+            </div>
+        </span>
+    </div>
+</footer>
+
+    <script src="../../js/script.js"></script>
+    <script type="module" src="../../js/config/supabase-client.js"></script>
+        <script type="module" src="../../js/auth/auth-guard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Contact Us | Codify</title>
+
+    <style>
+        /* Base Reset & Layout Scope */
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* Prevent Auth Group Flickering */
+        .codify-auth-group {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
+        }
+
+        .codify-auth-group.ready {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Navigation Profile DP */
+        .nav-profile-dp {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00aaff;
+            background: linear-gradient(135deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+            transition: transform 0.25s ease;
+        }
+
+        .nav-profile-dp:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-profile-dp img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Force Main Container Visibility */
+        main {
+            display: flex !important;
+            flex-direction: column !important;
+            flex: 1;
+            opacity: 1 !important;
+            visibility: visible !important;
+            margin-top: 100px !important;
+            position: relative !important;
+            z-index: 5 !important;
+            padding: 20px;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Ambient Glow Effect */
+        .page-glow {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Hero Header */
+        .contact-hero {
+            display: block !important;
+            text-align: center;
+            max-width: 700px;
+            margin: 20px auto 40px auto;
+        }
+
+        .contact-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .contact-hero h1 span {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-hero p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Contact Layout Grid */
+        .contact-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 32px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto 60px auto;
+            box-sizing: border-box;
+        }
+
+        /* Info Card Panel */
+        .info-panel {
+            background: rgba(13, 27, 42, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.18);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .info-panel h2 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 1.4rem;
+            border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+            padding-bottom: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(0, 170, 255, 0.12);
+            border: 1px solid rgba(0, 170, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #00aaff;
+        }
+
+        .info-details h4 {
+            margin: 0 0 4px 0;
+            color: #ffffff;
+            font-size: 0.95rem;
+        }
+
+        .info-details p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .info-details a {
+            color: #00aaff;
+            text-decoration: none;
+        }
+
+        .info-details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Panel */
+        .form-panel {
+            background: rgba(13, 27, 42, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.18);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(16px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cfd8dc;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 12px rgba(0, 170, 255, 0.25);
+            background: rgba(10, 15, 28, 0.85);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.45);
+        }
+
+        /* Alert Toast */
+        .status-alert {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid transparent;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        /* THIS OVERRIDES EVERYTHING BELOW IT TO GRID */
+main section,
+.contact-hero,
+.contact-grid {
+    display: grid !important; 
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 5 !important;
+}
+    </style>
+</head>
+
+<body>
+
+    <header class="codify-main-header">
+        <div class="codify-header-container">
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='../../index.html'">
+                    Codify
+                </div>
+            </div>
+
+            <nav class="codify-center-nav" aria-label="Main menu links">
+                <ul class="codify-nav-links" id="navLinks">
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="courses/exam.html">Quizzes & Exams</a></li>
+                    <li><a href="certificate.html">Certificates</a></li>
+                    <li><a href="contact.html" class="active-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="codify-right-group">
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="../auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-glow"></div>
+
+    <main>
+        <section class="contact-hero">
+            <h1>Get in <span>Touch</span></h1>
+            <p>Have questions, feedback, or need assistance with your courses? Drop us a message and our core team will get back to you!</p>
+        </section>
+
+        <section class="contact-grid">
+            
+            <div class="info-panel">
+                <h2>Contact Information</h2>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="info-details">
+                        <h4>Email Support</h4>
+                        <p><a href="mailto:support@codify.com">support@codify.com</a></p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="info-details">
+                        <h4>Response Time</h4>
+                        <p>We usually reply within 24–48 hours on business days.</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div class="info-details">
+                        <h4>Engineering Hub</h4>
+                        <p>Hyderabad, Telangana, India</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-panel">
+                <div id="statusAlert" class="status-alert"></div>
+
+                <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                    <div class="form-group">
+                        <label for="contactName">YOUR NAME</label>
+                        <input type="text" id="contactName" class="form-input" placeholder="e.g. Alex Mercer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">EMAIL ADDRESS</label>
+                        <input type="email" id="contactEmail" class="form-input" placeholder="name@domain.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage">MESSAGE</label>
+                        <textarea id="contactMessage" class="form-input" placeholder="How can we help you today?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        Send Message
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="codify-footer">
+        <div>
+            Built with precision for future developers • Developed by 
+            <span class="team-hover-wrapper">
+                <span class="team-trigger">Codify Team</span>
+
+                <div class="team-popover">
+                    <div class="popover-header">Core Engineers</div>
+                    <ul class="team-list">
+                        <li class="team-member"><span class="member-dot"></span>Mohammed Owais</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
+                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script type="module" src="../js/auth/nav-auth.js"></script>
+    
+    <script type="module">
+        import { supabase } from '../js/config/supabase-client.js';
+
+        // 1. FAST LOCAL SESSION CHECK FOR PROFILE DP IN HEADER
+        document.addEventListener('DOMContentLoaded', async () => {
+            const authNavGroup = document.getElementById('authNavGroup');
+
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
+
+            if (user) {
+                const meta = user.user_metadata || {};
+                const avatarUrl = meta.avatar_url;
+                const firstName = meta.first_name || user.email.split('@')[0];
+                const initial = firstName.charAt(0).toUpperCase();
+
+                if (authNavGroup) {
+                    authNavGroup.innerHTML = avatarUrl ? `
+                        <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
+                            <img src="${avatarUrl}" alt="${firstName}'s Profile">
+                        </a>` : `
+                        <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
+                            <span>${initial}</span>
+                        </a>`;
+                }
+
+                // Autofill email input field for logged-in user
+                const emailInput = document.getElementById('contactEmail');
+                if (emailInput) emailInput.value = user.email;
+            }
+
+            if (authNavGroup) authNavGroup.classList.add('ready');
+        });
+
+        // 2. UNIFIED CONTACT FORM SUBMISSION TO SUPABASE
+        window.handleContactSubmit = async function(event) {
+            event.preventDefault();
+
+            const alertBox = document.getElementById('statusAlert');
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+
+            try {
+                // Send record to Supabase table
+                const { error } = await supabase
+                    .from('contact_messages')
+                    .insert([{ name, email, message }]);
+
+                if (error) throw error;
+
+                // Success Feedback
+                alertBox.style.display = 'block';
+                alertBox.style.background = 'rgba(16, 185, 129, 0.15)';
+                alertBox.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                alertBox.style.color = '#34d399';
+                alertBox.innerHTML = '<strong>✓ Message Delivered!</strong> Thank you for reaching out. Our team will get back to you shortly.';
+
+                event.target.reset();
+            } catch (err) {
+                // Error Feedback
+                alertBox.style.display = 'block';
+                alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+                alertBox.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                alertBox.style.color = '#f87171';
+                alertBox.innerHTML = `❌ Failed to send message: ${err.message}`;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+        };
+    </script>
+</body>
+
+</html>

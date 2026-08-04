@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/style.css">
+    <title>User Profile | Codify</title>
+    <style>
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: inherit;
+        }
+
+        .profile-container {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .profile-card {
+            background: rgba(13, 27, 42, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+            margin-bottom: 28px;
+        }
+
+        .profile-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0077ff, #00aaff);
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
+            flex-shrink: 0;
+        }
+
+        .profile-title-group h1 {
+            margin: 0 0 6px 0;
+            font-size: 1.6rem;
+            color: #ffffff;
+        }
+
+        .profile-title-group p {
+            margin: 0;
+            color: #00aaff;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .profile-form-group {
+            margin-bottom: 22px;
+        }
+
+        .profile-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cfd8dc;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-input {
+            width: 100%;
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .profile-input:focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 12px rgba(0, 170, 255, 0.25);
+            background: rgba(10, 15, 28, 0.85);
+        }
+
+        .profile-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        textarea.profile-input {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .profile-submit-btn {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #fff;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25);
+        }
+
+        .profile-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+        }
+
+        .alert-box {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="codify-main-header">
+        <div class="codify-header-container">
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='/'">Codify</div>
+            </div>
+            <nav class="codify-center-nav">
+                <ul class="codify-nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/src/course.html">Courses</a></li>
+                </ul>
+            </nav>
+            <div class="codify-right-group">
+                <div class="codify-auth-group" id="authNavGroup"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar-large" id="avatarLarge">?</div>
+                <div class="profile-title-group">
+                    <h1 id="headerDisplayName">User Profile</h1>
+                    <p id="headerUserHandle">@username</p>
+                </div>
+            </div>
+
+            <div id="statusAlert" class="alert-box"></div>
+
+            <form id="profileForm">
+                <div class="profile-form-group">
+                    <label for="displayNameInput">DISPLAY NAME</label>
+                    <input type="text" id="displayNameInput" class="profile-input" placeholder="e.g. Alex Mercer" required>
+                </div>
+
+                <div class="profile-form-group">
+                    <label for="emailInput">EMAIL ADDRESS (READ ONLY)</label>
+                    <input type="email" id="emailInput" class="profile-input" disabled>
+                </div>
+
+                <div class="profile-form-group">
+                    <label for="bioInput">ABOUT BIO</label>
+                    <textarea id="bioInput" class="profile-input" placeholder="Tell us about your learning journey..."></textarea>
+                </div>
+
+                <button type="submit" class="profile-submit-btn">Save Changes</button>
+            </form>
+        </div>
+    </main>
+
+    <script type="module">
+        import { supabase } from '/supabase-client.js';
+
+        const alertBox = document.getElementById('statusAlert');
+
+        function showAlert(msg, isError = false) {
+            alertBox.style.display = 'block';
+            alertBox.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+            alertBox.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
+            alertBox.style.color = isError ? '#f87171' : '#34d399';
+            alertBox.innerHTML = msg;
+        }
+
+        async function loadProfile() {
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Fill Email field
+            document.getElementById('emailInput').value = user.email;
+
+            // Load profile details from database
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('display_name, bio')
+                .eq('id', user.id)
+                .single();
+
+            const name = profile?.display_name || user.email.split('@')[0];
+            const initial = name.charAt(0).toUpperCase();
+
+            document.getElementById('displayNameInput').value = profile?.display_name || '';
+            document.getElementById('bioInput').value = profile?.bio || '';
+            document.getElementById('avatarLarge').textContent = initial;
+            document.getElementById('headerDisplayName').textContent = name;
+            document.getElementById('headerUserHandle').textContent = `@${name.toLowerCase().replace(/\s+/g, '')}`;
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const { data: { user } } = await supabase.auth.getUser();
+            const displayName = document.getElementById('displayNameInput').value.trim();
+            const bio = document.getElementById('bioInput').value.trim();
+
+            try {
+                const { error } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: user.id,
+                        display_name: displayName,
+                        bio: bio,
+                        updated_at: new Date()
+                    });
+
+                if (error) throw error;
+
+                showAlert('✓ Profile updated successfully!');
+                loadProfile(); // Refresh UI values
+            } catch (err) {
+                showAlert(`❌ ${err.message}`, true);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+    <script type="module" src="/nav-auth.js"></script>
+</body>
+
+</html>
