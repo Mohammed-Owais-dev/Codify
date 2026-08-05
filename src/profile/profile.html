@@ -295,7 +295,6 @@
             line-height: 1.5;
         }
 
-        /* AVATAR GRID SPECIFIC STYLES */
         .avatar-selection-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
@@ -304,19 +303,12 @@
             overflow-y: auto;
             padding: 10px;
             margin-bottom: 24px;
-            /* Custom Scrollbar for Grid */
             scrollbar-width: thin;
             scrollbar-color: #00aaff rgba(10, 15, 28, 0.5);
         }
         
-        .avatar-selection-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .avatar-selection-grid::-webkit-scrollbar-thumb {
-            background: #00aaff;
-            border-radius: 4px;
-        }
+        .avatar-selection-grid::-webkit-scrollbar { width: 6px; }
+        .avatar-selection-grid::-webkit-scrollbar-thumb { background: #00aaff; border-radius: 4px; }
 
         .avatar-option {
             width: 100%;
@@ -481,18 +473,29 @@
             
             <div id="modalAlert" class="alert-box"></div>
 
-            <div class="otp-inputs-wrapper">
-                <input type="text" maxlength="1" class="otp-digit-input" autofocus>
-                <input type="text" maxlength="1" class="otp-digit-input">
-                <input type="text" maxlength="1" class="otp-digit-input">
-                <input type="text" maxlength="1" class="otp-digit-input">
-                <input type="text" maxlength="1" class="otp-digit-input">
-                <input type="text" maxlength="1" class="otp-digit-input">
-            </div>
+            <div class="otp-inputs-wrapper" id="unlockOtpContainer">
+                </div>
 
             <div class="modal-actions">
                 <button type="button" class="btn-modal-secondary" id="closeOtpModalBtn">Cancel</button>
                 <button type="button" class="btn-modal-primary" id="verifyOtpBtn">Verify & Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="newEmailOtpModal">
+        <div class="modal-card">
+            <h2>📧 Verify New Email</h2>
+            <p>You changed your email address! Please enter the 6-digit OTP code sent to <strong id="modalNewEmailTarget" style="color: #00aaff;"></strong> to finalize your profile update.</p>
+            
+            <div id="newEmailModalAlert" class="alert-box"></div>
+
+            <div class="otp-inputs-wrapper" id="newEmailOtpContainer">
+                </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-modal-secondary" id="closeNewEmailOtpModalBtn">Cancel Update</button>
+                <button type="button" class="btn-modal-primary" id="verifyNewEmailOtpBtn">Verify & Save Profile</button>
             </div>
         </div>
     </div>
@@ -516,11 +519,18 @@
 
         let currentAuthUser = null;
         let isEditUnlocked = false;
-        let selectedAvatarUrl = null; // Stores the URL of the chosen avatar
+        let selectedAvatarUrl = null; 
+        
+        // Variables for multi-step save
+        let pendingProfileData = null;
+        let pendingNewEmail = null;
 
         const alertBox = document.getElementById('statusAlert');
         const modalAlertBox = document.getElementById('modalAlert');
+        const newEmailModalAlert = document.getElementById('newEmailModalAlert');
+        
         const otpModal = document.getElementById('otpModal');
+        const newEmailOtpModal = document.getElementById('newEmailOtpModal');
         const avatarModal = document.getElementById('avatarModal');
 
         function showAlert(msg, isError = false) {
@@ -529,28 +539,60 @@
             alertBox.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
             alertBox.style.color = isError ? '#f87171' : '#34d399';
             alertBox.innerHTML = msg;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showModalAlert(msg, isError = false) {
-            modalAlertBox.style.display = 'block';
-            modalAlertBox.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
-            modalAlertBox.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
-            modalAlertBox.style.color = isError ? '#f87171' : '#34d399';
-            modalAlertBox.innerHTML = msg;
+        // Setup OTP inputs helper function
+        function setupOtpInputs(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // clear
+            const inputs = [];
+            
+            for(let i=0; i<6; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.maxLength = 1;
+                input.className = 'otp-digit-input';
+                if(i===0) input.autofocus = true;
+                
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1 && i < 5) inputs[i + 1].focus();
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !e.target.value && i > 0) inputs[i - 1].focus();
+                });
+
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const pastedData = e.clipboardData.getData('text').trim().slice(0, 6);
+                    pastedData.split('').forEach((char, idx) => {
+                        if (inputs[idx]) inputs[idx].value = char;
+                    });
+                });
+                
+                inputs.push(input);
+                container.appendChild(input);
+            }
+            return inputs;
         }
 
-        // Initialize the Avatar Grid Selection
+        const unlockOtpInputs = setupOtpInputs('unlockOtpContainer');
+        const newEmailOtpInputs = setupOtpInputs('newEmailOtpContainer');
+
+        function clearOtpInputs(inputs) {
+            inputs.forEach(i => i.value = '');
+        }
+
+        // Initialize the Avatar Grid
         function initAvatarGrid() {
             const grid = document.getElementById('avatarGrid');
-            // Loop from 1 to 20 to generate your preset avatars
             for (let i = 1; i <= 20; i++) {
                 const imgUrl = `/src/assets/images/avatars/avatar-${i}.png`;
                 const img = document.createElement('img');
                 img.src = imgUrl;
                 img.className = 'avatar-option';
-                img.alt = `Avatar ${i}`;
                 
-                // When clicked, update the main image and close modal
                 img.addEventListener('click', () => {
                     document.getElementById('avatarImage').src = imgUrl;
                     selectedAvatarUrl = imgUrl;
@@ -560,7 +602,7 @@
             }
         }
 
-        // Load Profile Data Safely
+        // Load Profile Data
         async function loadProfile() {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
@@ -573,15 +615,11 @@
                 currentAuthUser = user;
                 document.getElementById('emailInput').value = user.email || '';
 
-                const { data: profile, error } = await supabase
+                const { data: profile } = await supabase
                     .from('profiles')
                     .select('first_name, last_name, username, bio, avatar_url, display_name')
                     .eq('id', user.id)
                     .maybeSingle();
-
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Database Profile Fetch Error:', error);
-                }
 
                 const firstName = profile?.first_name || user.user_metadata?.first_name || '';
                 const lastName = profile?.last_name || user.user_metadata?.last_name || '';
@@ -590,7 +628,7 @@
                 const bio = profile?.bio || '';
                 const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
 
-                selectedAvatarUrl = avatarUrl; // Store the initial load URL
+                selectedAvatarUrl = avatarUrl; 
 
                 document.getElementById('firstNameInput').value = firstName;
                 document.getElementById('lastNameInput').value = lastName;
@@ -607,59 +645,25 @@
             }
         }
 
-        // Trigger OTP Email to Unlock Edit Mode
+        // 1. UNLOCK PROFILE FLOW
         document.getElementById('requestEditOtpBtn').addEventListener('click', async () => {
             try {
-                const { error } = await supabase.auth.signInWithOtp({
-                    email: currentAuthUser.email
-                });
-
+                const { error } = await supabase.auth.signInWithOtp({ email: currentAuthUser.email });
                 if (error) throw error;
 
                 document.getElementById('modalTargetEmail').textContent = currentAuthUser.email;
                 otpModal.style.display = 'flex';
-                clearOtpInputs();
+                clearOtpInputs(unlockOtpInputs);
             } catch (err) {
-                console.error('OTP Send Error:', err);
-                showAlert(`❌ Unable to send OTP: ${err.message || 'Please check Supabase email settings or rate limits.'}`, true);
+                showAlert(`❌ Unable to send OTP: ${err.message}`, true);
             }
         });
 
-        // OTP Input Auto-Advancing UX
-        const otpDigitInputs = document.querySelectorAll('.otp-digit-input');
-        otpDigitInputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                if (e.target.value.length === 1 && index < otpDigitInputs.length - 1) {
-                    otpDigitInputs[index + 1].focus();
-                }
-            });
-
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && !e.target.value && index > 0) {
-                    otpDigitInputs[index - 1].focus();
-                }
-            });
-
-            input.addEventListener('paste', (e) => {
-                e.preventDefault();
-                const pastedData = e.clipboardData.getData('text').trim().slice(0, 6);
-                pastedData.split('').forEach((char, i) => {
-                    if (otpDigitInputs[i]) otpDigitInputs[i].value = char;
-                });
-            });
-        });
-
-        function clearOtpInputs() {
-            otpDigitInputs.forEach(i => i.value = '');
-            modalAlertBox.style.display = 'none';
-        }
-
-        // Verify OTP Code
         document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
-            const token = Array.from(otpDigitInputs).map(i => i.value).join('');
-
+            const token = unlockOtpInputs.map(i => i.value).join('');
             if (token.length !== 6) {
-                showModalAlert('Please enter the full 6-digit code.', true);
+                modalAlertBox.style.display = 'block';
+                modalAlertBox.textContent = 'Please enter the full 6-digit code.';
                 return;
             }
 
@@ -672,18 +676,13 @@
 
                 if (error) throw error;
 
-                // Enable Edit Mode
                 isEditUnlocked = true;
                 otpModal.style.display = 'none';
 
-                // Unlock Inputs
-                document.getElementById('firstNameInput').disabled = false;
-                document.getElementById('lastNameInput').disabled = false;
-                document.getElementById('usernameInput').disabled = false;
-                document.getElementById('emailInput').disabled = false;
-                document.getElementById('bioInput').disabled = false;
+                ['firstNameInput', 'lastNameInput', 'usernameInput', 'emailInput', 'bioInput'].forEach(id => {
+                    document.getElementById(id).disabled = false;
+                });
 
-                // Show Avatar Overlay and Save Button
                 document.getElementById('avatarContainer').classList.add('editable');
                 document.getElementById('requestEditOtpBtn').style.display = 'none';
                 document.getElementById('unlockedBadge').style.display = 'inline-block';
@@ -691,76 +690,122 @@
 
                 showAlert('🔓 Verification successful! You can now edit your details below.');
             } catch (err) {
-                showModalAlert(`❌ ${err.message}`, true);
+                modalAlertBox.style.display = 'block';
+                modalAlertBox.textContent = `❌ ${err.message}`;
             }
         });
 
-        // Open Avatar Selection Modal when Overlay is Clicked
+        document.getElementById('closeOtpModalBtn').addEventListener('click', () => otpModal.style.display = 'none');
+
+        // Avatar Overlay Logic
         document.getElementById('avatarOverlayTrigger').addEventListener('click', () => {
-            if (isEditUnlocked) {
-                avatarModal.style.display = 'flex';
-            }
+            if (isEditUnlocked) avatarModal.style.display = 'flex';
         });
+        document.getElementById('closeAvatarModalBtn').addEventListener('click', () => avatarModal.style.display = 'none');
 
-        // Close Avatar Modal
-        document.getElementById('closeAvatarModalBtn').addEventListener('click', () => {
-            avatarModal.style.display = 'none';
-        });
+        // Helper: Save to DB Function
+        async function saveProfileToDatabase(profileData) {
+            const { error: profileErr } = await supabase
+                .from('profiles')
+                .upsert({
+                    id: currentAuthUser.id,
+                    first_name: profileData.firstName,
+                    last_name: profileData.lastName,
+                    display_name: profileData.computedDisplayName,
+                    username: profileData.username,
+                    email: profileData.email,
+                    bio: profileData.bio,
+                    avatar_url: profileData.avatarUrl,
+                    updated_at: new Date()
+                });
 
-        // Submit Profile Save
+            if (profileErr) throw profileErr;
+
+            showAlert('✓ Profile details and avatar saved successfully!');
+            setTimeout(() => window.location.reload(), 1500);
+        }
+
+        // 2. SAVE PROFILE & NEW EMAIL FLOW
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
             if (!isEditUnlocked) return;
 
+            // Collect all form data
             const firstName = document.getElementById('firstNameInput').value.trim();
             const lastName = document.getElementById('lastNameInput').value.trim();
             const username = document.getElementById('usernameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
             const bio = document.getElementById('bioInput').value.trim();
-            const computedDisplayName = `${firstName} ${lastName}`.trim();
+            
+            pendingProfileData = {
+                firstName,
+                lastName,
+                computedDisplayName: `${firstName} ${lastName}`.trim(),
+                username,
+                email,
+                bio,
+                avatarUrl: selectedAvatarUrl
+            };
 
             try {
-                // Update Email if changed
+                // Check if email was changed
                 if (email !== currentAuthUser.email) {
-                    const { error: emailErr } = await supabase.auth.updateUser({ email });
+                    pendingNewEmail = email;
+                    
+                    // Trigger Supabase to send OTP to the NEW email
+                    const { error: emailErr } = await supabase.auth.updateUser({ email: pendingNewEmail });
                     if (emailErr) throw emailErr;
+
+                    // Show the New Email Verification Modal
+                    document.getElementById('modalNewEmailTarget').textContent = pendingNewEmail;
+                    newEmailOtpModal.style.display = 'flex';
+                    clearOtpInputs(newEmailOtpInputs);
+                    return; // Pause the saving process here
                 }
 
-                // Upsert to profiles table, passing selectedAvatarUrl
-                const { error: profileErr } = await supabase
-                    .from('profiles')
-                    .upsert({
-                        id: currentAuthUser.id,
-                        first_name: firstName,
-                        last_name: lastName,
-                        display_name: computedDisplayName,
-                        username: username,
-                        email: email,
-                        bio: bio,
-                        avatar_url: selectedAvatarUrl, // Using the selected preset avatar
-                        updated_at: new Date()
-                    });
-
-                if (profileErr) throw profileErr;
-
-                showAlert('✓ Profile details and avatar saved successfully!');
-                
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500);
+                // If email was NOT changed, save directly to Database
+                await saveProfileToDatabase(pendingProfileData);
 
             } catch (err) {
-                console.error('Save Profile Error:', err);
-                showAlert(`❌ ${err.message}`, true);
+                showAlert(`❌ Error: ${err.message}`, true);
             }
         });
 
-        document.getElementById('closeOtpModalBtn').addEventListener('click', () => {
-            otpModal.style.display = 'none';
+        // 3. VERIFY NEW EMAIL OTP
+        document.getElementById('verifyNewEmailOtpBtn').addEventListener('click', async () => {
+            const token = newEmailOtpInputs.map(i => i.value).join('');
+            if (token.length !== 6) {
+                newEmailModalAlert.style.display = 'block';
+                newEmailModalAlert.textContent = 'Please enter the full 6-digit code.';
+                return;
+            }
+
+            try {
+                // Verify the OTP sent to the new email
+                const { error } = await supabase.auth.verifyOtp({
+                    email: pendingNewEmail,
+                    token: token,
+                    type: 'email_change' // Specific type for email updates
+                });
+
+                if (error) throw error;
+
+                newEmailOtpModal.style.display = 'none';
+                
+                // Now that email is verified, save the rest of the profile
+                await saveProfileToDatabase(pendingProfileData);
+
+            } catch (err) {
+                newEmailModalAlert.style.display = 'block';
+                newEmailModalAlert.textContent = `❌ ${err.message}`;
+            }
         });
 
-        // Run On Load
+        document.getElementById('closeNewEmailOtpModalBtn').addEventListener('click', () => {
+            newEmailOtpModal.style.display = 'none';
+        });
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             initAvatarGrid();
             loadProfile();
