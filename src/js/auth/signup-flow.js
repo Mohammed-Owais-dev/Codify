@@ -55,7 +55,7 @@ let isUsernameAvailable = false;
 let isEmailAvailable = true;
 let isOAuthUser = false;
 let timerInterval = null;
-let selectedAvatarUrl = '../assets/images/avatars/avatar-1.png';
+let selectedAvatarUrl = '/src/assets/images/avatars/avatar-1.png';
 
 // ==================================================
 // 2. HELPER FUNCTIONS & PROGRESS BAR
@@ -153,7 +153,7 @@ async function checkOAuthSession() {
         // Auto-generate fallback username from email prefix (e.g. owais from owais@gmail.com)
         const emailPrefix = user.email ? user.email.split('@')[0].replace(/[^a-z0-9._]/gi, '').toLowerCase() : 'user';
         const defaultUsername = profile?.username || emailPrefix || 'user_' + user.id.slice(0, 5);
-        const defaultAvatar = profile?.avatar_url || '../assets/images/avatars/avatar-1.png';
+        const defaultAvatar = profile?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
 
         firstName = googleFirstName;
         lastName = googleLastName;
@@ -444,7 +444,7 @@ if (btnSaveAvatar) {
             const finalLastName = lastName || lastNameInput?.value.trim() || user?.user_metadata?.last_name || user?.user_metadata?.family_name || '';
             const finalUsername = usernameInput?.value.trim() || username;
             const finalDisplayName = `${finalFirstName} ${finalLastName}`.trim() || finalUsername;
-            const finalAvatar = selectedAvatarUrl || '../assets/images/avatars/avatar-1.png';
+            const finalAvatar = selectedAvatarUrl || '/src/assets/images/avatars/avatar-1.png';
 
             // 1. Update Auth Metadata
             await supabase.auth.updateUser({
