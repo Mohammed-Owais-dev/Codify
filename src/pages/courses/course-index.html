@@ -442,6 +442,30 @@
         </div>
     </footer>
 
+    <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
+        <div class="search-modal-card">
+            <div class="search-modal-header">
+                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input type="text" id="modalSearchInput" placeholder="Type keywords (e.g., Python history, loop...)" autocomplete="off">
+                <button class="search-modal-close" id="modalSearchClose" aria-label="Close Search">✕</button>
+            </div>
+            <div class="search-results-viewport">
+                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course parameters...</div>
+                <ul class="search-results-list" id="searchResultsList"></ul>
+            </div>
+            <div class="search-modal-footer">
+                <span><kbd>↑↓</kbd> Navigate</span>
+                <span><kbd>Enter</kbd> Select</span>
+                <span><kbd>ESC</kbd> Close</span>
+            </div>
+        </div>
+    </div>
+
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module">
