@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-        rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/style.css">
     <title>Courses | Codify</title>
 </head>
 
@@ -18,18 +17,18 @@
         <div class="codify-header-container">
 
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='../../index.html'">
+                <div class="codify-logo" onclick="window.location.href='/'">
                     Codify
                 </div>
             </div>
 
             <nav class="codify-center-nav" aria-label="Main menu links">
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="../../index.html">Home</a></li>
-                    <li><a href="#" class="active-link">Courses</a></li>
-                    <li><a href="courses/exam.html">Quizzes & Exams</a></li>
-                    <li><a href="certificate.html">Certificates</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/src/pages/courses.html" class="active-link">Courses</a></li>
+                    <li><a href="/src/pages/courses/exam.html">Quizzes & Exams</a></li>
+                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
+                    <li><a href="/src/pages/contact.html">Contact</a></li>
                 </ul>
             </nav>
 
@@ -48,8 +47,8 @@
                 </button>
 
                 <div class="codify-auth-group" id="authNavGroup">
-                    <a href="../auth/login.html" class="codify-btn-outline">Login</a>
-                    <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>
+                    <a href="/src/auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="/src/auth/signup.html" class="codify-btn-outline">Signup</a>
                 </div>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
@@ -68,151 +67,151 @@
 
         <section id="courses" class="courses-container visible">
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/c.webp" alt="C Tutorial thumbnail">
-            <h3>C Tutorial</h3>
-        </div>
-        <div class="card-body">
-            <p>C language is considered the mother language of all programming languages. Master foundational coding logic.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=c-101" 
-               data-course-id="c-101" 
-               data-index-url="courses/course-index.html?courseId=c-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/c.webp" alt="C Tutorial thumbnail">
+                    <h3>C Tutorial</h3>
+                </div>
+                <div class="card-body">
+                    <p>C language is considered the mother language of all programming languages. Master foundational coding logic.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/c/c-enroll.html?courseId=c-101" 
+                       data-course-id="c-101" 
+                       data-index-url="courses/c/c-index.html?courseId=c-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/cpp.webp" alt="C++ Tutorial thumbnail">
-            <h3>C++ & OOPs</h3>
-        </div>
-        <div class="card-body">
-            <p>Dive deep into Object-Oriented Programming, templates, and high-performance applications with C++.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=cpp-101" 
-               data-course-id="cpp-101" 
-               data-index-url="courses/course-index.html?courseId=cpp-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/cpp.webp" alt="C++ Tutorial thumbnail">
+                    <h3>C++ & OOPs</h3>
+                </div>
+                <div class="card-body">
+                    <p>Dive deep into Object-Oriented Programming, templates, and high-performance applications with C++.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/cpp/cpp-enroll.html?courseId=cpp-101" 
+                       data-course-id="cpp-101" 
+                       data-index-url="courses/cpp/cpp-index.html?courseId=cpp-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/dbms.jpg" alt="DBMS thumbnail">
-            <h3>DBMS</h3>
-        </div>
-        <div class="card-body">
-            <p>Learn relational databases, normalizations, and how to write complex SQL queries to manage backend data.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=dbms-101" 
-               data-course-id="dbms-101" 
-               data-index-url="courses/course-index.html?courseId=dbms-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/dbms.jpg" alt="DBMS thumbnail">
+                    <h3>DBMS</h3>
+                </div>
+                <div class="card-body">
+                    <p>Learn relational databases, normalizations, and how to write complex SQL queries to manage backend data.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/dbms/dbms-enroll.html?courseId=dbms-101" 
+                       data-course-id="dbms-101" 
+                       data-index-url="courses/dbms/dbms-index.html?courseId=dbms-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/html.webp" alt="HTML thumbnail">
-            <h3>HTML</h3>
-        </div>
-        <div class="card-body">
-            <p>Build stunning modern websites. Master document markup, structure, and semantic web elements.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=html-101" 
-               data-course-id="html-101" 
-               data-index-url="courses/course-index.html?courseId=html-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/html.webp" alt="HTML thumbnail">
+                    <h3>HTML</h3>
+                </div>
+                <div class="card-body">
+                    <p>Build stunning modern websites. Master document markup, structure, and semantic web elements.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/html/html-enroll.html?courseId=html-101" 
+                       data-course-id="html-101" 
+                       data-index-url="courses/html/html-index.html?courseId=html-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/css.webp" alt="CSS thumbnail">
-            <h3>CSS</h3>
-        </div>
-        <div class="card-body">
-            <p>Style modern responsive interfaces with Flexbox, Grid, keyframe animations, and themes.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=css-101" 
-               data-course-id="css-101" 
-               data-index-url="courses/course-index.html?courseId=css-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/css.webp" alt="CSS thumbnail">
+                    <h3>CSS</h3>
+                </div>
+                <div class="card-body">
+                    <p>Style modern responsive interfaces with Flexbox, Grid, keyframe animations, and themes.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/css/css-enroll.html?courseId=css-101" 
+                       data-course-id="css-101" 
+                       data-index-url="courses/css/css-index.html?courseId=css-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/js.webp" alt="JavaScript thumbnail">
-            <h3>JavaScript</h3>
-        </div>
-        <div class="card-body">
-            <p>Add dynamic interactivity, web apps, DOM manipulation, and asynchronous API integration.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=js-101" 
-               data-course-id="js-101" 
-               data-index-url="courses/course-index.html?courseId=js-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/js.webp" alt="JavaScript thumbnail">
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="card-body">
+                    <p>Add dynamic interactivity, web apps, DOM manipulation, and asynchronous API integration.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/js/js-enroll.html?courseId=js-101" 
+                       data-course-id="js-101" 
+                       data-index-url="courses/js/js-index.html?courseId=js-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/dbms.png" alt="SQL thumbnail">
-            <h3>SQL</h3>
-        </div>
-        <div class="card-body">
-            <p>Learn relational databases, queries, joins, indexing, and managing real-time datasets.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=sql-101" 
-               data-course-id="sql-101" 
-               data-index-url="courses/course-index.html?courseId=sql-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/dbms.png" alt="SQL thumbnail">
+                    <h3>SQL</h3>
+                </div>
+                <div class="card-body">
+                    <p>Learn relational databases, queries, joins, indexing, and managing real-time datasets.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/sql/sql-enroll.html?courseId=sql-101" 
+                       data-course-id="sql-101" 
+                       data-index-url="courses/sql/sql-index.html?courseId=sql-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/java.webp" alt="Java thumbnail">
-            <h3>Java Programming</h3>
-        </div>
-        <div class="card-body">
-            <p>Learn enterprise-ready programming with Java. Build robust backend applications and Android apps.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/enroll.html?courseId=java-101" 
-               data-course-id="java-101" 
-               data-index-url="courses/course-index.html?courseId=java-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/java.webp" alt="Java thumbnail">
+                    <h3>Java Programming</h3>
+                </div>
+                <div class="card-body">
+                    <p>Learn enterprise-ready programming with Java. Build robust backend applications and Android apps.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/java/java-enroll.html?courseId=java-101" 
+                       data-course-id="java-101" 
+                       data-index-url="courses/java/java-index.html?courseId=java-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-    <div class="course-card">
-        <div class="card-header">
-            <img src="../assets/logos/python.webp" alt="Python thumbnail">
-            <h3>Python for Beginners</h3>
-        </div>
-        <div class="card-body">
-            <p>Unlock Python. Perfect for Scripting, Web automation, Data Science, and Machine Learning.</p>
-        </div>
-        <div class="card-footer">
-            <a href="courses/python/python-enroll.html?courseId=python-101" 
-               data-course-id="python-101" 
-               data-index-url="courses/python/python-index.html?courseId=python-101" 
-               class="start-btn course-action-btn">Enroll Now</a>
-        </div>
-    </div>
+            <div class="course-card">
+                <div class="card-header">
+                    <img src="/src/assets/logos/python.webp" alt="Python thumbnail">
+                    <h3>Python for Beginners</h3>
+                </div>
+                <div class="card-body">
+                    <p>Unlock Python. Perfect for Scripting, Web automation, Data Science, and Machine Learning.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="courses/python/python-enroll.html?courseId=python-101" 
+                       data-course-id="python-101" 
+                       data-index-url="courses/python/python-index.html?courseId=python-101" 
+                       class="start-btn course-action-btn">Enroll Now</a>
+                </div>
+            </div>
 
-</section>
+        </section>
     </main>
 
     <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
@@ -251,7 +250,7 @@
                 <span>Please log in to your Codify account to access this course.</span>
             </div>
         </div>
-        <a href="../auth/login.html" class="toast-login-btn">Log In</a>
+        <a href="/src/auth/login.html" class="toast-login-btn">Log In</a>
     </div>
 
     <footer class="codify-footer">
@@ -274,94 +273,89 @@
         </div>
     </footer>
 
-    <script src="../js/script.js"></script>
-    <script type="module" src="../js/auth/nav-auth.js"></script>
+    <script src="/src/js/script.js"></script>
+    <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module">
-    import { supabase } from '../js/config/supabase-client.js';
+        import { supabase } from '/src/js/config/supabase-client.js';
 
-    (async function initCoursesPage() {
-        const authNavGroup = document.getElementById('authNavGroup');
-        const actionButtons = document.querySelectorAll('.course-action-btn');
+        (async function initCoursesPage() {
+            const authNavGroup = document.getElementById('authNavGroup');
+            const actionButtons = document.querySelectorAll('.course-action-btn');
 
-        // Helper function to update action buttons UI
-        function applyEnrollmentUI(enrolledCourseIds) {
-            const enrolledSet = new Set(enrolledCourseIds);
+            function applyEnrollmentUI(enrolledCourseIds) {
+                const enrolledSet = new Set(enrolledCourseIds);
 
-            actionButtons.forEach(button => {
-                const courseId = button.getAttribute('data-course-id');
-                const indexUrl = button.getAttribute('data-index-url');
+                actionButtons.forEach(button => {
+                    const courseId = button.getAttribute('data-course-id');
+                    const indexUrl = button.getAttribute('data-index-url');
 
-                if (enrolledSet.has(courseId)) {
-                    button.innerText = 'Continue Learning';
-                    button.setAttribute('href', indexUrl);
-                    button.classList.add('enrolled-btn');
+                    if (enrolledSet.has(courseId)) {
+                        button.innerText = 'Continue Learning';
+                        button.setAttribute('href', indexUrl);
+                        button.classList.add('enrolled-btn');
+                    } else {
+                        button.innerText = 'Enroll Now';
+                        button.classList.remove('enrolled-btn');
+                    }
+                    button.classList.add('ready');
+                });
+            }
+
+            // Local cache check
+            const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
+            if (cachedEnrollments.length > 0) {
+                applyEnrollmentUI(cachedEnrollments);
+            }
+
+            // Auth Check
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
+
+            if (user) {
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('avatar_url, first_name')
+                    .eq('id', user.id)
+                    .maybeSingle();
+
+                const userMetaData = user.user_metadata || {};
+                const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
+                const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
+                const initial = firstName.charAt(0).toUpperCase();
+
+                if (avatarUrl) {
+                    authNavGroup.innerHTML = `
+                        <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                            <img src="${avatarUrl}" alt="${firstName}'s Profile">
+                        </a>`;
                 } else {
-                    button.innerText = 'Enroll Now';
-                    button.classList.remove('enrolled-btn');
+                    authNavGroup.innerHTML = `
+                        <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                            <span>${initial}</span>
+                        </a>`;
                 }
+                
+                // Background Sync
+                const { data: enrollments } = await supabase
+                    .from('enrollments')
+                    .select('course_id')
+                    .eq('user_id', user.id);
 
-                button.classList.add('ready');
-            });
-        }
-
-        // ==================================================
-        // STEP 1: INSTANT READ ENROLLMENTS FROM LOCAL CACHE
-        // ==================================================
-        const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
-        if (cachedEnrollments.length > 0) {
-            applyEnrollmentUI(cachedEnrollments);
-        }
-
-        // ==================================================
-        // STEP 2: INSTANT SESSION CHECK FOR PROFILE / AUTH
-        // ==================================================
-        const { data: { session } } = await supabase.auth.getSession();
-        const user = session?.user;
-
-        if (user) {
-            const userMetaData = user.user_metadata || {};
-            const avatarUrl = userMetaData.avatar_url;
-            const firstName = userMetaData.first_name || user.email || 'User';
-            const initial = firstName.charAt(0).toUpperCase();
-
-            if (avatarUrl) {
-                authNavGroup.innerHTML = `
-                    <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
-                        <img src="${avatarUrl}" alt="${firstName}'s Profile">
-                    </a>`;
+                if (enrollments) {
+                    const liveCourseIds = enrollments.map(item => item.course_id);
+                    localStorage.setItem('codify_enrollments', JSON.stringify(liveCourseIds));
+                    applyEnrollmentUI(liveCourseIds);
+                }
             } else {
-                authNavGroup.innerHTML = `
-                    <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
-                        <span>${initial}</span>
-                    </a>`;
+                localStorage.removeItem('codify_enrollments');
+                actionButtons.forEach(btn => btn.classList.add('ready'));
             }
-        }
 
-        // SMOOTHLY REVEAL HEADER AUTH GROUP
-        if (authNavGroup) {
-            authNavGroup.classList.add('ready');
-        }
-
-        // ==================================================
-        // STEP 3: BACKGROUND SYNC ENROLLMENTS WITH SUPABASE
-        // ==================================================
-        if (user) {
-            const { data: enrollments } = await supabase
-                .from('enrollments')
-                .select('course_id')
-                .eq('user_id', user.id);
-
-            if (enrollments) {
-                const liveCourseIds = enrollments.map(item => item.course_id);
-                localStorage.setItem('codify_enrollments', JSON.stringify(liveCourseIds));
-                applyEnrollmentUI(liveCourseIds);
+            if (authNavGroup) {
+                authNavGroup.classList.add('ready');
             }
-        } else {
-            localStorage.removeItem('codify_enrollments');
-            actionButtons.forEach(btn => btn.classList.add('ready'));
-        }
-    })();
-</script>
+        })();
+    </script>
 </body>
 
 </html>

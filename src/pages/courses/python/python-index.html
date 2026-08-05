@@ -9,31 +9,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="/src/css/style.css">
-    <title>Chapter Index | Codify</title>
+    <title>Python Syllabus | Codify</title>
 
     <style>
         /* Force main layout and all sections to render visible */
         main,
         main section,
-        .course-hero-card,
-        .enroll-hero-card,
         .progress-card,
-        .progress-dashboard,
         .chapter-card {
             display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
         }
 
-        /* Maintain flex styling for progress elements */
         .progress-top-row,
         .progress-top,
         .topic-item {
             display: flex !important;
         }
 
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
         }
@@ -51,8 +46,6 @@
             display: flex !important;
             flex-direction: column !important;
             flex: 1 0 auto;
-            opacity: 1 !important;
-            visibility: visible !important;
             margin-top: 100px !important;
             padding: 20px;
             max-width: 900px;
@@ -194,7 +187,40 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
-        /* Fixed Footer with Hover Popover */
+        /* Top Nav Profile Avatar Styling */
+        .codify-auth-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-profile-dp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 50%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #00aaff;
+            background-color: #0d1b2a;
+            overflow: hidden;
+        }
+
+        .nav-profile-dp img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-profile-dp span {
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* Fixed Footer */
         .codify-footer {
             flex-shrink: 0;
             margin-top: auto;
@@ -244,17 +270,6 @@
             pointer-events: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1000;
-        }
-
-        .team-popover::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 6px;
-            border-style: solid;
-            border-color: rgba(13, 27, 42, 0.95) transparent transparent transparent;
         }
 
         .team-hover-wrapper:hover .team-popover {
@@ -364,7 +379,7 @@
                 <strong style="color: #ffffff;">Your Course Matrix</strong>
                 <div class="progress-metrics">
                     <span class="metric-pill finished" id="finishedMetric">0 Finished</span>
-                    <span class="metric-pill pending" id="pendingMetric">2 Incomplete</span>
+                    <span class="metric-pill pending" id="pendingMetric">4 Incomplete</span>
                 </div>
             </div>
             <div class="progress-bar-bg">
@@ -378,10 +393,6 @@
                 <li class="topic-item">
                     <a href="/src/pages/courses/python/chapter-1/1.1-history-of-python.html" class="topic-link">1.1 History & Origins of Python</a>
                     <span class="status-pill open" id="status-python-1.1-history">⚪ Incomplete</span>
-                </li>
-                <li class="topic-item">
-                    <a href="/src/pages/courses/python/chapter-1/1.2-installing-python.html" class="topic-link">1.2 Environment Setup & VS Code Integration</a>
-                    <span class="status-pill open" id="status-python-1.2-setup">⚪ Incomplete</span>
                 </li>
                 <li class="topic-item">
                     <a href="/src/pages/courses/python/chapter-1/1.2-installing-python.html" class="topic-link">1.2 Environment Setup & VS Code Integration</a>
@@ -450,7 +461,9 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const COURSE_ID = urlParams.get('courseId') || 'python-101';
-        const TOTAL_TOPICS = 2;
+        
+        // Corrected math to match exactly 4 HTML topics
+        const TOTAL_TOPICS = 4;
 
         async function loadIndexProgress() {
             try {
@@ -463,12 +476,9 @@
                     return;
                 }
 
-                // ==================================================
-                // AUTH HEADER INJECTION (Mirrors courses.html exactly)
-                // ==================================================
+                // Header Profile injection
                 const authNavGroup = document.getElementById('authNavGroup');
                 if (authNavGroup) {
-                    // Fetch the updated profile data from the database
                     const { data: profile } = await supabase
                         .from('profiles')
                         .select('avatar_url, first_name')
@@ -494,9 +504,7 @@
                     authNavGroup.classList.add('ready');
                 }
 
-                // ==================================================
-                // ENROLLMENT & PROGRESS LOGIC
-                // ==================================================
+                // Check Enrollment
                 const { data: enrollment } = await supabase
                     .from('enrollments')
                     .select('*')
@@ -505,11 +513,11 @@
                     .maybeSingle();
 
                 if (!enrollment) {
-                    window.location.href = `/src/pages/courses/python/python-enroll.html?courseId=${COURSE_ID}`;
+                    window.location.href = `python-enroll.html?courseId=${COURSE_ID}`;
                     return;
                 }
 
-                // Fetch Progress
+                // Calculate Progress
                 const { data: progress } = await supabase
                     .from('user_progress')
                     .select('lesson_id, completed')
@@ -547,4 +555,3 @@
 </body>
 
 </html>
-
