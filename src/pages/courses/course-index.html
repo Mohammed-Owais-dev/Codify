@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="/src/css/style.css">
     <title>Chapter Index | Codify</title>
@@ -26,11 +25,17 @@
             visibility: visible !important;
         }
 
-        /* Maintain flex styling for progress elements if needed */
+        /* Maintain flex styling for progress elements */
         .progress-top-row,
         .progress-top,
         .topic-item {
             display: flex !important;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
         }
 
         body {
@@ -39,17 +44,16 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            margin: 0;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         main {
             display: flex !important;
             flex-direction: column !important;
-            flex: 1;
+            flex: 1 0 auto;
             opacity: 1 !important;
             visibility: visible !important;
-            margin-top: 110px !important;
+            margin-top: 100px !important;
             padding: 20px;
             max-width: 900px;
             width: 100%;
@@ -190,45 +194,40 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
-        /* Layout Fix to keep footer at the bottom */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            background-color: #0a0f1c;
-            color: #e0e6ed;
-            min-height: 100vh;
+        /* Top Nav Profile Avatar Styling */
+        .codify-auth-group {
             display: flex;
-            flex-direction: column;
-            font-family: 'Nunito', sans-serif;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* Ensure main expands to take up available vertical space */
-        main {
-            display: flex !important;
-            flex-direction: column !important;
-            flex: 1 0 auto;
-            /* Pushes footer down naturally */
-            opacity: 1 !important;
-            visibility: visible !important;
-            margin-top: 110px !important;
-            padding: 20px;
-            max-width: 900px;
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            box-sizing: border-box;
-            position: relative !important;
-            z-index: 2 !important;
+        .nav-avatar-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 50%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-avatar-link:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
+        }
+
+        .nav-avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00aaff;
+            object-fit: cover;
+            background-color: #0d1b2a;
+            display: block;
         }
 
         /* Fixed Footer with Hover Popover */
         .codify-footer {
             flex-shrink: 0;
-            /* Prevents footer from collapsing */
             margin-top: auto;
             border-top: 1px solid rgba(0, 170, 255, 0.15);
             padding: 24px 20px;
@@ -344,18 +343,17 @@
         <div class="codify-header-container">
 
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='../../index.html'">
+                <div class="codify-logo" onclick="window.location.href='/'">
                     Codify
                 </div>
             </div>
 
             <nav class="codify-center-nav" aria-label="Main menu links">
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="../../index.html">Home</a></li>
-                    <li><a href="#" class="active-link">Courses</a></li>
-                    <li><a href="courses/exam.html">Quizzes & Exams</a></li>
-                    <li><a href="certificate.html">Certificates</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/src/pages/courses.html" class="active-link">Courses</a></li>
+                    <li><a href="/index.html#quizzes">Quizzes & Exams</a></li>
+                    <li><a href="/src/pages/contact.html">Contact</a></li>
                 </ul>
             </nav>
 
@@ -374,8 +372,8 @@
                 </button>
 
                 <div class="codify-auth-group" id="authNavGroup">
-                    <a href="../auth/login.html" class="codify-btn-outline">Login</a>
-                    <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>
+                    <a href="/src/auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="/src/auth/signup.html" class="codify-btn-outline">Signup</a>
                 </div>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
@@ -387,7 +385,6 @@
 
         </div>
     </header>
-
 
     <main>
         <h1 class="index-title">Python Course Index & Syllabus</h1>
@@ -409,13 +406,11 @@
             <div class="chapter-header">Chapter 1: Foundations & Setup</div>
             <ul class="topic-list">
                 <li class="topic-item">
-                    <a href="/src/pages/courses/python/chapter-1/1.1-history-of-python.html" class="topic-link">1.1 History &
-                        Origins of Python</a>
+                    <a href="/src/pages/courses/python/chapter-1/1.1-history-of-python.html" class="topic-link">1.1 History & Origins of Python</a>
                     <span class="status-pill open" id="status-python-1.1-history">⚪ Incomplete</span>
                 </li>
                 <li class="topic-item">
-                    <a href="/src/pages/courses/python/chapter-1/1.2-installing-python.html" class="topic-link">1.2
-                        Environment Setup & VS Code Integration</a>
+                    <a href="/src/pages/courses/python/chapter-1/1.2-installing-python.html" class="topic-link">1.2 Environment Setup & VS Code Integration</a>
                     <span class="status-pill open" id="status-python-1.2-setup">⚪ Incomplete</span>
                 </li>
             </ul>
@@ -476,57 +471,59 @@
         const TOTAL_TOPICS = 2;
 
         async function loadIndexProgress() {
-            const { data: { user } } = await supabase.auth.getUser();
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
 
-            if (!user) {
-                // If not logged in, redirect to login
-                sessionStorage.setItem('redirectUrl', window.location.href);
-                window.location.href = '/src/auth/login.html';
-                return;
-            }
+                if (!user) {
+                    sessionStorage.setItem('redirectUrl', window.location.href);
+                    window.location.href = '/src/auth/login.html';
+                    return;
+                }
 
-            // Check if user has enrolled in this course
-            const { data: enrollment } = await supabase
-                .from('enrollments')
-                .select('*')
-                .eq('user_id', user.id)
-                .eq('course_id', COURSE_ID)
-                .single();
+                // Check Enrollment
+                const { data: enrollment } = await supabase
+                    .from('enrollments')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .eq('course_id', COURSE_ID)
+                    .maybeSingle();
 
-            if (!enrollment) {
-                // If not enrolled yet, redirect them to the enroll page
-                window.location.href = `/src/pages/courses/enroll.html?courseId=${COURSE_ID}`;
-                return;
-            }
+                if (!enrollment) {
+                    window.location.href = `/src/pages/courses/enroll.html?courseId=${COURSE_ID}`;
+                    return;
+                }
 
-            // Fetch progress
-            const { data: progress } = await supabase
-                .from('user_progress')
-                .select('lesson_id, completed')
-                .eq('user_id', user.id)
-                .eq('course_id', COURSE_ID);
+                // Fetch Progress
+                const { data: progress } = await supabase
+                    .from('user_progress')
+                    .select('lesson_id, completed')
+                    .eq('user_id', user.id)
+                    .eq('course_id', COURSE_ID);
 
-            let finishedCount = 0;
+                let finishedCount = 0;
 
-            if (progress && progress.length > 0) {
-                progress.forEach(item => {
-                    if (item.completed) {
-                        finishedCount++;
-                        const badge = document.getElementById(`status-${item.lesson_id}`);
-                        if (badge) {
-                            badge.className = 'status-pill done';
-                            badge.innerHTML = '✓ Finished';
+                if (progress && progress.length > 0) {
+                    progress.forEach(item => {
+                        if (item.completed) {
+                            finishedCount++;
+                            const badge = document.getElementById(`status-${item.lesson_id}`);
+                            if (badge) {
+                                badge.className = 'status-pill done';
+                                badge.innerHTML = '✓ Finished';
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
+                const pendingCount = TOTAL_TOPICS - finishedCount;
+                const percentage = Math.round((finishedCount / TOTAL_TOPICS) * 100);
+
+                document.getElementById('finishedMetric').textContent = `${finishedCount} Finished`;
+                document.getElementById('pendingMetric').textContent = `${pendingCount} Incomplete`;
+                document.getElementById('progressBarFill').style.width = `${percentage}%`;
+            } catch (err) {
+                console.error('Progress Load Error:', err);
             }
-
-            const pendingCount = TOTAL_TOPICS - finishedCount;
-            const percentage = Math.round((finishedCount / TOTAL_TOPICS) * 100);
-
-            document.getElementById('finishedMetric').textContent = `${finishedCount} Finished`;
-            document.getElementById('pendingMetric').textContent = `${pendingCount} Incomplete`;
-            document.getElementById('progressBarFill').style.width = `${percentage}%`;
         }
 
         document.addEventListener('DOMContentLoaded', loadIndexProgress);
