@@ -13,6 +13,26 @@
     <title>Chapter Index | Codify</title>
 
     <style>
+        /* Force main layout and all sections to render visible */
+        main,
+        main section,
+        .course-hero-card,
+        .enroll-hero-card,
+        .progress-card,
+        .progress-dashboard,
+        .chapter-card {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        /* Maintain flex styling for progress elements if needed */
+        .progress-top-row,
+        .progress-top,
+        .topic-item {
+            display: flex !important;
+        }
+
         body {
             background-color: #0a0f1c;
             color: #e0e6ed;
@@ -20,21 +40,17 @@
             display: flex;
             flex-direction: column;
             margin: 0;
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        html, body {
-            height: 100%;
+            font-family: 'Nunito', sans-serif;
         }
 
         main {
             display: flex !important;
             flex-direction: column !important;
-            flex: 1 0 auto;
+            flex: 1;
             opacity: 1 !important;
             visibility: visible !important;
-            margin-top: 100px !important;
-            padding: 30px 20px;
+            margin-top: 110px !important;
+            padding: 20px;
             max-width: 900px;
             width: 100%;
             margin-left: auto;
@@ -48,25 +64,24 @@
             color: #ffffff;
             font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         /* Progress Stats Bar */
         .progress-card {
-            background: rgba(13, 27, 42, 0.65);
+            background: rgba(13, 27, 42, 0.6);
             border: 1px solid rgba(0, 170, 255, 0.25);
             border-radius: 18px;
-            padding: 24px;
-            margin-bottom: 32px;
+            padding: 20px 24px;
+            margin-bottom: 30px;
             backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .progress-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .progress-metrics {
@@ -76,8 +91,8 @@
 
         .metric-pill {
             font-size: 0.85rem;
-            font-weight: 800;
-            padding: 5px 12px;
+            font-weight: 700;
+            padding: 4px 10px;
             border-radius: 8px;
         }
 
@@ -98,7 +113,6 @@
             background: rgba(10, 15, 28, 0.85);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .progress-bar-fill {
@@ -111,22 +125,20 @@
 
         /* Chapter List */
         .chapter-card {
-            background: rgba(13, 27, 42, 0.5);
-            border: 1px solid rgba(0, 170, 255, 0.2);
+            background: rgba(13, 27, 42, 0.45);
+            border: 1px solid rgba(0, 170, 255, 0.15);
             border-radius: 18px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             overflow: hidden;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .chapter-header {
             padding: 18px 24px;
-            background: rgba(10, 15, 28, 0.7);
+            background: rgba(10, 15, 28, 0.6);
             font-weight: 800;
             color: #00aaff;
-            font-size: 1.1rem;
-            border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+            font-size: 1.05rem;
+            border-bottom: 1px solid rgba(0, 170, 255, 0.12);
         }
 
         .topic-list {
@@ -139,13 +151,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            transition: background 0.2s ease;
-        }
-
-        .topic-item:hover {
-            background: rgba(0, 170, 255, 0.04);
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .topic-item:last-child {
@@ -154,9 +161,9 @@
 
         .topic-link {
             color: #e0e6ed;
-            font-size: 1rem;
+            font-size: 0.98rem;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
             transition: color 0.2s ease;
         }
 
@@ -166,8 +173,8 @@
 
         .status-pill {
             font-size: 0.8rem;
-            font-weight: 800;
-            padding: 5px 12px;
+            font-weight: 700;
+            padding: 4px 10px;
             border-radius: 8px;
         }
 
@@ -183,9 +190,45 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
-        /* Footer & Hover Popover */
+        /* Layout Fix to keep footer at the bottom */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* Ensure main expands to take up available vertical space */
+        main {
+            display: flex !important;
+            flex-direction: column !important;
+            flex: 1 0 auto;
+            /* Pushes footer down naturally */
+            opacity: 1 !important;
+            visibility: visible !important;
+            margin-top: 110px !important;
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            position: relative !important;
+            z-index: 2 !important;
+        }
+
+        /* Fixed Footer with Hover Popover */
         .codify-footer {
             flex-shrink: 0;
+            /* Prevents footer from collapsing */
             margin-top: auto;
             border-top: 1px solid rgba(0, 170, 255, 0.15);
             padding: 24px 20px;
@@ -306,8 +349,9 @@
             <nav class="codify-center-nav">
                 <ul class="codify-nav-links">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/src/pages/courses.html" class="active-link">Courses</a></li>
-                    <li><a href="/src/pages/contact.html">Contact</a></li>
+                    <li><a href="../courses.html" class="active-link">Courses</a></li>
+                    <li><a href="/index.html#quizzes">Quizzes</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
                 </ul>
             </nav>
 
@@ -325,7 +369,7 @@
 
         <section class="progress-card">
             <div class="progress-top">
-                <strong style="color: #ffffff; font-size: 1.05rem;">Your Course Matrix</strong>
+                <strong style="color: #ffffff;">Your Course Matrix</strong>
                 <div class="progress-metrics">
                     <span class="metric-pill finished" id="finishedMetric">0 Finished</span>
                     <span class="metric-pill pending" id="pendingMetric">2 Incomplete</span>
@@ -340,11 +384,13 @@
             <div class="chapter-header">Chapter 1: Foundations & Setup</div>
             <ul class="topic-list">
                 <li class="topic-item">
-                    <a href="/src/pages/courses/python/chapter-1/1.1-history-of-python.html" class="topic-link">1.1 History & Origins of Python</a>
+                    <a href="/src/pages/courses/python/chapter-1/1.1-history-of-python.html" class="topic-link">1.1 History &
+                        Origins of Python</a>
                     <span class="status-pill open" id="status-python-1.1-history">⚪ Incomplete</span>
                 </li>
                 <li class="topic-item">
-                    <a href="/src/pages/courses/python/chapter-1/1.2-installing-python.html" class="topic-link">1.2 Environment Setup & VS Code Integration</a>
+                    <a href="/src/pages/courses/python/chapter-1/1.2-installing-python.html" class="topic-link">1.2
+                        Environment Setup & VS Code Integration</a>
                     <span class="status-pill open" id="status-python-1.2-setup">⚪ Incomplete</span>
                 </li>
             </ul>
@@ -384,11 +430,13 @@
             const { data: { user } } = await supabase.auth.getUser();
 
             if (!user) {
+                // If not logged in, redirect to login
                 sessionStorage.setItem('redirectUrl', window.location.href);
                 window.location.href = '/src/auth/login.html';
                 return;
             }
 
+            // Check if user has enrolled in this course
             const { data: enrollment } = await supabase
                 .from('enrollments')
                 .select('*')
@@ -397,10 +445,12 @@
                 .single();
 
             if (!enrollment) {
+                // If not enrolled yet, redirect them to the enroll page
                 window.location.href = `/src/pages/courses/enroll.html?courseId=${COURSE_ID}`;
                 return;
             }
 
+            // Fetch progress
             const { data: progress } = await supabase
                 .from('user_progress')
                 .select('lesson_id, completed')
