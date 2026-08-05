@@ -194,37 +194,6 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
-        /* Top Nav Profile Avatar Styling */
-        .codify-auth-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-avatar-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            border-radius: 50%;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .nav-avatar-link:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
-        }
-
-        .nav-avatar-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid #00aaff;
-            object-fit: cover;
-            background-color: #0d1b2a;
-            display: block;
-        }
-
         /* Fixed Footer with Hover Popover */
         .codify-footer {
             flex-shrink: 0;
@@ -352,7 +321,8 @@
                 <ul class="codify-nav-links" id="navLinks">
                     <li><a href="/">Home</a></li>
                     <li><a href="/src/pages/courses.html" class="active-link">Courses</a></li>
-                    <li><a href="/index.html#quizzes">Quizzes & Exams</a></li>
+                    <li><a href="/src/pages/courses/exam.html">Quizzes & Exams</a></li>
+                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
                     <li><a href="/src/pages/contact.html">Contact</a></li>
                 </ul>
             </nav>
@@ -426,7 +396,7 @@
                 <div class="team-popover">
                     <div class="popover-header">Core Engineers</div>
                     <ul class="team-list">
-                        <li class="team-member"><span class="member-dot"></span>Mohammed Owais</li>
+                        <li class="team-member" style="font-weight: 740;"><span class="member-dot"></span>Mohammed Owais</li>
                         <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
                         <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
                         <li class="team-member"><span class="member-dot"></span>M. Basha</li>
@@ -472,7 +442,8 @@
 
         async function loadIndexProgress() {
             try {
-                const { data: { user } } = await supabase.auth.getUser();
+                const { data: { session } } = await supabase.auth.getSession();
+                const user = session?.user;
 
                 if (!user) {
                     sessionStorage.setItem('redirectUrl', window.location.href);
@@ -480,7 +451,40 @@
                     return;
                 }
 
-                // Check Enrollment
+                // ==================================================
+                // AUTH HEADER INJECTION (Mirrors courses.html exactly)
+                // ==================================================
+                const authNavGroup = document.getElementById('authNavGroup');
+                if (authNavGroup) {
+                    // Fetch the updated profile data from the database
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('avatar_url, first_name')
+                        .eq('id', user.id)
+                        .maybeSingle();
+
+                    const userMetaData = user.user_metadata || {};
+                    const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
+                    const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
+                    const initial = firstName.charAt(0).toUpperCase();
+
+                    if (avatarUrl) {
+                        authNavGroup.innerHTML = `
+                            <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                                <img src="${avatarUrl}" alt="${firstName}'s Profile">
+                            </a>`;
+                    } else {
+                        authNavGroup.innerHTML = `
+                            <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                                <span>${initial}</span>
+                            </a>`;
+                    }
+                    authNavGroup.classList.add('ready');
+                }
+
+                // ==================================================
+                // ENROLLMENT & PROGRESS LOGIC
+                // ==================================================
                 const { data: enrollment } = await supabase
                     .from('enrollments')
                     .select('*')
@@ -531,3 +535,4 @@
 </body>
 
 </html>
+
