@@ -397,7 +397,7 @@
 
                 // If already enrolled, automatically route to the Chapter Index page
                 if (enrollment) {
-                    window.location.href = `course-index.html?courseId=${COURSE_ID}`;
+                    window.location.href = `python-index.html?courseId=${COURSE_ID}`;
                 }
             }
         } catch (err) {
@@ -436,7 +436,7 @@
             if (error) throw error;
 
             // Success redirect to course index page
-            window.location.href = `course-index.html?courseId=${COURSE_ID}`;
+            window.location.href = `python-index.html?courseId=${COURSE_ID}`;
 
         } catch (err) {
             alert(`Enrollment failed: ${err.message}`);
