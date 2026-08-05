@@ -753,7 +753,10 @@
                     pendingNewEmail = email;
                     
                     // Trigger Supabase to send OTP to the NEW email
-                    const { error: emailErr } = await supabase.auth.updateUser({ email: pendingNewEmail });
+                    const { error: emailErr } = await supabase.auth.updateUser({ 
+                        email: pendingNewEmail 
+                    });
+                    
                     if (emailErr) throw emailErr;
 
                     // Show the New Email Verification Modal
@@ -767,7 +770,19 @@
                 await saveProfileToDatabase(pendingProfileData);
 
             } catch (err) {
-                showAlert(`❌ Error: ${err.message}`, true);
+                // 🛑 THIS IS THE FIX: Properly extract the error message
+                console.error('Full Supabase Error Object:', err);
+                
+                let errorMessage = 'An unknown error occurred.';
+                if (err.message) {
+                    errorMessage = err.message;
+                } else if (err.error_description) {
+                    errorMessage = err.error_description;
+                } else {
+                    errorMessage = JSON.stringify(err);
+                }
+                
+                showAlert(`❌ Error: ${errorMessage}`, true);
             }
         });
 
