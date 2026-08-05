@@ -54,7 +54,6 @@
             gap: 24px;
         }
 
-        /* AVATAR STYLES */
         .avatar-container {
             position: relative;
             width: 90px;
@@ -109,7 +108,6 @@
             font-size: 1rem;
         }
 
-        /* EDIT ICON / BUTTON */
         .btn-edit-trigger {
             background: rgba(0, 170, 255, 0.15);
             border: 1px solid rgba(0, 170, 255, 0.4);
@@ -249,7 +247,6 @@
             line-height: 1.5;
         }
 
-        /* MODAL STYLES */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -403,13 +400,13 @@
                 
                 <div class="profile-grid">
                     <div class="profile-form-group">
-                        <label for="fnameInput">First Name</label>
-                        <input type="text" id="fnameInput" class="profile-input" placeholder="First Name" disabled required>
+                        <label for="firstNameInput">First Name</label>
+                        <input type="text" id="firstNameInput" class="profile-input" placeholder="First Name" disabled required>
                     </div>
 
                     <div class="profile-form-group">
-                        <label for="snameInput">Surname / Last Name</label>
-                        <input type="text" id="snameInput" class="profile-input" placeholder="Surname" disabled required>
+                        <label for="secondNameInput">Second Name</label>
+                        <input type="text" id="secondNameInput" class="profile-input" placeholder="Second Name" disabled required>
                     </div>
 
                     <div class="profile-form-group">
@@ -487,44 +484,56 @@
             modalAlertBox.innerHTML = msg;
         }
 
-        // Load profile data into form (Read-Only state)
+        // Load Profile Data Safely
         async function loadProfile() {
-            const { data: { user } } = await supabase.auth.getUser();
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
 
-            if (!user) {
-                window.location.href = '/src/auth/login.html';
-                return;
+                if (!user) {
+                    window.location.href = '/src/auth/login.html';
+                    return;
+                }
+
+                currentAuthUser = user;
+                document.getElementById('emailInput').value = user.email || '';
+
+                // Safely query profiles table using maybeSingle() to avoid 406/single errors
+                const { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('first_name, second_name, username, bio, avatar_url')
+                    .eq('id', user.id)
+                    .maybeSingle();
+
+                if (error && error.code !== 'PGRST116') {
+                    console.error('Database Profile Fetch Error:', error);
+                }
+
+                // Extract or fallback values
+                const firstName = profile?.first_name || user.user_metadata?.first_name || '';
+                const secondName = profile?.second_name || user.user_metadata?.second_name || user.user_metadata?.last_name || '';
+                const fallbackUsername = user.email ? user.email.split('@')[0] : 'user';
+                const username = profile?.username || user.user_metadata?.username || fallbackUsername;
+                const bio = profile?.bio || '';
+                const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
+
+                // Populate Form Fields
+                document.getElementById('firstNameInput').value = firstName;
+                document.getElementById('secondNameInput').value = secondName;
+                document.getElementById('usernameInput').value = username;
+                document.getElementById('bioInput').value = bio;
+                document.getElementById('avatarImage').src = avatarUrl;
+
+                // Update Header Visuals
+                const fullDisplayName = `${firstName} ${secondName}`.trim() || username;
+                document.getElementById('headerDisplayName').textContent = fullDisplayName;
+                document.getElementById('headerUserHandle').textContent = `@${username.toLowerCase().replace(/\s+/g, '')}`;
+
+            } catch (err) {
+                console.error('Failed to load user profile:', err);
             }
-
-            currentAuthUser = user;
-            document.getElementById('emailInput').value = user.email;
-
-            // Fetch record from profiles table
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('fname, sname, username, bio, avatar_url')
-                .eq('id', user.id)
-                .single();
-
-            const fname = profile?.fname || user.user_metadata?.first_name || '';
-            const sname = profile?.sname || user.user_metadata?.last_name || '';
-            const username = profile?.username || user.email.split('@')[0];
-            const bio = profile?.bio || '';
-            const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
-
-            document.getElementById('fnameInput').value = fname;
-            document.getElementById('snameInput').value = sname;
-            document.getElementById('usernameInput').value = username;
-            document.getElementById('bioInput').value = bio;
-            document.getElementById('avatarImage').src = avatarUrl;
-
-            // Update top display header
-            const fullDisplayName = `${fname} ${sname}`.trim() || username;
-            document.getElementById('headerDisplayName').textContent = fullDisplayName;
-            document.getElementById('headerUserHandle').textContent = `@${username.toLowerCase().replace(/\s+/g, '')}`;
         }
 
-        // Trigger OTP to unlock edit mode
+        // Trigger OTP Email to Unlock Edit Mode
         document.getElementById('requestEditOtpBtn').addEventListener('click', async () => {
             try {
                 const { error } = await supabase.auth.signInWithOtp({
@@ -537,11 +546,12 @@
                 otpModal.style.display = 'flex';
                 clearOtpInputs();
             } catch (err) {
-                showAlert(`❌ Unable to send OTP: ${err.message}`, true);
+                console.error('OTP Send Error:', err);
+                showAlert(`❌ Unable to send OTP: ${err.message || 'Please check Supabase email settings or rate limits.'}`, true);
             }
         });
 
-        // OTP inputs auto-advance
+        // OTP Input Auto-Advancing UX
         const otpDigitInputs = document.querySelectorAll('.otp-digit-input');
         otpDigitInputs.forEach((input, index) => {
             input.addEventListener('input', (e) => {
@@ -570,7 +580,7 @@
             modalAlertBox.style.display = 'none';
         }
 
-        // Verify OTP and Unlock Edit Mode
+        // Verify OTP Code
         document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
             const token = Array.from(otpDigitInputs).map(i => i.value).join('');
 
@@ -588,30 +598,30 @@
 
                 if (error) throw error;
 
-                // Unlock Edit Mode
+                // Enable Edit Mode
                 isEditUnlocked = true;
                 otpModal.style.display = 'none';
 
-                // Enable all input fields
-                document.getElementById('fnameInput').disabled = false;
-                document.getElementById('snameInput').disabled = false;
+                // Unlock Inputs
+                document.getElementById('firstNameInput').disabled = false;
+                document.getElementById('secondNameInput').disabled = false;
                 document.getElementById('usernameInput').disabled = false;
                 document.getElementById('emailInput').disabled = false;
                 document.getElementById('bioInput').disabled = false;
 
-                // Show Avatar overlay & save button
+                // Show Avatar Overlay and Save Button
                 document.getElementById('avatarContainer').classList.add('editable');
                 document.getElementById('requestEditOtpBtn').style.display = 'none';
                 document.getElementById('unlockedBadge').style.display = 'inline-block';
                 document.getElementById('saveProfileBtn').style.display = 'inline-flex';
 
-                showAlert('🔓 Verification successful! You can now edit your avatar and details below.');
+                showAlert('🔓 Verification successful! You can now edit your details below.');
             } catch (err) {
                 showModalAlert(`❌ ${err.message}`, true);
             }
         });
 
-        // Avatar Image Upload preview
+        // Handle Avatar Selection
         document.getElementById('avatarOverlayTrigger').addEventListener('click', () => {
             if (isEditUnlocked) {
                 document.getElementById('avatarFileInput').click();
@@ -630,34 +640,34 @@
             }
         });
 
-        // Save Profile Updates
+        // Submit Profile Save
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
             if (!isEditUnlocked) return;
 
-            const fname = document.getElementById('fnameInput').value.trim();
-            const sname = document.getElementById('snameInput').value.trim();
+            const firstName = document.getElementById('firstNameInput').value.trim();
+            const secondName = document.getElementById('secondNameInput').value.trim();
             const username = document.getElementById('usernameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
             const bio = document.getElementById('bioInput').value.trim();
             const currentAvatarSrc = document.getElementById('avatarImage').src;
 
             try {
-                // 1. Update Email if changed
+                // Update Email if changed
                 if (email !== currentAuthUser.email) {
                     const { error: emailErr } = await supabase.auth.updateUser({ email });
                     if (emailErr) throw emailErr;
                 }
 
-                // 2. Update Database Record
+                // Upsert to profiles table using first_name and second_name
                 const { error: profileErr } = await supabase
                     .from('profiles')
                     .upsert({
                         id: currentAuthUser.id,
-                        fname: fname,
-                        sname: sname,
-                        display_name: `${fname} ${sname}`.trim(),
+                        first_name: firstName,
+                        second_name: secondName,
+                        display_name: `${firstName} ${secondName}`.trim(),
                         username: username,
                         bio: bio,
                         avatar_url: avatarBase64Data || currentAvatarSrc,
@@ -668,12 +678,12 @@
 
                 showAlert('✓ Profile details and avatar saved successfully!');
                 
-                // Relock profile
                 setTimeout(() => {
                     window.location.reload();
                 }, 1500);
 
             } catch (err) {
+                console.error('Save Profile Error:', err);
                 showAlert(`❌ ${err.message}`, true);
             }
         });
