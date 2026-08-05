@@ -342,27 +342,52 @@
 
     <header class="codify-main-header">
         <div class="codify-header-container">
+
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='/'">Codify</div>
+                <div class="codify-logo" onclick="window.location.href='../../index.html'">
+                    Codify
+                </div>
             </div>
 
-            <nav class="codify-center-nav">
-                <ul class="codify-nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="../courses.html" class="active-link">Courses</a></li>
-                    <li><a href="/index.html#quizzes">Quizzes</a></li>
-                    <li><a href="../contact.html">Contact</a></li>
+            <nav class="codify-center-nav" aria-label="Main menu links">
+                <ul class="codify-nav-links" id="navLinks">
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="#" class="active-link">Courses</a></li>
+                    <li><a href="courses/exam.html">Quizzes & Exams</a></li>
+                    <li><a href="certificate.html">Certificates</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
 
             <div class="codify-right-group">
-                <div class="codify-auth-group" id="authNavGroup">
-                    <a href="/src/auth/login.html" class="codify-btn-outline">Login</a>
-                    <a href="/src/auth/signup.html" class="codify-btn-outline">Signup</a>
+                <div class="codify-search-box">
+                    <input type="text" id="siteSearchTrigger" placeholder="Search everything... (⌘K)" autocomplete="off">
+                    <span class="search-kbd"><kbd>⌘K</kbd></span>
                 </div>
+
+                <button class="mobile-search-trigger" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                </button>
+
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="../auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
+
         </div>
     </header>
+
 
     <main>
         <h1 class="index-title">Python Course Index & Syllabus</h1>
