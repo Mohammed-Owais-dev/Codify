@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="/assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="/style.css">
-    <title>User Profile | Codify</title>
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/style.css">
+    <title>Account Settings & Profile | Codify</title>
     <style>
         body {
             background-color: #0a0f1c;
@@ -15,12 +15,12 @@
             display: flex;
             flex-direction: column;
             margin: 0;
-            font-family: inherit;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         .profile-container {
             flex: 1;
-            max-width: 900px;
+            max-width: 860px;
             width: 100%;
             margin: 40px auto;
             padding: 0 20px;
@@ -28,117 +28,326 @@
         }
 
         .profile-card {
-            background: rgba(13, 27, 42, 0.5);
-            border: 1px solid rgba(0, 170, 255, 0.2);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(13, 27, 42, 0.65);
+            border: 1px solid rgba(0, 170, 255, 0.25);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(16px);
+            position: relative;
         }
 
         .profile-header {
             display: flex;
             align-items: center;
-            gap: 24px;
-            padding-bottom: 24px;
+            justify-content: space-between;
+            padding-bottom: 28px;
             border-bottom: 1px solid rgba(0, 170, 255, 0.15);
             margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .profile-avatar-large {
-            width: 80px;
-            height: 80px;
+        .profile-user-info {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* AVATAR STYLES */
+        .avatar-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #0077ff, #00aaff);
-            color: #fff;
-            font-size: 2.2rem;
-            font-weight: 700;
+            overflow: hidden;
+            border: 3px solid #00aaff;
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
+            background: #0d1b2a;
+            flex-shrink: 0;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
-            flex-shrink: 0;
+            opacity: 0;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            color: #00aaff;
+            font-size: 1.4rem;
+        }
+
+        .avatar-container.editable:hover .avatar-overlay {
+            opacity: 1;
         }
 
         .profile-title-group h1 {
             margin: 0 0 6px 0;
-            font-size: 1.6rem;
+            font-size: 1.75rem;
             color: #ffffff;
+            font-weight: 800;
         }
 
         .profile-title-group p {
             margin: 0;
             color: #00aaff;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* EDIT ICON / BUTTON */
+        .btn-edit-trigger {
+            background: rgba(0, 170, 255, 0.15);
+            border: 1px solid rgba(0, 170, 255, 0.4);
+            color: #00aaff;
+            padding: 10px 20px;
             font-size: 0.95rem;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-edit-trigger:hover {
+            background: #00aaff;
+            color: #0d1b2a;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+        }
+
+        .edit-badge-unlocked {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: none;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #00aaff;
+            font-weight: 800;
+            margin-top: 32px;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .profile-form-group {
             margin-bottom: 22px;
         }
 
+        .profile-form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
         .profile-form-group label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #cfd8dc;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #94a3b8;
             margin-bottom: 8px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
         }
 
         .profile-input {
             width: 100%;
-            background: rgba(10, 15, 28, 0.6);
-            border: 1px solid rgba(0, 170, 255, 0.2);
+            background: rgba(10, 15, 28, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.15);
             border-radius: 12px;
-            padding: 12px 16px;
-            color: #fff;
+            padding: 13px 16px;
+            color: #e0e6ed;
             font-size: 0.95rem;
             box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        .profile-input:focus {
-            outline: none;
-            border-color: #00aaff;
-            box-shadow: 0 0 12px rgba(0, 170, 255, 0.25);
-            background: rgba(10, 15, 28, 0.85);
+            transition: all 0.25s ease;
+            font-family: inherit;
         }
 
         .profile-input:disabled {
-            opacity: 0.6;
+            background: rgba(15, 23, 42, 0.4);
+            border-color: rgba(255, 255, 255, 0.05);
+            color: #64748b;
             cursor: not-allowed;
+        }
+
+        .profile-input:not(:disabled):focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+            background: rgba(10, 15, 28, 0.95);
+            color: #fff;
         }
 
         textarea.profile-input {
             resize: vertical;
-            min-height: 90px;
+            min-height: 100px;
         }
 
         .profile-submit-btn {
             background: linear-gradient(90deg, #0077ff, #00aaff);
             border: none;
             color: #fff;
-            padding: 12px 28px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-radius: 10px;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25);
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
+            display: none;
+            align-items: center;
+            gap: 8px;
         }
 
         .profile-submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+            box-shadow: 0 6px 25px rgba(0, 170, 255, 0.5);
         }
 
         .alert-box {
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border-radius: 12px;
             font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
             display: none;
+            line-height: 1.5;
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 10, 20, 0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-card {
+            background: #0d1b2a;
+            border: 1.5px solid #00aaff;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 170, 255, 0.35);
+            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-card h2 {
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .modal-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0 0 24px 0;
+            line-height: 1.5;
+        }
+
+        .otp-inputs-wrapper {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .otp-digit-input {
+            width: 48px;
+            height: 56px;
+            background: rgba(10, 15, 28, 0.9);
+            border: 1.5px solid rgba(0, 170, 255, 0.3);
+            border-radius: 12px;
+            color: #00aaff;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .otp-digit-input:focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-modal-primary {
+            flex: 1;
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #fff;
+            padding: 12px;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .btn-modal-secondary {
+            flex: 1;
+            background: transparent;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            color: #94a3b8;
+            padding: 12px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -153,7 +362,7 @@
             <nav class="codify-center-nav">
                 <ul class="codify-nav-links">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/src/course.html">Courses</a></li>
+                    <li><a href="/src/pages/courses.html">Courses</a></li>
                 </ul>
             </nav>
             <div class="codify-right-group">
@@ -164,41 +373,103 @@
 
     <main class="profile-container">
         <div class="profile-card">
+            
             <div class="profile-header">
-                <div class="profile-avatar-large" id="avatarLarge">?</div>
-                <div class="profile-title-group">
-                    <h1 id="headerDisplayName">User Profile</h1>
-                    <p id="headerUserHandle">@username</p>
+                <div class="profile-user-info">
+                    <div class="avatar-container" id="avatarContainer">
+                        <img id="avatarImage" class="avatar-img" src="/src/assets/images/avatars/avatar-1.png" alt="Profile Picture">
+                        <div class="avatar-overlay" id="avatarOverlayTrigger">📷</div>
+                        <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="profile-title-group">
+                        <h1 id="headerDisplayName">User Profile</h1>
+                        <p id="headerUserHandle">@username</p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-edit-trigger" id="requestEditOtpBtn">
+                    ✏️ Edit Profile
+                </button>
+                <div class="edit-badge-unlocked" id="unlockedBadge">
+                    🔓 Edit Mode Unlocked
                 </div>
             </div>
 
             <div id="statusAlert" class="alert-box"></div>
 
             <form id="profileForm">
-                <div class="profile-form-group">
-                    <label for="displayNameInput">DISPLAY NAME</label>
-                    <input type="text" id="displayNameInput" class="profile-input" placeholder="e.g. Alex Mercer" required>
+                
+                <div class="section-title">👤 Personal Information</div>
+                
+                <div class="profile-grid">
+                    <div class="profile-form-group">
+                        <label for="fnameInput">First Name</label>
+                        <input type="text" id="fnameInput" class="profile-input" placeholder="First Name" disabled required>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label for="snameInput">Surname / Last Name</label>
+                        <input type="text" id="snameInput" class="profile-input" placeholder="Surname" disabled required>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label for="usernameInput">Username Handle</label>
+                        <input type="text" id="usernameInput" class="profile-input" placeholder="username" disabled required>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label for="emailInput">Email Address</label>
+                        <input type="email" id="emailInput" class="profile-input" placeholder="user@example.com" disabled required>
+                    </div>
                 </div>
 
-                <div class="profile-form-group">
-                    <label for="emailInput">EMAIL ADDRESS (READ ONLY)</label>
-                    <input type="email" id="emailInput" class="profile-input" disabled>
+                <div class="profile-form-group full-width">
+                    <label for="bioInput">About Bio</label>
+                    <textarea id="bioInput" class="profile-input" placeholder="Tell us about yourself..." disabled></textarea>
                 </div>
 
-                <div class="profile-form-group">
-                    <label for="bioInput">ABOUT BIO</label>
-                    <textarea id="bioInput" class="profile-input" placeholder="Tell us about your learning journey..."></textarea>
+                <div style="margin-top: 28px;">
+                    <button type="submit" class="profile-submit-btn" id="saveProfileBtn">
+                        💾 Save Profile Changes
+                    </button>
                 </div>
-
-                <button type="submit" class="profile-submit-btn">Save Changes</button>
             </form>
         </div>
     </main>
 
+    <div class="modal-overlay" id="otpModal">
+        <div class="modal-card">
+            <h2>🔐 Verify Identity</h2>
+            <p>Enter the 6-digit OTP code sent to <strong id="modalTargetEmail" style="color: #00aaff;"></strong> to unlock profile editing.</p>
+            
+            <div id="modalAlert" class="alert-box"></div>
+
+            <div class="otp-inputs-wrapper">
+                <input type="text" maxlength="1" class="otp-digit-input" autofocus>
+                <input type="text" maxlength="1" class="otp-digit-input">
+                <input type="text" maxlength="1" class="otp-digit-input">
+                <input type="text" maxlength="1" class="otp-digit-input">
+                <input type="text" maxlength="1" class="otp-digit-input">
+                <input type="text" maxlength="1" class="otp-digit-input">
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-modal-secondary" id="closeOtpModalBtn">Cancel</button>
+                <button type="button" class="btn-modal-primary" id="verifyOtpBtn">Verify & Unlock</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
-        import { supabase } from '/supabase-client.js';
+        import { supabase } from '/src/js/config/supabase-client.js';
+
+        let currentAuthUser = null;
+        let isEditUnlocked = false;
+        let avatarBase64Data = null;
 
         const alertBox = document.getElementById('statusAlert');
+        const modalAlertBox = document.getElementById('modalAlert');
+        const otpModal = document.getElementById('otpModal');
 
         function showAlert(msg, isError = false) {
             alertBox.style.display = 'block';
@@ -208,62 +479,212 @@
             alertBox.innerHTML = msg;
         }
 
+        function showModalAlert(msg, isError = false) {
+            modalAlertBox.style.display = 'block';
+            modalAlertBox.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+            modalAlertBox.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
+            modalAlertBox.style.color = isError ? '#f87171' : '#34d399';
+            modalAlertBox.innerHTML = msg;
+        }
+
+        // Load profile data into form (Read-Only state)
         async function loadProfile() {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (!user) {
-                window.location.href = '/login.html';
+                window.location.href = '/src/auth/login.html';
                 return;
             }
 
-            // Fill Email field
+            currentAuthUser = user;
             document.getElementById('emailInput').value = user.email;
 
-            // Load profile details from database
+            // Fetch record from profiles table
             const { data: profile } = await supabase
                 .from('profiles')
-                .select('display_name, bio')
+                .select('fname, sname, username, bio, avatar_url')
                 .eq('id', user.id)
                 .single();
 
-            const name = profile?.display_name || user.email.split('@')[0];
-            const initial = name.charAt(0).toUpperCase();
+            const fname = profile?.fname || user.user_metadata?.first_name || '';
+            const sname = profile?.sname || user.user_metadata?.last_name || '';
+            const username = profile?.username || user.email.split('@')[0];
+            const bio = profile?.bio || '';
+            const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
 
-            document.getElementById('displayNameInput').value = profile?.display_name || '';
-            document.getElementById('bioInput').value = profile?.bio || '';
-            document.getElementById('avatarLarge').textContent = initial;
-            document.getElementById('headerDisplayName').textContent = name;
-            document.getElementById('headerUserHandle').textContent = `@${name.toLowerCase().replace(/\s+/g, '')}`;
+            document.getElementById('fnameInput').value = fname;
+            document.getElementById('snameInput').value = sname;
+            document.getElementById('usernameInput').value = username;
+            document.getElementById('bioInput').value = bio;
+            document.getElementById('avatarImage').src = avatarUrl;
+
+            // Update top display header
+            const fullDisplayName = `${fname} ${sname}`.trim() || username;
+            document.getElementById('headerDisplayName').textContent = fullDisplayName;
+            document.getElementById('headerUserHandle').textContent = `@${username.toLowerCase().replace(/\s+/g, '')}`;
         }
 
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const { data: { user } } = await supabase.auth.getUser();
-            const displayName = document.getElementById('displayNameInput').value.trim();
-            const bio = document.getElementById('bioInput').value.trim();
-
+        // Trigger OTP to unlock edit mode
+        document.getElementById('requestEditOtpBtn').addEventListener('click', async () => {
             try {
-                const { error } = await supabase
-                    .from('profiles')
-                    .upsert({
-                        id: user.id,
-                        display_name: displayName,
-                        bio: bio,
-                        updated_at: new Date()
-                    });
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: currentAuthUser.email
+                });
 
                 if (error) throw error;
 
-                showAlert('✓ Profile updated successfully!');
-                loadProfile(); // Refresh UI values
+                document.getElementById('modalTargetEmail').textContent = currentAuthUser.email;
+                otpModal.style.display = 'flex';
+                clearOtpInputs();
+            } catch (err) {
+                showAlert(`❌ Unable to send OTP: ${err.message}`, true);
+            }
+        });
+
+        // OTP inputs auto-advance
+        const otpDigitInputs = document.querySelectorAll('.otp-digit-input');
+        otpDigitInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < otpDigitInputs.length - 1) {
+                    otpDigitInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    otpDigitInputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').trim().slice(0, 6);
+                pastedData.split('').forEach((char, i) => {
+                    if (otpDigitInputs[i]) otpDigitInputs[i].value = char;
+                });
+            });
+        });
+
+        function clearOtpInputs() {
+            otpDigitInputs.forEach(i => i.value = '');
+            modalAlertBox.style.display = 'none';
+        }
+
+        // Verify OTP and Unlock Edit Mode
+        document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+            const token = Array.from(otpDigitInputs).map(i => i.value).join('');
+
+            if (token.length !== 6) {
+                showModalAlert('Please enter the full 6-digit code.', true);
+                return;
+            }
+
+            try {
+                const { error } = await supabase.auth.verifyOtp({
+                    email: currentAuthUser.email,
+                    token: token,
+                    type: 'email'
+                });
+
+                if (error) throw error;
+
+                // Unlock Edit Mode
+                isEditUnlocked = true;
+                otpModal.style.display = 'none';
+
+                // Enable all input fields
+                document.getElementById('fnameInput').disabled = false;
+                document.getElementById('snameInput').disabled = false;
+                document.getElementById('usernameInput').disabled = false;
+                document.getElementById('emailInput').disabled = false;
+                document.getElementById('bioInput').disabled = false;
+
+                // Show Avatar overlay & save button
+                document.getElementById('avatarContainer').classList.add('editable');
+                document.getElementById('requestEditOtpBtn').style.display = 'none';
+                document.getElementById('unlockedBadge').style.display = 'inline-block';
+                document.getElementById('saveProfileBtn').style.display = 'inline-flex';
+
+                showAlert('🔓 Verification successful! You can now edit your avatar and details below.');
+            } catch (err) {
+                showModalAlert(`❌ ${err.message}`, true);
+            }
+        });
+
+        // Avatar Image Upload preview
+        document.getElementById('avatarOverlayTrigger').addEventListener('click', () => {
+            if (isEditUnlocked) {
+                document.getElementById('avatarFileInput').click();
+            }
+        });
+
+        document.getElementById('avatarFileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (evt) {
+                    avatarBase64Data = evt.target.result;
+                    document.getElementById('avatarImage').src = avatarBase64Data;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Save Profile Updates
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!isEditUnlocked) return;
+
+            const fname = document.getElementById('fnameInput').value.trim();
+            const sname = document.getElementById('snameInput').value.trim();
+            const username = document.getElementById('usernameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const bio = document.getElementById('bioInput').value.trim();
+            const currentAvatarSrc = document.getElementById('avatarImage').src;
+
+            try {
+                // 1. Update Email if changed
+                if (email !== currentAuthUser.email) {
+                    const { error: emailErr } = await supabase.auth.updateUser({ email });
+                    if (emailErr) throw emailErr;
+                }
+
+                // 2. Update Database Record
+                const { error: profileErr } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: currentAuthUser.id,
+                        fname: fname,
+                        sname: sname,
+                        display_name: `${fname} ${sname}`.trim(),
+                        username: username,
+                        bio: bio,
+                        avatar_url: avatarBase64Data || currentAvatarSrc,
+                        updated_at: new Date()
+                    });
+
+                if (profileErr) throw profileErr;
+
+                showAlert('✓ Profile details and avatar saved successfully!');
+                
+                // Relock profile
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+
             } catch (err) {
                 showAlert(`❌ ${err.message}`, true);
             }
         });
 
+        document.getElementById('closeOtpModalBtn').addEventListener('click', () => {
+            otpModal.style.display = 'none';
+        });
+
         document.addEventListener('DOMContentLoaded', loadProfile);
     </script>
-    <script type="module" src="/nav-auth.js"></script>
+    <script type="module" src="/src/js/auth/nav-auth.js"></script>
 </body>
 
 </html>
