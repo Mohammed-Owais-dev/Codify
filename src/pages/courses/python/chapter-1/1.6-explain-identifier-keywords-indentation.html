@@ -7,84 +7,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
     <link rel="icon" type="image/svg+xml" href="../../../../assets/logos/main-logo.svg">
     <link rel="stylesheet" href="../../../../css/style.css">
-    <title>1.6 Identifiers, Keywords & Indentation | Codify</title>
+    
+    <title>1.6 Python Syntax Basics | Codify</title>
 
     <style>
         /* ==========================================================================
-           KEYWORD GRID & CUSTOM UI EXTENSIONS
+           LESSON COMPLETION CARD (Imported to match other pages)
            ========================================================================== */
-        .kw-grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin: 2rem 0;
-        }
-
-        .kw-category-card {
-            background: #0d1220;
-            border: 1px solid rgba(0, 170, 255, 0.2);
-            border-radius: 12px;
-            padding: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .kw-category-card:hover {
-            border-color: #00aaff;
-            box-shadow: 0 8px 25px rgba(0, 170, 255, 0.15);
-            transform: translateY(-3px);
-        }
-
-        .kw-cat-title {
-            color: #00aaff;
-            font-size: 0.95rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 170, 255, 0.15);
-            padding-bottom: 6px;
-        }
-
-        .kw-tag-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .kw-tag {
-            background: rgba(10, 15, 28, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ff7b72;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .kw-tag.cap {
-            color: #56d364;
-            border-color: rgba(86, 211, 100, 0.3);
-            background: rgba(86, 211, 100, 0.1);
-        }
-
-        .indent-accordion-demo {
-            background: #090d16;
-            border: 1px dashed rgba(0, 170, 255, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 2rem 0;
-            font-family: 'Consolas', monospace;
-            line-height: 1.8;
-            font-size: 0.92rem;
-        }
-
-        .indent-lvl-0 { color: #e0e6ed; }
-        .indent-lvl-1 { padding-left: 24px; color: #00aaff; border-left: 2px solid rgba(0, 170, 255, 0.3); margin: 2px 0; }
-        .indent-lvl-2 { padding-left: 48px; color: #56d364; border-left: 2px solid rgba(86, 211, 100, 0.3); margin: 2px 0; }
-
         .lesson-complete-card {
             background: rgba(13, 27, 42, 0.6);
             border: 1px solid rgba(0, 170, 255, 0.25);
@@ -97,19 +29,8 @@
             margin-top: 50px;
             backdrop-filter: blur(12px);
         }
-
-        .complete-text h3 {
-            margin: 0 0 4px 0;
-            color: #ffffff;
-            font-size: 1.1rem;
-        }
-
-        .complete-text p {
-            margin: 0;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
+        .complete-text h3 { margin: 0 0 4px 0; color: #ffffff; font-size: 1.1rem; }
+        .complete-text p { margin: 0; color: #94a3b8; font-size: 0.9rem; }
         .mark-btn {
             background: rgba(10, 15, 28, 0.8);
             border: 1px solid #00aaff;
@@ -126,32 +47,31 @@
             white-space: nowrap;
             font-family: inherit;
         }
-
-        .mark-btn.completed,
-        .mark-btn.is-completed {
+        .mark-btn.completed, .mark-btn.is-completed {
             background: #10b981;
             border-color: #10b981;
             color: #ffffff;
             box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
         }
-
         @media (max-width: 600px) {
-            .lesson-complete-card {
-                flex-direction: column;
-                text-align: center;
-            }
+            .lesson-complete-card { flex-direction: column; text-align: center; }
         }
+
+        /* Syntax Rule Cards */
+        .rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 2rem 0; }
+        .rule-card { background: #0d1220; border: 1px solid #30363d; border-radius: 8px; padding: 25px; transition: all 0.3s ease; }
+        .rule-card:hover { border-color: #00aaff; box-shadow: 0 10px 25px rgba(0, 170, 255, 0.15); transform: translateY(-5px); }
+        .rule-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
+        .rule-title { color: #fff; font-size: 1.2rem; margin-bottom: 10px; font-weight: bold; }
+        .rule-text { color: #cfd8dc; font-size: 0.95rem; line-height: 1.5; }
     </style>
 </head>
 
 <body>
     <header class="codify-main-header">
         <div class="codify-header-container">
-
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='../../../../../index.html'">
-                    Codify
-                </div>
+                <div class="codify-logo" onclick="window.location.href='../../../../../index.html'">Codify</div>
             </div>
 
             <nav class="codify-center-nav" aria-label="Main menu links">
@@ -183,46 +103,27 @@
                 </div>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </button>
             </div>
-
         </div>
     </header>
 
     <header class="codify-breadcrumb-bar">
         <button class="breadcrumb-sidebar-trigger" id="sidebarToggleMobile" aria-label="Toggle Course Index">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="9" y1="3" x2="9" y2="21"></line>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
         </button>
         <div class="breadcrumb-vertical-divider"></div>
 
         <nav aria-label="breadcrumb">
             <ol class="codify-breadcrumbs">
                 <li class="hidden-xs"><a href="../../courses.html">Courses</a></li>
-                <li class="breadcrumb-chevron hidden-xs">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"></path>
-                    </svg>
-                </li>
+                <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
                 <li class="hidden-xs"><a href="../../course-index.html?courseId=python-101">Python</a></li>
-                <li class="breadcrumb-chevron hidden-xs">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"></path>
-                    </svg>
-                </li>
-                <li class="hidden-xs"><a href="1.1-history-of-python.html">1. Introduction to Python Programming</a></li>
-                <li class="breadcrumb-chevron hidden-xs">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"></path>
-                    </svg>
-                </li>
-
-                <li><span class="current-crumb" id="breadcrumbCurrent">1.6 Identifiers, Keywords & Indentation</span></li>
+                <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
+                <li class="hidden-xs"><a href="1.1-history-of-python.html">1. Introduction to Python</a></li>
+                <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
+                <li><span class="current-crumb" id="breadcrumbCurrent">1.6 Syntax Basics</span></li>
             </ol>
         </nav>
     </header>
@@ -232,35 +133,21 @@
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Python Programming</h2>
             </div>
-
             <ul class="tree-root">
                 <li class="tree-branch expanded">
                     <div class="tree-node">
-                        <span class="tree-arrow"><svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"></path>
-                    </svg></span>
-                        <span class="chapter-title">1. Introduction to Python Programming</span>
+                        <span class="tree-arrow"><svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></span>
+                        <span class="chapter-title">1. Introduction to Python</span>
                     </div>
                     <ul class="tree-leaves">
-                        <li><a href="1.1-history-of-python.html" class="topic-link" data-title="1.1 History of Python">1.1 History of Python</a></li>
-                        <li><a href="1.2-list-python-features.html" class="topic-link" data-title="1.2 List Python Features">1.2 List Python Features</a></li>
-                        <li><a href="1.3-list-and-explian-applications-of-python.html" class="topic-link" data-title="1.3 Applications of Python">1.3 List and Explain Applications of Python</a></li>
-                        <li><a href="1.4-explain-python-idle.html" class="topic-link" data-title="1.4 Python IDLE">1.4 Explain Python IDLE</a></li>
-                        <li><a href="1.5-explain-process-of-running-python-scripts.html" class="topic-link" data-title="1.5 Running Python Scripts">1.5 Explain Process of Running Python Script</a></li>
-                        <li><a href="1.6-explain-identifier-keywords-indentation.html" class="topic-link active" data-title="1.6 Syntax Basics">1.6 Explain Identifier, Keywords, Indentation</a></li>
-                        <li><a href="1.7-list-and-explain-various-datatypes.html" class="topic-link" data-title="1.7 Data Types">1.7 List and Explain Various Datatypes</a></li>
-                        <li><a href="1.8-explain-declaration-initialization.html" class="topic-link" data-title="1.8 Variables">1.8 Explain Declaration, Initialization</a></li>
-                    </ul>
-                </li>
-                <li class="tree-branch">
-                    <div class="tree-node">
-                        <span class="tree-arrow"><svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m9 18 6-6-6-6"></path>
-                    </svg></span>
-                        <span class="chapter-title">Chapter 2: Variables & Types</span>
-                    </div>
-                    <ul class="tree-leaves">
-                        <li><a href="#" class="topic-link" data-title="2.1 Data Types">2.1 Data Types</a></li>
+                        <li><a href="1.1-history-of-python.html" class="topic-link">1.1 History of Python</a></li>
+                        <li><a href="1.2-list-python-features.html" class="topic-link">1.2 List Python Features</a></li>
+                        <li><a href="1.3-list-and-explian-applications-of-python.html" class="topic-link">1.3 Applications of Python</a></li>
+                        <li><a href="1.4-explain-python-idle.html" class="topic-link">1.4 Explain Python IDLE</a></li>
+                        <li><a href="1.5-explain-process-of-running-python-scripts.html" class="topic-link">1.5 Running Python Scripts</a></li>
+                        <li><a href="#" class="topic-link active">1.6 Syntax Basics</a></li>
+                        <li><a href="1.7-list-and-explain-various-datatypes.html" class="topic-link">1.7 Data Types</a></li>
+                        <li><a href="1.8-explain-declaration-initialization.html" class="topic-link">1.8 Variables</a></li>
                     </ul>
                 </li>
             </ul>
@@ -269,7 +156,7 @@
         <main class="content-workspace">
             <article class="content-body">
                 <header class="content-header-group">
-                    <h1 class="topic-title">1.6 Identifiers, Keywords, and Indentation in Python</h1>
+                    <h1 class="topic-title">1.6 Python Syntax Basics: Identifiers, Keywords, and Indentation</h1>
                     <div class="content-nav-row top-nav-row">
                         <a href="1.5-explain-process-of-running-python-scripts.html" class="codify-btn-outline nav-btn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" /></svg> Previous Topic
@@ -281,376 +168,218 @@
                 </header>
 
                 <p class="content-intro">
-                    Welcome back to Codify's Masterclass Notes! Up to now, you have learned how Python runs under the hood and how to use IDLE. Now, we are starting to learn the grammatical foundations of the Python language.
+                    Welcome back to Codify's Masterclass Notes! Every spoken language has grammar rules—English requires capital letters at the start of sentences and periods at the end. Programming languages have grammar rules too, and we call this <strong>Syntax</strong>. 
                 </p>
                 <p class="content-intro">
-                    Just like English has nouns, strict vocabulary words, and structural paragraph rules, Python relies on three fundamental building blocks to structure code:
+                    To write a successful Python program, you must understand the three foundational pillars of its syntax: how to name things (Identifiers), what words are forbidden to use (Keywords), and how to structure your code visually (Indentation). Let's dive in!
                 </p>
-                <ol class="content-points" style="list-style-type: decimal; padding-left: 20px;">
-                    <li><strong>Identifiers:</strong> How you name things in your program.</li>
-                    <li><strong>Keywords:</strong> The reserved vocabulary words that Python keeps for itself.</li>
-                    <li><strong>Indentation:</strong> The spatial layout rules that organize your code blocks.</li>
-                </ol>
-                <p class="content-intro">Let's break down each concept with clear rules, visual diagrams, real-world analogies, and interactive quizzes!</p>
 
-                <h2 class="content-subtitle">1. Identifiers: The Naming System of Python</h2>
-                <p class="content-intro">An <strong>Identifier</strong> is simply a user-defined name given to a programming element—such as a variable, function, class, module, or object.</p>
-
+                <h2 class="content-subtitle">1. Identifiers (Naming Your Code)</h2>
+                <p class="content-intro">An <strong>Identifier</strong> is simply a name. Whenever you create a variable, a function, a class, or a module in Python, you have to give it a name so the computer can find it later in memory.</p>
+                
                 <div class="cyber-alert info">
-                    <div class="alert-icon">👶</div>
-                    <div class="alert-text"><strong>The Analogy:</strong> When a baby is born, parents give it a unique name so they can refer to it later ("Alex", "Sophia"). In Python, whenever you create a box to store data (a variable) or write a block of reusable code (a function), you must give it a name so you can call it later.</div>
+                    <div class="alert-icon">🏷️</div>
+                    <div class="alert-text">
+                        <strong>Rule of Thumb:</strong> You have a lot of freedom when naming things in Python, but you cannot just type random symbols. The Python compiler enforces strict rules on what makes a "legal" identifier.
+                    </div>
                 </div>
 
+                <div class="rule-grid">
+                    <div class="rule-card">
+                        <span class="rule-icon">✅</span>
+                        <h3 class="rule-title">Allowed Characters</h3>
+                        <p class="rule-text">Identifiers can contain letters (A-Z, a-z), numbers (0-9), and underscores (_). Nothing else is allowed!</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🚫</span>
+                        <h3 class="rule-title">No Leading Numbers</h3>
+                        <p class="rule-text">An identifier <strong>cannot</strong> start with a number. <code>player1</code> is legal, but <code>1player</code> will crash your code.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-icon">🔠</span>
+                        <h3 class="rule-title">Case Sensitivity</h3>
+                        <p class="rule-text">Python is case-sensitive. The variable <code>Score</code> is completely different from <code>score</code> or <code>SCORE</code>.</p>
+                    </div>
+                </div>
+
+                <p class="content-intro"><strong>Examples of Identifiers:</strong></p>
                 <div class="mac-code-window">
                     <div class="mac-header">
                         <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
-                        <div class="mac-actions">
-                            <button class="mac-btn" onclick="copyCode('code-id1', this)" title="Copy Code"><span class="tooltip">Copied!</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-                        </div>
+                        <span style="color: #8b949e; font-size: 0.8rem;">identifiers.py</span>
                     </div>
-                    <div class="mac-body" id="code-id1"><span class="vs-comment"># Here, 'user_age' and 'greet_user' are IDENTIFIERS</span>
-user_age = <span class="vs-number">18</span>
+                    <div class="mac-body"><span class="vs-comment"># Valid Identifiers:</span>
+user_age = <span class="vs-number">25</span>
+TotalScore = <span class="vs-number">100</span>
+_hidden_value = <span class="vs-string">"secret"</span>
+player_2_name = <span class="vs-string">"Alex"</span>
 
-<span class="vs-keyword">def</span> <span class="vs-function">greet_user</span>():
-    <span class="vs-function">print</span>(<span class="vs-string">"Welcome to Codify!"</span>)</div>
+<span class="vs-comment"># INVALID Identifiers (These will cause a SyntaxError):</span>
+<span class="vs-comment"># 2nd_player = "Bob"      (Starts with a number)</span>
+<span class="vs-comment"># user-age = 25           (Contains a hyphen instead of an underscore)</span>
+<span class="vs-comment"># total score = 100       (Contains a space)</span></div>
                 </div>
 
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">The Strict Rules for Naming Identifiers</h3>
-                <p class="content-intro">Python is very relaxed about many things, but it is extremely strict about naming rules. If you break even one rule, Python will throw a <code class="code-highlight">SyntaxError</code> and refuse to run your code!</p>
+                <h2 class="content-subtitle">2. Keywords (The Forbidden Words)</h2>
+                <p class="content-intro"><strong>Keywords</strong> are special reserved words in Python that have built-in meaning. Because Python already uses these words for its core logic (like loops and conditions), you are <strong>not allowed to use them as identifiers</strong>.</p>
+                
+                <p class="content-intro">Python 3 has exactly 35 keywords. You don't need to memorize them all right now, but you should recognize the most common ones. Notice that almost all of them are completely lowercase, except for three!</p>
 
-                <ul class="content-points">
-                    <li><strong>Rule 1: Allowed Characters Only:</strong> An identifier can ONLY contain Uppercase letters (<code class="code-highlight">A-Z</code>), Lowercase letters (<code class="code-highlight">a-z</code>), Digits (<code class="code-highlight">0-9</code>), and Underscores (<code class="code-highlight">_</code>). Prohibited: No special symbols like <code class="code-highlight">@, $, %, !, -</code>, or spaces are allowed anywhere in the name!</li>
-                    <li><strong>Rule 2: Cannot Start with a Digit:</strong> An identifier can start with a letter or an underscore (<code class="code-highlight">_</code>), but NEVER with a number. (<code class="code-highlight">student1</code> 👉 VALID | <code class="code-highlight">1student</code> 👉 INVALID).</li>
-                    <li><strong>Rule 3: Case-Sensitivity Matters:</strong> Python treats uppercase and lowercase letters as entirely separate entities. <code class="code-highlight">age</code>, <code class="code-highlight">Age</code>, and <code class="code-highlight">AGE</code> are 3 completely different variables!</li>
-                    <li><strong>Rule 4: Cannot Use Reserved Keywords:</strong> You cannot name a variable after a built-in Python keyword (e.g., you cannot name your variable <code class="code-highlight">if</code>, <code class="code-highlight">for</code>, or <code class="code-highlight">class</code>).</li>
-                    <li><strong>Rule 5: Unlimited Length:</strong> An identifier can be as long as you want, but keeping names concise and descriptive makes your code easier to maintain.</li>
-                </ul>
-
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">Valid vs. Invalid Identifier Breakdown</h3>
                 <div class="table-container">
                     <table class="modern-table">
                         <thead>
                             <tr>
-                                <th>Identifier Name</th>
-                                <th>Status</th>
-                                <th>Reason / Rule Breakdown</th>
+                                <th>Category</th>
+                                <th>Common Keywords</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td><code>total_score</code></td><td><span class="highlight-green">VALID</span></td><td>Uses letters and a valid underscore separating words.</td></tr>
-                            <tr><td><code>_secret_key</code></td><td><span class="highlight-green">VALID</span></td><td>Starts with an underscore (often used for private variables).</td></tr>
-                            <tr><td><code>user2Name</code></td><td><span class="highlight-green">VALID</span></td><td>Contains letters, numbers, and proper casing.</td></tr>
-                            <tr><td><code>2cat</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Starts with a number <code>2</code>.</td></tr>
-                            <tr><td><code>user-name</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Hyphens <code>-</code> are treated as subtraction operators!</td></tr>
-                            <tr><td><code>total$amount</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Contains an illegal special symbol (<code>$</code>).</td></tr>
-                            <tr><td><code>first name</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Spaces are strictly forbidden inside identifier names.</td></tr>
-                            <tr><td><code>class</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td><code>class</code> is a reserved Python keyword.</td></tr>
+                            <tr>
+                                <td><strong>Boolean Values</strong></td>
+                                <td><code class="vs-keyword">True</code>, <code class="vs-keyword">False</code>, <code class="vs-keyword">None</code> <em>(Note: These are the ONLY three that start with a capital letter!)</em></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Conditionals</strong></td>
+                                <td><code class="vs-keyword">if</code>, <code class="vs-keyword">elif</code>, <code class="vs-keyword">else</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Loops</strong></td>
+                                <td><code class="vs-keyword">for</code>, <code class="vs-keyword">while</code>, <code class="vs-keyword">break</code>, <code class="vs-keyword">continue</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Functions & Classes</strong></td>
+                                <td><code class="vs-keyword">def</code>, <code class="vs-keyword">return</code>, <code class="vs-keyword">class</code>, <code class="vs-keyword">lambda</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Logic</strong></td>
+                                <td><code class="vs-keyword">and</code>, <code class="vs-keyword">or</code>, <code class="vs-keyword">not</code>, <code class="vs-keyword">is</code>, <code class="vs-keyword">in</code></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <div class="info-callout border-purple">
-                    <h4>Python Naming Conventions (PEP 8 Best Practices)</h4>
-                    <p>While the rules above dictate what is legal, Python's official style guide (PEP 8) specifies what is considered clean code:</p>
-                    <ul>
-                        <li><strong>Variables & Functions:</strong> Use <code>snake_case</code> (all lowercase with words separated by underscores, e.g., <code>total_price</code>, <code>calculate_score()</code>).</li>
-                        <li><strong>Classes:</strong> Use <code>PascalCase</code> (capitalize the first letter of every word, e.g., <code>UserProfile</code>, <code>BankSystem</code>).</li>
-                        <li><strong>Constants (Values that never change):</strong> Use <code>ALL_CAPS</code> (e.g., <code>PI = 3.14159</code>, <code>MAX_USERS = 100</code>).</li>
-                    </ul>
-                </div>
-
-                <h2 class="content-subtitle">2. Keywords: The Reserved Words of Python</h2>
-                <p class="content-intro"><strong>Keywords</strong> are special, pre-defined words that have specific, fixed meanings to the Python compiler and Virtual Machine (PVM). They serve as the structural command grammar of the language.</p>
-
-                <div class="cyber-alert info">
-                    <div class="alert-icon">🛑</div>
-                    <div class="alert-text"><strong>The Analogy:</strong> Think of keywords as emergency road signs ("STOP", "YIELD", "ONE WAY"). You cannot paint over a STOP sign to use it as a billboard; its meaning is permanently locked into the traffic system.</div>
-                </div>
-
-                <div class="mac-code-window">
-                    <div class="mac-header">
-                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
-                        <div class="mac-actions">
-                            <button class="mac-btn" onclick="copyCode('code-kw1', this)" title="Copy Code"><span class="tooltip">Copied!</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-                            <button class="mac-btn" onclick="runCode('out-kw1')" title="Run Preview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></button>
-                        </div>
-                    </div>
-                    <div class="mac-body" id="code-kw1"><span class="vs-comment"># Run this code in Python IDLE to view the exact keyword list on your computer:</span>
-<span class="vs-keyword">import</span> keyword
-<span class="vs-function">print</span>(keyword.kwlist)</div>
-                </div>
-                <div class="mac-output-container" id="out-kw1">['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield']</div>
-
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">Categorized Breakdown of Python Keywords</h3>
-                
-                <div class="kw-grid-container">
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Value Keywords</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag cap">True</span>
-                            <span class="kw-tag cap">False</span>
-                            <span class="kw-tag cap">None</span>
-                        </div>
-                    </div>
-
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Logic / Operators</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag">and</span>
-                            <span class="kw-tag">or</span>
-                            <span class="kw-tag">not</span>
-                            <span class="kw-tag">in</span>
-                            <span class="kw-tag">is</span>
-                        </div>
-                    </div>
-
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Control Flow</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag">if</span>
-                            <span class="kw-tag">elif</span>
-                            <span class="kw-tag">else</span>
-                            <span class="kw-tag">for</span>
-                            <span class="kw-tag">while</span>
-                            <span class="kw-tag">break</span>
-                            <span class="kw-tag">continue</span>
-                            <span class="kw-tag">pass</span>
-                        </div>
-                    </div>
-
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Structure / Functions</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag">def</span>
-                            <span class="kw-tag">class</span>
-                            <span class="kw-tag">return</span>
-                            <span class="kw-tag">yield</span>
-                            <span class="kw-tag">lambda</span>
-                        </div>
-                    </div>
-
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Exception Handling</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag">try</span>
-                            <span class="kw-tag">except</span>
-                            <span class="kw-tag">finally</span>
-                            <span class="kw-tag">raise</span>
-                            <span class="kw-tag">assert</span>
-                        </div>
-                    </div>
-
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Imports & Modules</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag">import</span>
-                            <span class="kw-tag">from</span>
-                            <span class="kw-tag">as</span>
-                        </div>
-                    </div>
-
-                    <div class="kw-category-card">
-                        <div class="kw-cat-title">Scope & Async</div>
-                        <div class="kw-tag-group">
-                            <span class="kw-tag">global</span>
-                            <span class="kw-tag">nonlocal</span>
-                            <span class="kw-tag">del</span>
-                            <span class="kw-tag">async</span>
-                            <span class="kw-tag">await</span>
-                            <span class="kw-tag">with</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="cyber-alert warning">
-                    <div class="alert-icon">⚠️</div>
-                    <div class="alert-text"><strong>Crucial Observation:</strong> Except for <code class="code-highlight">True</code>, <code class="code-highlight">False</code>, and <code class="code-highlight">None</code>, ALL Python keywords are written entirely in lowercase letters! Writing <code class="code-highlight">If</code>, <code class="code-highlight">FOR</code>, or <code class="code-highlight">Def</code> will trigger an immediate error.</div>
-                </div>
-
-                <div class="info-callout border-purple">
-                    <h4>Soft Keywords (Modern Python Feature)</h4>
-                    <p>In Python 3.9 and later, core developers introduced <strong>Soft Keywords</strong>: <code>match</code>, <code>case</code>, <code>_</code>, and <code>type</code>.</p>
-                    <p>What makes them "soft"? They act as keywords only within structural pattern-matching statements, but they can still be used as variable names elsewhere without crashing old codebases.</p>
-                </div>
-
-                <h2 class="content-subtitle">3. Indentation: Python’s Visual Block Architecture</h2>
-                <p class="content-intro">In computer programming, a <strong>block of code</strong> is a group of statements that execute together (like the steps inside a loop or an if statement).</p>
-                <ul class="content-points">
-                    <li>In languages like C++, Java, or JavaScript, blocks are grouped using curly braces <code class="code-highlight">{}</code>.</li>
-                    <li>Python rejects curly braces entirely. Instead, Python uses <strong>Indentation</strong> (whitespace spaces at the beginning of a line) to define code blocks!</li>
-                </ul>
-
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">C++ vs. Python Block Architecture</h3>
-
-                <p class="content-intro"><strong>C++ (Uses curly braces, ignores spacing):</strong></p>
-                <div class="mac-code-window">
-                    <div class="mac-body"><span class="vs-comment">// Ugly, unreadable, but perfectly valid in C++</span>
-<span class="vs-keyword">if</span> (score > <span class="vs-number">50</span>) {
-cout &lt;&lt; <span class="vs-string">"You passed!"</span>;
-cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
-}</div>
-                </div>
-
-                <p class="content-intro"><strong>Python (Uses indentation spaces):</strong></p>
-                <div class="mac-code-window">
-                    <div class="mac-body"><span class="vs-comment"># Clean, forced layout in Python</span>
-<span class="vs-keyword">if</span> score > <span class="vs-number">50</span>:
-    <span class="vs-function">print</span>(<span class="vs-string">"You passed!"</span>)         <span class="vs-comment"># Indented block</span>
-    <span class="vs-function">print</span>(<span class="vs-string">"Congratulations!"</span>)    <span class="vs-comment"># Indented block</span></div>
-                </div>
-
-                <div class="cyber-alert info">
-                    <div class="alert-icon">💡</div>
-                    <div class="alert-text"><strong>The Rule of Thumb:</strong> In Python, a colon (<code class="code-highlight">:</code>) at the end of a line indicates that an indented block of code follows!</div>
-                </div>
-
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">How Many Spaces Should You Use?</h3>
-                <p class="content-intro">According to the official PEP 8 Style Guide:</p>
-                <ul class="content-points">
-                    <li>The standard Python indentation is <strong>exactly 4 spaces</strong> per block level.</li>
-                    <li><strong>Never mix Tabs and Spaces!</strong> Mixing them in the same script leads to a nightmare bug called an <code class="code-highlight">IndentationError</code> or <code class="code-highlight">TabError</code>. Modern editors like IDLE automatically convert the Tab key into 4 spaces for you.</li>
-                </ul>
-
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">Understanding Block Hierarchy (The "Accordion" Effect)</h3>
-                <p class="content-intro">Indentation creates visual levels. Code aligned at the same horizontal position belongs to the same logical block:</p>
-
-                <div class="indent-accordion-demo">
-                    <div class="indent-lvl-0"># Level 0 (Main Outer Level)</div>
-                    <div class="indent-lvl-0">user_status = "active"</div>
-                    <div class="indent-lvl-0">age = 20</div>
-                    <div class="indent-lvl-0">if user_status == "active":</div>
-                    <div class="indent-lvl-1"># Level 1 (Inside the 'if' block)</div>
-                    <div class="indent-lvl-1">print("Welcome, User!")</div>
-                    <div class="indent-lvl-1">if age >= 18:</div>
-                    <div class="indent-lvl-2"># Level 2 (Nested inside the age check)</div>
-                    <div class="indent-lvl-2">print("Access Granted: Adult Account")</div>
-                    <div class="indent-lvl-1">else:</div>
-                    <div class="indent-lvl-2"># Level 2</div>
-                    <div class="indent-lvl-2">print("Access Restricted: Minor Account")</div>
-                    <div class="indent-lvl-0"># Level 0 (Outside the block, back to main timeline)</div>
-                    <div class="indent-lvl-0">print("System execution finished.")</div>
-                </div>
-
-                <h3 style="color: #00aaff; margin-top: 1.5rem;">The Dreaded IndentationError</h3>
-                <p class="content-intro">If you forget to indent code after a colon, Python throws an error and stops running immediately:</p>
 
                 <div class="mac-code-window" style="border-color: #ff5f56;">
-                    <div class="mac-header"><span style="color: #ff5f56;">❌ WRONG CODE</span></div>
-                    <div class="mac-body"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
-<span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>) 
-<span class="vs-comment"># Output: IndentationError: expected an indented block after 'if' statement on line 1</span></div>
+                    <div class="mac-header"><span style="color: #ff5f56; font-weight:bold;">Why we can't use keywords as names:</span></div>
+                    <div class="mac-body"><span class="vs-comment"># If you try to name a variable 'False', Python gets confused!</span>
+False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxError: cannot assign to False</span>
+
+<span class="vs-comment"># If you try to name a variable 'for':</span>
+<span class="vs-keyword">for</span> = <span class="vs-string">"Alex"</span>  <span class="vs-comment"># SyntaxError: invalid syntax</span></div>
                 </div>
 
-                <div class="mac-code-window" style="border-color: #56d364;">
-                    <div class="mac-header"><span style="color: #56d364;">✅ CORRECT CODE</span></div>
-                    <div class="mac-body"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
-    <span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>)  <span class="vs-comment"># Properly indented with 4 spaces</span></div>
+                <h2 class="content-subtitle">3. Indentation (Python's Unique Visual Structure)</h2>
+                <p class="content-intro">In languages like C++, Java, or JavaScript, developers use curly braces <code>{ }</code> to group blocks of code together. Python threw away the curly braces completely. Instead, Python uses <strong>Indentation</strong> (empty spaces at the beginning of a line) to determine which lines of code belong together.</p>
+
+                <div class="cyber-alert info" style="border-left-color: #27c93f;">
+                    <div class="alert-icon">📏</div>
+                    <div class="alert-text">
+                        <strong>The Golden Rule of Indentation:</strong> In Python, spacing is not just for making the code look pretty. <strong>Indentation is mandatory grammar.</strong> If your spacing is wrong, your program will crash with an <code>IndentationError</code>.
+                    </div>
                 </div>
 
-                <h2 class="content-subtitle">4. Codify Master Summary Table</h2>
-                <div class="table-container">
-                    <table class="modern-table">
-                        <thead>
-                            <tr>
-                                <th>Concept</th>
-                                <th>What is it?</th>
-                                <th>Core Rules to Remember</th>
-                                <th>Common Errors to Avoid</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Identifier</strong></td>
-                                <td>User-defined name for variables/functions.</td>
-                                <td>Uses A-Z, a-z, 0-9, and _. Cannot start with digits.</td>
-                                <td>Using special symbols (<code>user@name</code>) or spaces.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Keyword</strong></td>
-                                <td>Built-in reserved vocabulary of Python.</td>
-                                <td>35 total words. Case-sensitive (<code>True</code>, <code>False</code>, <code>None</code> are capitalized).</td>
-                                <td>Trying to name a variable after a keyword (<code>for = 5</code>).</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Indentation</strong></td>
-                                <td>Leading whitespace used to define code blocks.</td>
-                                <td>Standard is 4 spaces. Triggered by a colon (<code>:</code>).</td>
-                                <td>Mixing tabs and spaces, or forgetting to indent after <code>:</code>.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <p class="content-intro"><strong>How it works:</strong> Whenever you end a line with a colon (<code>:</code>), you are telling Python, "The lines below this belong to a new block." The standard practice is to use <strong>4 spaces</strong> (or 1 Tab) for each level of indentation.</p>
+
+                <div class="mac-code-window">
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
+                        <span style="color: #8b949e; font-size: 0.8rem;">indentation_example.py</span>
+                    </div>
+                    <div class="mac-body">temperature = <span class="vs-number">85</span>
+
+<span class="vs-keyword">if</span> temperature > <span class="vs-number">80</span>:
+    <span class="vs-comment"># This block is indented by 4 spaces. It belongs to the 'if' statement!</span>
+    <span class="vs-function">print</span>(<span class="vs-string">"It is very hot outside."</span>)
+    <span class="vs-function">print</span>(<span class="vs-string">"Turn on the AC."</span>)
+
+<span class="vs-comment"># This code is NOT indented. It runs independently after the 'if' is done.</span>
+<span class="vs-function">print</span>(<span class="vs-string">"Program complete."</span>)</div>
                 </div>
 
-                <h2 class="content-subtitle">5. Codify Interactive Quiz 🧠</h2>
-                <p class="content-intro">Test your understanding of Identifiers, Keywords, and Indentation!</p>
+                <p class="content-intro">If we forgot the spaces inside the <code>if</code> statement, Python wouldn't know which lines belong to the condition, and it would throw a fatal error!</p>
+
+                <h2 class="content-subtitle">4. Codify Deep-Dive Quiz 🧠</h2>
+                <p class="content-intro">Test your understanding of Python's Syntax Basics!</p>
 
                 <div class="interactive-quiz-container">
                     <div class="quiz-question-block active-question" id="qb-1">
                         <div class="quiz-header"><span class="quiz-tracker">Question 1 of 5</span></div>
-                        <div class="quiz-prompt">Q1. Which of the following is a VALID variable identifier in Python?</div>
+                        <div class="quiz-prompt">Q1. Which of the following is a completely LEGAL and valid variable identifier in Python?</div>
                         <div class="quiz-options">
-                            <button class="q-option" onclick="handleAnswer(this, false, 1)">A) 2nd_place</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 1)">B) user-salary</button>
-                            <button class="q-option" onclick="handleAnswer(this, true, 1)">C) _total_score</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 1)">D) class</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">A) 1st_player</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">B) total-score</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 1)">C) _hidden_password</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">D) first name</button>
                         </div>
                         <button class="next-question-btn" id="next-1" onclick="nextQuestion(1)">Next Question ➔</button>
                     </div>
 
                     <div class="quiz-question-block" id="qb-2">
                         <div class="quiz-header"><span class="quiz-tracker">Question 2 of 5</span></div>
-                        <div class="quiz-prompt">Q2. How many keywords in Python start with an uppercase letter?</div>
+                        <div class="quiz-prompt">Q2. Are the variables 'Score' and 'score' considered the exact same variable by the Python compiler?</div>
                         <div class="quiz-options">
-                            <button class="q-option" onclick="handleAnswer(this, false, 2)">A) All of them</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 2)">B) None of them</button>
-                            <button class="q-option" onclick="handleAnswer(this, true, 2)">C) Exactly 3 (True, False, None)</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 2)">D) Exactly 5 (If, Else, True, False, None)</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">A) Yes, Python ignores capital letters.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 2)">B) No, Python is strictly case-sensitive.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">C) Yes, unless you use a special keyword.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">D) Only if they are inside a loop.</button>
                         </div>
                         <button class="next-question-btn" id="next-2" onclick="nextQuestion(2)">Next Question ➔</button>
                     </div>
 
                     <div class="quiz-question-block" id="qb-3">
                         <div class="quiz-header"><span class="quiz-tracker">Question 3 of 5</span></div>
-                        <div class="quiz-prompt">Q3. According to the PEP 8 style guide, how many spaces should be used for each indentation level in Python?</div>
+                        <div class="quiz-prompt">Q3. Out of the 35 Python keywords, which three are the ONLY ones that begin with a capital letter?</div>
                         <div class="quiz-options">
-                            <button class="q-option" onclick="handleAnswer(this, false, 3)">A) 1 Space</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 3)">B) 2 Spaces</button>
-                            <button class="q-option" onclick="handleAnswer(this, true, 3)">C) 4 Spaces</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 3)">D) 8 Spaces</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">A) If, Elif, Else</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 3)">B) True, False, None</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">C) And, Or, Not</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">D) Def, Class, Return</button>
                         </div>
                         <button class="next-question-btn" id="next-3" onclick="nextQuestion(3)">Next Question ➔</button>
                     </div>
 
                     <div class="quiz-question-block" id="qb-4">
                         <div class="quiz-header"><span class="quiz-tracker">Question 4 of 5</span></div>
-                        <div class="quiz-prompt">Q4. What error will Python throw if you forget to indent code directly after a <code style="color:#00aaff;">def my_function():</code> line?</div>
+                        <div class="quiz-prompt">Q4. How does Python define a block of code (like grouping code inside an 'if' statement)?</div>
                         <div class="quiz-options">
-                            <button class="q-option" onclick="handleAnswer(this, false, 4)">A) NameError</button>
-                            <button class="q-option" onclick="handleAnswer(this, true, 4)">B) IndentationError</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 4)">C) TypeError</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 4)">D) ZeroDivisionError</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">A) By wrapping the code in curly braces { }</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">B) By putting a semicolon ; at the end of every line</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 4)">C) By using Indentation (empty spaces/tabs at the start of the line)</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">D) By using the 'end' keyword</button>
                         </div>
                         <button class="next-question-btn" id="next-4" onclick="nextQuestion(4)">Next Question ➔</button>
                     </div>
 
                     <div class="quiz-question-block" id="qb-5">
                         <div class="quiz-header"><span class="quiz-tracker">Question 5 of 5</span></div>
-                        <div class="quiz-prompt">Q5. Why does Python use indentation instead of curly braces {}?</div>
+                        <div class="quiz-prompt">Q5. You try to name a variable 'break = 5' but your code crashes. Why?</div>
                         <div class="quiz-options">
-                            <button class="q-option" onclick="handleAnswer(this, false, 5)">A) To reduce file sizes on disk.</button>
-                            <button class="q-option" onclick="handleAnswer(this, true, 5)">B) To force developers to write clean, uniform, and highly readable code by default.</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 5)">C) Because keyboards in the 1980s did not have curly brace keys.</button>
-                            <button class="q-option" onclick="handleAnswer(this, false, 5)">D) To make Python execute faster than C++.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">A) Variables cannot hold the number 5.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">B) You forgot to add quotes around the number.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 5)">C) 'break' is a reserved Python keyword and cannot be used as an identifier.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">D) Variables must always start with a capital letter.</button>
                         </div>
                         <button class="next-question-btn" id="next-5" onclick="finishQuiz()">Finish Quiz ➔</button>
                     </div>
 
                     <div class="quiz-completion" id="qb-complete">
-                        <h3 style="color: #00aaff; font-size: 2rem; margin-bottom: 10px;">Syntax Basics Mastered! 🚀</h3>
-                        <p style="color: #cfd8dc; font-size: 1.1rem;">You now know the grammatical rules of the Python language.</p>
+                        <h3 style="color: #00aaff; font-size: 2rem; margin-bottom: 10px;">Syntax Mastered! 🚀</h3>
+                        <p style="color: #cfd8dc; font-size: 1.1rem;">You now understand the fundamental grammar rules of Python.</p>
                     </div>
                 </div>
 
+                <div class="lesson-complete-card">
+                    <div class="complete-text">
+                        <h3>Finished this topic?</h3>
+                        <p>Marking this topic as finished updates your course completion matrix.</p>
+                    </div>
+                    <button id="markCompleteBtn" class="mark-btn" onclick="toggleLessonCompletion()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span id="completeBtnText">Mark as Completed</span>
+                    </button>
+                </div>
+                
                 <div class="content-nav-row bottom-nav-row">
                     <a href="1.5-explain-process-of-running-python-scripts.html" class="codify-btn-outline nav-btn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" /></svg> Previous Topic
@@ -678,8 +407,10 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
                 <button class="search-modal-close" id="modalSearchClose" aria-label="Close Search">✕</button>
             </div>
             <div class="search-results-viewport">
-                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course parameters...</div>
-                <ul class="search-results-list" id="searchResultsList"></ul>
+                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course
+                    parameters...</div>
+                <ul class="search-results-list" id="searchResultsList">
+                </ul>
             </div>
             <div class="search-modal-footer">
                 <span><kbd>↑↓</kbd> Navigate</span>
@@ -689,17 +420,23 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
         </div>
     </div>
 
-    <div class="lesson-complete-card">
-        <div class="complete-text">
-            <h3>Finished this topic?</h3>
-            <p>Marking this topic as finished updates your course completion matrix.</p>
+    <div class="lightbox-modal" id="globalLightbox" role="dialog" aria-hidden="true">
+        <span class="lightbox-close" id="closeLightbox" title="Close Lightbox">&times;</span>
+        <div class="lightbox-viewport" id="lightboxViewport">
+            <img class="lightbox-img" id="lightboxTargetImg" src="" alt="Active course diagram blueprint view">
         </div>
-        <button id="markCompleteBtn" class="mark-btn" onclick="toggleLessonCompletion()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-            <span id="completeBtnText">Mark as Completed</span>
-        </button>
+        <div class="lightbox-hud-box" id="lightboxHudBox">
+            <button class="hud-dismiss-btn" id="dismissHudBtn" title="Dismiss Hints">✕</button>
+            <div class="hud-item">
+                <span class="hud-icon">🖱️</span> 
+                <span><strong>Mouse / Trackpad:</strong> Scroll to Zoom. Click &amp; Drag to Pan.</span>
+            </div>
+            <div class="hud-divider"></div>
+            <div class="hud-item">
+                <span class="hud-icon">⌨️</span> 
+                <span><strong>Shortcuts:</strong> Zoom In <kbd>+</kbd> | Zoom Out <kbd>-</kbd> | Reset View <kbd>0</kbd></span>
+            </div>
+        </div>
     </div>
 
     <script src="../../../../js/script.js"></script>
@@ -707,42 +444,31 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
 
     <script type="module">
         import { supabase } from '../../../../js/config/supabase-client.js';
-
         async function protectRoute() {
-            // Fetch current authenticated user
             const { data: { user }, error } = await supabase.auth.getUser();
-
-            // If no user session exists or an error occurs, redirect immediately
             if (error || !user) {
-                // Save attempted page URL so user can redirect back after logging in
                 sessionStorage.setItem('redirectUrl', window.location.pathname);
-                
-                // Redirect to login page
                 window.location.href = '../../../../auth/login.html';
             }
         }
-
-        // Run protection check immediately on page load
         protectRoute();
     </script>
 
     <script type="module">
         import { supabase } from '../../../../js/config/supabase-client.js';
 
-        // Unique IDs for this current page
         const COURSE_ID = 'python-101'; 
-        const LESSON_ID = 'python-1.6-basics';
+        const LESSON_ID = 'python-1.6-syntax'; // Unique ID for this lesson
 
         let currentUser = null;
         let isCompleted = false;
 
         async function initLessonProgress() {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return; // User isn't logged in
+            if (!user) return; 
 
             currentUser = user;
 
-            // Check if user already marked this topic as completed
             const { data } = await supabase
                 .from('user_progress')
                 .select('completed')
@@ -769,7 +495,6 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
 
             try {
                 if (isCompleted) {
-                    // Save completed topic in database
                     await supabase.from('user_progress').upsert({
                         user_id: currentUser.id,
                         course_id: COURSE_ID,
@@ -777,7 +502,6 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
                         completed: true
                     });
                 } else {
-                    // Unmark topic
                     await supabase.from('user_progress')
                         .delete()
                         .eq('user_id', currentUser.id)
@@ -804,50 +528,20 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
 
         document.addEventListener('DOMContentLoaded', initLessonProgress);
     </script>
-
+    
     <script>
-        // ==========================================
-        // CODE ACTIONS (Copy, Run Preview)
-        // ==========================================
-        function getCleanText(elementId) {
-            const el = document.getElementById(elementId);
-            return el.innerText || el.textContent;
-        }
-
-        function copyCode(elementId, btnElement) {
-            const codeText = getCleanText(elementId);
-            navigator.clipboard.writeText(codeText).then(() => {
-                const tooltip = btnElement.querySelector('.tooltip');
-                if (tooltip) {
-                    tooltip.style.opacity = '1';
-                    setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
-                }
-            });
-        }
-
-        function runCode(outputId) {
-            const el = document.getElementById(outputId);
-            if (el) {
-                el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-            }
-        }
-
         // ==========================================
         // QUIZ LOGIC
         // ==========================================
-        function handleAnswer(btnElement, isCorrect, questionNumber) {
+        window.handleAnswer = function(btnElement, isCorrect, questionNumber) {
             const optionsContainer = btnElement.parentElement;
             const allButtons = optionsContainer.querySelectorAll('.q-option');
-            
-            // Lock buttons
             allButtons.forEach(btn => btn.classList.add('locked'));
 
-            // Apply correct/incorrect styling
             if (isCorrect) {
                 btnElement.classList.add('correct');
             } else {
                 btnElement.classList.add('incorrect');
-                // Auto-reveal the correct answer
                 allButtons.forEach(btn => {
                     if(btn.getAttribute('onclick').includes('true')) {
                         btn.classList.add('correct');
@@ -855,20 +549,18 @@ cout &lt;&lt; <span class="vs-string">"Congratulations!"</span>;
                     }
                 });
             }
-            // Show the "Next" button
             document.getElementById('next-' + questionNumber).style.display = 'block';
         }
 
-        function nextQuestion(currentNumber) {
+        window.nextQuestion = function(currentNumber) {
             document.getElementById('qb-' + currentNumber).classList.remove('active-question');
             document.getElementById('qb-' + (currentNumber + 1)).classList.add('active-question');
         }
 
-        function finishQuiz() {
+        window.finishQuiz = function() {
             document.getElementById('qb-5').classList.remove('active-question');
             document.getElementById('qb-complete').classList.add('active');
         }
     </script>
 </body>
-
 </html>
