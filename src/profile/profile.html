@@ -405,8 +405,8 @@
                     </div>
 
                     <div class="profile-form-group">
-                        <label for="secondNameInput">Second Name</label>
-                        <input type="text" id="secondNameInput" class="profile-input" placeholder="Second Name" disabled required>
+                        <label for="lastNameInput">Last Name</label>
+                        <input type="text" id="lastNameInput" class="profile-input" placeholder="Last Name" disabled required>
                     </div>
 
                     <div class="profile-form-group">
@@ -497,10 +497,10 @@
                 currentAuthUser = user;
                 document.getElementById('emailInput').value = user.email || '';
 
-                // Safely query profiles table using maybeSingle() to avoid 406/single errors
+                // Safely query profiles table using maybeSingle()
                 const { data: profile, error } = await supabase
                     .from('profiles')
-                    .select('first_name, second_name, username, bio, avatar_url')
+                    .select('first_name, last_name, username, bio, avatar_url, display_name')
                     .eq('id', user.id)
                     .maybeSingle();
 
@@ -510,7 +510,7 @@
 
                 // Extract or fallback values
                 const firstName = profile?.first_name || user.user_metadata?.first_name || '';
-                const secondName = profile?.second_name || user.user_metadata?.second_name || user.user_metadata?.last_name || '';
+                const lastName = profile?.last_name || user.user_metadata?.last_name || '';
                 const fallbackUsername = user.email ? user.email.split('@')[0] : 'user';
                 const username = profile?.username || user.user_metadata?.username || fallbackUsername;
                 const bio = profile?.bio || '';
@@ -518,13 +518,13 @@
 
                 // Populate Form Fields
                 document.getElementById('firstNameInput').value = firstName;
-                document.getElementById('secondNameInput').value = secondName;
+                document.getElementById('lastNameInput').value = lastName;
                 document.getElementById('usernameInput').value = username;
                 document.getElementById('bioInput').value = bio;
                 document.getElementById('avatarImage').src = avatarUrl;
 
                 // Update Header Visuals
-                const fullDisplayName = `${firstName} ${secondName}`.trim() || username;
+                const fullDisplayName = profile?.display_name || `${firstName} ${lastName}`.trim() || username;
                 document.getElementById('headerDisplayName').textContent = fullDisplayName;
                 document.getElementById('headerUserHandle').textContent = `@${username.toLowerCase().replace(/\s+/g, '')}`;
 
@@ -604,7 +604,7 @@
 
                 // Unlock Inputs
                 document.getElementById('firstNameInput').disabled = false;
-                document.getElementById('secondNameInput').disabled = false;
+                document.getElementById('lastNameInput').disabled = false;
                 document.getElementById('usernameInput').disabled = false;
                 document.getElementById('emailInput').disabled = false;
                 document.getElementById('bioInput').disabled = false;
@@ -647,11 +647,12 @@
             if (!isEditUnlocked) return;
 
             const firstName = document.getElementById('firstNameInput').value.trim();
-            const secondName = document.getElementById('secondNameInput').value.trim();
+            const lastName = document.getElementById('lastNameInput').value.trim();
             const username = document.getElementById('usernameInput').value.trim();
             const email = document.getElementById('emailInput').value.trim();
             const bio = document.getElementById('bioInput').value.trim();
             const currentAvatarSrc = document.getElementById('avatarImage').src;
+            const computedDisplayName = `${firstName} ${lastName}`.trim();
 
             try {
                 // Update Email if changed
@@ -660,15 +661,16 @@
                     if (emailErr) throw emailErr;
                 }
 
-                // Upsert to profiles table using first_name and second_name
+                // Upsert to profiles table using exact schema column names
                 const { error: profileErr } = await supabase
                     .from('profiles')
                     .upsert({
                         id: currentAuthUser.id,
                         first_name: firstName,
-                        second_name: secondName,
-                        display_name: `${firstName} ${secondName}`.trim(),
+                        last_name: lastName,
+                        display_name: computedDisplayName,
                         username: username,
+                        email: email,
                         bio: bio,
                         avatar_url: avatarBase64Data || currentAvatarSrc,
                         updated_at: new Date()
