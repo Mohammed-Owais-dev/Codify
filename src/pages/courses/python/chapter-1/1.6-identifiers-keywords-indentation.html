@@ -58,13 +58,11 @@
         .indent-line.level-2:hover { border-left-color: #2ea44f; background: rgba(46, 164, 79, 0.15); }
         .indent-line.level-2:hover .ind-badge { opacity: 1; background: #2ea44f; color: #000; font-weight: bold;}
 
-        /* In-Text Badges */
-        .status-valid { color: #56d364; font-weight: bold; background: rgba(46, 164, 79, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(46, 164, 79, 0.4); }
-        .status-invalid { color: #ff5f56; font-weight: bold; background: rgba(255, 95, 86, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255, 95, 86, 0.4); }
-
         /* Keyword Highlighter Animation */
         .kw-glow { animation: glowPulse 1.5s infinite alternate; border-radius: 3px; padding: 0 2px; }
         @keyframes glowPulse { from { box-shadow: 0 0 5px #ff7b72; background: rgba(255, 123, 114, 0.2); } to { box-shadow: 0 0 15px #ff7b72; background: rgba(255, 123, 114, 0.5); } }
+
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
     </style>
 </head>
 
@@ -167,89 +165,6 @@
                         <li><a href="1.19-program-development-execution.html" class="topic-link" data-title="1.19 Program Development & Execution">1.19 Program Development & Execution</a></li>
                     </ul>
                 </li>
-
-                <li class="tree-branch">
-                    <div class="tree-node">
-                        <span class="tree-arrow">
-                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
-                        </span>
-                        <span class="chapter-title">2. Control Flow & Loops</span>
-                    </div>
-                    <ul class="tree-leaves">
-                        <li><a href="../chapter-2/2.1-control-flow-constructs.html" class="topic-link" data-title="2.1 Control Flow Constructs">2.1 Control Flow Constructs</a></li>
-                        <li><a href="../chapter-2/2.2-loop-statements.html" class="topic-link" data-title="2.2 Loop Statements">2.2 Loop Statements</a></li>
-                    </ul>
-                </li>
-
-                <li class="tree-branch">
-                    <div class="tree-node">
-                        <span class="tree-arrow">
-                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
-                        </span>
-                        <span class="chapter-title">3. Functions, Strings & Arrays</span>
-                    </div>
-                    <ul class="tree-leaves">
-                        <li><a href="../chapter-3/3.1-introduction.html" class="topic-link" data-title="3.1 Introduction">3.1 Introduction</a></li>
-                        <li><a href="../chapter-3/3.2-function-arguments.html" class="topic-link" data-title="3.2 Function Arguments">3.2 Function Arguments</a></li>
-                        <li><a href="../chapter-3/3.3-anonymous-functions-lambda.html" class="topic-link" data-title="3.3 Anonymous Functions (Lambda)">3.3 Anonymous Functions (Lambda)</a></li>
-                        <li><a href="../chapter-3/3.4-return-statements.html" class="topic-link" data-title="3.4 Return Statements">3.4 Return Statements</a></li>
-                        <li><a href="../chapter-3/3.5-variable-scope.html" class="topic-link" data-title="3.5 Variable Scope">3.5 Variable Scope</a></li>
-                        <li><a href="../chapter-3/3.6-creating-modules.html" class="topic-link" data-title="3.6 Creating Modules">3.6 Creating Modules</a></li>
-                        <li><a href="../chapter-3/3.7-importing-modules.html" class="topic-link" data-title="3.7 Importing Modules">3.7 Importing Modules</a></li>
-                        <li><a href="../chapter-3/3.8-namespaces-and-scoping.html" class="topic-link" data-title="3.8 Namespaces & Scoping">3.8 Namespaces & Scoping</a></li>
-                        <li><a href="../chapter-3/3.9-packages.html" class="topic-link" data-title="3.9 Packages">3.9 Packages</a></li>
-                        <li><a href="../chapter-3/3.10-strings-slicing-immutability.html" class="topic-link" data-title="3.10 Strings: Slicing & Immutability">3.10 Strings: Slicing & Immutability</a></li>
-                        <li><a href="../chapter-3/3.11-string-methods.html" class="topic-link" data-title="3.11 String Methods">3.11 String Methods</a></li>
-                        <li><a href="../chapter-3/3.12-string-module.html" class="topic-link" data-title="3.12 String Module">3.12 String Module</a></li>
-                        <li><a href="../chapter-3/3.13-arrays-overview.html" class="topic-link" data-title="3.13 Arrays Overview">3.13 Arrays Overview</a></li>
-                        <li><a href="../chapter-3/3.14-accessing-array-elements.html" class="topic-link" data-title="3.14 Accessing Array Elements">3.14 Accessing Array Elements</a></li>
-                        <li><a href="../chapter-3/3.15-array-methods.html" class="topic-link" data-title="3.15 Array Methods">3.15 Array Methods</a></li>
-                    </ul>
-                </li>
-
-                <li class="tree-branch">
-                    <div class="tree-node">
-                        <span class="tree-arrow">
-                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
-                        </span>
-                        <span class="chapter-title">4. Data Structures</span>
-                    </div>
-                    <ul class="tree-leaves">
-                        <li><a href="../chapter-4/4.1-lists.html" class="topic-link" data-title="4.1 Lists">4.1 Lists</a></li>
-                        <li><a href="../chapter-4/4.2-list-operations.html" class="topic-link" data-title="4.2 List Operations">4.2 List Operations</a></li>
-                        <li><a href="../chapter-4/4.3-list-slicing.html" class="topic-link" data-title="4.3 List Slicing">4.3 List Slicing</a></li>
-                        <li><a href="../chapter-4/4.4-list-methods.html" class="topic-link" data-title="4.4 List Methods">4.4 List Methods</a></li>
-                        <li><a href="../chapter-4/4.5-iterating-lists.html" class="topic-link" data-title="4.5 Iterating Lists">4.5 Iterating Lists</a></li>
-                        <li><a href="../chapter-4/4.6-mutability.html" class="topic-link" data-title="4.6 Mutability">4.6 Mutability</a></li>
-                        <li><a href="../chapter-4/4.7-aliasing.html" class="topic-link" data-title="4.7 Aliasing">4.7 Aliasing</a></li>
-                        <li><a href="../chapter-4/4.8-cloning-lists.html" class="topic-link" data-title="4.8 Cloning Lists">4.8 Cloning Lists</a></li>
-                        <li><a href="../chapter-4/4.9-list-parameters.html" class="topic-link" data-title="4.9 List Parameters">4.9 List Parameters</a></li>
-                        <li><a href="../chapter-4/4.10-list-comprehension.html" class="topic-link" data-title="4.10 List Comprehension">4.10 List Comprehension</a></li>
-                        <li><a href="../chapter-4/4.11-tuples.html" class="topic-link" data-title="4.11 Tuples">4.11 Tuples</a></li>
-                        <li><a href="../chapter-4/4.12-dictionaries.html" class="topic-link" data-title="4.12 Dictionaries">4.12 Dictionaries</a></li>
-                        <li><a href="../chapter-4/4.13-sets.html" class="topic-link" data-title="4.13 Sets">4.13 Sets</a></li>
-                    </ul>
-                </li>
-
-                <li class="tree-branch">
-                    <div class="tree-node">
-                        <span class="tree-arrow">
-                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
-                        </span>
-                        <span class="chapter-title">5. OOP & Exceptions</span>
-                    </div>
-                    <ul class="tree-leaves">
-                        <li><a href="../chapter-5/5.1-classes.html" class="topic-link" data-title="5.1 Classes">5.1 Classes</a></li>
-                        <li><a href="../chapter-5/5.2-objects.html" class="topic-link" data-title="5.2 Objects">5.2 Objects</a></li>
-                        <li><a href="../chapter-5/5.3-method-overloading-and-overriding.html" class="topic-link" data-title="5.3 Method Overloading & Overriding">5.3 Method Overloading & Overriding</a></li>
-                        <li><a href="../chapter-5/5.4-data-hiding.html" class="topic-link" data-title="5.4 Data Hiding">5.4 Data Hiding</a></li>
-                        <li><a href="../chapter-5/5.5-data-abstraction.html" class="topic-link" data-title="5.5 Data Abstraction">5.5 Data Abstraction</a></li>
-                        <li><a href="../chapter-5/5.6-file-modes.html" class="topic-link" data-title="5.6 File Modes">5.6 File Modes</a></li>
-                        <li><a href="../chapter-5/5.7-file-processing.html" class="topic-link" data-title="5.7 File Processing">5.7 File Processing</a></li>
-                        <li><a href="../chapter-5/5.8-closing-files.html" class="topic-link" data-title="5.8 Closing Files">5.8 Closing Files</a></li>
-                        <li><a href="../chapter-5/5.9-exception-handling.html" class="topic-link" data-title="5.9 Exception Handling">5.9 Exception Handling</a></li>
-                    </ul>
-                </li>
             </ul>
         </aside>
 
@@ -303,21 +218,38 @@
                 </div>
 
                 <p class="content-intro"><strong>Examples of Identifiers:</strong></p>
+                
                 <div class="mac-code-window">
                     <div class="mac-header">
                         <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
-                        <span style="color: #8b949e; font-size: 0.8rem;">identifiers.py</span>
+                        <div class="mac-actions">
+                            <button class="mac-btn" onclick="copyCode('code-id1', this)" title="Copy Code">
+                                <span class="tooltip">Copied!</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                            <button class="mac-btn" onclick="downloadCode('code-id1', 'identifiers.py')" title="Download Script">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </button>
+                            <button class="mac-btn" onclick="runCode('out-id1')" title="Run Preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </button>
+                        </div>
                     </div>
-                    <div class="mac-body"><span class="vs-comment"># Valid Identifiers:</span>
+                    <div class="mac-body" id="code-id1"><span class="vs-comment"># Valid Identifiers:</span>
 user_age = <span class="vs-number">25</span>
 TotalScore = <span class="vs-number">100</span>
 _hidden_value = <span class="vs-string">"secret"</span>
 player_2_name = <span class="vs-string">"Alex"</span>
 
-<span class="vs-comment"># INVALID Identifiers (These will cause a SyntaxError):</span>
+<span class="vs-comment"># INVALID Identifiers (These will cause a SyntaxError if uncommented):</span>
 <span class="vs-comment"># 2nd_player = "Bob"      (Starts with a number)</span>
 <span class="vs-comment"># user-age = 25           (Contains a hyphen instead of an underscore)</span>
-<span class="vs-comment"># total score = 100       (Contains a space)</span></div>
+<span class="vs-comment"># total score = 100       (Contains a space)</span>
+<span class="vs-function">print</span>(<span class="vs-string">"Variable definitions passed!"</span>)</div>
+                </div>
+                <div class="mac-output-container" id="out-id1">
+                    <span class="mac-output-label">Terminal Output</span>
+Variable definitions passed!
                 </div>
 
                 <h3 style="color: #66ccff; margin-top: 1.5rem;">Valid vs. Invalid Identifier Reference</h3>
@@ -327,25 +259,17 @@ player_2_name = <span class="vs-string">"Alex"</span>
                             <tr><th>Identifier Name</th><th>Status</th><th>Reason / Rule Breakdown</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><code>total_score</code></td><td><span class="status-valid">VALID</span></td><td>Uses letters and a valid underscore separating words.</td></tr>
-                            <tr><td><code>_secret_key</code></td><td><span class="status-valid">VALID</span></td><td>Starts with an underscore (often used for private variables).</td></tr>
-                            <tr><td><code>user2Name</code></td><td><span class="status-valid">VALID</span></td><td>Contains letters, numbers, and proper casing.</td></tr>
-                            <tr><td><code>2cat</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Starts with a number <code>2</code>.</td></tr>
-                            <tr><td><code>user-name</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Hyphens <code>-</code> are treated as subtraction operators!</td></tr>
-                            <tr><td><code>total$amount</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Contains an illegal special symbol (<code>$</code>).</td></tr>
-                            <tr><td><code>first name</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Spaces are strictly forbidden inside identifier names.</td></tr>
-                            <tr><td><code>class</code></td><td><span class="status-invalid">INVALID ❌</span></td><td><code>class</code> is a reserved Python keyword.</td></tr>
+                            <tr><td><code>total_score</code></td><td><span style="color:#56d364; font-weight:bold;">VALID</span></td><td>Uses letters and a valid underscore separating words.</td></tr>
+                            <tr><td><code>_secret_key</code></td><td><span style="color:#56d364; font-weight:bold;">VALID</span></td><td>Starts with an underscore (often used for private variables).</td></tr>
+                            <tr><td><code>user2Name</code></td><td><span style="color:#56d364; font-weight:bold;">VALID</span></td><td>Contains letters, numbers, and proper casing.</td></tr>
+                            <tr><td><code>2cat</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Starts with a number <code>2</code>.</td></tr>
+                            <tr><td><code>user-name</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Hyphens <code>-</code> are treated as subtraction operators!</td></tr>
+                            <tr><td><code>total$amount</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Contains an illegal special symbol (<code>$</code>).</td></tr>
+                            <tr><td><code>first name</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td>Spaces are strictly forbidden inside identifier names.</td></tr>
+                            <tr><td><code>class</code></td><td><span style="color:#ff5f56; font-weight:bold;">INVALID ❌</span></td><td><code>class</code> is a reserved Python keyword.</td></tr>
                         </tbody>
                     </table>
                 </div>
-
-                <h3 style="color: #66ccff; margin-top: 1.5rem;">Python Naming Conventions (PEP 8 Best Practices)</h3>
-                <p class="content-intro">While the rules above dictate what is <em>legal</em>, Python's official style guide (PEP 8) specifies what is considered <em>clean code</em>:</p>
-                <ul class="content-points">
-                    <li><strong>Variables & Functions:</strong> Use <code class="lib-badge">snake_case</code> (all lowercase with words separated by underscores). <em>Example: total_price, calculate_score()</em></li>
-                    <li><strong>Classes:</strong> Use <code class="lib-badge">PascalCase</code> (capitalize the first letter of every word). <em>Example: UserProfile, BankSystem</em></li>
-                    <li><strong>Constants:</strong> Use <code class="lib-badge">ALL_CAPS</code> (Values that never change). <em>Example: PI = 3.14159, MAX_USERS = 100</em></li>
-                </ul>
 
                 <div class="validator-sandbox">
                     <div class="val-header">
@@ -399,16 +323,31 @@ player_2_name = <span class="vs-string">"Alex"</span>
                 </div>
 
                 <div class="mac-code-window" style="border-color: #ff5f56;">
-                    <div class="mac-header"><span style="color: #ff5f56; font-weight:bold;">Why we can't use keywords as names:</span></div>
-                    <div class="mac-body"><span class="vs-comment"># If you try to name a variable 'False', Python gets confused!</span>
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
+                        <div class="mac-actions">
+                            <button class="mac-btn" onclick="copyCode('code-kw1', this)" title="Copy Code">
+                                <span class="tooltip">Copied!</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                            <button class="mac-btn" onclick="runCode('out-kw1')" title="Run Preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mac-body" id="code-kw1"><span class="vs-comment"># If you try to name a variable 'False', Python gets confused!</span>
 False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxError: cannot assign to False</span>
 
 <span class="vs-comment"># If you try to name a variable 'for':</span>
 <span class="vs-keyword">for</span> = <span class="vs-string">"Alex"</span>  <span class="vs-comment"># SyntaxError: invalid syntax</span></div>
                 </div>
-
-                <h3 style="color: #66ccff; margin-top: 1.5rem;">Soft Keywords (Modern Python Feature)</h3>
-                <p class="content-intro">In Python 3.9 and later, core developers introduced <strong>Soft Keywords</strong>: <code class="vs-keyword">match</code>, <code class="vs-keyword">case</code>, <code class="vs-keyword">_</code>, and <code class="vs-keyword">type</code>. What makes them "soft"? They act as keywords only within specific statements, but they can still be used as variable names elsewhere without crashing old codebases.</p>
+                <div class="mac-output-container" id="out-kw1">
+                    <span class="mac-output-label">Terminal Output</span>
+<span style="color: #ff5f56;">  File "main.py", line 2
+    False = 10
+    ^
+SyntaxError: cannot assign to False</span>
+                </div>
 
                 <div style="background: rgba(13, 27, 42, 0.4); border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 12px; padding: 20px; margin-top: 2rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
@@ -428,7 +367,7 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
 
 
                 <h2 class="content-subtitle" style="margin-top: 3rem;">3. Indentation: Python’s Visual Block Architecture</h2>
-                <p class="content-intro">In languages like C++, Java, or JavaScript, developers use curly braces <code class="lib-badge">{ }</code> to group blocks of code together. Python threw away the curly braces completely. Instead, Python uses <strong>Indentation</strong> (empty spaces at the beginning of a line) to determine which lines of code belong together.</p>
+                <p class="content-intro">In languages like C++, Java, or JavaScript, developers use curly braces <code>{ }</code> to group blocks of code together. Python threw away the curly braces completely. Instead, Python uses <strong>Indentation</strong> (empty spaces at the beginning of a line) to determine which lines of code belong together.</p>
 
                 <div class="cyber-alert info" style="border-left-color: #27c93f;">
                     <div class="alert-icon">📏</div>
@@ -437,7 +376,7 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                     </div>
                 </div>
 
-                <p class="content-intro"><strong>How it works:</strong> Whenever you end a line with a colon (<code class="lib-badge">:</code>), you are telling Python, "The lines below this belong to a new block." The standard practice is to use <strong>4 spaces</strong> (or 1 Tab) for each level of indentation.</p>
+                <p class="content-intro"><strong>How it works:</strong> Whenever you end a line with a colon (<code>:</code>), you are telling Python, "The lines below this belong to a new block." The standard practice is to use <strong>4 spaces</strong> (or 1 Tab) for each level of indentation.</p>
 
                 <h3 style="color: #66ccff; margin-top: 1.5rem;">Understanding Block Hierarchy (The "Accordion" Effect)</h3>
                 <p class="content-intro">Indentation creates visual levels. Code aligned at the same horizontal position belongs to the same logical block. <em>Hover over the lines below to see how Python maps the hierarchy!</em></p>
@@ -509,16 +448,48 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                 <p class="content-intro">If you forget to indent code after a colon, Python throws an error and stops running immediately:</p>
                 
                 <div class="mac-code-window" style="border-color: #ff5f56;">
-                    <div class="mac-header"><span style="color: #ff5f56; font-weight:bold;">WRONG CODE:</span></div>
-                    <div class="mac-body"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
-<span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>)
-<span class="vs-comment"># Output: IndentationError: expected an indented block after 'if' statement on line 1</span></div>
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
+                        <div class="mac-actions">
+                            <button class="mac-btn" onclick="copyCode('code-ind-bad', this)" title="Copy Code">
+                                <span class="tooltip">Copied!</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                            <button class="mac-btn" onclick="runCode('out-ind-bad')" title="Run Preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mac-body" id="code-ind-bad"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
+<span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>)</div>
+                </div>
+                <div class="mac-output-container" id="out-ind-bad">
+                    <span class="mac-output-label">Terminal Output</span>
+<span style="color: #ff5f56;">  File "main.py", line 2
+    print("Five is greater!")
+    ^
+IndentationError: expected an indented block after 'if' statement on line 1</span>
                 </div>
 
                 <div class="mac-code-window" style="border-color: #2ea44f;">
-                    <div class="mac-header"><span style="color: #2ea44f; font-weight:bold;">CORRECT CODE:</span></div>
-                    <div class="mac-body"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
+                        <div class="mac-actions">
+                            <button class="mac-btn" onclick="copyCode('code-ind-good', this)" title="Copy Code">
+                                <span class="tooltip">Copied!</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                            <button class="mac-btn" onclick="runCode('out-ind-good')" title="Run Preview">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mac-body" id="code-ind-good"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
     <span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>)  <span class="vs-comment"># Properly indented with 4 spaces</span></div>
+                </div>
+                <div class="mac-output-container" id="out-ind-good">
+                    <span class="mac-output-label">Terminal Output</span>
+Five is greater!
                 </div>
 
                 <h2 class="content-subtitle">4. Codify Master Summary Table</h2>
@@ -537,18 +508,18 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                                 <td><strong>Identifier</strong></td>
                                 <td>User-defined name for variables/functions.</td>
                                 <td>Uses A-Z, a-z, 0-9, and _. Cannot start with digits.</td>
-                                <td>Using special symbols (<code class="vs-error">user@name</code>) or spaces.</td>
+                                <td>Using special symbols (<code style="color:#ff5f56">user@name</code>) or spaces.</td>
                             </tr>
                             <tr>
                                 <td><strong>Keyword</strong></td>
                                 <td>Built-in reserved vocabulary of Python.</td>
                                 <td>35 total words. Case-sensitive (<code class="vs-keyword">True</code>, <code class="vs-keyword">False</code>, <code class="vs-keyword">None</code> are capitalized).</td>
-                                <td>Trying to name a variable after a keyword (<code class="vs-error">for = 5</code>).</td>
+                                <td>Trying to name a variable after a keyword (<code style="color:#ff5f56">for = 5</code>).</td>
                             </tr>
                             <tr>
                                 <td><strong>Indentation</strong></td>
                                 <td>Leading whitespace used to define code blocks.</td>
-                                <td>Standard is 4 spaces. Triggered by a colon (<code class="lib-badge">:</code>).</td>
+                                <td>Standard is 4 spaces. Triggered by a colon (<code>:</code>).</td>
                                 <td>Mixing tabs and spaces, or forgetting to indent after a colon.</td>
                             </tr>
                         </tbody>
@@ -678,25 +649,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
         </div>
     </div>
 
-    <div class="lightbox-modal" id="globalLightbox" role="dialog" aria-hidden="true">
-        <span class="lightbox-close" id="closeLightbox" title="Close Lightbox">&times;</span>
-        <div class="lightbox-viewport" id="lightboxViewport">
-            <img class="lightbox-img" id="lightboxTargetImg" src="" alt="Active course diagram blueprint view">
-        </div>
-        <div class="lightbox-hud-box" id="lightboxHudBox">
-            <button class="hud-dismiss-btn" id="dismissHudBtn" title="Dismiss Hints">✕</button>
-            <div class="hud-item">
-                <span class="hud-icon">🖱️</span> 
-                <span><strong>Mouse / Trackpad:</strong> Scroll to Zoom. Click &amp; Drag to Pan.</span>
-            </div>
-            <div class="hud-divider"></div>
-            <div class="hud-item">
-                <span class="hud-icon">⌨️</span> 
-                <span><strong>Shortcuts:</strong> Zoom In <kbd>+</kbd> | Zoom Out <kbd>-</kbd> | Reset View <kbd>0</kbd></span>
-            </div>
-        </div>
-    </div>
-
     <script src="../../../../js/script.js"></script>
     <script type="module" src="../../../../js/auth/nav-auth.js"></script>
 
@@ -813,7 +765,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                         return;
                     }
 
-                    // Check 1: Space check
                     if (/\s/.test(val)) {
                         feedbackBox.classList.add('invalid');
                         feedbackBox.innerText = "❌ INVALID [SyntaxError]: Identifiers cannot contain spaces.";
@@ -821,7 +772,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                         return;
                     }
 
-                    // Check 2: Starting with a digit
                     if (/^[0-9]/.test(val)) {
                         feedbackBox.classList.add('invalid');
                         feedbackBox.innerText = "❌ INVALID [SyntaxError]: Identifiers cannot start with a number. (Rule 2)";
@@ -829,7 +779,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                         return;
                     }
 
-                    // Check 3: Illegal special characters
                     if (/[^a-zA-Z0-9_]/.test(val)) {
                         feedbackBox.classList.add('invalid');
                         feedbackBox.innerText = "❌ INVALID [SyntaxError]: Identifiers can only contain letters, numbers, and underscores (_). Special characters are forbidden.";
@@ -837,7 +786,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                         return;
                     }
 
-                    // Check 4: Reserved Keywords
                     if (pyKeywords.includes(val)) {
                         feedbackBox.classList.add('invalid');
                         feedbackBox.innerText = `❌ INVALID [SyntaxError]: '${val}' is a reserved Python keyword. You cannot use it as a variable name.`;
@@ -845,7 +793,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                         return;
                     }
 
-                    // If it passes all checks
                     feedbackBox.classList.add('valid');
                     feedbackBox.innerText = `✅ VALID: '${val}' is a perfectly legal Python identifier!`;
                     inputField.style.borderColor = "#2ea44f";
@@ -887,7 +834,7 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
         });
 
         // ==========================================
-        // 3. CODE ACTIONS (Copy, Download)
+        // 3. CODE ACTIONS (Copy, Download, Run)
         // ==========================================
         function getCleanText(elementId) {
             const el = document.getElementById(elementId);
@@ -898,8 +845,10 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
             const codeText = getCleanText(elementId);
             navigator.clipboard.writeText(codeText).then(() => {
                 const tooltip = btnElement.querySelector('.tooltip');
-                tooltip.style.opacity = '1';
-                setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
+                if (tooltip) {
+                    tooltip.style.opacity = '1';
+                    setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
+                }
             });
         }
 
@@ -912,6 +861,13 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        function runCode(outputId) {
+            const el = document.getElementById(outputId);
+            if (el) {
+                el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+            }
         }
 
         // ==========================================
@@ -945,84 +901,6 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
             document.getElementById('qb-5').classList.remove('active-question');
             document.getElementById('qb-complete').classList.add('active');
         }
-
-        // ==========================================
-        // 5. LIGHTBOX LOGIC 
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            const lightbox = document.getElementById('globalLightbox');
-            const lightboxImg = document.getElementById('lightboxTargetImg');
-            const closeBtn = document.getElementById('closeLightbox');
-            const hudBox = document.getElementById('lightboxHudBox');
-            const dismissHudBtn = document.getElementById('dismissHudBtn');
-            const pageImages = document.querySelectorAll('.content-image-wrapper img');
-
-            let currentZoom = 1.0; let translateX = 0; let translateY = 0;
-            const ZOOM_STEP = 0.25; const MAX_ZOOM = 4.0; const MIN_ZOOM = 0.5;
-            let isDragging = false; let startX = 0; let startY = 0;
-
-            if (lightbox && lightboxImg) {
-                const applyTransformState = () => {
-                    lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
-                };
-                const performZoomIn = () => {
-                    if (currentZoom < MAX_ZOOM) {
-                        currentZoom += ZOOM_STEP; if (currentZoom > MAX_ZOOM) currentZoom = MAX_ZOOM;
-                        applyTransformState();
-                    }
-                };
-                const performZoomOut = () => {
-                    if (currentZoom > MIN_ZOOM) {
-                        currentZoom -= ZOOM_STEP; if (currentZoom < MIN_ZOOM) currentZoom = MIN_ZOOM;
-                        if (currentZoom === 1.0) { translateX = 0; translateY = 0; }
-                        applyTransformState();
-                    }
-                };
-                const resetTransformState = () => { currentZoom = 1.0; translateX = 0; translateY = 0; applyTransformState(); };
-
-                lightboxImg.addEventListener('mousedown', (e) => {
-                    e.preventDefault(); isDragging = true; lightboxImg.classList.add('dragging');
-                    startX = e.clientX - translateX; startY = e.clientY - translateY;
-                });
-                window.addEventListener('mousemove', (e) => {
-                    if (!isDragging) return; translateX = e.clientX - startX; translateY = e.clientY - startY; applyTransformState();
-                });
-                window.addEventListener('mouseup', () => {
-                    if (isDragging) { isDragging = false; lightboxImg.classList.remove('dragging'); }
-                });
-
-                pageImages.forEach(img => {
-                    img.addEventListener('click', () => {
-                        lightboxImg.src = img.src; lightboxImg.alt = img.alt; resetTransformState(); 
-                        if (hudBox) hudBox.classList.remove('hud-hidden');
-                        lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; 
-                    });
-                });
-
-                const dismissLightbox = () => {
-                    lightbox.classList.remove('active'); document.body.style.overflow = ''; 
-                    setTimeout(() => { lightboxImg.src = ''; }, 400);
-                };
-
-                if (closeBtn) closeBtn.addEventListener('click', dismissLightbox);
-                lightbox.addEventListener('click', (e) => { if (e.target === lightbox || e.target === closeBtn) dismissLightbox(); });
-                
-                if (dismissHudBtn && hudBox) {
-                    dismissHudBtn.addEventListener('click', (e) => { e.stopPropagation(); hudBox.classList.add('hud-hidden'); });
-                }
-                if (hudBox) hudBox.addEventListener('click', (e) => { e.stopPropagation(); });
-
-                lightbox.addEventListener('wheel', (e) => { e.preventDefault(); if (e.deltaY < 0) performZoomIn(); else performZoomOut(); }, { passive: false });
-                document.addEventListener('keydown', (e) => {
-                    if (lightbox.classList.contains('active')) {
-                        if (e.key === 'Escape') dismissLightbox();
-                        if (e.key === '+' || e.key === '=') performZoomIn();
-                        if (e.key === '-') performZoomOut();
-                        if (e.key === '0') resetTransformState();
-                    }
-                });
-            }
-        });
     </script>
 </body>
 </html>
