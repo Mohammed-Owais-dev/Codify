@@ -15,59 +15,61 @@
 
     <style>
         /* ==========================================================================
-           LESSON COMPLETION CARD (Imported to match other pages)
+           PAGE-SPECIFIC INTERACTIVE FEATURES ONLY
+           (Mac Windows, Tables, Quizzes, Lightboxes are loaded from style.css)
            ========================================================================== */
-        .lesson-complete-card {
-            background: rgba(13, 27, 42, 0.6);
-            border: 1px solid rgba(0, 170, 255, 0.25);
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 50px;
-            backdrop-filter: blur(12px);
-        }
-        .complete-text h3 { margin: 0 0 4px 0; color: #ffffff; font-size: 1.1rem; }
-        .complete-text p { margin: 0; color: #94a3b8; font-size: 0.9rem; }
-        .mark-btn {
-            background: rgba(10, 15, 28, 0.8);
-            border: 1px solid #00aaff;
-            color: #00aaff;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.92rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            font-family: inherit;
-        }
-        .mark-btn.completed, .mark-btn.is-completed {
-            background: #10b981;
-            border-color: #10b981;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-        }
-        @media (max-width: 600px) {
-            .lesson-complete-card { flex-direction: column; text-align: center; }
-        }
 
-        /* Syntax Rule Cards */
+        /* 1. Syntax Rule Cards */
         .rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 2rem 0; }
         .rule-card { background: #0d1220; border: 1px solid #30363d; border-radius: 8px; padding: 25px; transition: all 0.3s ease; }
         .rule-card:hover { border-color: #00aaff; box-shadow: 0 10px 25px rgba(0, 170, 255, 0.15); transform: translateY(-5px); }
         .rule-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
         .rule-title { color: #fff; font-size: 1.2rem; margin-bottom: 10px; font-weight: bold; }
         .rule-text { color: #cfd8dc; font-size: 0.95rem; line-height: 1.5; }
+
+        /* 2. Interactive Identifier Validator */
+        .validator-sandbox { background: #0d1220; border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 12px; padding: 25px; margin: 2rem 0; box-shadow: 0 10px 40px rgba(0, 170, 255, 0.1); }
+        .val-header { color: #66ccff; font-size: 1.2rem; margin-bottom: 15px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .val-input-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .val-input-group span { font-family: 'Consolas', monospace; color: #a5d6ff; font-size: 1.1rem; }
+        .val-input { flex-grow: 1; background: #010409; border: 2px solid #30363d; border-radius: 8px; padding: 12px 15px; color: #fff; font-family: 'Consolas', monospace; font-size: 1.1rem; outline: none; transition: all 0.3s; }
+        .val-input:focus { border-color: #00aaff; box-shadow: 0 0 15px rgba(0, 170, 255, 0.3); }
+        .val-feedback { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; font-size: 0.95rem; line-height: 1.4; animation: fadeIn 0.3s ease; }
+        .val-feedback.valid { display: block; background: rgba(46, 164, 79, 0.15); border: 1px solid #2ea44f; color: #56d364; }
+        .val-feedback.invalid { display: block; background: rgba(255, 95, 86, 0.15); border: 1px solid #ff5f56; color: #ff7b72; }
+        .val-feedback.neutral { display: block; background: rgba(139, 148, 158, 0.1); border: 1px dashed #30363d; color: #8b949e; font-style: italic; }
+
+        /* 3. Interactive Indentation Visualizer */
+        .indent-visualizer { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; overflow: hidden; margin: 2rem 0; font-family: 'Consolas', monospace; color: #c9d1d9; font-size: 0.95rem; }
+        .indent-line { display: flex; padding: 8px 20px; transition: background 0.2s; position: relative; border-left: 3px solid transparent; cursor: crosshair;}
+        .ind-space { color: rgba(255, 255, 255, 0.15); user-select: none; }
+        .ind-badge { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; opacity: 0; transition: all 0.3s ease; pointer-events: none; font-family: 'Nunito', sans-serif;}
+        
+        .indent-line.level-0:hover { border-left-color: #8b949e; background: rgba(139, 148, 158, 0.15); }
+        .indent-line.level-0:hover .ind-badge { opacity: 1; background: #8b949e; color: #000; font-weight: bold;}
+        
+        .indent-line.level-1 { padding-left: 40px; }
+        .indent-line.level-1::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1px; background: rgba(0, 170, 255, 0.2); }
+        .indent-line.level-1:hover { border-left-color: #00aaff; background: rgba(0, 170, 255, 0.15); }
+        .indent-line.level-1:hover .ind-badge { opacity: 1; background: #00aaff; color: #000; font-weight: bold;}
+        
+        .indent-line.level-2 { padding-left: 60px; }
+        .indent-line.level-2::before { content: ''; position: absolute; left: 40px; top: 0; bottom: 0; width: 1px; background: rgba(46, 164, 79, 0.2); }
+        .indent-line.level-2:hover { border-left-color: #2ea44f; background: rgba(46, 164, 79, 0.15); }
+        .indent-line.level-2:hover .ind-badge { opacity: 1; background: #2ea44f; color: #000; font-weight: bold;}
+
+        /* In-Text Badges */
+        .status-valid { color: #56d364; font-weight: bold; background: rgba(46, 164, 79, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(46, 164, 79, 0.4); }
+        .status-invalid { color: #ff5f56; font-weight: bold; background: rgba(255, 95, 86, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255, 95, 86, 0.4); }
+
+        /* Keyword Highlighter Animation */
+        .kw-glow { animation: glowPulse 1.5s infinite alternate; border-radius: 3px; padding: 0 2px; }
+        @keyframes glowPulse { from { box-shadow: 0 0 5px #ff7b72; background: rgba(255, 123, 114, 0.2); } to { box-shadow: 0 0 15px #ff7b72; background: rgba(255, 123, 114, 0.5); } }
     </style>
 </head>
 
 <body>
+    
     <header class="codify-main-header">
         <div class="codify-header-container">
             <div class="codify-left-group">
@@ -123,141 +125,132 @@
                 <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
                 <li class="hidden-xs"><a href="1.1-history-of-python.html">1. Introduction to Python</a></li>
                 <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
-                <li><span class="current-crumb" id="breadcrumbCurrent">1.6 Syntax Basics</span></li>
+                <li><span class="current-crumb" id="breadcrumbCurrent">1.6 Identifiers & Syntax</span></li>
             </ol>
         </nav>
     </header>
 
     <div class="page-wrapper">
+        
         <aside class="sidebar-nav" id="sidebarNav">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Python Programming</h2>
             </div>
 
             <ul class="tree-root">
-    <li class="tree-branch expanded">
-        <div class="tree-node">
-            <span class="tree-arrow">
-                <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
-                </svg>
-            </span>
-            <span class="chapter-title">1. Python Basics</span>
-        </div>
-        <ul class="tree-leaves">
-            <li><a href="1.1-history.html" class="topic-link" data-title="1.1 History">1.1 History</a></li>
-            <li><a href="1.2-key-features.html" class="topic-link" data-title="1.2 Key Features">1.2 Key Features</a></li>
-            <li><a href="1.3-applications.html" class="topic-link" data-title="1.3 Applications">1.3 Applications</a></li>
-            <li><a href="1.4-idle-environment.html" class="topic-link" data-title="1.4 IDLE Environment">1.4 IDLE Environment</a></li>
-            <li><a href="1.5-running-scripts.html" class="topic-link" data-title="1.5 Running Scripts">1.5 Running Scripts</a></li>
-            <li><a href="1.6-identifiers-keywords-indentation.html" class="topic-link" data-title="1.6 Identifiers, Keywords & Indentation">1.6 Identifiers, Keywords & Indentation</a></li>
-            <li><a href="1.7-data-types.html" class="topic-link" data-title="1.7 Data Types">1.7 Data Types</a></li>
-            <li><a href="1.8-variable-declaration-initialization.html" class="topic-link" data-title="1.8 Variable Declaration & Initialization">1.8 Variable Declaration & Initialization</a></li>
-            <li><a href="1.9-input-output.html" class="topic-link" data-title="1.9 Input & Output">1.9 Input & Output</a></li>
-            <li><a href="1.10-formatted-output.html" class="topic-link" data-title="1.10 Formatted Output">1.10 Formatted Output</a></li>
-            <li><a href="1.11-comments.html" class="topic-link" data-title="1.11 Comments">1.11 Comments</a></li>
-            <li><a href="1.12-operators.html" class="topic-link" data-title="1.12 Operators">1.12 Operators</a></li>
-            <li><a href="1.13-boolean-values.html" class="topic-link" data-title="1.13 Boolean Values">1.13 Boolean Values</a></li>
-            <li><a href="1.14-operator-precedence.html" class="topic-link" data-title="1.14 Operator Precedence">1.14 Operator Precedence</a></li>
-            <li><a href="1.15-module-overview.html" class="topic-link" data-title="1.15 Module Overview">1.15 Module Overview</a></li>
-            <li><a href="1.16-functions-overview.html" class="topic-link" data-title="1.16 Functions Overview">1.16 Functions Overview</a></li>
-            <li><a href="1.17-function-types.html" class="topic-link" data-title="1.17 Function Types">1.17 Function Types</a></li>
-            <li><a href="1.18-built-in-functions.html" class="topic-link" data-title="1.18 Built-in Functions">1.18 Built-in Functions</a></li>
-            <li><a href="1.19-program-development-execution.html" class="topic-link" data-title="1.19 Program Development & Execution">1.19 Program Development & Execution</a></li>
-        </ul>
-    </li>
+                <li class="tree-branch expanded">
+                    <div class="tree-node">
+                        <span class="tree-arrow">
+                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </span>
+                        <span class="chapter-title">1. Python Basics</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="1.1-history.html" class="topic-link" data-title="1.1 History">1.1 History</a></li>
+                        <li><a href="1.2-key-features.html" class="topic-link" data-title="1.2 Key Features">1.2 Key Features</a></li>
+                        <li><a href="1.3-applications.html" class="topic-link" data-title="1.3 Applications">1.3 Applications</a></li>
+                        <li><a href="1.4-idle-environment.html" class="topic-link" data-title="1.4 IDLE Environment">1.4 IDLE Environment</a></li>
+                        <li><a href="1.5-running-scripts.html" class="topic-link" data-title="1.5 Running Scripts">1.5 Running Scripts</a></li>
+                        <li><a href="1.6-identifiers-keywords-indentation.html" class="topic-link active" data-title="1.6 Identifiers, Keywords & Indentation">1.6 Identifiers, Keywords & Indentation</a></li>
+                        <li><a href="1.7-data-types.html" class="topic-link" data-title="1.7 Data Types">1.7 Data Types</a></li>
+                        <li><a href="1.8-variable-declaration-initialization.html" class="topic-link" data-title="1.8 Variable Declaration & Initialization">1.8 Variable Declaration & Initialization</a></li>
+                        <li><a href="1.9-input-output.html" class="topic-link" data-title="1.9 Input & Output">1.9 Input & Output</a></li>
+                        <li><a href="1.10-formatted-output.html" class="topic-link" data-title="1.10 Formatted Output">1.10 Formatted Output</a></li>
+                        <li><a href="1.11-comments.html" class="topic-link" data-title="1.11 Comments">1.11 Comments</a></li>
+                        <li><a href="1.12-operators.html" class="topic-link" data-title="1.12 Operators">1.12 Operators</a></li>
+                        <li><a href="1.13-boolean-values.html" class="topic-link" data-title="1.13 Boolean Values">1.13 Boolean Values</a></li>
+                        <li><a href="1.14-operator-precedence.html" class="topic-link" data-title="1.14 Operator Precedence">1.14 Operator Precedence</a></li>
+                        <li><a href="1.15-module-overview.html" class="topic-link" data-title="1.15 Module Overview">1.15 Module Overview</a></li>
+                        <li><a href="1.16-functions-overview.html" class="topic-link" data-title="1.16 Functions Overview">1.16 Functions Overview</a></li>
+                        <li><a href="1.17-function-types.html" class="topic-link" data-title="1.17 Function Types">1.17 Function Types</a></li>
+                        <li><a href="1.18-built-in-functions.html" class="topic-link" data-title="1.18 Built-in Functions">1.18 Built-in Functions</a></li>
+                        <li><a href="1.19-program-development-execution.html" class="topic-link" data-title="1.19 Program Development & Execution">1.19 Program Development & Execution</a></li>
+                    </ul>
+                </li>
 
-    <li class="tree-branch expanded">
-        <div class="tree-node">
-            <span class="tree-arrow">
-                <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
-                </svg>
-            </span>
-            <span class="chapter-title">2. Control Flow & Loops</span>
-        </div>
-        <ul class="tree-leaves">
-            <li><a href="2.1-control-flow-constructs.html" class="topic-link" data-title="2.1 Control Flow Constructs">2.1 Control Flow Constructs</a></li>
-            <li><a href="2.2-loop-statements.html" class="topic-link" data-title="2.2 Loop Statements">2.2 Loop Statements</a></li>
-        </ul>
-    </li>
+                <li class="tree-branch">
+                    <div class="tree-node">
+                        <span class="tree-arrow">
+                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </span>
+                        <span class="chapter-title">2. Control Flow & Loops</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="../chapter-2/2.1-control-flow-constructs.html" class="topic-link" data-title="2.1 Control Flow Constructs">2.1 Control Flow Constructs</a></li>
+                        <li><a href="../chapter-2/2.2-loop-statements.html" class="topic-link" data-title="2.2 Loop Statements">2.2 Loop Statements</a></li>
+                    </ul>
+                </li>
 
-    <li class="tree-branch expanded">
-        <div class="tree-node">
-            <span class="tree-arrow">
-                <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
-                </svg>
-            </span>
-            <span class="chapter-title">3. Functions, Strings & Arrays</span>
-        </div>
-        <ul class="tree-leaves">
-            <li><a href="3.1-introduction.html" class="topic-link" data-title="3.1 Introduction">3.1 Introduction</a></li>
-            <li><a href="3.2-function-arguments.html" class="topic-link" data-title="3.2 Function Arguments">3.2 Function Arguments</a></li>
-            <li><a href="3.3-anonymous-functions-lambda.html" class="topic-link" data-title="3.3 Anonymous Functions (Lambda)">3.3 Anonymous Functions (Lambda)</a></li>
-            <li><a href="3.4-return-statements.html" class="topic-link" data-title="3.4 Return Statements">3.4 Return Statements</a></li>
-            <li><a href="3.5-variable-scope.html" class="topic-link" data-title="3.5 Variable Scope">3.5 Variable Scope</a></li>
-            <li><a href="3.6-creating-modules.html" class="topic-link" data-title="3.6 Creating Modules">3.6 Creating Modules</a></li>
-            <li><a href="3.7-importing-modules.html" class="topic-link" data-title="3.7 Importing Modules">3.7 Importing Modules</a></li>
-            <li><a href="3.8-namespaces-and-scoping.html" class="topic-link" data-title="3.8 Namespaces & Scoping">3.8 Namespaces & Scoping</a></li>
-            <li><a href="3.9-packages.html" class="topic-link" data-title="3.9 Packages">3.9 Packages</a></li>
-            <li><a href="3.10-strings-slicing-immutability.html" class="topic-link" data-title="3.10 Strings: Slicing & Immutability">3.10 Strings: Slicing & Immutability</a></li>
-            <li><a href="3.11-string-methods.html" class="topic-link" data-title="3.11 String Methods">3.11 String Methods</a></li>
-            <li><a href="3.12-string-module.html" class="topic-link" data-title="3.12 String Module">3.12 String Module</a></li>
-            <li><a href="3.13-arrays-overview.html" class="topic-link" data-title="3.13 Arrays Overview">3.13 Arrays Overview</a></li>
-            <li><a href="3.14-accessing-array-elements.html" class="topic-link" data-title="3.14 Accessing Array Elements">3.14 Accessing Array Elements</a></li>
-            <li><a href="3.15-array-methods.html" class="topic-link" data-title="3.15 Array Methods">3.15 Array Methods</a></li>
-        </ul>
-    </li>
+                <li class="tree-branch">
+                    <div class="tree-node">
+                        <span class="tree-arrow">
+                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </span>
+                        <span class="chapter-title">3. Functions, Strings & Arrays</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="../chapter-3/3.1-introduction.html" class="topic-link" data-title="3.1 Introduction">3.1 Introduction</a></li>
+                        <li><a href="../chapter-3/3.2-function-arguments.html" class="topic-link" data-title="3.2 Function Arguments">3.2 Function Arguments</a></li>
+                        <li><a href="../chapter-3/3.3-anonymous-functions-lambda.html" class="topic-link" data-title="3.3 Anonymous Functions (Lambda)">3.3 Anonymous Functions (Lambda)</a></li>
+                        <li><a href="../chapter-3/3.4-return-statements.html" class="topic-link" data-title="3.4 Return Statements">3.4 Return Statements</a></li>
+                        <li><a href="../chapter-3/3.5-variable-scope.html" class="topic-link" data-title="3.5 Variable Scope">3.5 Variable Scope</a></li>
+                        <li><a href="../chapter-3/3.6-creating-modules.html" class="topic-link" data-title="3.6 Creating Modules">3.6 Creating Modules</a></li>
+                        <li><a href="../chapter-3/3.7-importing-modules.html" class="topic-link" data-title="3.7 Importing Modules">3.7 Importing Modules</a></li>
+                        <li><a href="../chapter-3/3.8-namespaces-and-scoping.html" class="topic-link" data-title="3.8 Namespaces & Scoping">3.8 Namespaces & Scoping</a></li>
+                        <li><a href="../chapter-3/3.9-packages.html" class="topic-link" data-title="3.9 Packages">3.9 Packages</a></li>
+                        <li><a href="../chapter-3/3.10-strings-slicing-immutability.html" class="topic-link" data-title="3.10 Strings: Slicing & Immutability">3.10 Strings: Slicing & Immutability</a></li>
+                        <li><a href="../chapter-3/3.11-string-methods.html" class="topic-link" data-title="3.11 String Methods">3.11 String Methods</a></li>
+                        <li><a href="../chapter-3/3.12-string-module.html" class="topic-link" data-title="3.12 String Module">3.12 String Module</a></li>
+                        <li><a href="../chapter-3/3.13-arrays-overview.html" class="topic-link" data-title="3.13 Arrays Overview">3.13 Arrays Overview</a></li>
+                        <li><a href="../chapter-3/3.14-accessing-array-elements.html" class="topic-link" data-title="3.14 Accessing Array Elements">3.14 Accessing Array Elements</a></li>
+                        <li><a href="../chapter-3/3.15-array-methods.html" class="topic-link" data-title="3.15 Array Methods">3.15 Array Methods</a></li>
+                    </ul>
+                </li>
 
-    <li class="tree-branch expanded">
-        <div class="tree-node">
-            <span class="tree-arrow">
-                <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
-                </svg>
-            </span>
-            <span class="chapter-title">4. Data Structures</span>
-        </div>
-        <ul class="tree-leaves">
-            <li><a href="4.1-lists.html" class="topic-link" data-title="4.1 Lists">4.1 Lists</a></li>
-            <li><a href="4.2-list-operations.html" class="topic-link" data-title="4.2 List Operations">4.2 List Operations</a></li>
-            <li><a href="4.3-list-slicing.html" class="topic-link" data-title="4.3 List Slicing">4.3 List Slicing</a></li>
-            <li><a href="4.4-list-methods.html" class="topic-link" data-title="4.4 List Methods">4.4 List Methods</a></li>
-            <li><a href="4.5-iterating-lists.html" class="topic-link" data-title="4.5 Iterating Lists">4.5 Iterating Lists</a></li>
-            <li><a href="4.6-mutability.html" class="topic-link" data-title="4.6 Mutability">4.6 Mutability</a></li>
-            <li><a href="4.7-aliasing.html" class="topic-link" data-title="4.7 Aliasing">4.7 Aliasing</a></li>
-            <li><a href="4.8-cloning-lists.html" class="topic-link" data-title="4.8 Cloning Lists">4.8 Cloning Lists</a></li>
-            <li><a href="4.9-list-parameters.html" class="topic-link" data-title="4.9 List Parameters">4.9 List Parameters</a></li>
-            <li><a href="4.10-list-comprehension.html" class="topic-link" data-title="4.10 List Comprehension">4.10 List Comprehension</a></li>
-            <li><a href="4.11-tuples.html" class="topic-link" data-title="4.11 Tuples">4.11 Tuples</a></li>
-            <li><a href="4.12-dictionaries.html" class="topic-link" data-title="4.12 Dictionaries">4.12 Dictionaries</a></li>
-            <li><a href="4.13-sets.html" class="topic-link" data-title="4.13 Sets">4.13 Sets</a></li>
-        </ul>
-    </li>
+                <li class="tree-branch">
+                    <div class="tree-node">
+                        <span class="tree-arrow">
+                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </span>
+                        <span class="chapter-title">4. Data Structures</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="../chapter-4/4.1-lists.html" class="topic-link" data-title="4.1 Lists">4.1 Lists</a></li>
+                        <li><a href="../chapter-4/4.2-list-operations.html" class="topic-link" data-title="4.2 List Operations">4.2 List Operations</a></li>
+                        <li><a href="../chapter-4/4.3-list-slicing.html" class="topic-link" data-title="4.3 List Slicing">4.3 List Slicing</a></li>
+                        <li><a href="../chapter-4/4.4-list-methods.html" class="topic-link" data-title="4.4 List Methods">4.4 List Methods</a></li>
+                        <li><a href="../chapter-4/4.5-iterating-lists.html" class="topic-link" data-title="4.5 Iterating Lists">4.5 Iterating Lists</a></li>
+                        <li><a href="../chapter-4/4.6-mutability.html" class="topic-link" data-title="4.6 Mutability">4.6 Mutability</a></li>
+                        <li><a href="../chapter-4/4.7-aliasing.html" class="topic-link" data-title="4.7 Aliasing">4.7 Aliasing</a></li>
+                        <li><a href="../chapter-4/4.8-cloning-lists.html" class="topic-link" data-title="4.8 Cloning Lists">4.8 Cloning Lists</a></li>
+                        <li><a href="../chapter-4/4.9-list-parameters.html" class="topic-link" data-title="4.9 List Parameters">4.9 List Parameters</a></li>
+                        <li><a href="../chapter-4/4.10-list-comprehension.html" class="topic-link" data-title="4.10 List Comprehension">4.10 List Comprehension</a></li>
+                        <li><a href="../chapter-4/4.11-tuples.html" class="topic-link" data-title="4.11 Tuples">4.11 Tuples</a></li>
+                        <li><a href="../chapter-4/4.12-dictionaries.html" class="topic-link" data-title="4.12 Dictionaries">4.12 Dictionaries</a></li>
+                        <li><a href="../chapter-4/4.13-sets.html" class="topic-link" data-title="4.13 Sets">4.13 Sets</a></li>
+                    </ul>
+                </li>
 
-    <li class="tree-branch expanded">
-        <div class="tree-node">
-            <span class="tree-arrow">
-                <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
-                </svg>
-            </span>
-            <span class="chapter-title">5. OOP, File Handling & Exception Handling</span>
-        </div>
-        <ul class="tree-leaves">
-            <li><a href="5.1-classes.html" class="topic-link" data-title="5.1 Classes">5.1 Classes</a></li>
-            <li><a href="5.2-objects.html" class="topic-link" data-title="5.2 Objects">5.2 Objects</a></li>
-            <li><a href="5.3-method-overloading-and-overriding.html" class="topic-link" data-title="5.3 Method Overloading & Overriding">5.3 Method Overloading & Overriding</a></li>
-            <li><a href="5.4-data-hiding.html" class="topic-link" data-title="5.4 Data Hiding">5.4 Data Hiding</a></li>
-            <li><a href="5.5-data-abstraction.html" class="topic-link" data-title="5.5 Data Abstraction">5.5 Data Abstraction</a></li>
-            <li><a href="5.6-file-modes.html" class="topic-link" data-title="5.6 File Modes">5.6 File Modes</a></li>
-            <li><a href="5.7-file-processing.html" class="topic-link" data-title="5.7 File Processing">5.7 File Processing</a></li>
-            <li><a href="5.8-closing-files.html" class="topic-link" data-title="5.8 Closing Files">5.8 Closing Files</a></li>
-            <li><a href="5.9-exception-handling.html" class="topic-link" data-title="5.9 Exception Handling">5.9 Exception Handling</a></li>
-        </ul>
-    </li>
-</ul>
+                <li class="tree-branch">
+                    <div class="tree-node">
+                        <span class="tree-arrow">
+                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </span>
+                        <span class="chapter-title">5. OOP & Exceptions</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="../chapter-5/5.1-classes.html" class="topic-link" data-title="5.1 Classes">5.1 Classes</a></li>
+                        <li><a href="../chapter-5/5.2-objects.html" class="topic-link" data-title="5.2 Objects">5.2 Objects</a></li>
+                        <li><a href="../chapter-5/5.3-method-overloading-and-overriding.html" class="topic-link" data-title="5.3 Method Overloading & Overriding">5.3 Method Overloading & Overriding</a></li>
+                        <li><a href="../chapter-5/5.4-data-hiding.html" class="topic-link" data-title="5.4 Data Hiding">5.4 Data Hiding</a></li>
+                        <li><a href="../chapter-5/5.5-data-abstraction.html" class="topic-link" data-title="5.5 Data Abstraction">5.5 Data Abstraction</a></li>
+                        <li><a href="../chapter-5/5.6-file-modes.html" class="topic-link" data-title="5.6 File Modes">5.6 File Modes</a></li>
+                        <li><a href="../chapter-5/5.7-file-processing.html" class="topic-link" data-title="5.7 File Processing">5.7 File Processing</a></li>
+                        <li><a href="../chapter-5/5.8-closing-files.html" class="topic-link" data-title="5.8 Closing Files">5.8 Closing Files</a></li>
+                        <li><a href="../chapter-5/5.9-exception-handling.html" class="topic-link" data-title="5.9 Exception Handling">5.9 Exception Handling</a></li>
+                    </ul>
+                </li>
+            </ul>
         </aside>
 
         <main class="content-workspace">
@@ -265,10 +258,10 @@
                 <header class="content-header-group">
                     <h1 class="topic-title">1.6 Python Syntax Basics: Identifiers, Keywords, and Indentation</h1>
                     <div class="content-nav-row top-nav-row">
-                        <a href="1.5-explain-process-of-running-python-scripts.html" class="codify-btn-outline nav-btn">
+                        <a href="1.5-running-scripts.html" class="codify-btn-outline nav-btn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" /></svg> Previous Topic
                         </a>
-                        <a href="1.7-list-and-explain-various-datatypes.html" class="codify-btn-outline nav-btn">
+                        <a href="1.7-data-types.html" class="codify-btn-outline nav-btn">
                             Next Topic <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6" /></svg>
                         </a>
                     </div>
@@ -327,10 +320,50 @@ player_2_name = <span class="vs-string">"Alex"</span>
 <span class="vs-comment"># total score = 100       (Contains a space)</span></div>
                 </div>
 
-                <h2 class="content-subtitle">2. Keywords (The Forbidden Words)</h2>
+                <h3 style="color: #66ccff; margin-top: 1.5rem;">Valid vs. Invalid Identifier Reference</h3>
+                <div class="table-container">
+                    <table class="modern-table">
+                        <thead>
+                            <tr><th>Identifier Name</th><th>Status</th><th>Reason / Rule Breakdown</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>total_score</code></td><td><span class="status-valid">VALID</span></td><td>Uses letters and a valid underscore separating words.</td></tr>
+                            <tr><td><code>_secret_key</code></td><td><span class="status-valid">VALID</span></td><td>Starts with an underscore (often used for private variables).</td></tr>
+                            <tr><td><code>user2Name</code></td><td><span class="status-valid">VALID</span></td><td>Contains letters, numbers, and proper casing.</td></tr>
+                            <tr><td><code>2cat</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Starts with a number <code>2</code>.</td></tr>
+                            <tr><td><code>user-name</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Hyphens <code>-</code> are treated as subtraction operators!</td></tr>
+                            <tr><td><code>total$amount</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Contains an illegal special symbol (<code>$</code>).</td></tr>
+                            <tr><td><code>first name</code></td><td><span class="status-invalid">INVALID ❌</span></td><td>Spaces are strictly forbidden inside identifier names.</td></tr>
+                            <tr><td><code>class</code></td><td><span class="status-invalid">INVALID ❌</span></td><td><code>class</code> is a reserved Python keyword.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="color: #66ccff; margin-top: 1.5rem;">Python Naming Conventions (PEP 8 Best Practices)</h3>
+                <p class="content-intro">While the rules above dictate what is <em>legal</em>, Python's official style guide (PEP 8) specifies what is considered <em>clean code</em>:</p>
+                <ul class="content-points">
+                    <li><strong>Variables & Functions:</strong> Use <code class="lib-badge">snake_case</code> (all lowercase with words separated by underscores). <em>Example: total_price, calculate_score()</em></li>
+                    <li><strong>Classes:</strong> Use <code class="lib-badge">PascalCase</code> (capitalize the first letter of every word). <em>Example: UserProfile, BankSystem</em></li>
+                    <li><strong>Constants:</strong> Use <code class="lib-badge">ALL_CAPS</code> (Values that never change). <em>Example: PI = 3.14159, MAX_USERS = 100</em></li>
+                </ul>
+
+                <div class="validator-sandbox">
+                    <div class="val-header">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        Interactive Feature: Live Identifier Rule Tester
+                    </div>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px;">Type a variable name below to instantly see if the Python compiler will accept it.</p>
+                    <div class="val-input-group">
+                        <span>variable_name =</span>
+                        <input type="text" class="val-input" id="idTestInput" placeholder="e.g., total_score, 1st_prize, class" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="val-feedback neutral" id="idFeedback">Awaiting compiler input...</div>
+                </div>
+
+                <h2 class="content-subtitle" style="margin-top: 3rem;">2. Keywords (The Forbidden Words)</h2>
                 <p class="content-intro"><strong>Keywords</strong> are special reserved words in Python that have built-in meaning. Because Python already uses these words for its core logic (like loops and conditions), you are <strong>not allowed to use them as identifiers</strong>.</p>
                 
-                <p class="content-intro">Python 3 has exactly 35 keywords. You don't need to memorize them all right now, but you should recognize the most common ones. Notice that almost all of them are completely lowercase, except for three!</p>
+                <p class="content-intro">Python 3 has exactly 35 core keywords. You don't need to memorize them all right now, but you should recognize the most common ones. Notice that almost all of them are completely lowercase, except for three!</p>
 
                 <div class="table-container">
                     <table class="modern-table">
@@ -374,8 +407,28 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
 <span class="vs-keyword">for</span> = <span class="vs-string">"Alex"</span>  <span class="vs-comment"># SyntaxError: invalid syntax</span></div>
                 </div>
 
-                <h2 class="content-subtitle">3. Indentation (Python's Unique Visual Structure)</h2>
-                <p class="content-intro">In languages like C++, Java, or JavaScript, developers use curly braces <code>{ }</code> to group blocks of code together. Python threw away the curly braces completely. Instead, Python uses <strong>Indentation</strong> (empty spaces at the beginning of a line) to determine which lines of code belong together.</p>
+                <h3 style="color: #66ccff; margin-top: 1.5rem;">Soft Keywords (Modern Python Feature)</h3>
+                <p class="content-intro">In Python 3.9 and later, core developers introduced <strong>Soft Keywords</strong>: <code class="vs-keyword">match</code>, <code class="vs-keyword">case</code>, <code class="vs-keyword">_</code>, and <code class="vs-keyword">type</code>. What makes them "soft"? They act as keywords only within specific statements, but they can still be used as variable names elsewhere without crashing old codebases.</p>
+
+                <div style="background: rgba(13, 27, 42, 0.4); border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 12px; padding: 20px; margin-top: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                        <span style="color: #66ccff; font-weight: bold;">Interactive Feature: Keyword Spotter</span>
+                        <button id="toggleKeywordsBtn" class="codify-btn-outline" style="font-size: 0.85rem; padding: 6px 12px;">Highlight Keywords</button>
+                    </div>
+                    <div class="mac-code-window" style="margin: 0; box-shadow: none;">
+                        <div class="mac-body" style="font-size: 1.05rem;" id="keywordSpotterCode">
+<span class="spot-kw">def</span> calculate_discount(price, is_member):
+    <span class="spot-kw">if</span> is_member <span class="spot-kw">is</span> <span class="spot-kw">True</span>:
+        <span class="spot-kw">return</span> price * 0.8
+    <span class="spot-kw">else</span>:
+        <span class="spot-kw">return</span> price
+                        </div>
+                    </div>
+                </div>
+
+
+                <h2 class="content-subtitle" style="margin-top: 3rem;">3. Indentation: Python’s Visual Block Architecture</h2>
+                <p class="content-intro">In languages like C++, Java, or JavaScript, developers use curly braces <code class="lib-badge">{ }</code> to group blocks of code together. Python threw away the curly braces completely. Instead, Python uses <strong>Indentation</strong> (empty spaces at the beginning of a line) to determine which lines of code belong together.</p>
 
                 <div class="cyber-alert info" style="border-left-color: #27c93f;">
                     <div class="alert-icon">📏</div>
@@ -384,28 +437,126 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                     </div>
                 </div>
 
-                <p class="content-intro"><strong>How it works:</strong> Whenever you end a line with a colon (<code>:</code>), you are telling Python, "The lines below this belong to a new block." The standard practice is to use <strong>4 spaces</strong> (or 1 Tab) for each level of indentation.</p>
+                <p class="content-intro"><strong>How it works:</strong> Whenever you end a line with a colon (<code class="lib-badge">:</code>), you are telling Python, "The lines below this belong to a new block." The standard practice is to use <strong>4 spaces</strong> (or 1 Tab) for each level of indentation.</p>
 
-                <div class="mac-code-window">
-                    <div class="mac-header">
-                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
-                        <span style="color: #8b949e; font-size: 0.8rem;">indentation_example.py</span>
+                <h3 style="color: #66ccff; margin-top: 1.5rem;">Understanding Block Hierarchy (The "Accordion" Effect)</h3>
+                <p class="content-intro">Indentation creates visual levels. Code aligned at the same horizontal position belongs to the same logical block. <em>Hover over the lines below to see how Python maps the hierarchy!</em></p>
+
+                <div class="indent-visualizer">
+                    <div class="indent-line level-0">
+                        <span class="ind-badge">Level 0 (Global)</span>
+                        <span><span class="vs-comment"># Level 0 (Main Outer Level)</span></span>
                     </div>
-                    <div class="mac-body">temperature = <span class="vs-number">85</span>
-
-<span class="vs-keyword">if</span> temperature > <span class="vs-number">80</span>:
-    <span class="vs-comment"># This block is indented by 4 spaces. It belongs to the 'if' statement!</span>
-    <span class="vs-function">print</span>(<span class="vs-string">"It is very hot outside."</span>)
-    <span class="vs-function">print</span>(<span class="vs-string">"Turn on the AC."</span>)
-
-<span class="vs-comment"># This code is NOT indented. It runs independently after the 'if' is done.</span>
-<span class="vs-function">print</span>(<span class="vs-string">"Program complete."</span>)</div>
+                    <div class="indent-line level-0">
+                        <span class="ind-badge">Level 0 (Global)</span>
+                        <span>user_status = <span class="vs-string">"active"</span></span>
+                    </div>
+                    <div class="indent-line level-0">
+                        <span class="ind-badge">Level 0 (Global)</span>
+                        <span>age = <span class="vs-number">20</span></span>
+                    </div>
+                    <div class="indent-line level-0">
+                        <span class="ind-badge">Level 0 (Global)</span>
+                        <span><span class="vs-keyword">if</span> user_status == <span class="vs-string">"active"</span>:</span>
+                    </div>
+                    
+                    <div class="indent-line level-1">
+                        <span class="ind-badge">Level 1 (4 Spaces)</span>
+                        <span><span class="ind-space">····</span><span class="vs-comment"># Level 1 (Inside the 'if' block)</span></span>
+                    </div>
+                    <div class="indent-line level-1">
+                        <span class="ind-badge">Level 1 (4 Spaces)</span>
+                        <span><span class="ind-space">····</span><span class="vs-function">print</span>(<span class="vs-string">"Welcome, User!"</span>)</span>
+                    </div>
+                    <div class="indent-line level-1">
+                        <span class="ind-badge">Level 1 (4 Spaces)</span>
+                        <span><span class="ind-space">····</span><span class="vs-keyword">if</span> age >= <span class="vs-number">18</span>:</span>
+                    </div>
+                    
+                    <div class="indent-line level-2">
+                        <span class="ind-badge">Level 2 (8 Spaces)</span>
+                        <span><span class="ind-space">········</span><span class="vs-comment"># Level 2 (Nested inside the age check)</span></span>
+                    </div>
+                    <div class="indent-line level-2">
+                        <span class="ind-badge">Level 2 (8 Spaces)</span>
+                        <span><span class="ind-space">········</span><span class="vs-function">print</span>(<span class="vs-string">"Access Granted: Adult Account"</span>)</span>
+                    </div>
+                    
+                    <div class="indent-line level-1">
+                        <span class="ind-badge">Level 1 (4 Spaces)</span>
+                        <span><span class="ind-space">····</span><span class="vs-keyword">else</span>:</span>
+                    </div>
+                    
+                    <div class="indent-line level-2">
+                        <span class="ind-badge">Level 2 (8 Spaces)</span>
+                        <span><span class="ind-space">········</span><span class="vs-comment"># Level 2</span></span>
+                    </div>
+                    <div class="indent-line level-2">
+                        <span class="ind-badge">Level 2 (8 Spaces)</span>
+                        <span><span class="ind-space">········</span><span class="vs-function">print</span>(<span class="vs-string">"Access Restricted: Minor Account"</span>)</span>
+                    </div>
+                    
+                    <div class="indent-line level-0">
+                        <span class="ind-badge">Level 0 (Global)</span>
+                        <span><span class="vs-comment"># Level 0 (Outside the block, back to main timeline)</span></span>
+                    </div>
+                    <div class="indent-line level-0">
+                        <span class="ind-badge">Level 0 (Global)</span>
+                        <span><span class="vs-function">print</span>(<span class="vs-string">"System execution finished."</span>)</span>
+                    </div>
                 </div>
 
-                <p class="content-intro">If we forgot the spaces inside the <code>if</code> statement, Python wouldn't know which lines belong to the condition, and it would throw a fatal error!</p>
+                <p class="content-intro">If you forget to indent code after a colon, Python throws an error and stops running immediately:</p>
+                
+                <div class="mac-code-window" style="border-color: #ff5f56;">
+                    <div class="mac-header"><span style="color: #ff5f56; font-weight:bold;">WRONG CODE:</span></div>
+                    <div class="mac-body"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
+<span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>)
+<span class="vs-comment"># Output: IndentationError: expected an indented block after 'if' statement on line 1</span></div>
+                </div>
 
-                <h2 class="content-subtitle">4. Codify Deep-Dive Quiz 🧠</h2>
-                <p class="content-intro">Test your understanding of Python's Syntax Basics!</p>
+                <div class="mac-code-window" style="border-color: #2ea44f;">
+                    <div class="mac-header"><span style="color: #2ea44f; font-weight:bold;">CORRECT CODE:</span></div>
+                    <div class="mac-body"><span class="vs-keyword">if</span> <span class="vs-number">5</span> > <span class="vs-number">2</span>:
+    <span class="vs-function">print</span>(<span class="vs-string">"Five is greater!"</span>)  <span class="vs-comment"># Properly indented with 4 spaces</span></div>
+                </div>
+
+                <h2 class="content-subtitle">4. Codify Master Summary Table</h2>
+                <div class="table-container">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Concept</th>
+                                <th>What is it?</th>
+                                <th>Core Rules to Remember</th>
+                                <th>Common Errors to Avoid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Identifier</strong></td>
+                                <td>User-defined name for variables/functions.</td>
+                                <td>Uses A-Z, a-z, 0-9, and _. Cannot start with digits.</td>
+                                <td>Using special symbols (<code class="vs-error">user@name</code>) or spaces.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Keyword</strong></td>
+                                <td>Built-in reserved vocabulary of Python.</td>
+                                <td>35 total words. Case-sensitive (<code class="vs-keyword">True</code>, <code class="vs-keyword">False</code>, <code class="vs-keyword">None</code> are capitalized).</td>
+                                <td>Trying to name a variable after a keyword (<code class="vs-error">for = 5</code>).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Indentation</strong></td>
+                                <td>Leading whitespace used to define code blocks.</td>
+                                <td>Standard is 4 spaces. Triggered by a colon (<code class="lib-badge">:</code>).</td>
+                                <td>Mixing tabs and spaces, or forgetting to indent after a colon.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="content-subtitle">5. Codify Interactive Quiz 🧠</h2>
+                <p class="content-intro">Test your understanding of Identifiers, Keywords, and Indentation!</p>
 
                 <div class="interactive-quiz-container">
                     <div class="quiz-question-block active-question" id="qb-1">
@@ -488,10 +639,10 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
                 </div>
                 
                 <div class="content-nav-row bottom-nav-row">
-                    <a href="1.5-explain-process-of-running-python-scripts.html" class="codify-btn-outline nav-btn">
+                    <a href="1.5-running-scripts.html" class="codify-btn-outline nav-btn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" /></svg> Previous Topic
                     </a>
-                    <a href="1.7-list-and-explain-various-datatypes.html" class="codify-btn-outline nav-btn">
+                    <a href="1.7-data-types.html" class="codify-btn-outline nav-btn">
                         Next Topic <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6" /></svg>
                     </a>
                 </div>
@@ -551,6 +702,7 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
 
     <script type="module">
         import { supabase } from '../../../../js/config/supabase-client.js';
+
         async function protectRoute() {
             const { data: { user }, error } = await supabase.auth.getUser();
             if (error || !user) {
@@ -559,13 +711,9 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
             }
         }
         protectRoute();
-    </script>
-
-    <script type="module">
-        import { supabase } from '../../../../js/config/supabase-client.js';
 
         const COURSE_ID = 'python-101'; 
-        const LESSON_ID = 'python-1.6-syntax'; // Unique ID for this lesson
+        const LESSON_ID = 'python-1.6-syntax';
 
         let currentUser = null;
         let isCompleted = false;
@@ -638,7 +786,136 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
     
     <script>
         // ==========================================
-        // QUIZ LOGIC
+        // 1. LIVE IDENTIFIER VALIDATOR LOGIC
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputField = document.getElementById('idTestInput');
+            const feedbackBox = document.getElementById('idFeedback');
+            
+            // List of official Python 3.10+ Keywords
+            const pyKeywords = [
+                "False", "None", "True", "and", "as", "assert", "async", "await", "break",
+                "class", "continue", "def", "del", "elif", "else", "except", "finally",
+                "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal",
+                "not", "or", "pass", "raise", "return", "try", "while", "with", "yield"
+            ];
+
+            if(inputField && feedbackBox) {
+                inputField.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    
+                    feedbackBox.className = 'val-feedback';
+
+                    if (val.length === 0) {
+                        feedbackBox.classList.add('neutral');
+                        feedbackBox.innerText = "Awaiting compiler input...";
+                        inputField.style.borderColor = "#30363d";
+                        return;
+                    }
+
+                    // Check 1: Space check
+                    if (/\s/.test(val)) {
+                        feedbackBox.classList.add('invalid');
+                        feedbackBox.innerText = "❌ INVALID [SyntaxError]: Identifiers cannot contain spaces.";
+                        inputField.style.borderColor = "#ff5f56";
+                        return;
+                    }
+
+                    // Check 2: Starting with a digit
+                    if (/^[0-9]/.test(val)) {
+                        feedbackBox.classList.add('invalid');
+                        feedbackBox.innerText = "❌ INVALID [SyntaxError]: Identifiers cannot start with a number. (Rule 2)";
+                        inputField.style.borderColor = "#ff5f56";
+                        return;
+                    }
+
+                    // Check 3: Illegal special characters
+                    if (/[^a-zA-Z0-9_]/.test(val)) {
+                        feedbackBox.classList.add('invalid');
+                        feedbackBox.innerText = "❌ INVALID [SyntaxError]: Identifiers can only contain letters, numbers, and underscores (_). Special characters are forbidden.";
+                        inputField.style.borderColor = "#ff5f56";
+                        return;
+                    }
+
+                    // Check 4: Reserved Keywords
+                    if (pyKeywords.includes(val)) {
+                        feedbackBox.classList.add('invalid');
+                        feedbackBox.innerText = `❌ INVALID [SyntaxError]: '${val}' is a reserved Python keyword. You cannot use it as a variable name.`;
+                        inputField.style.borderColor = "#ff5f56";
+                        return;
+                    }
+
+                    // If it passes all checks
+                    feedbackBox.classList.add('valid');
+                    feedbackBox.innerText = `✅ VALID: '${val}' is a perfectly legal Python identifier!`;
+                    inputField.style.borderColor = "#2ea44f";
+                });
+            }
+        });
+
+        // ==========================================
+        // 2. KEYWORD HIGHLIGHTER TOGGLE
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('toggleKeywordsBtn');
+            const keywordSpans = document.querySelectorAll('.spot-kw');
+            let isHighlighted = false;
+
+            if (toggleBtn && keywordSpans.length > 0) {
+                toggleBtn.addEventListener('click', () => {
+                    isHighlighted = !isHighlighted;
+                    
+                    if (isHighlighted) {
+                        toggleBtn.innerText = "Clear Highlights";
+                        toggleBtn.style.background = "rgba(0, 170, 255, 0.2)";
+                        keywordSpans.forEach(span => {
+                            span.classList.add('kw-glow');
+                            span.style.color = "#ff7b72";
+                            span.style.fontWeight = "bold";
+                        });
+                    } else {
+                        toggleBtn.innerText = "Highlight Keywords";
+                        toggleBtn.style.background = "transparent";
+                        keywordSpans.forEach(span => {
+                            span.classList.remove('kw-glow');
+                            span.style.color = "";
+                            span.style.fontWeight = "normal";
+                        });
+                    }
+                });
+            }
+        });
+
+        // ==========================================
+        // 3. CODE ACTIONS (Copy, Download)
+        // ==========================================
+        function getCleanText(elementId) {
+            const el = document.getElementById(elementId);
+            return el.innerText || el.textContent;
+        }
+
+        function copyCode(elementId, btnElement) {
+            const codeText = getCleanText(elementId);
+            navigator.clipboard.writeText(codeText).then(() => {
+                const tooltip = btnElement.querySelector('.tooltip');
+                tooltip.style.opacity = '1';
+                setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
+            });
+        }
+
+        function downloadCode(elementId, filename) {
+            const codeText = getCleanText(elementId);
+            const blob = new Blob([codeText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ==========================================
+        // 4. QUIZ LOGIC
         // ==========================================
         window.handleAnswer = function(btnElement, isCorrect, questionNumber) {
             const optionsContainer = btnElement.parentElement;
@@ -668,6 +945,84 @@ False = <span class="vs-number">10</span>  <span class="vs-comment"># SyntaxErro
             document.getElementById('qb-5').classList.remove('active-question');
             document.getElementById('qb-complete').classList.add('active');
         }
+
+        // ==========================================
+        // 5. LIGHTBOX LOGIC 
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('globalLightbox');
+            const lightboxImg = document.getElementById('lightboxTargetImg');
+            const closeBtn = document.getElementById('closeLightbox');
+            const hudBox = document.getElementById('lightboxHudBox');
+            const dismissHudBtn = document.getElementById('dismissHudBtn');
+            const pageImages = document.querySelectorAll('.content-image-wrapper img');
+
+            let currentZoom = 1.0; let translateX = 0; let translateY = 0;
+            const ZOOM_STEP = 0.25; const MAX_ZOOM = 4.0; const MIN_ZOOM = 0.5;
+            let isDragging = false; let startX = 0; let startY = 0;
+
+            if (lightbox && lightboxImg) {
+                const applyTransformState = () => {
+                    lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+                };
+                const performZoomIn = () => {
+                    if (currentZoom < MAX_ZOOM) {
+                        currentZoom += ZOOM_STEP; if (currentZoom > MAX_ZOOM) currentZoom = MAX_ZOOM;
+                        applyTransformState();
+                    }
+                };
+                const performZoomOut = () => {
+                    if (currentZoom > MIN_ZOOM) {
+                        currentZoom -= ZOOM_STEP; if (currentZoom < MIN_ZOOM) currentZoom = MIN_ZOOM;
+                        if (currentZoom === 1.0) { translateX = 0; translateY = 0; }
+                        applyTransformState();
+                    }
+                };
+                const resetTransformState = () => { currentZoom = 1.0; translateX = 0; translateY = 0; applyTransformState(); };
+
+                lightboxImg.addEventListener('mousedown', (e) => {
+                    e.preventDefault(); isDragging = true; lightboxImg.classList.add('dragging');
+                    startX = e.clientX - translateX; startY = e.clientY - translateY;
+                });
+                window.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return; translateX = e.clientX - startX; translateY = e.clientY - startY; applyTransformState();
+                });
+                window.addEventListener('mouseup', () => {
+                    if (isDragging) { isDragging = false; lightboxImg.classList.remove('dragging'); }
+                });
+
+                pageImages.forEach(img => {
+                    img.addEventListener('click', () => {
+                        lightboxImg.src = img.src; lightboxImg.alt = img.alt; resetTransformState(); 
+                        if (hudBox) hudBox.classList.remove('hud-hidden');
+                        lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; 
+                    });
+                });
+
+                const dismissLightbox = () => {
+                    lightbox.classList.remove('active'); document.body.style.overflow = ''; 
+                    setTimeout(() => { lightboxImg.src = ''; }, 400);
+                };
+
+                if (closeBtn) closeBtn.addEventListener('click', dismissLightbox);
+                lightbox.addEventListener('click', (e) => { if (e.target === lightbox || e.target === closeBtn) dismissLightbox(); });
+                
+                if (dismissHudBtn && hudBox) {
+                    dismissHudBtn.addEventListener('click', (e) => { e.stopPropagation(); hudBox.classList.add('hud-hidden'); });
+                }
+                if (hudBox) hudBox.addEventListener('click', (e) => { e.stopPropagation(); });
+
+                lightbox.addEventListener('wheel', (e) => { e.preventDefault(); if (e.deltaY < 0) performZoomIn(); else performZoomOut(); }, { passive: false });
+                document.addEventListener('keydown', (e) => {
+                    if (lightbox.classList.contains('active')) {
+                        if (e.key === 'Escape') dismissLightbox();
+                        if (e.key === '+' || e.key === '=') performZoomIn();
+                        if (e.key === '-') performZoomOut();
+                        if (e.key === '0') resetTransformState();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
