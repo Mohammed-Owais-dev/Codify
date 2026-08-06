@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/svg+xml" href="../../../../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../../../../css/style.css">
+    
+    <title>1.2 Python Features | Codify</title>
+
+    <style>
+        /* ==========================================================================
+           PAGE-SPECIFIC INTERACTIVE FEATURES
+           ========================================================================== */
+
+        /* 1. Language Comparison Tabs */
+        .tab-container { background: #0d1220; border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 10px; margin: 2rem 0; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+        .tab-headers { display: flex; background: #161b22; border-bottom: 1px solid #30363d; }
+        .tab-btn { flex: 1; background: transparent; border: none; color: #8b949e; padding: 12px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; border-bottom: 3px solid transparent; }
+        .tab-btn:hover { background: rgba(0, 170, 255, 0.05); color: #c9d1d9; }
+        .tab-btn.active { color: #00aaff; border-bottom-color: #00aaff; background: rgba(0, 170, 255, 0.1); }
+        .tab-content { display: none; padding: 20px; font-family: 'Consolas', monospace; font-size: 0.95rem; color: #c9d1d9; white-space: pre-wrap; line-height: 1.6; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
+
+        /* 2. Interactive Line-by-Line Interpreter */
+        .stepper-widget { background: #0d1220; border: 1px solid rgba(46, 164, 79, 0.3); border-radius: 12px; padding: 20px; margin: 2rem 0; display: flex; flex-direction: column; gap: 15px; }
+        .stepper-code { background: #010409; border: 1px solid #30363d; border-radius: 8px; padding: 10px 0; font-family: 'Consolas', monospace; font-size: 1rem; color: #c9d1d9; }
+        .code-line { padding: 4px 20px; transition: all 0.2s ease; border-left: 4px solid transparent; opacity: 0.5; }
+        .code-line.active-line { background: rgba(0, 170, 255, 0.15); border-left-color: #00aaff; opacity: 1; }
+        .code-line.error-line { background: rgba(255, 95, 86, 0.15); border-left-color: #ff5f56; opacity: 1; color: #ff7b72; }
+        .code-line.executed { opacity: 1; }
+        .stepper-console { background: #161b22; color: #56d364; padding: 15px; border-radius: 8px; font-family: 'Consolas', monospace; min-height: 80px; font-size: 0.9rem; border: 1px solid #30363d; }
+        .stepper-controls { display: flex; justify-content: space-between; align-items: center; }
+        .step-btn { background: #2ea44f; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .step-btn:hover { background: #2c974b; box-shadow: 0 0 15px rgba(46, 164, 79, 0.4); }
+        .step-btn:disabled { background: #30363d; color: #8b949e; cursor: not-allowed; box-shadow: none; }
+
+        /* 3. Dynamic Typing Visualizer */
+        .typing-visualizer { background: #0d1220; border: 1px dashed rgba(0, 170, 255, 0.4); border-radius: 12px; padding: 25px; text-align: center; margin: 2rem 0; }
+        .memory-box { width: 200px; height: 100px; margin: 0 auto 20px auto; border: 3px solid #30363d; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #010409; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); position: relative; }
+        .memory-label { position: absolute; top: -12px; background: #0d1220; padding: 0 10px; font-weight: bold; font-family: monospace; color: #8b949e; }
+        .memory-value { font-size: 2rem; font-weight: bold; font-family: monospace; color: #fff; transition: all 0.3s; }
+        .memory-type { font-size: 0.85rem; color: #64748b; margin-top: 5px; font-style: italic; transition: all 0.3s; }
+        
+        .memory-box.state-int { border-color: #ffbd2e; background: rgba(255, 189, 46, 0.1); box-shadow: 0 0 20px rgba(255, 189, 46, 0.2); }
+        .memory-box.state-int .memory-type { color: #ffbd2e; }
+        .memory-box.state-str { border-color: #00aaff; background: rgba(0, 170, 255, 0.1); box-shadow: 0 0 20px rgba(0, 170, 255, 0.2); }
+        .memory-box.state-str .memory-type { color: #00aaff; }
+
+        /* Feature Cards Grid */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 2rem 0; }
+        .feature-card { background: #0d1220; border: 1px solid rgba(0, 170, 255, 0.2); border-radius: 12px; padding: 25px; transition: all 0.3s ease; }
+        .feature-card:hover { border-color: #00aaff; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 170, 255, 0.15); }
+        .feature-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
+        .feature-title { color: #66ccff; font-size: 1.2rem; margin-bottom: 10px; font-weight: bold; }
+        .feature-desc { color: #cfd8dc; font-size: 0.95rem; line-height: 1.5; }
+
+        /* Standard flow diagrams */
+        .flow-diagram { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; background: #0d1220; padding: 25px; border-radius: 12px; border: 1px solid rgba(0, 170, 255, 0.2); margin: 2rem 0; }
+        .flow-box { background: rgba(0, 170, 255, 0.05); border: 1px solid #00aaff; padding: 12px 20px; border-radius: 8px; color: #a5d6ff; font-weight: bold; text-align: center; }
+        .flow-arrow { color: #64748b; font-size: 1.5rem; }
+        .flow-branch { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+
+<body>
+    <header class="codify-main-header">
+        <div class="codify-header-container">
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='../../../../../index.html'">Codify</div>
+            </div>
+
+            <nav class="codify-center-nav" aria-label="Main menu links">
+                <ul class="codify-nav-links" id="navLinks">
+                    <li><a href="../../../../../index.html">Home</a></li>
+                    <li><a href="../../courses.html" class="active-link">Courses</a></li>
+                    <li><a href="../../exam.html">Quizzes & Exams</a></li>
+                    <li><a href="../../certificate.html">Certificates</a></li>
+                    <li><a href="../../contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="codify-right-group">
+                <div class="codify-search-box">
+                    <input type="text" id="siteSearchTrigger" placeholder="Search everything... (⌘K)" autocomplete="off">
+                    <span class="search-kbd"><kbd>⌘K</kbd></span>
+                </div>
+
+                <button class="mobile-search-trigger" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                </button>
+
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="../../../../auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="../../../../auth/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <header class="codify-breadcrumb-bar">
+        <button class="breadcrumb-sidebar-trigger" id="sidebarToggleMobile" aria-label="Toggle Course Index">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </button>
+        <div class="breadcrumb-vertical-divider"></div>
+
+        <nav aria-label="breadcrumb">
+            <ol class="codify-breadcrumbs">
+                <li class="hidden-xs"><a href="../../courses.html">Courses</a></li>
+                <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
+                <li class="hidden-xs"><a href="../../course-index.html?courseId=python-101">Python</a></li>
+                <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
+                <li class="hidden-xs"><a href="1.1-history-of-python.html">1. Introduction to Python</a></li>
+                <li class="breadcrumb-chevron hidden-xs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></li>
+                <li><span class="current-crumb" id="breadcrumbCurrent">1.2 Key Features</span></li>
+            </ol>
+        </nav>
+    </header>
+
+    <div class="page-wrapper">
+        
+        <aside class="sidebar-nav" id="sidebarNav">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Python Programming</h2>
+            </div>
+
+            <ul class="tree-root">
+                <li class="tree-branch expanded">
+                    <div class="tree-node">
+                        <span class="tree-arrow">
+                            <svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        </span>
+                        <span class="chapter-title">1. Python Basics</span>
+                    </div>
+                    <ul class="tree-leaves">
+                        <li><a href="1.1-history.html" class="topic-link" data-title="1.1 History">1.1 History</a></li>
+                        <li><a href="#" class="topic-link active" data-title="1.2 Key Features">1.2 Key Features</a></li>
+                        <li><a href="1.3-applications.html" class="topic-link" data-title="1.3 Applications">1.3 Applications</a></li>
+                        <li><a href="1.4-idle-environment.html" class="topic-link" data-title="1.4 IDLE Environment">1.4 IDLE Environment</a></li>
+                        <li><a href="1.5-running-scripts.html" class="topic-link" data-title="1.5 Running Scripts">1.5 Running Scripts</a></li>
+                        <li><a href="1.6-identifiers-keywords-indentation.html" class="topic-link" data-title="1.6 Identifiers, Keywords & Indentation">1.6 Identifiers, Keywords & Indentation</a></li>
+                        <li><a href="1.7-data-types.html" class="topic-link" data-title="1.7 Data Types">1.7 Data Types</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="content-workspace">
+            <article class="content-body">
+                <header class="content-header-group">
+                    <h1 class="topic-title">1.2 Core Features of Python – The Secret Behind Its Global Dominance</h1>
+                    <div class="content-nav-row top-nav-row">
+                        <a href="1.1-history.html" class="codify-btn-outline nav-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" /></svg> Previous Topic
+                        </a>
+                        <a href="1.3-applications.html" class="codify-btn-outline nav-btn">
+                            Next Topic <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6" /></svg>
+                        </a>
+                    </div>
+                </header>
+
+                <p class="content-intro">
+                    Welcome to another premium module on Codify! Now that you know the fascinating history of how Python was born out of a programmer's winter boredom, it is time to answer a burning question:
+                </p>
+                <p class="content-intro">
+                    <strong>Why is Python the most popular programming language in the world today?</strong> What makes it so special that tech giants like Google, Netflix, NASA, and Instagram rely on it? The answer lies in its unique set of features.
+                </p>
+                <p class="content-intro">
+                    In this deep-dive guide, we will break down every single major feature of Python. We will look at visual explanations, real-world analogies, comparison code snippets, and structural inner workings.
+                </p>
+
+                <h2 class="content-subtitle">1. Simple and Easy to Learn</h2>
+                <p class="content-intro">Python is designed to be beginner-friendly. Its syntax reads almost like plain English. It strips away the scary, complex symbols and boilerplate code that terrorize new developers in other languages.</p>
+                
+                <div class="cyber-alert info">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-text">
+                        <strong>The Analogy:</strong> If learning C++ is like learning to pilot a space shuttle, learning Python is like learning to ride a bicycle with training wheels.<br><br>
+                        <strong>Why it matters:</strong> You spend less time wrestling with the language's grammar (syntax) and more time actually building logical solutions.
+                    </div>
+                </div>
+
+                <p class="content-intro" style="margin-top: 2rem;"><strong>Interactive Code Comparison: Printing "Hello World"</strong></p>
+                <p style="color:#8b949e; font-size:0.9rem; margin-bottom:10px;">Click the tabs below to see how much effort it takes to print text in different languages:</p>
+                
+                <div class="tab-container">
+                    <div class="tab-headers">
+                        <button class="tab-btn" onclick="openLangTab(event, 'lang-java')">Java</button>
+                        <button class="tab-btn" onclick="openLangTab(event, 'lang-cpp')">C++</button>
+                        <button class="tab-btn active" onclick="openLangTab(event, 'lang-python')">Python</button>
+                    </div>
+                    
+                    <div id="lang-java" class="tab-content">
+<span style="color:#ff7b72; font-weight:bold;">public class</span> <span style="color:#ffc233;">HelloWorld</span> {
+    <span style="color:#ff7b72; font-weight:bold;">public static void</span> <span style="color:#d2a8ff;">main</span>(<span style="color:#ffc233;">String</span>[] args) {
+        System.out.<span style="color:#d2a8ff;">println</span>(<span style="color:#a5d6ff;">"Hello, World!"</span>);
+    }
+}
+                    </div>
+                    
+                    <div id="lang-cpp" class="tab-content">
+<span style="color:#ff7b72; font-weight:bold;">#include</span> &lt;iostream&gt;
+<span style="color:#ff7b72; font-weight:bold;">using namespace</span> std;
+
+<span style="color:#ff7b72; font-weight:bold;">int</span> <span style="color:#d2a8ff;">main</span>() {
+    cout &lt;&lt; <span style="color:#a5d6ff;">"Hello, World!"</span> &lt;&lt; endl;
+    <span style="color:#ff7b72; font-weight:bold;">return</span> 0;
+}
+                    </div>
+                    
+                    <div id="lang-python" class="tab-content active">
+<span style="color:#d2a8ff;">print</span>(<span style="color:#a5d6ff;">"Hello, World!"</span>)
+
+<span style="color:#8b949e; font-style:italic;"># Codify Note: No header files, no classes, no main methods, 
+# and no semicolons. Just one clean line of code!</span>
+                    </div>
+                </div>
+
+                <h2 class="content-subtitle">2. Easy to Read and Maintain (Enforced Indentation)</h2>
+                <p class="content-intro">In languages like C, C++, and Java, developers use curly braces <code>{}</code> to group blocks of code together. This can quickly become a messy "curly brace soup" if someone forgets to format their code.</p>
+                <p class="content-intro">Python does away with curly braces entirely. Instead, it uses <strong>indentation</strong> (spaces or tabs) to define blocks of code.</p>
+                
+                <div class="mac-code-window" style="border-color: #2ea44f;">
+                    <div class="mac-header">
+                        <div class="mac-traffic-lights"><div class="mac-dot mac-red"></div><div class="mac-dot mac-yellow"></div><div class="mac-dot mac-green"></div></div>
+                        <span style="color:#8b949e; font-size:0.8rem;">indentation.py</span>
+                    </div>
+                    <div class="mac-body"><span style="color:#8b949e; font-style:italic;"># Python uses indentation to know what is inside the 'if' block</span>
+<span style="color:#ff7b72; font-weight:bold;">if</span> 5 > 2:
+    <span style="color:#d2a8ff;">print</span>(<span style="color:#a5d6ff;">"Five is greater than two!"</span>)  <span style="color:#8b949e; font-style:italic;"># Indented with 4 spaces</span></div>
+                </div>
+                <p class="content-intro"><strong>Why it matters:</strong> Readable code is clean code. Python forces developers to write neat, structured code by design. You can easily read another programmer's Python code and understand it instantly.</p>
+
+                <h2 class="content-subtitle">3. Free and Open-Source (FLOSS)</h2>
+                <p class="content-intro">Python is a Free/Libre Open-Source Software (FLOSS).</p>
+                <ul class="content-points">
+                    <li><strong>Free:</strong> You do not have to pay a single penny to download, install, or use Python for personal or massive commercial projects.</li>
+                    <li><strong>Open-Source:</strong> The complete source code of Python is publicly available. Anyone can look at how the language is built, suggest improvements, fix security bugs, and add custom features.</li>
+                </ul>
+                <p class="content-intro"><em>The Analogy: Think of Python as a massive community kitchen where the recipe is public, and chefs worldwide continually suggest ingredients to make it taste better.</em></p>
+
+                <h2 class="content-subtitle">4. High-Level Language</h2>
+                <p class="content-intro">Computers only understand binary code (0s and 1s). Low-level languages require programmers to talk closely to the computer hardware, managing CPU registers and memory addresses. Python is a <strong>high-level language</strong>. It abstracts (hides) all the complex hardware details.</p>
+                
+                <div class="flow-diagram">
+                    <div class="flow-box">Your Python Code</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-box" style="border-style: dashed; color: #8b949e;">Abstracts Memory & Hardware</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-box" style="border-color: #56d364; color: #56d364;">System Hardware</div>
+                </div>
+                <p class="content-intro"><strong>Why it matters:</strong> When writing Python, you never have to worry about manually allocating memory, clean-up operations, or managing system pointers. Python's internal engine handles it all automatically.</p>
+
+                <h2 class="content-subtitle">5. Interpreted Language</h2>
+                <p class="content-intro">Languages are generally executed in one of two ways: they are either compiled or interpreted. In a compiled language (like C or C++), the entire code is translated into machine code all at once before running. <strong>Python is an interpreted language. Its code is executed line by line.</strong></p>
+
+                <div class="stepper-widget">
+                    <div style="color:#66ccff; font-weight:bold; font-size:1.1rem; display:flex; justify-content:space-between; align-items:center;">
+                        Interactive Feature: The Interpreted Environment
+                        <button class="step-btn" id="interpreterStepBtn" onclick="executeNextLine()">Step Forward ➔</button>
+                    </div>
+                    <p style="color:#8b949e; font-size:0.9rem; margin:0;">Watch how Python reads, executes, and halts on errors line-by-line.</p>
+                    
+                    <div class="stepper-code" id="interpreterCodeBox">
+                        <div class="code-line" id="il-1"><span style="color:#a5d6ff;">message</span> = <span style="color:#a5d6ff;">"Running systems..."</span></div>
+                        <div class="code-line" id="il-2"><span style="color:#d2a8ff;">print</span>(message)</div>
+                        <div class="code-line" id="il-3"><span style="color:#a5d6ff;">data</span> = 100 / 0 <span style="color:#8b949e; font-style:italic;"># Logical error here!</span></div>
+                        <div class="code-line" id="il-4"><span style="color:#d2a8ff;">print</span>(<span style="color:#a5d6ff;">"This line will never run."</span>)</div>
+                    </div>
+                    
+                    <div class="stepper-console" id="interpreterConsole">> Awaiting execution...</div>
+                </div>
+
+                <p class="content-intro"><strong>Behind the Scenes:</strong> When you run a Python file, two main steps happen internally:</p>
+                <ul class="content-points">
+                    <li><strong>Compilation to Bytecode:</strong> The Python compiler converts your source code (.py) into an intermediate, low-level instruction set called Bytecode.</li>
+                    <li><strong>The Virtual Machine (PVM):</strong> The Python Virtual Machine acts as the interpreter. It reads the bytecode line by line and converts it into machine instructions.</li>
+                </ul>
+                <p class="content-intro"><strong>Why it matters:</strong> Line-by-line execution makes debugging incredibly easy. If your code has an error on line 10, Python will execute lines 1 to 9 perfectly and then pause at line 10 to tell you exactly what went wrong.</p>
+
+                <h2 class="content-subtitle">6. Platform Independent & Portable</h2>
+                <p class="content-intro">Because Python uses an intermediate bytecode step, it is highly portable.</p>
+                
+                <div class="flow-diagram">
+                    <div class="flow-box">Py Bytecode</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-branch">
+                        <div class="flow-box" style="width: 100%;">PVM on Windows ➔ PC</div>
+                        <div class="flow-box" style="width: 100%;">PVM on macOS ➔ Mac</div>
+                        <div class="flow-box" style="width: 100%;">PVM on Linux ➔ Server</div>
+                    </div>
+                </div>
+                <p class="content-intro">As long as a target computer has a Python Virtual Machine (PVM) installed, your code will run without any changes.</p>
+                <div class="cyber-alert info">
+                    <div class="alert-icon">🌍</div>
+                    <div class="alert-text"><strong>The Slogan: "Write Once, Run Anywhere" (WORA).</strong> You can write code on a Windows laptop, deploy it to a Linux cloud server, or run it on a Mac without changing a single line of logic.</div>
+                </div>
+
+                <h2 class="content-subtitle">7. Dynamically Typed</h2>
+                <p class="content-intro">In statically typed languages (like Java, C++, or C#), you must explicitly declare what kind of data a variable will hold before using it. In Python, you do not need to declare variable types. Python's interpreter figures out the data type automatically at runtime.</p>
+
+                <div class="typing-visualizer">
+                    <h3 style="color:#66ccff; margin-bottom:15px;">Interactive Feature: Dynamic Typing</h3>
+                    <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:25px;">In C++, a box meant for numbers can never hold text. In Python, the box morphs dynamically! Click the button to assign new data.</p>
+                    
+                    <div class="memory-box state-int" id="dtMemBox">
+                        <span class="memory-label">Variable: x</span>
+                        <div class="memory-value" id="dtValue">5</div>
+                        <div class="memory-type" id="dtType">&lt;class 'int'&gt;</div>
+                    </div>
+                    
+                    <div style="font-family:'Consolas', monospace; color:#ffbd2e; margin-bottom:20px; font-size:1.1rem;" id="dtCodeLine">x = 5</div>
+                    
+                    <button class="codify-btn-outline" id="dtBtn" onclick="toggleDynamicType()">Execute: x = "Hello"</button>
+                </div>
+
+                <h2 class="content-subtitle">8. Multi-Paradigm Programming</h2>
+                <p class="content-intro">Python does not force you to write code in one specific style. It supports multiple programming approaches (paradigms):</p>
+                
+                <div class="rule-grid">
+                    <div class="rule-card">
+                        <span class="rule-title" style="color:#ffbd2e;">A. Procedural</span>
+                        <p class="rule-text">Focuses on writing step-by-step instructions and reusable functions.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-title" style="color:#00aaff;">B. Object-Oriented (OOP)</span>
+                        <p class="rule-text">Organizes code around real-world "objects" that bundle data and behavior.</p>
+                    </div>
+                    <div class="rule-card">
+                        <span class="rule-title" style="color:#56d364;">C. Functional</span>
+                        <p class="rule-text">Treats computation as math functions, utilizing tools like lambda and map.</p>
+                    </div>
+                </div>
+
+                <h2 class="content-subtitle">More Industry Dominating Features</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔋</span>
+                        <h3 class="feature-title">9. "Batteries Included"</h3>
+                        <p class="feature-desc">When you install Python, you get a massive array of pre-written modules out of the box (e.g., <code>math</code>, <code>datetime</code>, <code>json</code>, <code>os</code>). No need to reinvent the wheel.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🚀</span>
+                        <h3 class="feature-title">10. Extensible (C/C++)</h3>
+                        <p class="feature-desc">Need raw speed for 3D gaming? You can write speed-critical code in high-performance C or C++, compile it, and import it directly into Python as a module.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🧩</span>
+                        <h3 class="feature-title">11. Embeddable</h3>
+                        <p class="feature-desc">Just as you can put C inside Python, you can embed Python scripts inside a C/C++ application to give it flexible scripting capabilities.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🧹</span>
+                        <h3 class="feature-title">12. Automatic Memory Management</h3>
+                        <p class="feature-desc">Python prevents memory leaks via Reference Counting and a built-in Garbage Collector (GC) that automatically destroys unused variables.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📦</span>
+                        <h3 class="feature-title">13. Massive PyPI Ecosystem</h3>
+                        <p class="feature-desc">Access over 400,000+ third-party libraries for AI (TensorFlow), Web (Django), and Data Science (Pandas) with a single <code>pip</code> command.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🖥️</span>
+                        <h3 class="feature-title">14. GUI Programming</h3>
+                        <p class="feature-desc">Build desktop software with buttons and windows using powerful built-in toolkits like Tkinter, PyQt, or Kivy.</p>
+                    </div>
+                </div>
+
+                <h2 class="content-subtitle">Summary Comparison: Statically vs. Dynamically Typed</h2>
+                <p class="content-intro">Understanding this distinction is a favorite topic of technical interviewers:</p>
+                <div class="table-container">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Feature Dimension</th>
+                                <th>Statically Typed (e.g., C++, Java)</th>
+                                <th>Dynamically Typed (Python)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Type Checking Time</strong></td>
+                                <td>Compile-Time (before the program runs)</td>
+                                <td><span style="color:#00aaff; font-weight:bold;">Runtime</span> (as the code is running)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Variable Declaration</strong></td>
+                                <td>Must declare explicitly (<code>int x = 5</code>)</td>
+                                <td><span style="color:#00aaff; font-weight:bold;">No declaration needed</span> (<code>x = 5</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Development Speed</strong></td>
+                                <td>Slower (more lines of code to write)</td>
+                                <td><span style="color:#00aaff; font-weight:bold;">Extremely fast</span> (fewer lines of code)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Error Detection</strong></td>
+                                <td>Catches type-mismatches early</td>
+                                <td>Type errors are caught only during execution</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="content-subtitle">Codify Revision Cheat Sheet</h2>
+                <div class="table-container">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Feature Name</th>
+                                <th>Key Focus</th>
+                                <th>Real-world Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Simple Syntax</strong></td><td>English-like coding formatting</td><td>Perfect for absolute beginners</td></tr>
+                            <tr><td><strong>Interpreted</strong></td><td>Line-by-line execution</td><td>Effortless debugging of code</td></tr>
+                            <tr><td><strong>High-level</strong></td><td>Automatic memory/pointer control</td><td>Developers focus on logic, not hardware</td></tr>
+                            <tr><td><strong>Platform Independent</strong></td><td>Uses bytecode and PVM translator</td><td>Program runs on any OS without changes</td></tr>
+                            <tr><td><strong>Multi-Paradigm</strong></td><td>Supports OOP, Functional, Procedural</td><td>High coding flexibility</td></tr>
+                            <tr><td><strong>Extensible / Embeddable</strong></td><td>Cross-language friendly</td><td>Blends with C/C++ for performance</td></tr>
+                            <tr><td><strong>Batteries Included</strong></td><td>Massive built-in library collection</td><td>Ready-to-use tools for file, OS, and math</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="content-subtitle">Codify Interactive Quiz 🧠</h2>
+                <p class="content-intro">Test your understanding of Python's features with these concept-checking questions.</p>
+
+                <div class="interactive-quiz-container">
+                    <div class="quiz-question-block active-question" id="qb-1">
+                        <div class="quiz-header"><span class="quiz-tracker">Question 1 of 5</span></div>
+                        <div class="quiz-prompt">Q1. Why is Python classified as an "interpreted" language?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">A) Because you must compile the entire code into machine language before running it.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 1)">B) Because it executes code line by line using a virtual machine (PVM).</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">C) Because it only runs on web browsers like JavaScript.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 1)">D) Because it does not support numeric calculation.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-1" onclick="nextQuestion(1)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-2">
+                        <div class="quiz-header"><span class="quiz-tracker">Question 2 of 5</span></div>
+                        <div class="quiz-prompt">Q2. What does the "Batteries Included" philosophy in Python refer to?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">A) Python programs require physical hardware batteries to compile.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">B) Python has a built-in hardware power-management system.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 2)">C) Python comes with a rich standard library out of the box, reducing external tools.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 2)">D) Python can only build web applications.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-2" onclick="nextQuestion(2)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-3">
+                        <div class="quiz-header"><span class="quiz-tracker">Question 3 of 5</span></div>
+                        <div class="quiz-prompt">Q3. In a dynamically typed language like Python, what is true about variables?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">A) Variables must have their type declared before use.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 3)">B) The interpreter determines the variable's type at runtime.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">C) Once assigned a number, a variable can never be changed to a string.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 3)">D) Variables cannot hold objects or classes.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-3" onclick="nextQuestion(3)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-4">
+                        <div class="quiz-header"><span class="quiz-tracker">Question 4 of 5</span></div>
+                        <div class="quiz-prompt">Q4. How does Python prevent memory leaks without requiring manual memory deallocation from the programmer?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">A) By rebooting the operating system after execution.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 4)">B) By utilizing automatic garbage collection and reference counting.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">C) By restricting program size to 1 Megabyte of RAM.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 4)">D) By keeping all data permanently inside the cache memory.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-4" onclick="nextQuestion(4)">Next Question ➔</button>
+                    </div>
+
+                    <div class="quiz-question-block" id="qb-5">
+                        <div class="quiz-header"><span class="quiz-tracker">Question 5 of 5</span></div>
+                        <div class="quiz-prompt">Q5. What is the benefit of Python's "Extensible" nature?</div>
+                        <div class="quiz-options">
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">A) You can physically stretch Python's code boundaries.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">B) It allows Python to run faster on older hardware monitors.</button>
+                            <button class="q-option" onclick="handleAnswer(this, true, 5)">C) It lets developers run speed-critical portions of code written in C/C++.</button>
+                            <button class="q-option" onclick="handleAnswer(this, false, 5)">D) It allows the code to run without installing an interpreter.</button>
+                        </div>
+                        <button class="next-question-btn" id="next-5" onclick="finishQuiz()">Finish Quiz ➔</button>
+                    </div>
+
+                    <div class="quiz-completion" id="qb-complete">
+                        <h3 style="color: #00aaff; font-size: 2rem; margin-bottom: 10px;">Module Mastered! 🚀</h3>
+                        <p style="color: #cfd8dc; font-size: 1.1rem;">You now understand exactly why Python dominates the industry.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-complete-card">
+                    <div class="complete-text">
+                        <h3>Finished this topic?</h3>
+                        <p>Marking this topic as finished updates your course completion matrix.</p>
+                    </div>
+                    <button id="markCompleteBtn" class="mark-btn" onclick="toggleLessonCompletion()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span id="completeBtnText">Mark as Completed</span>
+                    </button>
+                </div>
+
+                <div class="content-nav-row bottom-nav-row">
+                    <a href="1.1-history.html" class="codify-btn-outline nav-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6" /></svg> Previous Topic
+                    </a>
+                    <a href="1.3-applications.html" class="codify-btn-outline nav-btn">
+                        Next Topic <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6" /></svg>
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <script src="../../../../js/script.js"></script>
+    <script type="module" src="../../../../js/auth/nav-auth.js"></script>
+
+    <script type="module">
+        import { supabase } from '../../../../js/config/supabase-client.js';
+
+        async function protectRoute() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error || !user) {
+                sessionStorage.setItem('redirectUrl', window.location.pathname);
+                window.location.href = '../../../../auth/login.html';
+            }
+        }
+        protectRoute();
+
+        const COURSE_ID = 'python-101'; 
+        const LESSON_ID = 'python-1.2-features';
+
+        let currentUser = null;
+        let isCompleted = false;
+
+        async function initLessonProgress() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return; 
+
+            currentUser = user;
+
+            const { data } = await supabase
+                .from('user_progress')
+                .select('completed')
+                .eq('user_id', user.id)
+                .eq('course_id', COURSE_ID)
+                .eq('lesson_id', LESSON_ID)
+                .single();
+
+            if (data && data.completed) {
+                isCompleted = true;
+                updateButtonUI(true);
+            }
+        }
+
+        window.toggleLessonCompletion = async function() {
+            if (!currentUser) {
+                alert("Please log in to track your course progress!");
+                window.location.href = '../../../../auth/login.html';
+                return;
+            }
+
+            isCompleted = !isCompleted;
+            updateButtonUI(isCompleted);
+
+            try {
+                if (isCompleted) {
+                    await supabase.from('user_progress').upsert({
+                        user_id: currentUser.id,
+                        course_id: COURSE_ID,
+                        lesson_id: LESSON_ID,
+                        completed: true
+                    });
+                } else {
+                    await supabase.from('user_progress')
+                        .delete()
+                        .eq('user_id', currentUser.id)
+                        .eq('course_id', COURSE_ID)
+                        .eq('lesson_id', LESSON_ID);
+                }
+            } catch (err) {
+                console.error("Failed to update progress:", err);
+            }
+        };
+
+        function updateButtonUI(completed) {
+            const btn = document.getElementById('markCompleteBtn');
+            const text = document.getElementById('completeBtnText');
+            
+            if (completed) {
+                btn.classList.add('is-completed');
+                text.textContent = '✓ Completed';
+            } else {
+                btn.classList.remove('is-completed');
+                text.textContent = 'Mark as Completed';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initLessonProgress);
+    </script>
+    
+    <script>
+        // ==========================================
+        // 1. LANGUAGE TABS LOGIC
+        // ==========================================
+        function openLangTab(evt, langId) {
+            // Hide all contents
+            const tabcontents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontents.length; i++) {
+                tabcontents[i].classList.remove("active");
+            }
+            // Deactivate all buttons
+            const tablinks = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            // Activate target
+            document.getElementById(langId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // ==========================================
+        // 2. INTERACTIVE INTERPRETER LOGIC
+        // ==========================================
+        let currentStep = 0;
+        const totalSteps = 4;
+        function executeNextLine() {
+            const btn = document.getElementById('interpreterStepBtn');
+            const consoleBox = document.getElementById('interpreterConsole');
+            
+            currentStep++;
+
+            // Reset previous highlights
+            for(let i=1; i<=totalSteps; i++) {
+                const el = document.getElementById('il-' + i);
+                if(el) {
+                    el.classList.remove('active-line');
+                    if(i < currentStep) el.classList.add('executed');
+                }
+            }
+
+            // Execute Logic based on Step
+            if (currentStep === 1) {
+                document.getElementById('il-1').classList.add('active-line');
+                consoleBox.innerHTML = "> Memory allocated for variable 'message'.";
+            } 
+            else if (currentStep === 2) {
+                document.getElementById('il-2').classList.add('active-line');
+                consoleBox.innerHTML = "> Outputting to console...<br><span style='color:#fff'>Running systems...</span>";
+            }
+            else if (currentStep === 3) {
+                document.getElementById('il-3').classList.add('error-line');
+                consoleBox.innerHTML = "> Attempting arithmetic operation...<br><span style='color:#ff5f56; font-weight:bold;'>[FATAL] ZeroDivisionError: division by zero</span><br>> EXECUTION HALTED.";
+                btn.disabled = true;
+                btn.innerText = "Program Crashed";
+                btn.style.background = "#ff5f56";
+            }
+        }
+
+        // ==========================================
+        // 3. DYNAMIC TYPING VISUALIZER
+        // ==========================================
+        let isIntState = true;
+        function toggleDynamicType() {
+            const memBox = document.getElementById('dtMemBox');
+            const valLabel = document.getElementById('dtValue');
+            const typeLabel = document.getElementById('dtType');
+            const codeLabel = document.getElementById('dtCodeLine');
+            const btn = document.getElementById('dtBtn');
+
+            if (isIntState) {
+                // Morph to String
+                memBox.classList.remove('state-int');
+                memBox.classList.add('state-str');
+                valLabel.innerText = '"Hello"';
+                typeLabel.innerText = "<class 'str'>";
+                codeLabel.innerHTML = 'x = <span style="color:#a5d6ff;">"Hello"</span>';
+                codeLabel.style.color = "#00aaff";
+                btn.innerText = "Re-Execute: x = 5";
+            } else {
+                // Morph back to Int
+                memBox.classList.remove('state-str');
+                memBox.classList.add('state-int');
+                valLabel.innerText = "5";
+                typeLabel.innerText = "<class 'int'>";
+                codeLabel.innerHTML = 'x = 5';
+                codeLabel.style.color = "#ffbd2e";
+                btn.innerText = 'Execute: x = "Hello"';
+            }
+            isIntState = !isIntState;
+        }
+
+        // ==========================================
+        // QUIZ LOGIC
+        // ==========================================
+        window.handleAnswer = function(btnElement, isCorrect, questionNumber) {
+            const optionsContainer = btnElement.parentElement;
+            const allButtons = optionsContainer.querySelectorAll('.q-option');
+            allButtons.forEach(btn => btn.classList.add('locked'));
+
+            if (isCorrect) {
+                btnElement.classList.add('correct');
+            } else {
+                btnElement.classList.add('incorrect');
+                allButtons.forEach(btn => {
+                    if(btn.getAttribute('onclick').includes('true')) {
+                        btn.classList.add('correct');
+                        btn.style.opacity = "0.7"; 
+                    }
+                });
+            }
+            document.getElementById('next-' + questionNumber).style.display = 'block';
+        }
+
+        window.nextQuestion = function(currentNumber) {
+            document.getElementById('qb-' + currentNumber).classList.remove('active-question');
+            document.getElementById('qb-' + (currentNumber + 1)).classList.add('active-question');
+        }
+
+        window.finishQuiz = function() {
+            document.getElementById('qb-5').classList.remove('active-question');
+            document.getElementById('qb-complete').classList.add('active');
+        }
+    </script>
+</body>
+</html>
