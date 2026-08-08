@@ -4,15 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master computer science, algorithms, and practical software development through interactive courses and tutorials on Codify.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    
     <link rel="icon" type="image/svg+xml" href="src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="src/css/style.css">
     <title>Codify | Master Computer Science & Development</title>
 
     <style>
-        /* Base Reset & Layout Scope */
+        /* ==========================================================================
+           BASE RESET & MOBILE-FIRST RESPONSIVE SCOPE
+           ========================================================================== */
         body {
             background-color: #0a0f1c;
             color: #e0e6ed;
@@ -21,10 +26,10 @@
             flex-direction: column;
             margin: 0;
             overflow-x: hidden;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* FORCE VISIBILITY ON MAIN & SECTIONS */
+        /* Force Visibility & Layout */
         main {
             display: flex !important;
             flex-direction: column;
@@ -41,40 +46,55 @@
             visibility: visible !important;
         }
 
-        /* Ambient Glow Effect */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Ambient Hero Glow Effect */
         .hero-glow {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
             height: 400px;
             background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Hero Section Styling */
+        /* ==========================================================================
+           HERO SECTION (MOBILE & DESKTOP TUNED)
+           ========================================================================== */
         .hero-section {
             display: block !important;
             position: relative;
             text-align: center;
             max-width: 900px;
-            margin: 40px auto 40px auto;
+            margin: 20px auto 40px auto;
             padding: 0 20px;
             z-index: 2;
+            box-sizing: border-box;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(0, 170, 255, 0.1);
-            border: 1px solid rgba(0, 170, 255, 0.3);
+            background: rgba(0, 170, 255, 0.12);
+            border: 1px solid rgba(0, 170, 255, 0.35);
             color: #00aaff;
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 24px;
         }
@@ -83,7 +103,7 @@
             font-size: 3.2rem;
             font-weight: 800;
             color: #ffffff;
-            line-height: 1.2;
+            line-height: 1.25;
             margin-bottom: 20px;
             letter-spacing: -0.5px;
         }
@@ -112,18 +132,22 @@
             flex-wrap: wrap;
         }
 
+        /* Mobile Touch Target Compliant Buttons (Min 48px height) */
         .btn-primary-glow {
             background: linear-gradient(90deg, #0077ff, #00aaff);
             color: #ffffff;
             font-size: 1rem;
             font-weight: 700;
             padding: 14px 32px;
+            min-height: 48px;
+            box-sizing: border-box;
             border-radius: 12px;
             text-decoration: none;
             box-shadow: 0 4px 20px rgba(0, 170, 255, 0.35);
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
 
@@ -134,15 +158,20 @@
 
         .btn-secondary-outline {
             background: rgba(13, 27, 42, 0.6);
-            border: 1px solid rgba(0, 170, 255, 0.25);
+            border: 1px solid rgba(0, 170, 255, 0.3);
             color: #e0e6ed;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             padding: 14px 28px;
+            min-height: 48px;
+            box-sizing: border-box;
             border-radius: 12px;
             text-decoration: none;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-secondary-outline:hover {
@@ -151,10 +180,12 @@
             background: rgba(0, 170, 255, 0.1);
         }
 
-        /* Features Section Grid */
+        /* ==========================================================================
+           FEATURES GRID (RESPONSIVE)
+           ========================================================================== */
         .features-grid {
             display: grid !important;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
             max-width: 1100px;
             width: 100%;
@@ -167,7 +198,7 @@
 
         .feature-card {
             background: rgba(13, 27, 42, 0.5);
-            border: 1px solid rgba(0, 170, 255, 0.18);
+            border: 1px solid rgba(0, 170, 255, 0.2);
             border-radius: 20px;
             padding: 28px;
             backdrop-filter: blur(16px);
@@ -176,7 +207,7 @@
 
         .feature-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(0, 170, 255, 0.4);
+            border-color: rgba(0, 170, 255, 0.5);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
@@ -193,205 +224,217 @@
 
         .feature-card h3 {
             color: #ffffff;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin-bottom: 10px;
             margin-top: 0;
+            font-weight: 700;
         }
 
         .feature-card p {
             color: #94a3b8;
-            font-size: 0.92rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.55;
             margin: 0;
         }
 
-        /* Footer */
+        /* ==========================================================================
+           FOOTER & INTERACTIVE HOVER POPOVER
+           ========================================================================== */
         .codify-footer {
             margin-top: auto;
             border-top: 1px solid rgba(0, 170, 255, 0.15);
             padding: 24px 20px;
             text-align: center;
-            color: #64748b;
-            font-size: 0.88rem;
-            background: rgba(10, 15, 28, 0.9);
+            color: #94a3b8;
+            font-size: 0.9rem;
+            background: rgba(10, 15, 28, 0.95);
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
 
+        .team-hover-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .team-trigger {
+            color: #00aaff;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .team-trigger:hover,
+        .team-trigger:focus {
+            background: rgba(0, 170, 255, 0.15);
+            color: #38bdf8;
+            outline: none;
+        }
+
+        /* Floating Tooltip / Card */
+        .team-popover {
+            position: absolute;
+            bottom: 135%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            width: 240px;
+            background: rgba(13, 27, 42, 0.98);
+            border: 1px solid rgba(0, 170, 255, 0.35);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 170, 255, 0.15);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .team-popover::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(13, 27, 42, 0.98) transparent transparent transparent;
+        }
+
+        .team-hover-wrapper:hover .team-popover,
+        .team-hover-wrapper:focus-within .team-popover {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .popover-header {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #00aaff;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+            padding-bottom: 6px;
+            text-align: left;
+        }
+
+        .team-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #e0e6ed;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .member-dot {
+            width: 6px;
+            height: 6px;
+            background: #00aaff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00aaff;
+            flex-shrink: 0;
+        }
+
+        /* ==========================================================================
+           MOBILE BREAKPOINTS (SCALING FOR SMALL SCREENS)
+           ========================================================================== */
         @media (max-width: 768px) {
+            main {
+                margin-top: 75px !important;
+            }
+            .hero-section {
+                margin-top: 10px;
+                padding: 0 16px;
+            }
             .hero-title {
-                font-size: 2.3rem;
+                font-size: 2.2rem;
+                line-height: 1.3;
             }
             .hero-subtitle {
                 font-size: 1rem;
+                margin-bottom: 28px;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-primary-glow,
+            .btn-secondary-outline {
+                width: 100%;
+            }
+            .features-grid {
+                margin-bottom: 40px;
+                padding: 0 16px;
             }
         }
-
-        /* Footer & Interactive Hover Card Styling */
-    .codify-footer {
-        margin-top: auto;
-        border-top: 1px solid rgba(0, 170, 255, 0.15);
-        padding: 24px 20px;
-        text-align: center;
-        color: #64748b;
-        font-size: 0.88rem;
-        background: rgba(10, 15, 28, 0.9);
-        position: relative;
-        z-index: 10;
-    }
-
-    .team-hover-wrapper {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-    .team-trigger {
-        color: #00aaff;
-        font-weight: 700;
-        text-decoration: none;
-        padding: 2px 6px;
-        border-radius: 6px;
-        transition: all 0.25s ease;
-    }
-
-    .team-trigger:hover {
-        background: rgba(0, 170, 255, 0.12);
-        text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
-    }
-
-    /* Floating Tooltip/Card */
-    .team-popover {
-        position: absolute;
-        bottom: 135%;
-        left: 50%;
-        transform: translateX(-50%) translateY(8px);
-        width: 240px;
-        background: rgba(13, 27, 42, 0.95);
-        border: 1px solid rgba(0, 170, 255, 0.3);
-        border-radius: 16px;
-        padding: 16px;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 170, 255, 0.15);
-        backdrop-filter: blur(16px);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 100;
-    }
-
-    /* Small Arrow Indicator on Popover */
-    .team-popover::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 6px;
-        border-style: solid;
-        border-color: rgba(13, 27, 42, 0.95) transparent transparent transparent;
-    }
-
-    /* Reveal Popover on Hover */
-    .team-hover-wrapper:hover .team-popover {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0);
-    }
-
-    .popover-header {
-        font-size: 0.75rem;
-        font-weight: 800;
-        letter-spacing: 1px;
-        color: #00aaff;
-        text-transform: uppercase;
-        margin-bottom: 12px;
-        border-bottom: 1px solid rgba(0, 170, 255, 0.15);
-        padding-bottom: 6px;
-        text-align: left;
-    }
-
-    .team-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .team-member {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.85rem;
-        color: #e0e6ed;
-        font-weight: 600;
-        text-align: left;
-        transition: color 0.2s ease;
-    }
-
-    .team-member:hover {
-        color: #00aaff;
-    }
-
-    .member-dot {
-        width: 6px;
-        height: 6px;
-        background: #00aaff;
-        border-radius: 50%;
-        box-shadow: 0 0 8px #00aaff;
-        flex-shrink: 0;
-    }
     </style>
 </head>
+
 <body>
 
     <header class="codify-main-header">
-    <div class="codify-header-container">
+        <div class="codify-header-container">
 
-        <div class="codify-left-group">
-            <div class="codify-logo" onclick="window.location.href='index.html'">
-                Codify
-            </div>
-        </div>
-
-        <nav class="codify-center-nav" aria-label="Main menu links">
-            <ul class="codify-nav-links" id="navLinks">
-                <li><a href="index.html" class="active-link">Home</a></li>
-                <li><a href="src/pages/courses.html">Courses</a></li>
-                <li><a href="src/pages/courses/exam.html">Quizzes & Exams</a></li>
-                <li><a href="src/pages/certificate.html">Certificates</a></li>
-                <li><a href="src/pages/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-
-        <div class="codify-right-group">
-            <div class="codify-auth-group" id="authNavGroup">
-                <a href="src/auth/login.html" class="codify-btn-outline">Login</a>
-                <a href="src/auth/signup.html" class="codify-btn-outline">Signup</a>
+            <div class="codify-left-group">
+                <div class="codify-logo" onclick="window.location.href='index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
+                    Codify
+                </div>
             </div>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <nav class="codify-center-nav" aria-label="Main navigation menu">
+                <ul class="codify-nav-links" id="navLinks">
+                    <li><a href="index.html" class="active-link" aria-current="page">Home</a></li>
+                    <li><a href="src/pages/courses.html">Courses</a></li>
+                    <li><a href="src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
+                    <li><a href="src/pages/certificate.html">Certificates</a></li>
+                    <li><a href="src/pages/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="codify-right-group">
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="src/auth/login.html" class="codify-btn-outline">Login</a>
+                    <a href="src/auth/signup.html" class="codify-btn-outline">Signup</a>
+                </div>
+
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
         </div>
+    </header>
 
-    </div>
-</header>
-
-    <div class="hero-glow"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
 
     <main>
-        <section class="hero-section visible">
+        <section class="hero-section visible" aria-labelledby="heroHeading">
             <div class="hero-badge">
                 🚀 Welcome to Next-Gen Learning
             </div>
             
-            <h1 class="hero-title">
+            <h1 class="hero-title" id="heroHeading">
                 Go from "Hello World" to <span>"Hire Me"</span> without the headache.
             </h1>
             
@@ -402,7 +445,7 @@
             <div class="hero-cta-group">
                 <a href="src/pages/courses.html" class="btn-primary-glow">
                     Explore Courses
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -411,9 +454,11 @@
             </div>
         </section>
 
-        <section class="features-grid visible" id="features">
+        <section class="features-grid visible" id="features" aria-labelledby="featuresHeading">
+            <h2 id="featuresHeading" class="visually-hidden">Key Features</h2>
+
             <div class="feature-card">
-                <div class="feature-icon">
+                <div class="feature-icon" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="16 18 22 12 16 6"></polyline>
                         <polyline points="8 6 2 12 8 18"></polyline>
@@ -424,7 +469,7 @@
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon">
+                <div class="feature-icon" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
@@ -435,7 +480,7 @@
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon">
+                <div class="feature-icon" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
                         <path d="M12 6v6l4 2"></path>
@@ -448,28 +493,28 @@
     </main>
 
     <footer class="codify-footer">
-    <div>
-        Built with precision for future developers • Developed by 
-        <span class="team-hover-wrapper">
-            <span class="team-trigger">Codify Team</span>
+        <div>
+            Built with precision for future developers • Developed by 
+            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="team-trigger">Codify Team</span>
 
-            <div class="team-popover">
-                <div class="popover-header">Core Engineers</div>
-                <ul class="team-list">
-                    <li class="team-member" style="font-weight: 740;"><span class="member-dot"></span>Mohammed Owais</li>
-                    <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
-                    <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
-                    <li class="team-member"><span class="member-dot"></span>M. Basha</li>
-                    <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
-                </ul>
-            </div>
-        </span>
-    </div>
-</footer>
+                <div class="team-popover" role="tooltip">
+                    <div class="popover-header">Core Engineers</div>
+                    <ul class="team-list">
+                        <li class="team-member" style="font-weight: 700;"><span class="member-dot"></span>Mohammed Owais</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
+                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Basha</li>
+                        <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </footer>
 
-    <script src="../../js/script.js"></script>
-    <script type="module" src="../../js/config/supabase-client.js"></script>
-        <script type="module" src="../../js/auth/auth-guard.js"></script>
+    <script src="src/js/script.js"></script>
+    <script type="module" src="src/js/config/supabase-client.js"></script>
+    <script type="module" src="src/js/auth/nav-auth.js"></script>
 </body>
 
 </html>
