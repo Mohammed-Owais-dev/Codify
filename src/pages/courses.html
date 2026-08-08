@@ -16,7 +16,7 @@
 
     <style>
         /* ==========================================================================
-           CRITICAL MOBILE OVERFLOW & PERFORMANCE FIXES
+           CRITICAL MOBILE OVERFLOW & RESPONSIVE FIXES
            ========================================================================== */
         html, body {
             max-width: 100vw !important;
@@ -33,12 +33,12 @@
             padding: 0;
         }
 
-        /* Prevent Horizontal Page Drift */
         main, header, footer, section {
             max-width: 100% !important;
             box-sizing: border-box;
         }
 
+        /* Course Grid & Box Sizing */
         .courses-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -49,7 +49,23 @@
             box-sizing: border-box;
         }
 
-        /* Fast Scroll & GPU Acceleration */
+        /* Restore Course Box Logo Size */
+        .card-header img {
+            width: 60px !important;
+            height: 60px !important;
+            object-fit: contain;
+            aspect-ratio: 1/1;
+            flex-shrink: 0;
+            border-radius: 12px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Fast Scroll GPU Acceleration */
         .course-card {
             content-visibility: auto;
             contain-intrinsic-size: 1px 320px;
@@ -61,15 +77,13 @@
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
-        .card-header img {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
-            aspect-ratio: 1/1;
-            flex-shrink: 0;
+        /* Header Layout & Profile DP Styling */
+        .codify-right-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* Profile DP Icon Styling */
         .nav-profile-dp {
             width: 38px;
             height: 38px;
@@ -83,6 +97,7 @@
             color: #00aaff;
             font-weight: 800;
             text-decoration: none;
+            flex-shrink: 0;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -98,7 +113,29 @@
             object-fit: cover;
         }
 
-        /* Mobile Layout & Drawer Adjustments */
+        /* Drawer Overlay Backdrop */
+        .nav-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 10, 20, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .nav-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ==========================================================================
+           MOBILE NAVIGATION DRAWER & DP VISIBILITY (<= 768px)
+           ========================================================================== */
         @media (max-width: 768px) {
             main {
                 margin-top: 80px !important;
@@ -115,20 +152,41 @@
                 background: rgba(13, 27, 42, 0.95) !important;
             }
 
-            /* Responsive Mobile Header Navigation Drawer */
+            .card-header img {
+                width: 52px !important;
+                height: 52px !important;
+            }
+
+            /* Ensure Auth Group & Profile DP are Visible on Mobile Header */
+            .codify-auth-group {
+                display: flex !important;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .codify-btn-outline {
+                padding: 6px 12px;
+                font-size: 0.82rem;
+            }
+
+            /* Mobile Navigation Drawer */
             .codify-center-nav {
                 position: fixed;
-                top: 70px;
+                top: 0;
                 right: -100%;
                 width: 280px;
-                height: calc(100vh - 70px);
+                height: 100vh;
                 background: rgba(10, 15, 28, 0.98);
                 backdrop-filter: blur(20px);
                 border-left: 1px solid rgba(0, 170, 255, 0.25);
-                transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
                 z-index: 999;
-                padding: 30px 20px;
+                padding: 90px 24px 30px 24px;
                 box-sizing: border-box;
+                display: flex !important;
+                flex-direction: column;
+                justify-content: flex-start;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
             }
 
             .codify-center-nav.active {
@@ -137,20 +195,80 @@
 
             .codify-nav-links {
                 flex-direction: column !important;
-                gap: 20px !important;
+                gap: 18px !important;
                 align-items: flex-start !important;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                width: 100%;
+            }
+
+            .codify-nav-links li {
+                width: 100%;
             }
 
             .codify-nav-links a {
-                font-size: 1.1rem;
-                width: 100%;
+                font-size: 1.15rem;
+                font-weight: 700;
+                color: #e0e6ed;
+                text-decoration: none;
+                padding: 10px 14px;
+                border-radius: 10px;
                 display: block;
+                width: 100%;
+                box-sizing: border-box;
+                transition: background 0.2s ease, color 0.2s ease;
+            }
+
+            .codify-nav-links a:hover,
+            .codify-nav-links a.active-link {
+                background: rgba(0, 170, 255, 0.15);
+                color: #00aaff;
+            }
+
+            /* Hamburger Menu Animation */
+            .menu-toggle {
+                display: flex !important;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 30px;
+                height: 22px;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                z-index: 1000;
+                position: relative;
+            }
+
+            .menu-toggle span {
+                width: 100%;
+                height: 2.5px;
+                background-color: #00aaff;
+                border-radius: 4px;
+                transition: all 0.3s ease;
+                transform-origin: left center;
+            }
+
+            .menu-toggle.open span:nth-child(1) {
+                transform: rotate(45deg);
+            }
+
+            .menu-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.open span:nth-child(3) {
+                transform: rotate(-45deg);
             }
         }
     </style>
 </head>
 
 <body>
+
+    <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
     <header class="codify-main-header">
         <div class="codify-header-container">
 
@@ -207,7 +325,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/c.webp" alt="C Tutorial logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/c.webp" alt="C Tutorial logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>C Tutorial</h2>
                 </div>
                 <div class="card-body">
@@ -223,7 +341,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/cpp.webp" alt="C++ Tutorial logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/cpp.webp" alt="C++ Tutorial logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>C++ &amp; OOPs</h2>
                 </div>
                 <div class="card-body">
@@ -239,7 +357,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/dbms.jpg" alt="DBMS logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/dbms.jpg" alt="DBMS logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>DBMS</h2>
                 </div>
                 <div class="card-body">
@@ -255,7 +373,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/html.webp" alt="HTML logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/html.webp" alt="HTML logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>HTML</h2>
                 </div>
                 <div class="card-body">
@@ -271,7 +389,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/css.webp" alt="CSS logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/css.webp" alt="CSS logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>CSS</h2>
                 </div>
                 <div class="card-body">
@@ -287,7 +405,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/js.webp" alt="JavaScript logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/js.webp" alt="JavaScript logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>JavaScript</h2>
                 </div>
                 <div class="card-body">
@@ -303,7 +421,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/dbms.png" alt="SQL logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/dbms.png" alt="SQL logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>SQL</h2>
                 </div>
                 <div class="card-body">
@@ -319,7 +437,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/java.webp" alt="Java logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/java.webp" alt="Java logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>Java Programming</h2>
                 </div>
                 <div class="card-body">
@@ -335,7 +453,7 @@
 
             <div class="course-card">
                 <div class="card-header">
-                    <img src="/src/assets/logos/python.webp" alt="Python logo" width="48" height="48" loading="lazy" decoding="async">
+                    <img src="/src/assets/logos/python.webp" alt="Python logo" width="60" height="60" loading="lazy" decoding="async">
                     <h2>Python for Beginners</h2>
                 </div>
                 <div class="card-body">
@@ -378,29 +496,46 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        // 1. Mobile Toggle Button Handler
+        // 1. Mobile Menu Drawer & Overlay Toggle Handler
         document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('menuToggle');
             const centerNav = document.getElementById('centerNav');
+            const navBackdrop = document.getElementById('navBackdrop');
+
+            function toggleDrawer(open) {
+                const isOpen = open !== undefined ? open : !centerNav.classList.contains('active');
+                if (isOpen) {
+                    centerNav.classList.add('active');
+                    navBackdrop.classList.add('active');
+                    menuToggle.classList.add('open');
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                } else {
+                    centerNav.classList.remove('active');
+                    navBackdrop.classList.remove('active');
+                    menuToggle.classList.remove('open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
 
             if (menuToggle && centerNav) {
                 menuToggle.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-                    menuToggle.setAttribute('aria-expanded', !isExpanded);
-                    centerNav.classList.toggle('active');
+                    toggleDrawer();
                 });
 
-                document.addEventListener('click', (e) => {
-                    if (!centerNav.contains(e.target) && !menuToggle.contains(e.target)) {
-                        centerNav.classList.remove('active');
-                        menuToggle.setAttribute('aria-expanded', 'false');
-                    }
+                if (navBackdrop) {
+                    navBackdrop.addEventListener('click', () => toggleDrawer(false));
+                }
+
+                // Close drawer on link click
+                const navLinks = centerNav.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => toggleDrawer(false));
                 });
             }
         });
 
-        // 2. Profile DP & Auth Initialization
+        // 2. Profile DP & Auth State Initialization
         (async function initCoursesPage() {
             const authNavGroup = document.getElementById('authNavGroup');
             const actionButtons = document.querySelectorAll('.course-action-btn');
