@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Explore and enroll in interactive computer science courses on Codify.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,10 +15,28 @@
     <title>Courses | Codify</title>
 
     <style>
-        /* High-Performance Mobile Smooth Scroll & Containment Fixes */
-        html {
+        /* ==========================================================================
+           CRITICAL MOBILE OVERFLOW & PERFORMANCE FIXES
+           ========================================================================== */
+        html, body {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
             scroll-behavior: smooth;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            position: relative;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Prevent Horizontal Page Drift */
+        main, header, footer, section {
+            max-width: 100% !important;
+            box-sizing: border-box;
         }
 
         .courses-container {
@@ -31,12 +49,12 @@
             box-sizing: border-box;
         }
 
-        /* Prevent fast-scroll card jittering via GPU Acceleration & Content Containment */
+        /* Fast Scroll & GPU Acceleration */
         .course-card {
             content-visibility: auto;
             contain-intrinsic-size: 1px 320px;
             transform: translateZ(0);
-            will-change: transform, opacity;
+            will-change: transform;
             backface-visibility: hidden;
             border-radius: 16px;
             overflow: hidden;
@@ -51,18 +69,82 @@
             flex-shrink: 0;
         }
 
+        /* Profile DP Icon Styling */
+        .nav-profile-dp {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #00aaff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: rgba(0, 170, 255, 0.15);
+            color: #00aaff;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-profile-dp:hover,
+        .nav-profile-dp:focus {
+            transform: scale(1.08);
+            box-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
+        }
+
+        .nav-profile-dp img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Mobile Layout & Drawer Adjustments */
         @media (max-width: 768px) {
             main {
                 margin-top: 80px !important;
                 padding: 16px !important;
             }
+
             .courses-container {
                 gap: 16px;
+                grid-template-columns: 1fr;
             }
+
             .course-card {
-                /* Disables heavy backdrop blurs on weak mobile GPUs during fast scroll */
                 backdrop-filter: none !important;
                 background: rgba(13, 27, 42, 0.95) !important;
+            }
+
+            /* Responsive Mobile Header Navigation Drawer */
+            .codify-center-nav {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 280px;
+                height: calc(100vh - 70px);
+                background: rgba(10, 15, 28, 0.98);
+                backdrop-filter: blur(20px);
+                border-left: 1px solid rgba(0, 170, 255, 0.25);
+                transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 999;
+                padding: 30px 20px;
+                box-sizing: border-box;
+            }
+
+            .codify-center-nav.active {
+                right: 0 !important;
+            }
+
+            .codify-nav-links {
+                flex-direction: column !important;
+                gap: 20px !important;
+                align-items: flex-start !important;
+            }
+
+            .codify-nav-links a {
+                font-size: 1.1rem;
+                width: 100%;
+                display: block;
             }
         }
     </style>
@@ -78,7 +160,7 @@
                 </div>
             </div>
 
-            <nav class="codify-center-nav" aria-label="Main menu links">
+            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links" id="navLinks">
                     <li><a href="/">Home</a></li>
                     <li><a href="/src/pages/courses.html" class="active-link" aria-current="page">Courses</a></li>
@@ -126,7 +208,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/c.webp" alt="C Tutorial logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>C Tutorial</h3>
+                    <h2>C Tutorial</h2>
                 </div>
                 <div class="card-body">
                     <p>C language is considered the mother language of all programming languages. Master foundational coding logic.</p>
@@ -142,7 +224,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/cpp.webp" alt="C++ Tutorial logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>C++ &amp; OOPs</h3>
+                    <h2>C++ &amp; OOPs</h2>
                 </div>
                 <div class="card-body">
                     <p>Dive deep into Object-Oriented Programming, templates, and high-performance applications with C++.</p>
@@ -158,7 +240,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/dbms.jpg" alt="DBMS logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>DBMS</h3>
+                    <h2>DBMS</h2>
                 </div>
                 <div class="card-body">
                     <p>Learn relational databases, normalizations, and how to write complex SQL queries to manage backend data.</p>
@@ -174,7 +256,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/html.webp" alt="HTML logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>HTML</h3>
+                    <h2>HTML</h2>
                 </div>
                 <div class="card-body">
                     <p>Build stunning modern websites. Master document markup, structure, and semantic web elements.</p>
@@ -190,7 +272,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/css.webp" alt="CSS logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>CSS</h3>
+                    <h2>CSS</h2>
                 </div>
                 <div class="card-body">
                     <p>Style modern responsive interfaces with Flexbox, Grid, keyframe animations, and themes.</p>
@@ -206,7 +288,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/js.webp" alt="JavaScript logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>JavaScript</h3>
+                    <h2>JavaScript</h2>
                 </div>
                 <div class="card-body">
                     <p>Add dynamic interactivity, web apps, DOM manipulation, and asynchronous API integration.</p>
@@ -222,7 +304,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/dbms.png" alt="SQL logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>SQL</h3>
+                    <h2>SQL</h2>
                 </div>
                 <div class="card-body">
                     <p>Learn relational databases, queries, joins, indexing, and managing real-time datasets.</p>
@@ -238,7 +320,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/java.webp" alt="Java logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>Java Programming</h3>
+                    <h2>Java Programming</h2>
                 </div>
                 <div class="card-body">
                     <p>Learn enterprise-ready programming with Java. Build robust backend applications and Android apps.</p>
@@ -254,7 +336,7 @@
             <div class="course-card">
                 <div class="card-header">
                     <img src="/src/assets/logos/python.webp" alt="Python logo" width="48" height="48" loading="lazy" decoding="async">
-                    <h3>Python for Beginners</h3>
+                    <h2>Python for Beginners</h2>
                 </div>
                 <div class="card-body">
                     <p>Unlock Python. Perfect for Scripting, Web automation, Data Science, and Machine Learning.</p>
@@ -269,45 +351,6 @@
 
         </section>
     </main>
-
-    <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
-        <div class="search-modal-card">
-            <div class="search-modal-header">
-                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <input type="text" id="modalSearchInput" placeholder="Type keywords (e.g., Python history, loop...)" autocomplete="off">
-                <button class="search-modal-close" id="modalSearchClose" aria-label="Close Search">✕</button>
-            </div>
-            <div class="search-results-viewport">
-                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course parameters...</div>
-                <ul class="search-results-list" id="searchResultsList"></ul>
-            </div>
-            <div class="search-modal-footer">
-                <span><kbd>↑↓</kbd> Navigate</span>
-                <span><kbd>Enter</kbd> Select</span>
-                <span><kbd>ESC</kbd> Close</span>
-            </div>
-        </div>
-    </div>
-
-    <div id="authToast" class="auth-toast">
-        <div class="toast-content">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <div class="toast-message">
-                <strong>Authentication Required</strong>
-                <span>Please log in to your Codify account to access this course.</span>
-            </div>
-        </div>
-        <a href="/src/auth/login.html" class="toast-login-btn">Log In</a>
-    </div>
 
     <footer class="codify-footer">
         <div>
@@ -331,9 +374,33 @@
 
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
+    
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
+        // 1. Mobile Toggle Button Handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const centerNav = document.getElementById('centerNav');
+
+            if (menuToggle && centerNav) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                    menuToggle.setAttribute('aria-expanded', !isExpanded);
+                    centerNav.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!centerNav.contains(e.target) && !menuToggle.contains(e.target)) {
+                        centerNav.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+        });
+
+        // 2. Profile DP & Auth Initialization
         (async function initCoursesPage() {
             const authNavGroup = document.getElementById('authNavGroup');
             const actionButtons = document.querySelectorAll('.course-action-btn');
@@ -357,13 +424,11 @@
                 });
             }
 
-            // Local cache check
             const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
             if (cachedEnrollments.length > 0) {
                 applyEnrollmentUI(cachedEnrollments);
             }
 
-            // Auth Check
             const { data: { session } } = await supabase.auth.getSession();
             const user = session?.user;
 
@@ -382,7 +447,7 @@
                 if (avatarUrl) {
                     authNavGroup.innerHTML = `
                         <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                            <img src="${avatarUrl}" alt="${firstName}'s Profile" width="36" height="36" loading="eager">
+                            <img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">
                         </a>`;
                 } else {
                     authNavGroup.innerHTML = `
@@ -391,7 +456,6 @@
                         </a>`;
                 }
                 
-                // Background Sync
                 const { data: enrollments } = await supabase
                     .from('enrollments')
                     .select('course_id')
