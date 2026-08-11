@@ -627,6 +627,7 @@
                 oldToggle.parentNode.replaceChild(this.menuToggle, oldToggle);
                 
                 this.centerNav = document.getElementById('centerNav');
+                this.navLinksContainer = document.getElementById('navLinks'); // <-- Grab the UL element
                 this.navBackdrop = document.getElementById('navBackdrop');
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
                 
@@ -657,6 +658,8 @@
             openMenu() {
                 this.isOpen = true;
                 this.centerNav.classList.add('active');
+                if (this.navLinksContainer) this.navLinksContainer.classList.add('active'); // <-- Activate the UL
+                
                 this.menuToggle.classList.add('open');
                 this.menuToggle.setAttribute('aria-expanded', 'true');
                 if (this.navBackdrop) this.navBackdrop.classList.add('active');
@@ -666,6 +669,8 @@
             closeMenu() {
                 this.isOpen = false;
                 this.centerNav.classList.remove('active');
+                if (this.navLinksContainer) this.navLinksContainer.classList.remove('active'); // <-- Deactivate the UL
+                
                 this.menuToggle.classList.remove('open');
                 this.menuToggle.setAttribute('aria-expanded', 'false');
                 if (this.navBackdrop) this.navBackdrop.classList.remove('active');
