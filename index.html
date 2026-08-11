@@ -313,6 +313,11 @@
         .eng-actions { display: flex; gap: 12px; justify-content: center; }
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
+
+        /* Hide mobile auth on desktop */
+.mobile-auth-wrapper {
+    display: none;
+}
         /* ==========================================================================
            MOBILE NAVIGATION & COMPONENT SPACING (<= 768px & Zoomed)
            ========================================================================== */
@@ -413,6 +418,20 @@
             .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover {
                 transform: translateX(0) translateY(0);
             }
+            /* Hide the top header auth icons on mobile */
+.codify-auth-group {
+    display: none !important;
+}
+
+/* Show the mobile auth block inside the side drawer */
+.mobile-auth-wrapper {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(0, 170, 255, 0.2);
+}
         }
     </style>
 </head>
@@ -432,15 +451,20 @@
                 </div>
             </div>
 
-            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
-                <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="index.html" class="active-link" aria-current="page">Home</a></li>
-                    <li><a href="src/pages/courses.html">Courses</a></li>
-                    <li><a href="src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="src/pages/contact.html">Contact</a></li>
-                </ul>
-            </nav>
+           <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
+    <ul class="codify-nav-links" id="navLinks">
+        <li><a href="index.html" class="active-link" aria-current="page">Home</a></li>
+        <li><a href="src/pages/courses.html">Courses</a></li>
+        <li><a href="src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
+        <li><a href="src/pages/certificate.html">Certificates</a></li>
+        <li><a href="src/pages/contact.html">Contact</a></li>
+    </ul>
+    
+    <div class="mobile-auth-wrapper" id="mobileAuthWrapper">
+        <a href="src/auth/login.html" class="btn-secondary-outline" style="width: 100%; margin-bottom: 12px; display: flex; justify-content: center;">Login</a>
+        <a href="src/auth/signup.html" class="btn-primary-glow" style="width: 100%; display: flex; justify-content: center;">Signup</a>
+    </div>
+</nav>
 
             <div class="codify-right-group">
                 <div class="codify-auth-group" id="authNavGroup">
@@ -666,12 +690,13 @@
         }
 
         // ==========================================================================
-        // 2. PROFILE DP & AUTH STATE MANAGER
+        // 2. PROFILE DP & AUTH STATE MANAGER (Dual Layout)
         // ==========================================================================
         class AuthManager {
             constructor() {
                 this.authNavGroup = document.getElementById('authNavGroup');
-                if (this.authNavGroup) this.initAuth();
+                this.mobileAuthWrapper = document.getElementById('mobileAuthWrapper'); // Grab the new mobile wrapper
+                if (this.authNavGroup || this.mobileAuthWrapper) this.initAuth();
             }
 
             async initAuth() {
@@ -691,22 +716,30 @@
                         const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
                         const initial = firstName.charAt(0).toUpperCase();
 
-                        if (avatarUrl) {
-                            this.authNavGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    <img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">
-                                </a>`;
-                        } else {
-                            this.authNavGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    <span>${initial}</span>
-                                </a>`;
+                        // Build the Profile Picture HTML
+                        const dpHTML = avatarUrl 
+                            ? `<a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile"><img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager"></a>`
+                            : `<a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile"><span>${initial}</span></a>`;
+
+                        // 1. Update Desktop Header
+                        if (this.authNavGroup) {
+                            this.authNavGroup.innerHTML = dpHTML;
+                        }
+                        
+                        // 2. Update Mobile Sidebar (Includes the user's name next to the picture for a nice UI touch)
+                        if (this.mobileAuthWrapper) {
+                            this.mobileAuthWrapper.innerHTML = `
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    ${dpHTML}
+                                    <span style="color: #e0e6ed; font-weight: 700; font-size: 1.15rem;">${firstName}</span>
+                                </div>
+                            `;
                         }
                     }
                 } catch (err) {
                     console.error("Auth rendering error:", err.message);
                 } finally {
-                    this.authNavGroup.classList.add('ready');
+                    if (this.authNavGroup) this.authNavGroup.classList.add('ready');
                 }
             }
         }
