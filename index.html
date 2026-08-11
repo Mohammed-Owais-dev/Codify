@@ -489,8 +489,6 @@
                 transform: translateX(0) translateY(0);
             }
         }
-
-        
     </style>
 </head>
 
@@ -517,7 +515,9 @@
                     <li><a href="src/pages/certificate.html">Certificates</a></li>
                     <li><a href="src/pages/contact.html">Contact</a></li>
                 </ul>
+            </nav>
 
+            <div class="codify-right-group">
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
                         <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -537,15 +537,6 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
-            </nav>
-
-            <div class="codify-right-group">
-                <button id="siteSearchTrigger" class="search-trigger-icon" aria-label="Search Course Data">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
@@ -703,7 +694,6 @@
                 oldToggle.parentNode.replaceChild(this.menuToggle, oldToggle);
                 
                 this.centerNav = document.getElementById('centerNav');
-                this.navLinksContainer = document.getElementById('navLinks'); // <-- Grab the UL element
                 this.navBackdrop = document.getElementById('navBackdrop');
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
                 
@@ -734,8 +724,6 @@
             openMenu() {
                 this.isOpen = true;
                 this.centerNav.classList.add('active');
-                if (this.navLinksContainer) this.navLinksContainer.classList.add('active'); // <-- Activate the UL
-                
                 this.menuToggle.classList.add('open');
                 this.menuToggle.setAttribute('aria-expanded', 'true');
                 if (this.navBackdrop) this.navBackdrop.classList.add('active');
@@ -745,8 +733,6 @@
             closeMenu() {
                 this.isOpen = false;
                 this.centerNav.classList.remove('active');
-                if (this.navLinksContainer) this.navLinksContainer.classList.remove('active'); // <-- Deactivate the UL
-                
                 this.menuToggle.classList.remove('open');
                 this.menuToggle.setAttribute('aria-expanded', 'false');
                 if (this.navBackdrop) this.navBackdrop.classList.remove('active');
