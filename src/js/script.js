@@ -72,12 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebarView);
     if (sidebarToggleMobile) sidebarToggleMobile.addEventListener('click', toggleSidebarView);
 
-    // Click Outside Dismissal Engine
+   // Click Outside Dismissal Engine
     document.addEventListener('click', (e) => {
-        if (menuToggle && navLinks && !menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-        }
         if (sidebarNav && sidebarNav.classList.contains('active') &&
             (!sidebarToggle || !sidebarToggle.contains(e.target)) && 
             (!sidebarToggleMobile || !sidebarToggleMobile.contains(e.target)) && 
