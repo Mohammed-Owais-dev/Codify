@@ -356,8 +356,16 @@
             .codify-center-nav.active { right: 0 !important; }
 
             .codify-nav-links {
-                flex-direction: column !important; gap: 18px !important; align-items: flex-start !important;
-                padding: 0; margin: 0; list-style: none; width: 100%;
+                display: flex !important; /* Forces the links to be visible */
+                visibility: visible !important; /* Overrides any hidden visibility */
+                opacity: 1 !important; /* Overrides any fade-out rules */
+                flex-direction: column !important; 
+                gap: 18px !important; 
+                align-items: flex-start !important;
+                padding: 0; 
+                margin: 0; 
+                list-style: none; 
+                width: 100%;
             }
             .codify-nav-links li { width: 100%; }
             .codify-nav-links a {
