@@ -413,62 +413,6 @@
             .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover {
                 transform: translateX(0) translateY(0);
             }
-            /* Hide the top-right icons on mobile so they only appear in the menu */
-            .codify-auth-group {
-                display: none !important;
-            }
-
-            /* Mobile Side-Menu Auth Container Styles */
-            .mobile-auth-container {
-                width: 100%;
-                margin-top: 20px;
-                padding-top: 20px;
-                border-top: 1px solid rgba(0, 170, 255, 0.2);
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .mobile-auth-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                padding: 12px;
-                border-radius: 10px;
-                font-size: 1.1rem;
-                font-weight: 700;
-                text-decoration: none;
-                box-sizing: border-box;
-                transition: all 0.3s ease;
-            }
-
-            .mobile-auth-btn.login-btn {
-                background: rgba(13, 27, 42, 0.6);
-                border: 1px solid rgba(0, 170, 255, 0.3);
-                color: #e0e6ed;
-            }
-
-            .mobile-auth-btn.signup-btn {
-                background: linear-gradient(90deg, #0077ff, #00aaff);
-                color: #ffffff;
-                box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
-                border: none;
-            }
-
-            .mobile-auth-btn.profile-mode {
-                background: rgba(0, 170, 255, 0.1);
-                border: 1px solid rgba(0, 170, 255, 0.3);
-                color: #00aaff;
-                justify-content: flex-start;
-                gap: 12px;
-                padding: 8px 14px;
-            }
-
-            .nav-profile-dp.mobile-dp {
-                width: 32px;
-                height: 32px;
-            }
         }
     </style>
 </head>
@@ -488,15 +432,13 @@
                 </div>
             </div>
 
-           <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
+            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links" id="navLinks">
                     <li><a href="index.html" class="active-link" aria-current="page">Home</a></li>
                     <li><a href="src/pages/courses.html">Courses</a></li>
                     <li><a href="src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
                     <li><a href="src/pages/certificate.html">Certificates</a></li>
                     <li><a href="src/pages/contact.html">Contact</a></li>
-                    
-                    <li id="mobileAuthGroup" class="mobile-auth-container"></li>
                 </ul>
             </nav>
 
@@ -724,13 +666,12 @@
         }
 
         // ==========================================================================
-        // 2. PROFILE DP & AUTH STATE MANAGER (Updated for Mobile Drawer)
+        // 2. PROFILE DP & AUTH STATE MANAGER
         // ==========================================================================
         class AuthManager {
             constructor() {
-                this.desktopAuthGroup = document.getElementById('authNavGroup');
-                this.mobileAuthGroup = document.getElementById('mobileAuthGroup');
-                this.initAuth();
+                this.authNavGroup = document.getElementById('authNavGroup');
+                if (this.authNavGroup) this.initAuth();
             }
 
             async initAuth() {
@@ -739,7 +680,6 @@
                     const user = session?.user;
 
                     if (user) {
-                        // USER IS LOGGED IN
                         const { data: profile } = await supabase
                             .from('profiles')
                             .select('avatar_url, first_name')
@@ -751,44 +691,22 @@
                         const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
                         const initial = firstName.charAt(0).toUpperCase();
 
-                        const profileVisual = avatarUrl 
-                            ? `<img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">`
-                            : `<span>${initial}</span>`;
-
-                        // 1. Inject Profile into Desktop Header
-                        if (this.desktopAuthGroup) {
-                            this.desktopAuthGroup.innerHTML = `
+                        if (avatarUrl) {
+                            this.authNavGroup.innerHTML = `
                                 <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    ${profileVisual}
+                                    <img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">
                                 </a>`;
-                        }
-
-                        // 2. Inject Profile into Mobile Sidebar
-                        if (this.mobileAuthGroup) {
-                            this.mobileAuthGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="mobile-auth-btn profile-mode">
-                                    <div class="nav-profile-dp mobile-dp">${profileVisual}</div>
-                                    <span>My Profile</span>
+                        } else {
+                            this.authNavGroup.innerHTML = `
+                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                                    <span>${initial}</span>
                                 </a>`;
-                        }
-
-                    } else {
-                        // USER IS NOT LOGGED IN
-                        // 1. Desktop stays as default (it already has the HTML hardcoded)
-                        
-                        // 2. Inject Login/Signup into Mobile Sidebar
-                        if (this.mobileAuthGroup) {
-                            this.mobileAuthGroup.innerHTML = `
-                                <a href="src/auth/login.html" class="mobile-auth-btn login-btn">Login</a>
-                                <a href="src/auth/signup.html" class="mobile-auth-btn signup-btn">Sign Up</a>
-                            `;
                         }
                     }
                 } catch (err) {
                     console.error("Auth rendering error:", err.message);
                 } finally {
-                    if (this.desktopAuthGroup) this.desktopAuthGroup.classList.add('ready');
-                    if (this.mobileAuthGroup) this.mobileAuthGroup.classList.add('ready');
+                    this.authNavGroup.classList.add('ready');
                 }
             }
         }
