@@ -426,6 +426,34 @@
                 transform: translateX(0) translateY(0);
             }
         }
+
+        @media (max-width: 1024px) {
+    .codify-auth-group { 
+        gap: 10px; 
+    }
+    
+    /* Transform standard buttons into modern circular icons */
+    .codify-btn-outline {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 38px; 
+        height: 38px; 
+        padding: 0 !important;
+        border-radius: 50% !important; 
+        background: rgba(0, 170, 255, 0.1);
+        border: 1px solid rgba(0, 170, 255, 0.4);
+        transition: all 0.2s ease;
+    }
+    
+    .codify-btn-outline:hover { 
+        background: rgba(0, 170, 255, 0.2); 
+    }
+    
+    /* Show the SVGs, hide the text */
+    .auth-icon { display: block; width: 18px; height: 18px; color: #00aaff; }
+    .auth-text { display: none; }
+}
     </style>
 </head>
 
@@ -455,25 +483,31 @@
             </nav>
 
             <div class="codify-right-group">
-                <div class="codify-auth-group" id="authNavGroup">
-                    <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
-                        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                            <polyline points="10 17 15 12 10 7"></polyline>
-                            <line x1="15" y1="12" x2="3" y2="12"></line>
-                        </svg>
-                        <span class="auth-text">Login</span>
-                    </a>
-                    <a href="src/auth/signup.html" class="codify-btn-outline" title="Signup">
-                        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <line x1="20" y1="8" x2="20" y2="14"></line>
-                            <line x1="23" y1="11" x2="17" y2="11"></line>
-                        </svg>
-                        <span class="auth-text">Signup</span>
-                    </a>
-                </div>
+                <div class="codify-right-group">
+    <div class="codify-auth-group" id="authNavGroup">
+        <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
+            <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            <span class="auth-text">Login</span>
+        </a>
+        <a href="src/auth/signup.html" class="codify-btn-outline" title="Signup">
+            <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            <span class="auth-text">Signup</span>
+        </a>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+    </button>
+</div>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
@@ -686,52 +720,54 @@
         // 2. PROFILE DP & AUTH STATE MANAGER
         // ==========================================================================
         class AuthManager {
-            constructor() {
-                this.authNavGroup = document.getElementById('authNavGroup');
-                if (this.authNavGroup) this.initAuth();
-            }
+    constructor() {
+        this.authNavGroup = document.getElementById('authNavGroup');
+        if (this.authNavGroup) this.initAuth();
+    }
 
-            async initAuth() {
-                try {
-                    const { data: { session } } = await supabase.auth.getSession();
-                    const user = session?.user;
+    async initAuth() {
+        try {
+            // 1. Check if the user is currently logged in
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
 
-                    if (user) {
-                        const { data: profile } = await supabase
-                            .from('profiles')
-                            .select('avatar_url, first_name')
-                            .eq('id', user.id)
-                            .maybeSingle();
+            if (user) {
+                // 2. Fetch their profile data
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('avatar_url, first_name')
+                    .eq('id', user.id)
+                    .maybeSingle();
 
-                        const userMetaData = user.user_metadata || {};
-                        const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
-                        const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
-                        const initial = firstName.charAt(0).toUpperCase();
+                const avatarUrl = profile?.avatar_url;
+                const initial = (profile?.first_name || 'U').charAt(0).toUpperCase();
 
-                        if (avatarUrl) {
-                            this.authNavGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    <img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">
-                                </a>`;
-                        } else {
-                            this.authNavGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    <span>${initial}</span>
-                                </a>`;
-                        }
-                    }
-                } catch (err) {
-                    console.error("Auth rendering error:", err.message);
-                } finally {
-                    this.authNavGroup.classList.add('ready');
+                // 3. Replace the Login/Signup buttons with the Profile Icon
+                if (avatarUrl) {
+                    this.authNavGroup.innerHTML = `
+                        <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                            <img src="${avatarUrl}" alt="Profile" width="38" height="38">
+                        </a>`;
+                } else {
+                    // Fallback to a letter initial if they don't have a photo yet
+                    this.authNavGroup.innerHTML = `
+                        <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                            <span>${initial}</span>
+                        </a>`;
                 }
             }
+        } catch (err) {
+            console.error("Auth rendering error:", err.message);
         }
+    }
+}
 
-        document.addEventListener('DOMContentLoaded', () => {
-            new NavigationController();
-            new AuthManager();
-        });
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    new AuthManager();
+});
+
+
 
         // ==========================================================================
         // 3. TEAM MODAL LOGIC
