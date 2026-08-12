@@ -315,6 +315,11 @@
         /* ==========================================================================
            MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1150px to match style.css)
            ========================================================================== */
+        
+        .drawer-close-btn {
+            display: none; /* Hidden strictly on desktop */
+        }
+
         @media (max-width: 1150px) {
             main { margin-top: 75px !important; }
             .hero-section { margin-top: 10px; padding: 0 16px; }
@@ -366,6 +371,33 @@
             .codify-center-nav.active { right: 0 !important; }
 
             /* -----------------------------------------------------------
+               THE NEW "X" CLOSE BUTTON AT THE LEFT CORNER OF DRAWER
+               ----------------------------------------------------------- */
+            .drawer-close-btn {
+                display: flex !important;
+                position: absolute !important;
+                top: 24px !important;
+                left: 24px !important;
+                width: 38px !important;
+                height: 38px !important;
+                background: rgba(0, 170, 255, 0.1) !important;
+                border: 1px solid rgba(0, 170, 255, 0.3) !important;
+                border-radius: 8px !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: #00aaff !important;
+                cursor: pointer !important;
+                transition: all 0.3s ease !important;
+                z-index: 1000 !important;
+            }
+            .drawer-close-btn:hover {
+                background: rgba(0, 170, 255, 0.2) !important;
+                transform: rotate(90deg) !important;
+            }
+            .drawer-close-btn svg { width: 20px; height: 20px; }
+
+
+            /* -----------------------------------------------------------
                DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
                ----------------------------------------------------------- */
             
@@ -375,7 +407,7 @@
                 flex-direction: column !important;
                 gap: 15px !important;
                 width: 100% !important;
-                order: -1 !important; /* Force to top of Flexbox (Above Home Button) */
+                order: -1 !important; /* Force to top of Flexbox */
                 margin-top: 0 !important;
                 margin-bottom: 25px !important; 
                 padding-bottom: 25px !important; 
@@ -405,13 +437,19 @@
                 margin: 0;
             }
 
-            /* FLAWLESS MATHEMATICAL HAMBURGER TO "X" ANIMATION 
-               (Perfectly centered lines ensuring crisp 'X') */
+            /* HAMBURGER MENU (Three Parallel Lines) */
             .menu-toggle {
                 display: flex !important; justify-content: center; align-items: center;
                 width: 38px; height: 38px; background: rgba(0, 170, 255, 0.1);
                 border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 8px;
-                cursor: pointer; padding: 0; z-index: 1000; position: relative;
+                cursor: pointer; padding: 0; z-index: 900; position: relative;
+                transition: opacity 0.3s ease;
+            }
+            
+            /* Fade out the hamburger when the drawer is active */
+            .menu-toggle.open {
+                opacity: 0 !important;
+                pointer-events: none !important;
             }
             
             .menu-toggle span {
@@ -421,23 +459,16 @@
                 background-color: #00aaff;
                 border-radius: 2px; 
                 transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
-                
-                /* Mathematically lock lines to center of 38px button */
                 top: 50%;
                 left: 50%;
-                margin-top: -1px;  /* Half of the 2px height */
-                margin-left: -10px; /* Half of the 20px width */
+                margin-top: -1px;  
+                margin-left: -10px; 
             }
             
             /* Resting State - 3 lines */
             .menu-toggle span:nth-child(1) { transform: translateY(-7px); }
             .menu-toggle span:nth-child(2) { transform: translateY(0); }
             .menu-toggle span:nth-child(3) { transform: translateY(7px); }
-            
-            /* Open State - Perfect "X" pivoted precisely from the center */
-            .menu-toggle.open span:nth-child(1) { transform: translateY(0) rotate(45deg); }
-            .menu-toggle.open span:nth-child(2) { opacity: 0; }
-            .menu-toggle.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
 
             /* Tooltip bounds for small screens */
             .team-popover { width: 290px; left: auto; right: -20px; transform: translateX(0) translateY(8px); }
@@ -463,6 +494,13 @@
             </div>
 
             <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
+                <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
                 <ul class="codify-nav-links" id="navLinks">
                     <li><a href="index.html" class="active-link" aria-current="page">Home</a></li>
                     <li><a href="src/pages/courses.html">Courses</a></li>
@@ -473,7 +511,12 @@
             </nav>
 
             <div class="codify-right-group">
-                
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
                         <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -493,12 +536,6 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
-
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
             </div>
 
         </div>
@@ -647,6 +684,7 @@
                 this.centerNav = document.getElementById('centerNav');
                 this.navLinksContainer = document.getElementById('navLinks');
                 this.navBackdrop = document.getElementById('navBackdrop');
+                this.drawerCloseBtn = document.getElementById('drawerCloseBtn'); // Hook new Close Button
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
                 
                 this.isOpen = false;
@@ -655,6 +693,11 @@
 
             initEvents() {
                 this.menuToggle.addEventListener('click', () => this.toggleMenu());
+
+                // Trigger close when X is clicked
+                if (this.drawerCloseBtn) {
+                    this.drawerCloseBtn.addEventListener('click', () => this.closeMenu());
+                }
 
                 if (this.navBackdrop) {
                     this.navBackdrop.addEventListener('click', () => this.closeMenu());
@@ -699,7 +742,6 @@
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
             const rightGroup = document.querySelector('.codify-right-group');
-            const menuToggle = document.getElementById('menuToggle');
             const navLinksList = document.getElementById('navLinks');
 
             if (!authGroup || !centerNav || !rightGroup || !navLinksList) return;
@@ -709,22 +751,22 @@
 
             if (window.innerWidth <= 1150) {
                 if (isUserLoggedIn) {
-                    // Profile Icon => Stays in Top Navbar, placed strictly BEFORE the Hamburger menu
-                    if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
-                        rightGroup.insertBefore(authGroup, menuToggle);
+                    // Profile Icon => Stays in Top Navbar (Right of Hamburger)
+                    if (authGroup.parentNode !== rightGroup) {
+                        rightGroup.appendChild(authGroup);
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
-                    // Login/Signup => Moves to Side Drawer, placed strictly BEFORE the Home Button
+                    // Login/Signup => Moves to Side Drawer (Above Home Button)
                     if (authGroup.parentNode !== centerNav || authGroup.nextSibling !== navLinksList) {
                         centerNav.insertBefore(authGroup, navLinksList);
                     }
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
-                // Standard Desktop => Everything stays in the Top Navbar, placed strictly BEFORE the Hamburger
-                if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
-                    rightGroup.insertBefore(authGroup, menuToggle);
+                // Standard Desktop => Everything stays in the Top Navbar
+                if (authGroup.parentNode !== rightGroup) {
+                    rightGroup.appendChild(authGroup);
                 }
                 authGroup.classList.remove('mobile-drawer-auth');
             }
@@ -779,17 +821,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Relocate Auth Elements First (In case Supabase takes a second to load)
             handleResponsiveAuthLayout();
-            
-            // Build the clean Navigation override logic
             new NavigationController();
-            
-            // Initiate Supabase Session
             new AuthManager();
         });
 
-        // Listen for screen zoom/resize seamlessly
         window.addEventListener('resize', handleResponsiveAuthLayout);
 
         // ==========================================================================
