@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------------
     // 1. DYNAMIC GLOBAL CORE DOM SELECTORS
     // ----------------------------------------------------------------------
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebarToggleMobile = document.getElementById('sidebarToggleMobile');
     const sidebarNav = document.getElementById('sidebarNav');
