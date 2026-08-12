@@ -195,7 +195,7 @@
         .btn-secondary-outline:hover { border-color: #00aaff; color: #00aaff; background: rgba(0, 170, 255, 0.1); }
 
         /* ==========================================================================
-           FEATURES GRID (UPDATED: GPU Fast Load like Courses Page)
+           FEATURES GRID (GPU Fast Load)
            ========================================================================== */
         .features-grid {
             display: grid !important; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -210,7 +210,7 @@
             padding: 28px; 
             backdrop-filter: blur(16px); 
             
-            /* Fast Scroll GPU Acceleration (Matching courses.html) */
+            /* Fast Scroll GPU Acceleration */
             content-visibility: auto;
             contain-intrinsic-size: 1px 320px;
             transform: translateZ(0);
@@ -233,7 +233,7 @@
         .feature-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.55; margin: 0; }
 
         /* ==========================================================================
-           FOOTER & TEAM POPOVER (RESTORED TO TOP CENTER)
+           FOOTER & TEAM POPOVER
            ========================================================================== */
         .codify-footer {
             margin-top: auto; border-top: 1px solid rgba(0, 170, 255, 0.15); padding: 24px 20px;
@@ -330,7 +330,7 @@
            ========================================================================== */
         
         .drawer-close-btn {
-            display: none; /* Hidden strictly on desktop */
+            display: none; 
         }
 
         @media (max-width: 1150px) {
@@ -346,7 +346,6 @@
             .logo-icon { display: block; }
             .logo-text { display: none; }
 
-            /* Match Courses.html Header Gap Spacing exactly */
             .codify-right-group { gap: 24px !important; }
 
             /* -------------------------------------------------------------
@@ -384,7 +383,7 @@
             .codify-center-nav.active { right: 0 !important; }
 
             /* -----------------------------------------------------------
-               THE NEW "X" CLOSE BUTTON AT THE LEFT CORNER OF DRAWER
+               THE "X" CLOSE BUTTON AT THE LEFT CORNER OF DRAWER
                ----------------------------------------------------------- */
             .drawer-close-btn {
                 display: flex !important;
@@ -413,13 +412,12 @@
                DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
                ----------------------------------------------------------- */
             
-            /* If it's Login/Signup, JS gives it this class and moves it to the drawer */
             .mobile-drawer-auth {
                 display: flex !important;
                 flex-direction: column !important;
                 gap: 15px !important;
                 width: 100% !important;
-                order: -1 !important; /* Force to top of Flexbox */
+                order: -1 !important; 
                 margin-top: 0 !important;
                 margin-bottom: 25px !important; 
                 padding-bottom: 25px !important; 
@@ -440,7 +438,7 @@
 
             /* If it's the Profile Icon, JS keeps it in the Header DOM */
             .codify-right-group #authNavGroup {
-                display: flex !important; /* Ensure it stays visible */
+                display: flex !important;
             }
             .codify-right-group .nav-profile-dp {
                 width: 38px !important;
@@ -458,7 +456,6 @@
                 transition: opacity 0.3s ease;
             }
             
-            /* Fade out the hamburger when the drawer is active */
             .menu-toggle.open {
                 opacity: 0 !important;
                 pointer-events: none !important;
@@ -477,12 +474,10 @@
                 margin-left: -10px; 
             }
             
-            /* Resting State - 3 lines */
             .menu-toggle span:nth-child(1) { transform: translateY(-7px); }
             .menu-toggle span:nth-child(2) { transform: translateY(0); }
             .menu-toggle span:nth-child(3) { transform: translateY(7px); }
 
-            /* Tooltip bounds for small screens */
             .team-popover { width: 290px; left: auto; right: -20px; transform: translateX(0) translateY(8px); }
             .team-popover::after { left: auto; right: 40px; transform: none; }
             .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover { transform: translateX(0) translateY(0); }
@@ -523,13 +518,13 @@
             </nav>
 
             <div class="codify-right-group">
-
+                
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
-                
+
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
                         <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -549,7 +544,6 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
-                
                 
             </div>
 
@@ -768,9 +762,9 @@
 
             if (window.innerWidth <= 1150) {
                 if (isUserLoggedIn) {
-                    // Profile Icon => Stays in Top Navbar (Strictly Left of Hamburger)
-                    if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
-                        rightGroup.insertBefore(authGroup, menuToggle);
+                    // Profile Icon => Stays in Top Navbar (Strictly RIGHT of Hamburger)
+                    if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
+                        rightGroup.appendChild(authGroup); // Appends it after the menu toggle
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
@@ -781,9 +775,9 @@
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
-                // Standard Desktop => Everything stays in the Top Navbar (Strictly Left of Hamburger)
-                if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
-                    rightGroup.insertBefore(authGroup, menuToggle);
+                // Standard Desktop => Everything stays in the Top Navbar (Strictly RIGHT of Hamburger)
+                if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
+                    rightGroup.appendChild(authGroup);
                 }
                 authGroup.classList.remove('mobile-drawer-auth');
             }
@@ -815,7 +809,7 @@
                         const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
                         const initial = firstName.charAt(0).toUpperCase();
 
-                        // Matches the exact DOM pattern of courses.html to trigger nav-auth.js menu logic
+                        // Matches the exact DOM pattern to trigger nav-auth.js menu logic
                         if (avatarUrl) {
                             this.authNavGroup.innerHTML = `
                                 <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
