@@ -331,20 +331,40 @@
             .logo-text { display: none; }
 
             /* Auth Transformation (Text Buttons -> Circular Icons) */
-            .codify-auth-group { gap: 10px; }
+            /* Auth Transformation (Text Buttons -> Circular Icons) */
+            .codify-auth-group {
+                display: flex !important; /* Forces it to show up */
+                z-index: 1005 !important; /* Keeps it strictly above the dark drawer */
+                position: relative;
+                gap: 12px !important;
+            }
+            
+            /* Profile Picture Mobile Fix */
+            .nav-profile-dp {
+                z-index: 1005 !important;
+                position: relative;
+            }
+
+            /* Transforms text buttons to modern circular icons */
             .codify-btn-outline {
                 display: flex !important;
                 align-items: center;
                 justify-content: center;
-                width: 38px; height: 38px; padding: 0 !important;
-                border-radius: 50% !important; background: rgba(0, 170, 255, 0.1);
-                border: 1px solid rgba(0, 170, 255, 0.4);
-                transition: all 0.2s ease;
+                width: 38px !important; 
+                height: 38px !important; 
+                padding: 0 !important;
+                border-radius: 50% !important; 
+                background: rgba(0, 170, 255, 0.1) !important;
+                border: 1px solid rgba(0, 170, 255, 0.4) !important;
             }
-            .codify-btn-outline:hover { background: rgba(0, 170, 255, 0.2); }
+
+            .codify-btn-outline:hover { 
+                background: rgba(0, 170, 255, 0.2) !important; 
+            }
             
-            .auth-icon { display: block; width: 18px; height: 18px; color: #00aaff; }
-            .auth-text { display: none; }
+            /* Forces SVGs to show and text to hide */
+            .auth-icon { display: block !important; width: 18px; height: 18px; color: #00aaff; }
+            .auth-text { display: none !important; }
 
             /* Perfect Spacing in Header */
             .codify-right-group { gap: 16px !important; }
