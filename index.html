@@ -330,15 +330,15 @@
             .logo-icon { display: block; }
             .logo-text { display: none; }
 
-            /* Auth Transformation (Text Buttons -> Circular Icons) */
-            .codify-auth-group { gap: 10px; }
-            .codify-btn-outline {
-                width: 38px; height: 38px; padding: 0 !important;
-                border-radius: 50% !important; background: rgba(0, 170, 255, 0.1);
-                border: 1px solid rgba(0, 170, 255, 0.4);
+            /* Hide Login/Signup buttons on mobile/zoomed screens */
+            .codify-auth-group .codify-btn-outline {
+                display: none !important;
             }
-            .auth-icon { display: block; width: 18px; height: 18px; color: #00aaff; }
-            .auth-text { display: none; }
+            
+            /* Ensure the Profile DP still shows perfectly if they are logged in */
+            .codify-auth-group { 
+                gap: 10px; 
+            }
 
             /* Perfect Spacing in Header */
             .codify-right-group { gap: 16px !important; }
