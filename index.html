@@ -123,49 +123,41 @@
             gap: 12px;
         }
 
-        /* Desktop State: Auth Text Buttons */
-        .auth-icon { display: none; width: 18px; height: 18px; }
-        .auth-text { display: inline-block; }
-
-        .nav-profile-dp {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            border: 2px solid #00aaff;
+        /* ==========================================================================
+           DESKTOP AUTH BUTTONS
+           ========================================================================== */
+        .codify-auth-group {
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            gap: 12px;
+        }
+
+        .codify-btn-outline {
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center; 
+            box-sizing: border-box; 
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #e0e6ed;
+            background: rgba(0, 170, 255, 0.05);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .codify-btn-outline:hover {
             background: rgba(0, 170, 255, 0.15);
-            color: #00aaff;
-            font-weight: 800;
-            text-decoration: none;
-            flex-shrink: 0;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            border-color: #00aaff;
+            color: #ffffff;
+            transform: translateY(-2px);
         }
 
-        .nav-profile-dp:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
-        }
-
-        .nav-profile-dp img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .nav-backdrop {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 10, 20, 0.7); backdrop-filter: blur(6px);
-            z-index: 998; opacity: 0; visibility: hidden; pointer-events: none;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-
-        .nav-backdrop.active {
-            opacity: 1; visibility: visible; pointer-events: auto;
-        }
-
+        /* Desktop State: Text Only */
+        .auth-icon { display: none; width: 18px; height: 18px; }
+        .auth-text { display: inline-block; }
         /* ==========================================================================
            HERO SECTION & BUTTONS
            ========================================================================== */
@@ -675,7 +667,7 @@
     <script type="module" src="src/js/config/supabase-client.js"></script>
     
     <script type="module">
-        import { supabase } from '/src/js/config/supabase-client.js';
+        import { supabase } from 'src/js/config/supabase-client.js';
 
         // ==========================================================================
         // 1. PROFESSIONAL NAVIGATION CONTROLLER
@@ -812,13 +804,17 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            new NavigationController();
-            new AuthManager();
+            // 1. Run layout FIRST so buttons are placed correctly immediately
             handleResponsiveAuthLayout();
+            
+            // 2. Init Navigation
+            new NavigationController();
+            
+            // 3. Init Auth (If Supabase fails here, the UI is already built!)
+            new AuthManager();
         });
         
         window.addEventListener('resize', handleResponsiveAuthLayout);
-
         // ==========================================================================
         // 4. TEAM MODAL LOGIC
         // ==========================================================================
