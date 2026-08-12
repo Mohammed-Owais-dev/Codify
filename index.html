@@ -195,7 +195,7 @@
         .btn-secondary-outline:hover { border-color: #00aaff; color: #00aaff; background: rgba(0, 170, 255, 0.1); }
 
         /* ==========================================================================
-           FEATURES GRID
+           FEATURES GRID (UPDATED: GPU Fast Load like Courses Page)
            ========================================================================== */
         .features-grid {
             display: grid !important; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -204,11 +204,24 @@
         }
 
         .feature-card {
-            background: rgba(13, 27, 42, 0.5); border: 1px solid rgba(0, 170, 255, 0.2);
-            border-radius: 20px; padding: 28px; backdrop-filter: blur(16px); transition: all 0.3s ease;
+            background: rgba(13, 27, 42, 0.5); 
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 20px; 
+            padding: 28px; 
+            backdrop-filter: blur(16px); 
+            
+            /* Fast Scroll GPU Acceleration (Matching courses.html) */
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 320px;
+            transform: translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
         .feature-card:hover {
-            transform: translateY(-4px); border-color: rgba(0, 170, 255, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px); 
+            border-color: rgba(0, 170, 255, 0.6); 
+            box-shadow: 0 15px 35px rgba(0, 170, 255, 0.2);
         }
 
         .feature-icon {
@@ -220,7 +233,7 @@
         .feature-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.55; margin: 0; }
 
         /* ==========================================================================
-           FOOTER & TEAM POPOVER
+           FOOTER & TEAM POPOVER (RESTORED TO TOP CENTER)
            ========================================================================== */
         .codify-footer {
             margin-top: auto; border-top: 1px solid rgba(0, 170, 255, 0.15); padding: 24px 20px;
@@ -313,7 +326,7 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1150px to match style.css)
+           MOBILE NAVIGATION & COMPONENT SPACING
            ========================================================================== */
         
         .drawer-close-btn {
@@ -333,8 +346,8 @@
             .logo-icon { display: block; }
             .logo-text { display: none; }
 
-            /* Spacing in Header */
-            .codify-right-group { gap: 16px !important; }
+            /* Match Courses.html Header Gap Spacing exactly */
+            .codify-right-group { gap: 24px !important; }
 
             /* -------------------------------------------------------------
                PREVENT DOUBLE-SLIDING NAV BAR 
@@ -395,7 +408,6 @@
                 transform: rotate(90deg) !important;
             }
             .drawer-close-btn svg { width: 20px; height: 20px; }
-
 
             /* -----------------------------------------------------------
                DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
@@ -511,12 +523,13 @@
             </nav>
 
             <div class="codify-right-group">
+
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
-
+                
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
                         <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -536,6 +549,8 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
+                
+                
             </div>
 
         </div>
@@ -665,13 +680,14 @@
     </div>
 
     <script src="src/js/script.js"></script>
+    <script type="module" src="src/js/auth/nav-auth.js"></script>
     <script type="module" src="src/js/config/supabase-client.js"></script>
     
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
         // ==========================================================================
-        // 1. PROFESSIONAL NAVIGATION CONTROLLER (Overrides style.css / script.js)
+        // 1. PROFESSIONAL NAVIGATION CONTROLLER
         // ==========================================================================
         class NavigationController {
             constructor() {
@@ -684,7 +700,7 @@
                 this.centerNav = document.getElementById('centerNav');
                 this.navLinksContainer = document.getElementById('navLinks');
                 this.navBackdrop = document.getElementById('navBackdrop');
-                this.drawerCloseBtn = document.getElementById('drawerCloseBtn'); // Hook new Close Button
+                this.drawerCloseBtn = document.getElementById('drawerCloseBtn'); 
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
                 
                 this.isOpen = false;
@@ -742,18 +758,19 @@
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
             const rightGroup = document.querySelector('.codify-right-group');
+            const menuToggle = document.getElementById('menuToggle');
             const navLinksList = document.getElementById('navLinks');
 
-            if (!authGroup || !centerNav || !rightGroup || !navLinksList) return;
+            if (!authGroup || !centerNav || !rightGroup || !navLinksList || !menuToggle) return;
 
             // Logically check if the user is authenticated (Profile icon exists in the DOM)
             const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
 
             if (window.innerWidth <= 1150) {
                 if (isUserLoggedIn) {
-                    // Profile Icon => Stays in Top Navbar (Right of Hamburger)
-                    if (authGroup.parentNode !== rightGroup) {
-                        rightGroup.appendChild(authGroup);
+                    // Profile Icon => Stays in Top Navbar (Strictly Left of Hamburger)
+                    if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
+                        rightGroup.insertBefore(authGroup, menuToggle);
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
@@ -764,9 +781,9 @@
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
-                // Standard Desktop => Everything stays in the Top Navbar
-                if (authGroup.parentNode !== rightGroup) {
-                    rightGroup.appendChild(authGroup);
+                // Standard Desktop => Everything stays in the Top Navbar (Strictly Left of Hamburger)
+                if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
+                    rightGroup.insertBefore(authGroup, menuToggle);
                 }
                 authGroup.classList.remove('mobile-drawer-auth');
             }
@@ -798,6 +815,7 @@
                         const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
                         const initial = firstName.charAt(0).toUpperCase();
 
+                        // Matches the exact DOM pattern of courses.html to trigger nav-auth.js menu logic
                         if (avatarUrl) {
                             this.authNavGroup.innerHTML = `
                                 <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
@@ -814,7 +832,7 @@
                     console.error("Auth rendering error:", err.message);
                 } finally {
                     this.authNavGroup.classList.add('ready');
-                    // We must run the layout checker again immediately after the profile image is rendered!
+                    // Must run the layout checker again immediately after profile image is rendered
                     handleResponsiveAuthLayout();
                 }
             }
