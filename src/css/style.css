@@ -3718,6 +3718,8 @@ p .code-highlight {
     flex-shrink: 0;
 }
 
+
+
 /* Rotate the SVG 90 degrees clockwise immediately when expanded class triggers */
 .tree-branch.expanded .tree-arrow {
     transform: rotate(90deg) !important;

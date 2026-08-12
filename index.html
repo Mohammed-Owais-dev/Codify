@@ -20,8 +20,7 @@
         /* ==========================================================================
            CRITICAL MOBILE OVERFLOW & RESPONSIVE SCOPE
            ========================================================================== */
-        html,
-        body {
+        html, body {
             max-width: 100vw !important;
             overflow-x: hidden !important;
             scroll-behavior: smooth;
@@ -314,10 +313,9 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           MOBILE NAVIGATION & COMPONENT SPACING (<= 1024px & Zoomed)
+           MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1150px to match style.css)
            ========================================================================== */
-
-        @media (max-width: 1024px) {
+        @media (max-width: 1150px) {
             main { margin-top: 75px !important; }
             .hero-section { margin-top: 10px; padding: 0 16px; }
             .hero-title { font-size: 2.2rem; line-height: 1.3; }
@@ -326,51 +324,24 @@
             .btn-primary-glow, .btn-secondary-outline { width: 100%; box-sizing: border-box; }
             .features-grid { margin-bottom: 40px; padding: 0 16px; }
 
-            /* Logo Transformation (Text -> SVG Icon) */
+            /* Logo Transformation */
             .logo-icon { display: block; }
             .logo-text { display: none; }
 
-            /* Auth Transformation (Text Buttons -> Circular Icons) */
-            .codify-auth-group { gap: 10px; }
-            .codify-btn-outline {
-                display: flex !important;
-                align-items: center;
-                justify-content: center;
-                width: 38px; height: 38px; padding: 0 !important;
-                border-radius: 50% !important; background: rgba(0, 170, 255, 0.1);
-                border: 1px solid rgba(0, 170, 255, 0.4);
-                transition: all 0.2s ease;
-            }
-            .codify-btn-outline:hover { background: rgba(0, 170, 255, 0.2); }
-            
-            .auth-icon { display: block; width: 18px; height: 18px; color: #00aaff; }
-            .auth-text { display: none; }
-
-            /* Perfect Spacing in Header */
+            /* Spacing in Header */
             .codify-right-group { gap: 16px !important; }
 
-            /* Mobile Navigation Slide-Out Drawer */
-            .codify-center-nav {
-                position: fixed; top: 0; right: -320px; width: 280px; height: 100vh;
-                background: rgba(10, 15, 28, 0.98); backdrop-filter: blur(20px);
-                border-left: 1px solid rgba(0, 170, 255, 0.25);
-                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-                z-index: 999; padding: 90px 24px 30px 24px; box-sizing: border-box;
-                display: flex !important; flex-direction: column; justify-content: flex-start;
-                box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+            /* -------------------------------------------------------------
+               PREVENT DOUBLE-SLIDING NAV BAR 
+               ------------------------------------------------------------- */
+            .codify-nav-links, .codify-nav-links.active {
+                display: flex !important; position: relative !important; right: auto !important;
+                top: auto !important; width: 100% !important; height: auto !important;
+                background: transparent !important; box-shadow: none !important; border: none !important;
+                flex-direction: column !important; gap: 18px !important; padding: 0 !important;
+                align-items: flex-start !important; visibility: visible !important; opacity: 1 !important;
             }
-            .codify-center-nav.active { right: 0 !important; }
-
-            /* Fixed Missing Links in Slide Drawer */
-            .codify-nav-links {
-                display: flex !important; 
-                visibility: visible !important; 
-                opacity: 1 !important; 
-                flex-direction: column !important; 
-                gap: 18px !important; 
-                align-items: flex-start !important;
-                padding: 0; margin: 0; list-style: none; width: 100%;
-            }
+            
             .codify-nav-links li { width: 100%; }
             .codify-nav-links a {
                 font-size: 1.15rem; font-weight: 700; color: #e0e6ed; text-decoration: none;
@@ -381,50 +352,97 @@
                 background: rgba(0, 170, 255, 0.15); color: #00aaff;
             }
 
-            /* FLAWLESS MATHEMATICAL HAMBURGER TO "X" ANIMATION 
-               Using Absolute Centering so it never deforms into a "<" */
-            .menu-toggle {
-                display: flex !important;
-                justify-content: center;
-                align-items: center;
-                width: 38px;
-                height: 38px;
-                background: rgba(0, 170, 255, 0.1);
-                border: 1px solid rgba(0, 170, 255, 0.3);
-                border-radius: 8px;
-                cursor: pointer;
-                padding: 0;
-                z-index: 1000;
-                position: relative;
+            /* Single correct mobile navigation slide-out drawer */
+            .codify-center-nav {
+                position: fixed !important; top: 0 !important; right: -320px !important; 
+                width: 280px !important; height: 100vh !important;
+                background: rgba(10, 15, 28, 0.98) !important; backdrop-filter: blur(20px) !important;
+                border-left: 1px solid rgba(0, 170, 255, 0.25) !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+                z-index: 999 !important; padding: 90px 24px 30px 24px !important; box-sizing: border-box !important;
+                display: flex !important; flex-direction: column !important; justify-content: flex-start !important;
+                box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8) !important;
             }
+            .codify-center-nav.active { right: 0 !important; }
+
+            /* -----------------------------------------------------------
+               DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
+               ----------------------------------------------------------- */
+            
+            /* If it's Login/Signup, JS gives it this class and moves it to the drawer */
+            .mobile-drawer-auth {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 15px !important;
+                width: 100% !important;
+                order: -1 !important; /* Force to top of Flexbox (Above Home Button) */
+                margin-top: 0 !important;
+                margin-bottom: 25px !important; 
+                padding-bottom: 25px !important; 
+                border-bottom: 1px solid rgba(0, 170, 255, 0.2) !important;
+                border-top: none !important;
+            }
+
+            .mobile-drawer-auth .codify-btn-outline {
+                display: flex !important; align-items: center !important; justify-content: center !important;
+                width: 100% !important; height: auto !important; padding: 12px 14px !important;
+                border-radius: 10px !important; background: rgba(0, 170, 255, 0.1) !important;
+                border: 1px solid rgba(0, 170, 255, 0.4) !important; transition: all 0.2s ease !important;
+                gap: 10px !important;
+            }
+            .mobile-drawer-auth .codify-btn-outline:hover { background: rgba(0, 170, 255, 0.2) !important; }
+            .mobile-drawer-auth .auth-icon { display: block !important; width: 20px !important; height: 20px !important; color: #00aaff !important; }
+            .mobile-drawer-auth .auth-text { display: block !important; font-size: 1.15rem !important; font-weight: 700 !important; color: #e0e6ed !important; }
+
+            /* If it's the Profile Icon, JS keeps it in the Header DOM */
+            .codify-right-group #authNavGroup {
+                display: flex !important; /* Ensure it stays visible */
+            }
+            .codify-right-group .nav-profile-dp {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 1.1rem !important;
+                margin: 0;
+            }
+
+            /* FLAWLESS MATHEMATICAL HAMBURGER TO "X" ANIMATION 
+               (Perfectly centered lines ensuring crisp 'X') */
+            .menu-toggle {
+                display: flex !important; justify-content: center; align-items: center;
+                width: 38px; height: 38px; background: rgba(0, 170, 255, 0.1);
+                border: 1px solid rgba(0, 170, 255, 0.3); border-radius: 8px;
+                cursor: pointer; padding: 0; z-index: 1000; position: relative;
+            }
+            
             .menu-toggle span {
-                position: absolute;
-                width: 20px;
-                height: 2px;
+                position: absolute; 
+                width: 20px; 
+                height: 2px; 
                 background-color: #00aaff;
-                border-radius: 2px;
+                border-radius: 2px; 
                 transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+                
+                /* Mathematically lock lines to center of 38px button */
+                top: 50%;
+                left: 50%;
+                margin-top: -1px;  /* Half of the 2px height */
+                margin-left: -10px; /* Half of the 20px width */
             }
             
             /* Resting State - 3 lines */
-            .menu-toggle span:nth-child(1) { transform: translateY(-6px); }
+            .menu-toggle span:nth-child(1) { transform: translateY(-7px); }
             .menu-toggle span:nth-child(2) { transform: translateY(0); }
-            .menu-toggle span:nth-child(3) { transform: translateY(6px); }
-
+            .menu-toggle span:nth-child(3) { transform: translateY(7px); }
+            
             /* Open State - Perfect "X" pivoted precisely from the center */
             .menu-toggle.open span:nth-child(1) { transform: translateY(0) rotate(45deg); }
             .menu-toggle.open span:nth-child(2) { opacity: 0; }
             .menu-toggle.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
 
             /* Tooltip bounds for small screens */
-            .team-popover {
-                width: 290px; left: auto; right: -20px;
-                transform: translateX(0) translateY(8px);
-            }
+            .team-popover { width: 290px; left: auto; right: -20px; transform: translateX(0) translateY(8px); }
             .team-popover::after { left: auto; right: 40px; transform: none; }
-            .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover {
-                transform: translateX(0) translateY(0);
-            }
+            .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover { transform: translateX(0) translateY(0); }
         }
     </style>
 </head>
@@ -455,6 +473,7 @@
             </nav>
 
             <div class="codify-right-group">
+                
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
                         <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -527,8 +546,7 @@
                     </svg>
                 </div>
                 <h3>Structured Matrix</h3>
-                <p>Carefully hand-crafted course paths covering foundational C, C++, Python, Web Dev, and SQL databases.
-                </p>
+                <p>Carefully hand-crafted course paths covering foundational C, C++, Python, Web Dev, and SQL databases.</p>
             </div>
 
             <div class="feature-card">
@@ -540,8 +558,7 @@
                     </svg>
                 </div>
                 <h3>Hands-On Practice</h3>
-                <p>Learn by building real software projects and completing interactive quizzes to lock in core concepts.
-                </p>
+                <p>Learn by building real software projects and completing interactive quizzes to lock in core concepts.</p>
             </div>
 
             <div class="feature-card">
@@ -553,8 +570,7 @@
                     </svg>
                 </div>
                 <h3>Self-Paced Progress</h3>
-                <p>Learn at your own speed with instant profile session persistence, workspace tracking, and saved
-                    updates.</p>
+                <p>Learn at your own speed with instant profile session persistence, workspace tracking, and saved updates.</p>
             </div>
         </section>
     </main>
@@ -618,12 +634,10 @@
         import { supabase } from '/src/js/config/supabase-client.js';
 
         // ==========================================================================
-        // 1. PROFESSIONAL NAVIGATION CONTROLLER (Overrides script.js safely)
+        // 1. PROFESSIONAL NAVIGATION CONTROLLER (Overrides style.css / script.js)
         // ==========================================================================
         class NavigationController {
             constructor() {
-                // We physically clone the node to DESTROY the broken script.js event listeners.
-                // This guarantees our new clean logic runs without any interference.
                 const oldToggle = document.getElementById('menuToggle');
                 if (!oldToggle) return;
                 
@@ -662,8 +676,6 @@
             openMenu() {
                 this.isOpen = true;
                 this.centerNav.classList.add('active');
-                if (this.navLinksContainer) this.navLinksContainer.classList.add('active');
-                
                 this.menuToggle.classList.add('open');
                 this.menuToggle.setAttribute('aria-expanded', 'true');
                 if (this.navBackdrop) this.navBackdrop.classList.add('active');
@@ -673,8 +685,6 @@
             closeMenu() {
                 this.isOpen = false;
                 this.centerNav.classList.remove('active');
-                if (this.navLinksContainer) this.navLinksContainer.classList.remove('active');
-                
                 this.menuToggle.classList.remove('open');
                 this.menuToggle.setAttribute('aria-expanded', 'false');
                 if (this.navBackdrop) this.navBackdrop.classList.remove('active');
@@ -683,7 +693,45 @@
         }
 
         // ==========================================================================
-        // 2. PROFILE DP & AUTH STATE MANAGER
+        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR 
+        // ==========================================================================
+        function handleResponsiveAuthLayout() {
+            const authGroup = document.getElementById('authNavGroup');
+            const centerNav = document.getElementById('centerNav');
+            const rightGroup = document.querySelector('.codify-right-group');
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinksList = document.getElementById('navLinks');
+
+            if (!authGroup || !centerNav || !rightGroup || !navLinksList) return;
+
+            // Logically check if the user is authenticated (Profile icon exists in the DOM)
+            const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
+
+            if (window.innerWidth <= 1150) {
+                if (isUserLoggedIn) {
+                    // Profile Icon => Stays in Top Navbar, placed strictly BEFORE the Hamburger menu
+                    if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
+                        rightGroup.insertBefore(authGroup, menuToggle);
+                    }
+                    authGroup.classList.remove('mobile-drawer-auth');
+                } else {
+                    // Login/Signup => Moves to Side Drawer, placed strictly BEFORE the Home Button
+                    if (authGroup.parentNode !== centerNav || authGroup.nextSibling !== navLinksList) {
+                        centerNav.insertBefore(authGroup, navLinksList);
+                    }
+                    authGroup.classList.add('mobile-drawer-auth');
+                }
+            } else {
+                // Standard Desktop => Everything stays in the Top Navbar, placed strictly BEFORE the Hamburger
+                if (authGroup.parentNode !== rightGroup || authGroup.nextSibling !== menuToggle) {
+                    rightGroup.insertBefore(authGroup, menuToggle);
+                }
+                authGroup.classList.remove('mobile-drawer-auth');
+            }
+        }
+
+        // ==========================================================================
+        // 3. PROFILE DP & AUTH STATE MANAGER
         // ==========================================================================
         class AuthManager {
             constructor() {
@@ -724,17 +772,28 @@
                     console.error("Auth rendering error:", err.message);
                 } finally {
                     this.authNavGroup.classList.add('ready');
+                    // We must run the layout checker again immediately after the profile image is rendered!
+                    handleResponsiveAuthLayout();
                 }
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Relocate Auth Elements First (In case Supabase takes a second to load)
+            handleResponsiveAuthLayout();
+            
+            // Build the clean Navigation override logic
             new NavigationController();
+            
+            // Initiate Supabase Session
             new AuthManager();
         });
 
+        // Listen for screen zoom/resize seamlessly
+        window.addEventListener('resize', handleResponsiveAuthLayout);
+
         // ==========================================================================
-        // 3. TEAM MODAL LOGIC
+        // 4. TEAM MODAL LOGIC
         // ==========================================================================
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
