@@ -236,6 +236,76 @@
                 transform: rotate(-45deg);
             }
         }
+
+        @media (max-width: 768px) {
+    /* ... existing media query rules ... */
+
+    /* HIDE top nav auth group on mobile to isolate the Search and Menu icons */
+    #authNavGroup {
+        display: none !important;
+    }
+
+    /* Style the new mobile drawer profile header */
+    .mobile-nav-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(0, 170, 255, 0.2);
+        width: 100%;
+    }
+
+    .mobile-nav-profile .nav-profile-dp {
+        width: 45px;
+        height: 45px;
+        font-size: 1.25rem;
+    }
+
+    .mobile-nav-profile .profile-greeting {
+        color: #e0e6ed;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    /* Adjust drawer padding to accommodate the new profile header */
+    .codify-center-nav {
+        padding: 40px 24px 30px 24px;
+        /* ... keep your other existing drawer rules ... */
+    }
+
+    /* =========================================
+       FIXED: Hamburger Menu "X" Animation 
+       ========================================= */
+    .menu-toggle span {
+        width: 100%;
+        height: 2.5px;
+        background-color: #00aaff;
+        border-radius: 4px;
+        transition: all 0.35s ease-in-out;
+        transform-origin: center; /* Changed from left center */
+    }
+
+    .menu-toggle.open span:nth-child(1) {
+        transform: translateY(8.5px) rotate(45deg);
+    }
+
+    .menu-toggle.open span:nth-child(2) {
+        opacity: 0;
+        transform: scale(0); /* Adds a smooth shrinking effect */
+    }
+
+    .menu-toggle.open span:nth-child(3) {
+        transform: translateY(-8.5px) rotate(-45deg);
+    }
+}
+
+/* Ensure mobile profile slot is hidden on Desktop */
+@media (min-width: 769px) {
+    .mobile-nav-profile {
+        display: none !important;
+    }
+}
     </style>
 </head>
 
@@ -253,14 +323,16 @@
             </div>
 
             <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
-                <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/src/pages/courses.html" class="active-link" aria-current="page">Courses</a></li>
-                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="/src/pages/contact.html">Contact</a></li>
-                </ul>
-            </nav>
+    <div class="mobile-nav-profile" id="mobileNavProfile"></div>
+
+    <ul class="codify-nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/src/pages/courses.html" class="active-link" aria-current="page">Courses</a></li>
+        <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
+        <li><a href="/src/pages/certificate.html">Certificates</a></li>
+        <li><a href="/src/pages/contact.html">Contact</a></li>
+    </ul>
+</nav>
 
             <div class="codify-right-group">
                 <div class="codify-search-box">
@@ -549,79 +621,56 @@
 
         // 2. Profile DP & Auth State Initialization
         (async function initCoursesPage() {
-            const authNavGroup = document.getElementById('authNavGroup');
-            const actionButtons = document.querySelectorAll('.course-action-btn');
+    const authNavGroup = document.getElementById('authNavGroup');
+    const mobileNavProfile = document.getElementById('mobileNavProfile'); // NEW: Get mobile slot
+    const actionButtons = document.querySelectorAll('.course-action-btn');
 
-            function applyEnrollmentUI(enrolledCourseIds) {
-                const enrolledSet = new Set(enrolledCourseIds);
+    // ... (keep the existing applyEnrollmentUI and cachedEnrollments logic here) ...
 
-                actionButtons.forEach(button => {
-                    const courseId = button.getAttribute('data-course-id');
-                    const indexUrl = button.getAttribute('data-index-url');
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
 
-                    if (enrolledSet.has(courseId)) {
-                        button.innerText = 'Continue Learning';
-                        button.setAttribute('href', indexUrl);
-                        button.classList.add('enrolled-btn');
-                    } else {
-                        button.innerText = 'Enroll Now';
-                        button.classList.remove('enrolled-btn');
-                    }
-                    button.classList.add('ready');
-                });
-            }
+    if (user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('avatar_url, first_name')
+            .eq('id', user.id)
+            .maybeSingle();
 
-            const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
-            if (cachedEnrollments.length > 0) {
-                applyEnrollmentUI(cachedEnrollments);
-            }
+        const userMetaData = user.user_metadata || {};
+        const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
+        const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
+        const initial = firstName.charAt(0).toUpperCase();
 
-            const { data: { session } } = await supabase.auth.getSession();
-            const user = session?.user;
+        // 1. Build Desktop Profile HTML
+        const desktopHTML = avatarUrl 
+            ? `<a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile"><img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager"></a>`
+            : `<a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile"><span>${initial}</span></a>`;
 
-            if (user) {
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('avatar_url, first_name')
-                    .eq('id', user.id)
-                    .maybeSingle();
+        // 2. Build Mobile Drawer Profile HTML (Includes Greeting)
+        const mobileHTML = avatarUrl 
+            ? `<a href="/src/pages/profile.html" class="nav-profile-dp"><img src="${avatarUrl}" alt="${firstName}'s Profile" loading="eager"></a><div class="profile-greeting">Hi, ${firstName}</div>`
+            : `<a href="/src/pages/profile.html" class="nav-profile-dp"><span>${initial}</span></a><div class="profile-greeting">Hi, ${firstName}</div>`;
 
-                const userMetaData = user.user_metadata || {};
-                const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
-                const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
-                const initial = firstName.charAt(0).toUpperCase();
+        // Inject into both slots
+        if (authNavGroup) authNavGroup.innerHTML = desktopHTML;
+        if (mobileNavProfile) mobileNavProfile.innerHTML = mobileHTML;
+        
+        // ... (keep the existing enrollments fetching logic here) ...
 
-                if (avatarUrl) {
-                    authNavGroup.innerHTML = `
-                        <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                            <img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">
-                        </a>`;
-                } else {
-                    authNavGroup.innerHTML = `
-                        <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                            <span>${initial}</span>
-                        </a>`;
-                }
-                
-                const { data: enrollments } = await supabase
-                    .from('enrollments')
-                    .select('course_id')
-                    .eq('user_id', user.id);
+    } else {
+        localStorage.removeItem('codify_enrollments');
+        actionButtons.forEach(btn => btn.classList.add('ready'));
+        
+        // Populate standard login/signup if logged out
+        const authButtons = `<a href="/src/auth/login.html" class="codify-btn-outline">Login</a>
+                             <a href="/src/auth/signup.html" class="codify-btn-outline">Signup</a>`;
+        if (authNavGroup) authNavGroup.innerHTML = authButtons;
+        if (mobileNavProfile) mobileNavProfile.innerHTML = authButtons;
+    }
 
-                if (enrollments) {
-                    const liveCourseIds = enrollments.map(item => item.course_id);
-                    localStorage.setItem('codify_enrollments', JSON.stringify(liveCourseIds));
-                    applyEnrollmentUI(liveCourseIds);
-                }
-            } else {
-                localStorage.removeItem('codify_enrollments');
-                actionButtons.forEach(btn => btn.classList.add('ready'));
-            }
-
-            if (authNavGroup) {
-                authNavGroup.classList.add('ready');
-            }
-        })();
+    if (authNavGroup) authNavGroup.classList.add('ready');
+})();
     </script>
 </body>
 
