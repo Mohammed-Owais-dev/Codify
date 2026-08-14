@@ -31,11 +31,26 @@
             color: #e0e6ed;
             margin: 0;
             padding: 0;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         main, header, footer, section {
             max-width: 100% !important;
             box-sizing: border-box;
+        }
+
+        main {
+            display: flex !important;
+            flex-direction: column;
+            flex: 1;
+            opacity: 1 !important;
+            visibility: visible !important;
+            margin-top: 90px !important;
+            position: relative !important;
+            z-index: 2 !important;
         }
 
         .courses-container {
@@ -56,6 +71,89 @@
             will-change: transform;
             backface-visibility: hidden;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        /* Header Logo & Navigation styles */
+        .codify-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-icon { display: none; width: 32px; height: 32px; }
+        .logo-text { display: block; color: #fff; }
+
+        .codify-right-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .codify-auth-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Search Box Styles */
+        .codify-search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .codify-search-box input {
+            background: rgba(13, 27, 42, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            color: #e0e6ed;
+            padding: 8px 65px 8px 14px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            width: 220px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .codify-search-box input:focus {
+            border-color: rgba(0, 170, 255, 0.7);
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+        }
+
+        .search-kbd {
+            position: absolute;
+            right: 8px;
+            display: flex;
+            gap: 3px;
+            background: rgba(10, 15, 28, 0.9);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #66ccff;
+            pointer-events: none;
+        }
+
+        /* Mobile Search Trigger Icon Button */
+        .mobile-search-trigger {
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #00aaff;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+        .mobile-search-trigger:hover {
+            background: rgba(0, 170, 255, 0.2);
         }
 
         /* Profile DP Icon Styling */
@@ -100,7 +198,7 @@
             z-index: 998;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
         }
 
         .nav-backdrop.active {
@@ -108,18 +206,64 @@
             visibility: visible;
         }
 
-        .codify-right-group {
-            display: flex;
-            align-items: center;
-            gap: 16px;
+        /* Footer matching index page */
+        .codify-footer {
+            margin-top: auto;
+            border-top: 1px solid rgba(0, 170, 255, 0.15);
+            padding: 24px 20px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            background: rgba(10, 15, 28, 0.95);
+            position: relative;
+            z-index: 10;
         }
 
+        .team-hover-wrapper { position: relative; display: inline-block; cursor: pointer; }
+        .team-trigger {
+            color: #00aaff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px;
+            padding: 4px 8px; border-radius: 6px; transition: all 0.25s ease;
+        }
+        .team-trigger:hover, .team-trigger:focus { background: rgba(0, 170, 255, 0.15); color: #38bdf8; outline: none; }
+
+        .team-popover {
+            position: absolute; bottom: 135%; left: 50%; transform: translateX(-50%) translateY(8px);
+            width: 320px; background: rgba(13, 27, 42, 0.98); border: 1px solid rgba(0, 170, 255, 0.35);
+            border-radius: 16px; padding: 16px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 170, 255, 0.15);
+            backdrop-filter: blur(16px); opacity: 0; visibility: hidden; pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
+        }
+        .team-popover::after {
+            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            border-width: 6px; border-style: solid; border-color: rgba(13, 27, 42, 0.98) transparent transparent transparent;
+        }
+        .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover {
+            opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0);
+        }
+
+        .popover-header {
+            font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; color: #00aaff;
+            text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+            padding-bottom: 6px; text-align: left;
+        }
+
+        .team-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+        .team-member {
+            display: flex; align-items: center; width: 100%; box-sizing: border-box; gap: 10px;
+            font-size: 0.85rem; color: #e0e6ed; font-weight: 600; text-align: left; cursor: pointer;
+            padding: 6px 8px; border-radius: 6px; transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+        }
+        .team-member:hover { background: rgba(0, 170, 255, 0.15); transform: translateX(4px); color: #ffffff; }
+
+        .member-dot { width: 6px; height: 6px; background: #00aaff; border-radius: 50%; box-shadow: 0 0 8px #00aaff; flex-shrink: 0; }
+        .student-id { color: #00aaff; font-size: 0.75rem; font-weight: 800; margin-left: auto; opacity: 0.8; }
+
         /* ==========================================================================
-           MOBILE NAVIGATION DRAWER & DP SPACING FIXES (<= 768px)
+           MOBILE NAVIGATION DRAWER & LAYOUT FIXES (<= 1150px)
            ========================================================================== */
-        @media (max-width: 768px) {
+        @media (max-width: 1150px) {
             main {
-                margin-top: 80px !important;
+                margin-top: 75px !important;
                 padding: 16px !important;
             }
 
@@ -133,34 +277,38 @@
                 background: rgba(13, 27, 42, 0.95) !important;
             }
 
-            /* FIXED: Force space between DP and Hamburger Icon */
-            .codify-right-group {
-                gap: 24px !important; 
+            /* Hide Desktop Search Box */
+            .codify-search-box {
+                display: none !important;
             }
 
-            .codify-auth-group {
+            /* Show Mobile Search Trigger Icon */
+            .mobile-search-trigger {
                 display: flex !important;
-                align-items: center;
+            }
+
+            .codify-right-group {
+                gap: 12px !important; 
             }
 
             /* Mobile Navigation Drawer */
             .codify-center-nav {
                 position: fixed;
                 top: 0;
-                right: -100%;
+                right: -320px;
                 width: 280px;
                 height: 100vh;
                 background: rgba(10, 15, 28, 0.98);
                 backdrop-filter: blur(20px);
                 border-left: 1px solid rgba(0, 170, 255, 0.25);
-                transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
                 z-index: 999;
                 padding: 90px 24px 30px 24px;
                 box-sizing: border-box;
                 display: flex !important;
                 flex-direction: column;
                 justify-content: flex-start;
-                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+                box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
             }
 
             .codify-center-nav.active {
@@ -203,12 +351,13 @@
             /* Hamburger Menu Design & Animation */
             .menu-toggle {
                 display: flex !important;
-                flex-direction: column;
-                justify-content: space-between;
-                width: 28px;
-                height: 20px;
-                background: transparent;
-                border: none;
+                justify-content: center;
+                align-items: center;
+                width: 38px;
+                height: 38px;
+                background: rgba(0, 170, 255, 0.1);
+                border: 1px solid rgba(0, 170, 255, 0.3);
+                border-radius: 8px;
                 cursor: pointer;
                 padding: 0;
                 z-index: 1000;
@@ -216,25 +365,25 @@
             }
 
             .menu-toggle span {
-                width: 100%;
-                height: 2.5px;
+                position: absolute;
+                width: 20px;
+                height: 2px;
                 background-color: #00aaff;
-                border-radius: 4px;
-                transition: all 0.3s ease;
-                transform-origin: left center;
+                border-radius: 2px;
+                transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+                top: 50%;
+                left: 50%;
+                margin-top: -1px;
+                margin-left: -10px;
             }
 
-            .menu-toggle.open span:nth-child(1) {
-                transform: rotate(45deg);
-            }
+            .menu-toggle span:nth-child(1) { transform: translateY(-7px); }
+            .menu-toggle span:nth-child(2) { transform: translateY(0); }
+            .menu-toggle span:nth-child(3) { transform: translateY(7px); }
 
-            .menu-toggle.open span:nth-child(2) {
-                opacity: 0;
-            }
-
-            .menu-toggle.open span:nth-child(3) {
-                transform: rotate(-45deg);
-            }
+            .menu-toggle.open span:nth-child(1) { transform: translateY(0) rotate(45deg); }
+            .menu-toggle.open span:nth-child(2) { opacity: 0; }
+            .menu-toggle.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
         }
     </style>
 </head>
@@ -244,11 +393,12 @@
     <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 
     <header class="codify-main-header">
-        <div class="codify-header-container">
+        <div class="codify-header-container" style="max-width: 1400px; margin: 0 auto; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
 
             <div class="codify-left-group">
                 <div class="codify-logo" onclick="window.location.href='/'" role="button" tabindex="0" aria-label="Codify Homepage">
-                    Codify
+                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon" style="width: 32px; height: 32px;">
+                    <span class="logo-text">Codify</span>
                 </div>
             </div>
 
@@ -268,9 +418,9 @@
                     <span class="search-kbd"><kbd>⌘K</kbd></span>
                 </div>
 
-                <button class="mobile-search-trigger" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <button class="mobile-search-trigger" id="mobileSearchBtn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.3-4.3"></path>
                     </svg>
@@ -486,17 +636,17 @@
     <footer class="codify-footer">
         <div>
             Built with precision for future developers • Developed by 
-            <span class="team-hover-wrapper">
+            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
                 <span class="team-trigger">Codify Team</span>
 
-                <div class="team-popover">
+                <div class="team-popover" role="tooltip">
                     <div class="popover-header">Core Engineers</div>
                     <ul class="team-list">
-                        <li class="team-member" style="font-weight: 700;"><span class="member-dot"></span>Mohammed Owais</li>
-                        <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
-                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
-                        <li class="team-member"><span class="member-dot"></span>M. Basha</li>
-                        <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
+                        <li class="team-member" style="font-weight: 700;"><span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span></li>
+                        <li class="team-member"><span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span></li>
+                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span></li>
+                        <li class="team-member"><span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span></li>
+                        <li class="team-member"><span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span></li>
                     </ul>
                 </div>
             </span>
@@ -514,6 +664,7 @@
             const menuToggle = document.getElementById('menuToggle');
             const centerNav = document.getElementById('centerNav');
             const navBackdrop = document.getElementById('navBackdrop');
+            const mobileSearchBtn = document.getElementById('mobileSearchBtn');
 
             function toggleDrawer(open) {
                 const isOpen = open !== undefined ? open : !centerNav.classList.contains('active');
@@ -543,6 +694,19 @@
                 const navLinks = centerNav.querySelectorAll('a');
                 navLinks.forEach(link => {
                     link.addEventListener('click', () => toggleDrawer(false));
+                });
+            }
+
+            // Bind mobile search trigger to open the search modal overlay
+            if (mobileSearchBtn) {
+                mobileSearchBtn.addEventListener('click', () => {
+                    const searchOverlay = document.getElementById('searchOverlayModal');
+                    const modalInput = document.getElementById('modalSearchInput');
+                    if (searchOverlay) {
+                        searchOverlay.classList.add('active');
+                        searchOverlay.setAttribute('aria-hidden', 'false');
+                        setTimeout(() => { if (modalInput) modalInput.focus(); }, 50);
+                    }
                 });
             }
         });

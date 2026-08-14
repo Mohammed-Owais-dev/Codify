@@ -20,7 +20,8 @@
         /* ==========================================================================
            CRITICAL MOBILE OVERFLOW & RESPONSIVE SCOPE
            ========================================================================== */
-        html, body {
+        html,
+        body {
             max-width: 100vw !important;
             overflow-x: hidden !important;
             scroll-behavior: smooth;
@@ -195,7 +196,7 @@
         .btn-secondary-outline:hover { border-color: #00aaff; color: #00aaff; background: rgba(0, 170, 255, 0.1); }
 
         /* ==========================================================================
-           FEATURES GRID (GPU Fast Load)
+           FEATURES GRID
            ========================================================================== */
         .features-grid {
             display: grid !important; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -204,22 +205,11 @@
         }
 
         .feature-card {
-            background: rgba(13, 27, 42, 0.5); 
-            border: 1px solid rgba(0, 170, 255, 0.2);
-            border-radius: 20px; 
-            padding: 28px; 
-            backdrop-filter: blur(16px); 
-            content-visibility: auto;
-            contain-intrinsic-size: 1px 320px;
-            transform: translateZ(0);
-            will-change: transform;
-            backface-visibility: hidden;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            background: rgba(13, 27, 42, 0.5); border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 20px; padding: 28px; backdrop-filter: blur(16px); transition: all 0.3s ease;
         }
         .feature-card:hover {
-            transform: translateY(-8px); 
-            border-color: rgba(0, 170, 255, 0.6); 
-            box-shadow: 0 15px 35px rgba(0, 170, 255, 0.2);
+            transform: translateY(-4px); border-color: rgba(0, 170, 255, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .feature-icon {
@@ -324,14 +314,15 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           MOBILE NAVIGATION & COMPONENT SPACING
+           MOBILE & ZOOMED VIEW NAVIGATION OVERLAY ENGINE (Breakpoint: 1300px)
+           Triggered at 150%+ desktop zoom or standard mobile devices
            ========================================================================== */
         
         .drawer-close-btn {
             display: none; 
         }
 
-        @media (max-width: 1150px) {
+        @media (max-width: 1300px) {
             main { margin-top: 75px !important; }
             .hero-section { margin-top: 10px; padding: 0 16px; }
             .hero-title { font-size: 2.2rem; line-height: 1.3; }
@@ -346,9 +337,7 @@
 
             .codify-right-group { gap: 24px !important; }
 
-            /* -------------------------------------------------------------
-               PREVENT DOUBLE-SLIDING NAV BAR 
-               ------------------------------------------------------------- */
+            /* Prevent Double Sliding Nav Bar */
             .codify-nav-links, .codify-nav-links.active {
                 display: flex !important; position: relative !important; right: auto !important;
                 top: auto !important; width: 100% !important; height: auto !important;
@@ -380,9 +369,7 @@
             }
             .codify-center-nav.active { right: 0 !important; }
 
-            /* -----------------------------------------------------------
-               THE "X" CLOSE BUTTON AT THE LEFT CORNER OF DRAWER
-               ----------------------------------------------------------- */
+            /* Dedicated "X" Close Button at the top left corner of the drawer */
             .drawer-close-btn {
                 display: flex !important;
                 position: absolute !important;
@@ -406,10 +393,7 @@
             }
             .drawer-close-btn svg { width: 20px; height: 20px; }
 
-            /* -----------------------------------------------------------
-               DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
-               ----------------------------------------------------------- */
-            
+            /* Dynamic Auth Routing Styles */
             .mobile-drawer-auth {
                 display: flex !important;
                 flex-direction: column !important;
@@ -434,7 +418,6 @@
             .mobile-drawer-auth .auth-icon { display: block !important; width: 20px !important; height: 20px !important; color: #00aaff !important; }
             .mobile-drawer-auth .auth-text { display: block !important; font-size: 1.15rem !important; font-weight: 700 !important; color: #e0e6ed !important; }
 
-            /* If it's the Profile Icon, JS keeps it in the Header DOM */
             .codify-right-group #authNavGroup {
                 display: flex !important;
             }
@@ -445,7 +428,7 @@
                 margin: 0;
             }
 
-            /* HAMBURGER MENU (Three Parallel Lines) */
+            /* Hamburger Menu */
             .menu-toggle {
                 display: flex !important; justify-content: center; align-items: center;
                 width: 38px; height: 38px; background: rgba(0, 170, 255, 0.1);
@@ -516,7 +499,6 @@
             </nav>
 
             <div class="codify-right-group">
-                
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
@@ -542,7 +524,6 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
-                
             </div>
 
         </div>
@@ -678,9 +659,6 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        // ==========================================================================
-        // 1. PROFESSIONAL NAVIGATION CONTROLLER
-        // ==========================================================================
         class NavigationController {
             constructor() {
                 const oldToggle = document.getElementById('menuToggle');
@@ -742,9 +720,6 @@
             }
         }
 
-        // ==========================================================================
-        // 2. STABLE RESPONSIVE AUTH LAYOUT ROUTER (Glitch-Free on Scroll)
-        // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
@@ -756,7 +731,8 @@
 
             const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
 
-            if (window.innerWidth <= 1150) {
+            /* Updated breakpoint to 1300px to cover 150%+ desktop zooms */
+            if (window.innerWidth <= 1300) {
                 if (isUserLoggedIn) {
                     if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                         rightGroup.appendChild(authGroup);
@@ -776,9 +752,6 @@
             }
         }
 
-        // ==========================================================================
-        // 3. PROFILE DP & AUTH STATE MANAGER
-        // ==========================================================================
         class AuthManager {
             constructor() {
                 this.authNavGroup = document.getElementById('authNavGroup');
@@ -829,7 +802,6 @@
             new AuthManager();
         });
 
-        // Use a strict window width check (ignoring vertical scroll height changes)
         let lastWidth = window.innerWidth;
         window.addEventListener('resize', () => {
             if (window.innerWidth !== lastWidth) {
@@ -838,9 +810,6 @@
             }
         });
 
-        // ==========================================================================
-        // 4. TEAM MODAL LOGIC
-        // ==========================================================================
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
             'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Dhanush specializes in interactive UI design and seamless API integrations, ensuring students have a smooth learning experience.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
