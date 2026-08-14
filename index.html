@@ -209,8 +209,6 @@
             border-radius: 20px; 
             padding: 28px; 
             backdrop-filter: blur(16px); 
-            
-            /* Fast Scroll GPU Acceleration */
             content-visibility: auto;
             contain-intrinsic-size: 1px 320px;
             transform: translateZ(0);
@@ -326,14 +324,14 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1280px for 150%+ zoom)
+           MOBILE NAVIGATION & COMPONENT SPACING
            ========================================================================== */
         
         .drawer-close-btn {
             display: none; 
         }
 
-        @media (max-width: 1280px) {
+        @media (max-width: 1150px) {
             main { margin-top: 75px !important; }
             .hero-section { margin-top: 10px; padding: 0 16px; }
             .hero-title { font-size: 2.2rem; line-height: 1.3; }
@@ -348,7 +346,9 @@
 
             .codify-right-group { gap: 24px !important; }
 
-            /* Prevent Double-Sliding Nav Bar */
+            /* -------------------------------------------------------------
+               PREVENT DOUBLE-SLIDING NAV BAR 
+               ------------------------------------------------------------- */
             .codify-nav-links, .codify-nav-links.active {
                 display: flex !important; position: relative !important; right: auto !important;
                 top: auto !important; width: 100% !important; height: auto !important;
@@ -380,7 +380,9 @@
             }
             .codify-center-nav.active { right: 0 !important; }
 
-            /* Close Button inside Drawer */
+            /* -----------------------------------------------------------
+               THE "X" CLOSE BUTTON AT THE LEFT CORNER OF DRAWER
+               ----------------------------------------------------------- */
             .drawer-close-btn {
                 display: flex !important;
                 position: absolute !important;
@@ -404,7 +406,10 @@
             }
             .drawer-close-btn svg { width: 20px; height: 20px; }
 
-            /* Dynamic Auth Routing Styles */
+            /* -----------------------------------------------------------
+               DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
+               ----------------------------------------------------------- */
+            
             .mobile-drawer-auth {
                 display: flex !important;
                 flex-direction: column !important;
@@ -429,6 +434,7 @@
             .mobile-drawer-auth .auth-icon { display: block !important; width: 20px !important; height: 20px !important; color: #00aaff !important; }
             .mobile-drawer-auth .auth-text { display: block !important; font-size: 1.15rem !important; font-weight: 700 !important; color: #e0e6ed !important; }
 
+            /* If it's the Profile Icon, JS keeps it in the Header DOM */
             .codify-right-group #authNavGroup {
                 display: flex !important;
             }
@@ -439,7 +445,7 @@
                 margin: 0;
             }
 
-            /* Hamburger Menu */
+            /* HAMBURGER MENU (Three Parallel Lines) */
             .menu-toggle {
                 display: flex !important; justify-content: center; align-items: center;
                 width: 38px; height: 38px; background: rgba(0, 170, 255, 0.1);
@@ -510,6 +516,7 @@
             </nav>
 
             <div class="codify-right-group">
+                
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
@@ -535,6 +542,7 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
+                
             </div>
 
         </div>
@@ -735,7 +743,7 @@
         }
 
         // ==========================================================================
-        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR (Calibrated to 1280px for 150%+ Zoom)
+        // 2. STABLE RESPONSIVE AUTH LAYOUT ROUTER (Glitch-Free on Scroll)
         // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
@@ -748,23 +756,19 @@
 
             const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
 
-            /* Set to 1280px to trigger precisely at 150%+ Zoom on standard desktop monitors */
-            if (window.innerWidth <= 1280) {
+            if (window.innerWidth <= 1150) {
                 if (isUserLoggedIn) {
-                    /* Profile Icon stays in Top Navbar next to Hamburger */
                     if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                         rightGroup.appendChild(authGroup);
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
-                    /* Login/Signup moves into side drawer above Home link */
                     if (authGroup.parentNode !== centerNav || authGroup.nextSibling !== navLinksList) {
                         centerNav.insertBefore(authGroup, navLinksList);
                     }
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
-                /* Standard Desktop: Everything stays in Top Navbar */
                 if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                     rightGroup.appendChild(authGroup);
                 }
@@ -825,7 +829,7 @@
             new AuthManager();
         });
 
-        /* Prevent scroll re-trigger glitches */
+        // Use a strict window width check (ignoring vertical scroll height changes)
         let lastWidth = window.innerWidth;
         window.addEventListener('resize', () => {
             if (window.innerWidth !== lastWidth) {
