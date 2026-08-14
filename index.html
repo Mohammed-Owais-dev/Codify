@@ -209,6 +209,8 @@
             border-radius: 20px; 
             padding: 28px; 
             backdrop-filter: blur(16px); 
+            
+            /* Fast Scroll GPU Acceleration */
             content-visibility: auto;
             contain-intrinsic-size: 1px 320px;
             transform: translateZ(0);
@@ -476,9 +478,9 @@
             .menu-toggle span:nth-child(2) { transform: translateY(0); }
             .menu-toggle span:nth-child(3) { transform: translateY(7px); }
 
-            .team-popover { width: 290px; left: 50%; right: auto; transform: translateX(-50%) translateY(-10px); }
-            .team-popover::after { left: 50%; right: auto; transform: translateX(-50%); }
-            .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover { transform: translateX(-50%) translateY(0); }
+            .team-popover { width: 290px; left: auto; right: -20px; transform: translateX(0) translateY(8px); }
+            .team-popover::after { left: auto; right: 40px; transform: none; }
+            .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover { transform: translateX(0) translateY(0); }
         }
     </style>
 </head>
@@ -702,6 +704,7 @@
             initEvents() {
                 this.menuToggle.addEventListener('click', () => this.toggleMenu());
 
+                // Trigger close when X is clicked
                 if (this.drawerCloseBtn) {
                     this.drawerCloseBtn.addEventListener('click', () => this.closeMenu());
                 }
@@ -743,7 +746,7 @@
         }
 
         // ==========================================================================
-        // 2. STABLE RESPONSIVE AUTH LAYOUT ROUTER (Glitch-Free on Scroll)
+        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR 
         // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
@@ -754,21 +757,25 @@
 
             if (!authGroup || !centerNav || !rightGroup || !navLinksList || !menuToggle) return;
 
+            // Logically check if the user is authenticated (Profile icon exists in the DOM)
             const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
 
             if (window.innerWidth <= 1150) {
                 if (isUserLoggedIn) {
+                    // Profile Icon => Stays in Top Navbar (Strictly RIGHT of Hamburger)
                     if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
-                        rightGroup.appendChild(authGroup);
+                        rightGroup.appendChild(authGroup); // Appends it after the menu toggle
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
+                    // Login/Signup => Moves to Side Drawer (Above Home Button)
                     if (authGroup.parentNode !== centerNav || authGroup.nextSibling !== navLinksList) {
                         centerNav.insertBefore(authGroup, navLinksList);
                     }
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
+                // Standard Desktop => Everything stays in the Top Navbar (Strictly RIGHT of Hamburger)
                 if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                     rightGroup.appendChild(authGroup);
                 }
@@ -802,6 +809,7 @@
                         const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
                         const initial = firstName.charAt(0).toUpperCase();
 
+                        // Matches the exact DOM pattern to trigger nav-auth.js menu logic
                         if (avatarUrl) {
                             this.authNavGroup.innerHTML = `
                                 <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
@@ -818,6 +826,7 @@
                     console.error("Auth rendering error:", err.message);
                 } finally {
                     this.authNavGroup.classList.add('ready');
+                    // Must run the layout checker again immediately after profile image is rendered
                     handleResponsiveAuthLayout();
                 }
             }
@@ -829,14 +838,7 @@
             new AuthManager();
         });
 
-        // Use a strict window width check (ignoring vertical scroll height changes)
-        let lastWidth = window.innerWidth;
-        window.addEventListener('resize', () => {
-            if (window.innerWidth !== lastWidth) {
-                lastWidth = window.innerWidth;
-                handleResponsiveAuthLayout();
-            }
-        });
+        window.addEventListener('resize', handleResponsiveAuthLayout);
 
         // ==========================================================================
         // 4. TEAM MODAL LOGIC
