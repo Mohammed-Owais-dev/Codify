@@ -346,7 +346,9 @@
 
             .codify-right-group { gap: 24px !important; }
 
-            /* Prevent Double-Sliding Nav Bar */
+            /* -----------------------------------------------------------------
+               UNIFIED FIRST-IMAGE ANIMATION STYLE (OVERRIDES style.css CENTERING)
+               ----------------------------------------------------------------- */
             .codify-nav-links, .codify-nav-links.active {
                 display: flex !important; position: relative !important; right: auto !important;
                 top: auto !important; width: 100% !important; height: auto !important;
@@ -355,14 +357,49 @@
                 align-items: flex-start !important; visibility: visible !important; opacity: 1 !important;
             }
             
-            .codify-nav-links li { width: 100%; }
-            .codify-nav-links a {
-                font-size: 1.15rem; font-weight: 700; color: #e0e6ed; text-decoration: none;
-                padding: 10px 14px; border-radius: 10px; display: block; width: 100%;
-                box-sizing: border-box; transition: background 0.2s ease, color 0.2s ease;
+            .codify-nav-links li { 
+                width: 100% !important; 
+                text-align: left !important; /* Force Left Alignment */
             }
-            .codify-nav-links a:hover, .codify-nav-links a.active-link {
-                background: rgba(0, 170, 255, 0.15); color: #00aaff;
+
+            .codify-nav-links a {
+                font-size: 1.15rem !important; 
+                font-weight: 700 !important; 
+                color: #e0e6ed !important; 
+                text-decoration: none !important;
+                padding: 10px 0 !important; /* Remove horizontal padding so text aligns flush left */
+                border-radius: 0 !important; /* Remove pill radius */
+                background: transparent !important; /* Remove pill background */
+                display: block !important; 
+                width: 100% !important;
+                box-sizing: border-box !important; 
+                position: relative !important;
+                transition: color 0.2s ease !important;
+            }
+
+            .codify-nav-links a:hover, 
+            .codify-nav-links a.active-link {
+                color: #00aaff !important;
+                background: transparent !important; /* Prevents pill hover background */
+                text-shadow: none !important;
+            }
+
+            /* FORCE THE BLUE UNDERLINE ANIMATION TO APPEAR IN MOBILE/ZOOM VIEW */
+            .codify-nav-links li a::after {
+                content: '' !important;
+                position: absolute !important;
+                width: 0% !important;
+                height: 2px !important;
+                bottom: -2px !important;
+                left: 0 !important;
+                background: #00aaff !important;
+                display: block !important; /* Overrides style.css 'display: none !important' */
+                transition: width 0.3s ease !important;
+            }
+
+            .codify-nav-links li a:hover::after,
+            .codify-nav-links li a.active-link::after {
+                width: 100% !important;
             }
 
             /* Single correct mobile navigation slide-out drawer */
@@ -429,6 +466,12 @@
 
             .codify-right-group #authNavGroup {
                 display: flex !important;
+            }
+            .codify-right-group .nav-profile-dp {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 1.1rem !important;
+                margin: 0;
             }
 
             /* Hamburger Menu */
@@ -723,9 +766,6 @@
             }
         }
 
-        // ==========================================================================
-        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR (Glitch-Free Fix Applied)
-        // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
@@ -735,8 +775,6 @@
 
             if (!authGroup || !centerNav || !rightGroup || !navLinksList || !menuToggle) return;
 
-            // FIX: Ensure it correctly identifies the user as logged in even AFTER nav-auth.js 
-            // modifies the DOM classes from .nav-profile-dp to .profile-avatar-btn or .user-profile-menu
             const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null || 
                                    authGroup.querySelector('.profile-avatar-btn') !== null || 
                                    authGroup.querySelector('.user-profile-menu') !== null;
