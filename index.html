@@ -209,8 +209,6 @@
             border-radius: 20px; 
             padding: 28px; 
             backdrop-filter: blur(16px); 
-            
-            /* Fast Scroll GPU Acceleration */
             content-visibility: auto;
             contain-intrinsic-size: 1px 320px;
             transform: translateZ(0);
@@ -326,14 +324,14 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           MOBILE NAVIGATION & COMPONENT SPACING
+           MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1280px for 150%+ zoom)
            ========================================================================== */
         
         .drawer-close-btn {
             display: none; 
         }
 
-        @media (max-width: 1150px) {
+        @media (max-width: 1280px) {
             main { margin-top: 75px !important; }
             .hero-section { margin-top: 10px; padding: 0 16px; }
             .hero-title { font-size: 2.2rem; line-height: 1.3; }
@@ -348,9 +346,7 @@
 
             .codify-right-group { gap: 24px !important; }
 
-            /* -------------------------------------------------------------
-               PREVENT DOUBLE-SLIDING NAV BAR 
-               ------------------------------------------------------------- */
+            /* Prevent Double-Sliding Nav Bar */
             .codify-nav-links, .codify-nav-links.active {
                 display: flex !important; position: relative !important; right: auto !important;
                 top: auto !important; width: 100% !important; height: auto !important;
@@ -382,9 +378,7 @@
             }
             .codify-center-nav.active { right: 0 !important; }
 
-            /* -----------------------------------------------------------
-               THE "X" CLOSE BUTTON AT THE LEFT CORNER OF DRAWER
-               ----------------------------------------------------------- */
+            /* Close Button inside Drawer */
             .drawer-close-btn {
                 display: flex !important;
                 position: absolute !important;
@@ -408,10 +402,7 @@
             }
             .drawer-close-btn svg { width: 20px; height: 20px; }
 
-            /* -----------------------------------------------------------
-               DYNAMIC AUTH ROUTING STYLES (Based on Class applied by JS)
-               ----------------------------------------------------------- */
-            
+            /* Dynamic Auth Routing Styles */
             .mobile-drawer-auth {
                 display: flex !important;
                 flex-direction: column !important;
@@ -436,18 +427,11 @@
             .mobile-drawer-auth .auth-icon { display: block !important; width: 20px !important; height: 20px !important; color: #00aaff !important; }
             .mobile-drawer-auth .auth-text { display: block !important; font-size: 1.15rem !important; font-weight: 700 !important; color: #e0e6ed !important; }
 
-            /* If it's the Profile Icon, JS keeps it in the Header DOM */
             .codify-right-group #authNavGroup {
                 display: flex !important;
             }
-            .codify-right-group .nav-profile-dp {
-                width: 38px !important;
-                height: 38px !important;
-                font-size: 1.1rem !important;
-                margin: 0;
-            }
 
-            /* HAMBURGER MENU (Three Parallel Lines) */
+            /* Hamburger Menu */
             .menu-toggle {
                 display: flex !important; justify-content: center; align-items: center;
                 width: 38px; height: 38px; background: rgba(0, 170, 255, 0.1);
@@ -478,9 +462,9 @@
             .menu-toggle span:nth-child(2) { transform: translateY(0); }
             .menu-toggle span:nth-child(3) { transform: translateY(7px); }
 
-            .team-popover { width: 290px; left: auto; right: -20px; transform: translateX(0) translateY(8px); }
-            .team-popover::after { left: auto; right: 40px; transform: none; }
-            .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover { transform: translateX(0) translateY(0); }
+            .team-popover { width: 290px; left: 50%; right: auto; transform: translateX(-50%) translateY(-10px); }
+            .team-popover::after { left: 50%; right: auto; transform: translateX(-50%); }
+            .team-hover-wrapper:hover .team-popover, .team-hover-wrapper:focus-within .team-popover { transform: translateX(-50%) translateY(0); }
         }
     </style>
 </head>
@@ -518,7 +502,6 @@
             </nav>
 
             <div class="codify-right-group">
-                
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
@@ -544,7 +527,6 @@
                         <span class="auth-text">Signup</span>
                     </a>
                 </div>
-                
             </div>
 
         </div>
@@ -680,9 +662,6 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        // ==========================================================================
-        // 1. PROFESSIONAL NAVIGATION CONTROLLER
-        // ==========================================================================
         class NavigationController {
             constructor() {
                 const oldToggle = document.getElementById('menuToggle');
@@ -704,7 +683,6 @@
             initEvents() {
                 this.menuToggle.addEventListener('click', () => this.toggleMenu());
 
-                // Trigger close when X is clicked
                 if (this.drawerCloseBtn) {
                     this.drawerCloseBtn.addEventListener('click', () => this.closeMenu());
                 }
@@ -746,7 +724,7 @@
         }
 
         // ==========================================================================
-        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR 
+        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR (Glitch-Free Fix Applied)
         // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
@@ -757,25 +735,25 @@
 
             if (!authGroup || !centerNav || !rightGroup || !navLinksList || !menuToggle) return;
 
-            // Logically check if the user is authenticated (Profile icon exists in the DOM)
-            const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
+            // FIX: Ensure it correctly identifies the user as logged in even AFTER nav-auth.js 
+            // modifies the DOM classes from .nav-profile-dp to .profile-avatar-btn or .user-profile-menu
+            const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null || 
+                                   authGroup.querySelector('.profile-avatar-btn') !== null || 
+                                   authGroup.querySelector('.user-profile-menu') !== null;
 
-            if (window.innerWidth <= 1150) {
+            if (window.innerWidth <= 1280) {
                 if (isUserLoggedIn) {
-                    // Profile Icon => Stays in Top Navbar (Strictly RIGHT of Hamburger)
                     if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
-                        rightGroup.appendChild(authGroup); // Appends it after the menu toggle
+                        rightGroup.appendChild(authGroup);
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
-                    // Login/Signup => Moves to Side Drawer (Above Home Button)
                     if (authGroup.parentNode !== centerNav || authGroup.nextSibling !== navLinksList) {
                         centerNav.insertBefore(authGroup, navLinksList);
                     }
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
-                // Standard Desktop => Everything stays in the Top Navbar (Strictly RIGHT of Hamburger)
                 if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                     rightGroup.appendChild(authGroup);
                 }
@@ -783,9 +761,6 @@
             }
         }
 
-        // ==========================================================================
-        // 3. PROFILE DP & AUTH STATE MANAGER
-        // ==========================================================================
         class AuthManager {
             constructor() {
                 this.authNavGroup = document.getElementById('authNavGroup');
@@ -809,7 +784,6 @@
                         const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
                         const initial = firstName.charAt(0).toUpperCase();
 
-                        // Matches the exact DOM pattern to trigger nav-auth.js menu logic
                         if (avatarUrl) {
                             this.authNavGroup.innerHTML = `
                                 <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
@@ -826,7 +800,6 @@
                     console.error("Auth rendering error:", err.message);
                 } finally {
                     this.authNavGroup.classList.add('ready');
-                    // Must run the layout checker again immediately after profile image is rendered
                     handleResponsiveAuthLayout();
                 }
             }
@@ -838,11 +811,14 @@
             new AuthManager();
         });
 
-        window.addEventListener('resize', handleResponsiveAuthLayout);
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                handleResponsiveAuthLayout();
+            }
+        });
 
-        // ==========================================================================
-        // 4. TEAM MODAL LOGIC
-        // ==========================================================================
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
             'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Dhanush specializes in interactive UI design and seamless API integrations, ensuring students have a smooth learning experience.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
