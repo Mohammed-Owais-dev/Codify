@@ -20,8 +20,7 @@
         /* ==========================================================================
            CRITICAL MOBILE OVERFLOW & RESPONSIVE SCOPE
            ========================================================================== */
-        html,
-        body {
+        html, body {
             max-width: 100vw !important;
             overflow-x: hidden !important;
             scroll-behavior: smooth;
@@ -196,7 +195,7 @@
         .btn-secondary-outline:hover { border-color: #00aaff; color: #00aaff; background: rgba(0, 170, 255, 0.1); }
 
         /* ==========================================================================
-           FEATURES GRID
+           FEATURES GRID (GPU Fast Load)
            ========================================================================== */
         .features-grid {
             display: grid !important; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -205,11 +204,24 @@
         }
 
         .feature-card {
-            background: rgba(13, 27, 42, 0.5); border: 1px solid rgba(0, 170, 255, 0.2);
-            border-radius: 20px; padding: 28px; backdrop-filter: blur(16px); transition: all 0.3s ease;
+            background: rgba(13, 27, 42, 0.5); 
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 20px; 
+            padding: 28px; 
+            backdrop-filter: blur(16px); 
+            
+            /* Fast Scroll GPU Acceleration */
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 320px;
+            transform: translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
         .feature-card:hover {
-            transform: translateY(-4px); border-color: rgba(0, 170, 255, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px); 
+            border-color: rgba(0, 170, 255, 0.6); 
+            box-shadow: 0 15px 35px rgba(0, 170, 255, 0.2);
         }
 
         .feature-icon {
@@ -314,15 +326,14 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           MOBILE & ZOOMED VIEW NAVIGATION OVERLAY ENGINE (Breakpoint: 1300px)
-           Triggered at 150%+ desktop zoom or standard mobile devices
+           MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1280px for 150%+ zoom)
            ========================================================================== */
         
         .drawer-close-btn {
             display: none; 
         }
 
-        @media (max-width: 1300px) {
+        @media (max-width: 1280px) {
             main { margin-top: 75px !important; }
             .hero-section { margin-top: 10px; padding: 0 16px; }
             .hero-title { font-size: 2.2rem; line-height: 1.3; }
@@ -337,7 +348,7 @@
 
             .codify-right-group { gap: 24px !important; }
 
-            /* Prevent Double Sliding Nav Bar */
+            /* Prevent Double-Sliding Nav Bar */
             .codify-nav-links, .codify-nav-links.active {
                 display: flex !important; position: relative !important; right: auto !important;
                 top: auto !important; width: 100% !important; height: auto !important;
@@ -369,7 +380,7 @@
             }
             .codify-center-nav.active { right: 0 !important; }
 
-            /* Dedicated "X" Close Button at the top left corner of the drawer */
+            /* Close Button inside Drawer */
             .drawer-close-btn {
                 display: flex !important;
                 position: absolute !important;
@@ -659,6 +670,9 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
+        // ==========================================================================
+        // 1. PROFESSIONAL NAVIGATION CONTROLLER
+        // ==========================================================================
         class NavigationController {
             constructor() {
                 const oldToggle = document.getElementById('menuToggle');
@@ -720,6 +734,9 @@
             }
         }
 
+        // ==========================================================================
+        // 2. DYNAMIC RESPONSIVE AUTH RELOCATOR (Calibrated to 1280px for 150%+ Zoom)
+        // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
@@ -731,20 +748,23 @@
 
             const isUserLoggedIn = authGroup.querySelector('.nav-profile-dp') !== null;
 
-            /* Updated breakpoint to 1300px to cover 150%+ desktop zooms */
-            if (window.innerWidth <= 1300) {
+            /* Set to 1280px to trigger precisely at 150%+ Zoom on standard desktop monitors */
+            if (window.innerWidth <= 1280) {
                 if (isUserLoggedIn) {
+                    /* Profile Icon stays in Top Navbar next to Hamburger */
                     if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                         rightGroup.appendChild(authGroup);
                     }
                     authGroup.classList.remove('mobile-drawer-auth');
                 } else {
+                    /* Login/Signup moves into side drawer above Home link */
                     if (authGroup.parentNode !== centerNav || authGroup.nextSibling !== navLinksList) {
                         centerNav.insertBefore(authGroup, navLinksList);
                     }
                     authGroup.classList.add('mobile-drawer-auth');
                 }
             } else {
+                /* Standard Desktop: Everything stays in Top Navbar */
                 if (authGroup.parentNode !== rightGroup || authGroup.previousSibling !== menuToggle) {
                     rightGroup.appendChild(authGroup);
                 }
@@ -752,6 +772,9 @@
             }
         }
 
+        // ==========================================================================
+        // 3. PROFILE DP & AUTH STATE MANAGER
+        // ==========================================================================
         class AuthManager {
             constructor() {
                 this.authNavGroup = document.getElementById('authNavGroup');
@@ -802,6 +825,7 @@
             new AuthManager();
         });
 
+        /* Prevent scroll re-trigger glitches */
         let lastWidth = window.innerWidth;
         window.addEventListener('resize', () => {
             if (window.innerWidth !== lastWidth) {
@@ -810,6 +834,9 @@
             }
         });
 
+        // ==========================================================================
+        // 4. TEAM MODAL LOGIC
+        // ==========================================================================
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
             'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Dhanush specializes in interactive UI design and seamless API integrations, ensuring students have a smooth learning experience.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
