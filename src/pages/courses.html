@@ -774,6 +774,7 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
+        // 1. Mobile Menu Drawer & Overlay Toggle Handler
         class NavigationController {
             constructor() {
                 const oldToggle = document.getElementById('menuToggle');
@@ -835,33 +836,178 @@
             }
         }
 
-        function initSearchController() {
-            const searchOverlay = document.getElementById('searchOverlayModal');
-            const inputTriggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
-            const modalInput = document.getElementById('modalSearchInput');
-            const modalClose = document.getElementById('modalSearchClose');
+        // 2. SCALABLE ADVANCED SEARCH ENGINE (Google-Like)
+        class AdvancedSearchEngine {
+            constructor() {
+                this.overlay = document.getElementById('searchOverlayModal');
+                this.input = document.getElementById('modalSearchInput');
+                this.closeBtn = document.getElementById('modalSearchClose');
+                this.resultsList = document.getElementById('searchResultsList');
+                this.statusBox = document.getElementById('searchResultsStatus');
+                this.triggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
 
-            if (!searchOverlay || !modalInput) return;
+                this.focusedIndex = -1;
+                this.debounceTimer = null;
 
-            const openSearch = (e) => {
-                if (e) e.preventDefault();
-                searchOverlay.classList.add('active');
-                searchOverlay.setAttribute('aria-hidden', 'false');
-                setTimeout(() => { modalInput.focus(); }, 50);
-            };
+                // SCALABLE ARCHITECTURE:
+                // To make this scale to 10,000+ courses, swap this local array with a JSON fetch like this:
+                // this.database = await fetch('/api/search-index.json').then(res => res.json());
+                
+                this.database = [
+                    { title: "Home Dashboard", url: "/index.html", category: "System", keywords: "welcome landing campus learn cs main", desc: "The foundational entryway launchpad containing information summary streams for Codify courses." },
+                    { title: "Course Curriculum Overview", url: "/src/pages/courses.html", category: "Dashboard", keywords: "tracks selection menu python java database system architecture modules", desc: "Comprehensive collection platform to navigate tracks, access evaluations, and launch learning nodes." },
+                    { title: "1.1 History of Python", url: "/src/pages/courses/python/chapter-1/1.1-history-of-python.html", category: "Python basics", keywords: "guido van rossum abc language programming origins 1991 standard general intent", desc: "Discover the chronological origin story and design paradigms established during Python's creation matrix." },
+                    { title: "1.2 Python Core Features", url: "/src/pages/courses/python/chapter-1/1.2-list-python-features.html", category: "Python basics", keywords: "batteries included open source platform independent high level dynamic interpretation object oriented readable syntax libraries", desc: "Analyze technical capabilities including automatic platform management vectors, object bindings, and implicit compilation workflows." },
+                    { title: "1.3 Applications of Python", url: "/src/pages/courses/python/chapter-1/1.3-list-and-explian-applications-of-python.html", category: "Python basics", keywords: "web development artificial intelligence data science machine learning automation scraping django framework statistics flask scripts api desktop apps", desc: "Breakdown structural systems leveraging computational toolkits across neural networking models, automation frameworks, and web architectures." },
+                    { title: "1.4 Explaining Python IDLE", url: "/src/pages/courses/python/chapter-1/1.4-explain-python-idle.html", category: "Python basics", keywords: "integrated development learning environment script window interactive shell debugger syntax check shortcut execution keys run module f5 save print statements text editor", desc: "Master configuration controls across standard interactive shells, syntax debugging highlights, and compilation output pipelines." },
+                    { title: "1.5 Running Python Scripts", url: "/src/pages/courses/python/chapter-1/1.5-explain-process-of-running-python-scripts.html", category: "Python basics", keywords: "compilation steps source code conversion interpreter execution layer dynamic pvm virtual machine engine runtimes compilation bytecode file format pyc path logic variables", desc: "Track low-level mechanics mapping operations from structural plaintext definitions into optimized bytecode maps interpreted inside hardware states." },
+                    { title: "1.6 Identifiers, Keywords & Indentation Rules", url: "/src/pages/courses/python/chapter-1/1.6-explain-identifier-keywords-indentation.html", category: "Python basics", keywords: "variable naming definitions case sensitive keywords blocks system scope space code structural indentation errors indentationerror tokens logic validation tester tools definitions functions class structure formatting parameters alignment", desc: "Examine strict semantic conventions regulating structural layout boundaries, namespace parameters, and naming safety formats within scope stacks." }
+                ];
 
-            inputTriggers.forEach(btn => {
-                if(btn) btn.addEventListener('click', openSearch);
-            });
+                if (this.overlay && this.input) this.init();
+            }
 
-            if (modalClose) {
-                modalClose.addEventListener('click', () => {
-                    searchOverlay.classList.remove('active');
-                    searchOverlay.setAttribute('aria-hidden', 'true');
+            init() {
+                this.triggers.forEach(btn => {
+                    if (btn) btn.addEventListener('click', (e) => this.openSearch(e));
                 });
+                if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.closeSearch());
+                this.input.addEventListener('input', (e) => this.handleInput(e));
+                document.addEventListener('keydown', (e) => this.handleKeydown(e));
+            }
+
+            openSearch(e) {
+                if (e) e.preventDefault();
+                this.overlay.classList.add('active');
+                this.overlay.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden'; 
+                setTimeout(() => { this.input.focus(); }, 50);
+                this.focusedIndex = -1;
+            }
+
+            closeSearch() {
+                this.overlay.classList.remove('active');
+                this.overlay.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                this.input.value = "";
+                this.resultsList.innerHTML = "";
+                this.statusBox.style.display = "block";
+                this.statusBox.innerText = "Start typing to search your course parameters...";
+            }
+
+            handleInput(e) {
+                clearTimeout(this.debounceTimer);
+                const query = e.target.value.trim().toLowerCase();
+                if (!query) {
+                    this.statusBox.style.display = "block";
+                    this.statusBox.innerText = "Start typing to search your course parameters...";
+                    this.resultsList.innerHTML = '';
+                    return;
+                }
+                this.debounceTimer = setTimeout(() => { this.performSearch(query); }, 200); 
+            }
+
+            performSearch(query) {
+                const terms = query.split(' ').filter(t => t);
+                
+                let results = this.database.map(item => {
+                    let score = 0;
+                    let titleMatch = item.title.toLowerCase();
+                    let catMatch = item.category.toLowerCase();
+                    let keyMatch = item.keywords.toLowerCase();
+                    let descMatch = item.desc.toLowerCase();
+
+                    terms.forEach(term => {
+                        if (titleMatch.includes(term)) score += 10; 
+                        if (catMatch.includes(term)) score += 5;
+                        if (keyMatch.includes(term)) score += 3;
+                        if (descMatch.includes(term)) score += 1;
+                    });
+                    return { ...item, score };
+                });
+
+                results = results.filter(r => r.score > 0).sort((a, b) => b.score - a.score);
+
+                this.resultsList.innerHTML = "";
+                this.focusedIndex = -1;
+
+                if (results.length === 0) {
+                    this.statusBox.style.display = "block";
+                    this.statusBox.innerText = `No site parameters discovered matching sequence: "${this.input.value}"`;
+                    return;
+                }
+
+                this.statusBox.style.display = "none";
+                results.forEach((result, idx) => {
+                    const li = document.createElement('li');
+                    li.className = "search-result-item";
+                    li.setAttribute('data-index', idx);
+                    li.innerHTML = `
+                        <a href="${result.url}">
+                            <div class="result-item-title">
+                                <span>${this.highlightText(result.title, query)}</span>
+                                <span class="result-item-category">${this.highlightText(result.category, query)}</span>
+                            </div>
+                            <div class="result-item-desc">${this.highlightText(result.desc, query)}</div>
+                        </a>
+                    `;
+                    this.resultsList.appendChild(li);
+                });
+            }
+
+            highlightText(text, query) {
+                if (!query) return text;
+                const terms = query.split(' ').filter(t => t);
+                let highlighted = text;
+                terms.forEach(term => {
+                    const matchRegex = new RegExp(`(${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+                    highlighted = highlighted.replace(matchRegex, '<span class="search-match-hl">$1</span>');
+                });
+                return highlighted;
+            }
+
+            refreshItemFocus(itemsList) {
+                itemsList.forEach(item => item.classList.remove('selected'));
+                if (this.focusedIndex >= 0 && this.focusedIndex < itemsList.length) {
+                    const focusedItem = itemsList[this.focusedIndex];
+                    focusedItem.classList.add('selected');
+                    focusedItem.scrollIntoView({ block: 'nearest' });
+                }
+            }
+
+            handleKeydown(e) {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    this.openSearch();
+                    return;
+                }
+                if (this.overlay.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        this.closeSearch();
+                        return;
+                    }
+                    const searchItems = this.resultsList.querySelectorAll('.search-result-item');
+                    if (searchItems.length === 0) return;
+
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        this.focusedIndex = (this.focusedIndex + 1 >= searchItems.length) ? 0 : this.focusedIndex + 1;
+                        this.refreshItemFocus(searchItems);
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        this.focusedIndex = (this.focusedIndex - 1 < 0) ? searchItems.length - 1 : this.focusedIndex - 1;
+                        this.refreshItemFocus(searchItems);
+                    } else if (e.key === 'Enter') {
+                        if (this.focusedIndex >= 0 && this.focusedIndex < searchItems.length) {
+                            e.preventDefault();
+                            searchItems[this.focusedIndex].querySelector('a').click();
+                        }
+                    }
+                }
             }
         }
 
+        // 3. UI LAYOUT & AUTH MANAGERS
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
@@ -896,12 +1042,7 @@
         }
 
         function initMobileScrollAnimation() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -5% 0px',
-                threshold: 0.1 
-            };
-
+            const observerOptions = { root: null, rootMargin: '0px 0px -5% 0px', threshold: 0.1 };
             const cardObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1009,11 +1150,12 @@
             }
         }
 
+        // Initialize Everything
         document.addEventListener('DOMContentLoaded', () => {
             handleResponsiveAuthLayout();
             new NavigationController();
             new AuthManager();
-            initSearchController();
+            new AdvancedSearchEngine(); // Start Scalable Search Engine
             initMobileScrollAnimation();
         });
 
@@ -1047,7 +1189,7 @@
             document.getElementById('engBio').textContent = engineer.bio;
             document.getElementById('engEmail').href = engineer.email;
             document.getElementById('engGithub').href = engineer.github;
-
+ 
             engModal.classList.add('show');
             document.body.style.overflow = 'hidden'; 
         };
