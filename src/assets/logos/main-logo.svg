@@ -1,43 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Background Gradient: Deep Midnight Black to Dark Navy -->
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B0F19" />
-      <stop offset="100%" stop-color="#02040A" />
-    </linearGradient>
-
-    <!-- 'C' Gradient: Electric Cyan to Deep Tech Blue -->
-    <linearGradient id="cGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00D2FF" />
-      <stop offset="50%" stop-color="#0066FF" />
-      <stop offset="100%" stop-color="#0033AA" />
-    </linearGradient>
-
-    <!-- Subtle Glow Filter to make the Blue pop -->
-    <filter id="glowing" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <!-- Soft Background Ambient Glow -->
+    <filter id="ambientGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="24" result="blur" />
     </filter>
+
+    <!-- Sharp Neon Line Glow -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur1" />
+      <feGaussianBlur stdDeviation="16" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Vibrant Neon Blue Gradient -->
+    <linearGradient id="neonBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="50%" stop-color="#00aaff" />
+      <stop offset="100%" stop-color="#0066ff" />
+    </linearGradient>
+
+    <!-- Core Highlights for Ultra-Modern Finish -->
+    <linearGradient id="coreHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#80e5ff" stop-opacity="0.6" />
+    </linearGradient>
   </defs>
 
-  <!-- Smooth Rounded Background Square -->
-  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  <!-- Ambient Glow Layer -->
+  <g stroke="url(#neonBlueGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.35" filter="url(#ambientGlow)">
+    <path d="M 160 168 L 72 256 L 160 344" />
+    <path d="M 288 128 L 224 384" />
+    <path d="M 352 168 L 440 256 L 352 344" />
+  </g>
 
-  <!-- Outer Ring/Border Accent -->
-  <rect x="16" y="16" width="480" height="480" rx="112" fill="none" stroke="#0066FF" stroke-width="4" stroke-opacity="0.3" />
+  <!-- Outer Neon Blur Layer -->
+  <g stroke="url(#neonBlueGrad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#neonGlow)">
+    <path d="M 160 168 L 72 256 L 160 344" />
+    <path d="M 288 128 L 224 384" />
+    <path d="M 352 168 L 440 256 L 352 344" />
+  </g>
 
-  <!-- The "C" Geometry (Styled with a modern, sharp cut) -->
-  <path d="M 370,160 
-           C 330,120 280,100 220,100 
-           C 130,100 70,170 70,256 
-           C 70,342 130,412 220,412 
-           C 280,412 330,392 370,352 
-           L 325,307 
-           C 300,330 265,342 220,342 
-           C 165,342 135,300 135,256 
-           C 135,212 165,170 220,170 
-           C 265,170 300,182 325,205 
-           Z" 
-        fill="url(#cGrad)" 
-        filter="url(#glowing)" />
+  <!-- Sharp Inner Glass Core -->
+  <g stroke="url(#coreHighlight)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 160 168 L 72 256 L 160 344" />
+    <path d="M 288 128 L 224 384" />
+    <path d="M 352 168 L 440 256 L 352 344" />
+  </g>
 </svg>

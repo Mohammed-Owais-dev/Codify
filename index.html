@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
 
-    <link rel="icon" type="image/svg+xml" href="src/assets/logos/codify-logo.png">
+    <link rel="icon" type="image/svg+xml" href="src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="src/css/style.css">
     <title>Codify | Master Computer Science & Development</title>
 
@@ -73,17 +73,15 @@
         .codify-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
             font-size: 1.5rem;
             font-weight: 800;
-            color: #fff;
             text-decoration: none;
             cursor: pointer;
         }
 
         /* Desktop State: Text Only */
-        .logo-icon { display: none; width: 32px; height: 32px; }
-        .logo-text { display: block; color: #fff; }
+        .logo-icon { width: 32px; height: 32px; }
+        .logo-text { display: block; }
 
         .codify-right-group {
             display: flex;
@@ -520,9 +518,8 @@
         <div class="codify-header-container">
 
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='index.html'" role="button" tabindex="0"
-                    aria-label="Codify Homepage">
-                    <img src="src/assets/logos/codify-logo.png" alt="Codify Logo" class="logo-icon">
+                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
+                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
                     <span class="logo-text">Codify</span>
                 </div>
             </div>
