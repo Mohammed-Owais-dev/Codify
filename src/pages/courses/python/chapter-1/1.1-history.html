@@ -105,7 +105,7 @@
         .nav-profile-dp:hover { transform: scale(1.08); box-shadow: 0 0 12px rgba(0, 170, 255, 0.5); }
         .nav-profile-dp img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* BACKDROPS (ISOLATED Z-INDEX) */
+        /* BACKDROPS (SYNCHRONIZED DUAL LAYERS) */
         .nav-backdrop, .sidebar-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 10, 20, 0.75); backdrop-filter: blur(6px);
@@ -146,7 +146,7 @@
         .mobile-search-trigger:hover { background: rgba(0, 170, 255, 0.2); }
 
         /* ==========================================================================
-           BREADCRUMB BAR (SUB-HEADER)
+           BREADCRUMB SUB-HEADER
            ========================================================================== */
         .codify-breadcrumb-bar {
             position: fixed;
@@ -264,16 +264,19 @@
 
         .sidebar-close-btn {
             display: none;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.2rem;
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #00aaff;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            padding: 4px;
+            transition: all 0.2s ease;
         }
-        .sidebar-close-btn:hover { color: #00aaff; }
+        .sidebar-close-btn:hover { background: rgba(0, 170, 255, 0.2); }
 
-        /* Content section scaled for 1920x1080 */
         .content-workspace {
             flex: 1;
             min-width: 0;
@@ -524,7 +527,7 @@
             }
 
             .sidebar-close-btn {
-                display: block !important;
+                display: flex !important;
             }
 
             .content-workspace {
@@ -1619,7 +1622,7 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 2. SEARCH HUD CONTROLLER
+        // 2. SEARCH HUD CONTROLLER (IDENTICAL TO courses.html)
         // ==========================================================================
         function initSearchController() {
             const searchOverlay = document.getElementById('searchOverlayModal');
@@ -1654,7 +1657,7 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 3. RESPONSIVE AUTH RELOCATOR
+        // 3. RESPONSIVE AUTH RELOCATOR (IDENTICAL TO courses.html)
         // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
