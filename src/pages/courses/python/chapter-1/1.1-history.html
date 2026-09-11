@@ -14,7 +14,7 @@
 
     <style>
         /* ==========================================================================
-           CRITICAL OVERFLOW & 1920x1080 WIDESCREEN GEOMETRY
+           CRITICAL OVERFLOW & 1920x1080 GEOMETRY
            ========================================================================== */
         html, body {
             max-width: 100vw !important;
@@ -105,7 +105,7 @@
         .nav-profile-dp:hover { transform: scale(1.08); box-shadow: 0 0 12px rgba(0, 170, 255, 0.5); }
         .nav-profile-dp img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* BACKDROPS (SYNCHRONIZED DUAL LAYERS) */
+        /* BACKDROPS */
         .nav-backdrop, .sidebar-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 10, 20, 0.75); backdrop-filter: blur(6px);
@@ -146,7 +146,7 @@
         .mobile-search-trigger:hover { background: rgba(0, 170, 255, 0.2); }
 
         /* ==========================================================================
-           BREADCRUMB SUB-HEADER
+           BREADCRUMB BAR (SUB-HEADER)
            ========================================================================== */
         .codify-breadcrumb-bar {
             position: fixed;
@@ -221,31 +221,74 @@
         }
 
         /* ==========================================================================
-           PAGE WORKSPACE & 1080P WIDE EXPANSION
+           DESKTOP SIDEBAR COLLAPSE & SPLIT LAYOUT ENGINE (> 768px)
            ========================================================================== */
-        .page-wrapper {
-            display: flex;
-            margin-top: 106px;
-            min-height: calc(100vh - 106px);
-            background-color: #0a0f1c;
-            position: relative;
+        @media screen and (min-width: 769px) {
+            .page-wrapper {
+                display: flex !important;
+                width: 100% !important;
+                margin-top: 106px !important;
+                position: relative !important;
+            }
+
+            .sidebar-nav {
+                position: fixed !important;
+                top: 106px !important;
+                left: 0 !important;
+                width: 300px !important;
+                min-width: 300px !important;
+                max-width: 300px !important;
+                height: calc(100vh - 106px) !important;
+                overflow-y: auto !important;
+                background: rgba(13, 27, 42, 0.5) !important;
+                border-right: 1px solid rgba(0, 170, 255, 0.15) !important;
+                padding: 24px 20px !important;
+                box-sizing: border-box !important;
+                backdrop-filter: blur(12px) !important;
+                z-index: 100 !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                            min-width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                            max-width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                            padding 0.35s ease,
+                            opacity 0.25s ease !important;
+            }
+
+            .sidebar-nav.collapsed {
+                width: 0px !important;
+                min-width: 0px !important;
+                max-width: 0px !important;
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+                overflow: hidden !important;
+                opacity: 0 !important;
+                border-right: none !important;
+                pointer-events: none !important;
+            }
+
+            .content-workspace {
+                flex: 1 !important;
+                margin-left: 300px !important;
+                width: calc(100% - 300px) !important;
+                max-width: calc(100% - 300px) !important;
+                padding: 40px 60px 80px 60px !important;
+                box-sizing: border-box !important;
+                display: flex !important;
+                justify-content: center !important;
+                transition: margin-left 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                            width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                            max-width 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+            }
+
+            .page-wrapper.sidebar-is-collapsed .content-workspace {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
         }
 
-        .sidebar-nav {
-            width: 320px;
-            min-width: 320px;
-            background: rgba(13, 27, 42, 0.5);
-            border-right: 1px solid rgba(0, 170, 255, 0.15);
-            padding: 24px 20px;
-            position: sticky;
-            top: 106px;
-            height: calc(100vh - 106px);
-            overflow-y: auto;
-            box-sizing: border-box;
-            backdrop-filter: blur(12px);
-            z-index: 100;
-        }
-
+        /* Common content styling */
         .sidebar-header {
             display: flex;
             align-items: center;
@@ -276,15 +319,6 @@
             transition: all 0.2s ease;
         }
         .sidebar-close-btn:hover { background: rgba(0, 170, 255, 0.2); }
-
-        .content-workspace {
-            flex: 1;
-            min-width: 0;
-            padding: 40px 60px 80px 60px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-        }
 
         .content-body {
             width: 100%;
@@ -439,7 +473,7 @@
         .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
 
         /* ==========================================================================
-           RESPONSIVE MOBILE ENGINE
+           RESPONSIVE MOBILE ENGINE (DRAWER RULES)
            ========================================================================== */
         .drawer-close-btn { display: none; }
 
@@ -500,10 +534,10 @@
             .menu-toggle span:nth-child(3) { transform: translateY(7px); }
         }
 
-        @media (max-width: 900px) {
+        @media screen and (max-width: 768px) {
             .page-wrapper {
-                flex-direction: column;
-                margin-top: 106px;
+                margin-top: 106px !important;
+                flex-direction: column !important;
             }
 
             .sidebar-nav {
@@ -513,6 +547,7 @@
                 height: 100vh !important;
                 width: 290px !important;
                 min-width: 290px !important;
+                max-width: 290px !important;
                 background: rgba(10, 15, 28, 0.98) !important;
                 backdrop-filter: blur(20px) !important;
                 border-right: 1px solid rgba(0, 170, 255, 0.3) !important;
@@ -531,7 +566,10 @@
             }
 
             .content-workspace {
-                padding: 24px 16px 60px 16px;
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 24px 16px 60px 16px !important;
             }
 
             .topic-title {
@@ -1477,11 +1515,11 @@ Readability counts.
         import { supabase } from '/src/js/config/supabase-client.js';
 
         // ==========================================================================
-        // 1. ISOLATED MOBILE NAVIGATION CONTROLLER (BALANCED DUAL-DRAWER)
+        // 1. ISOLATED DUAL-DRAWER & DESKTOP COLLAPSE CONTROLLER
         // ==========================================================================
-        class LessonNavController {
+        class LessonDualNavController {
             constructor() {
-                // Right Navigation Elements
+                // Right Navigation Elements (Clone to purge conflicting global listeners)
                 const oldMenuToggle = document.getElementById('menuToggle');
                 if (oldMenuToggle) {
                     this.menuToggle = oldMenuToggle.cloneNode(true);
@@ -1492,26 +1530,27 @@ Readability counts.
                 this.drawerCloseBtn = document.getElementById('drawerCloseBtn');
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
 
-                // Left Syllabus Sidebar Elements
+                // Left Syllabus Sidebar Elements (Clone to purge conflicting global listeners)
                 const oldSidebarBtn = document.getElementById('sidebarToggleMobile');
                 if (oldSidebarBtn) {
-                    this.sidebarToggleMobile = oldSidebarBtn.cloneNode(true);
-                    oldSidebarBtn.parentNode.replaceChild(this.sidebarToggleMobile, oldSidebarBtn);
+                    this.sidebarToggle = oldSidebarBtn.cloneNode(true);
+                    oldSidebarBtn.parentNode.replaceChild(this.sidebarToggle, oldSidebarBtn);
                 }
                 this.sidebarNav = document.getElementById('sidebarNav');
                 this.sidebarBackdrop = document.getElementById('sidebarBackdrop');
                 this.sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+                this.pageWrapper = document.querySelector('.page-wrapper');
 
                 this.initEvents();
             }
 
             initEvents() {
-                // Right Drawer Trigger
+                // Right Drawer Trigger (Mobile menu button)
                 if (this.menuToggle) {
                     this.menuToggle.addEventListener('click', (e) => {
                         e.stopPropagation();
                         e.stopImmediatePropagation();
-                        this.closeSidebar();
+                        this.closeLeftSidebar();
                         this.toggleRightMenu();
                     });
                 }
@@ -1531,39 +1570,48 @@ Readability counts.
                     link.addEventListener('click', () => this.closeRightMenu());
                 });
 
-                // Left Sidebar Trigger
-                if (this.sidebarToggleMobile && this.sidebarNav) {
-                    this.sidebarToggleMobile.addEventListener('click', (e) => {
+                // Left Sidebar Button: Handles BOTH Desktop Collapse & Mobile Slide Drawer
+                if (this.sidebarToggle && this.sidebarNav) {
+                    this.sidebarToggle.addEventListener('click', (e) => {
                         e.stopPropagation();
                         e.stopImmediatePropagation();
-                        this.closeRightMenu();
-                        this.toggleSidebar();
+
+                        if (window.innerWidth > 768) {
+                            // DESKTOP INTERACTION: Smoothly toggle 300px split vs collapsed
+                            this.sidebarNav.classList.toggle('collapsed');
+                            if (this.pageWrapper) {
+                                this.pageWrapper.classList.toggle('sidebar-is-collapsed');
+                            }
+                        } else {
+                            // MOBILE INTERACTION: Off-canvas drawer
+                            this.closeRightMenu();
+                            this.toggleLeftSidebar();
+                        }
                     });
                 }
 
                 if (this.sidebarCloseBtn) {
                     this.sidebarCloseBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        this.closeSidebar();
+                        this.closeLeftSidebar();
                     });
                 }
 
                 if (this.sidebarBackdrop) {
-                    this.sidebarBackdrop.addEventListener('click', () => this.closeSidebar());
+                    this.sidebarBackdrop.addEventListener('click', () => this.closeLeftSidebar());
                 }
 
-                // Prevent click inside sidebar from bubbling and triggering closing handlers
                 if (this.sidebarNav) {
                     this.sidebarNav.addEventListener('click', (e) => {
                         e.stopPropagation();
                     });
                 }
 
-                // Mobile link click closes sidebar
+                // Close left drawer on link tap in mobile view
                 document.querySelectorAll('.sidebar-nav .topic-link').forEach(link => {
                     link.addEventListener('click', () => {
-                        if (window.innerWidth <= 900) {
-                            this.closeSidebar();
+                        if (window.innerWidth <= 768) {
+                            this.closeLeftSidebar();
                         }
                     });
                 });
@@ -1572,7 +1620,7 @@ Readability counts.
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.closeRightMenu();
-                        this.closeSidebar();
+                        this.closeLeftSidebar();
                     }
                 });
             }
@@ -1591,27 +1639,30 @@ Readability counts.
             }
 
             closeRightMenu() {
+                if (!this.centerNav) return;
                 this.centerNav.classList.remove('active');
-                this.menuToggle.classList.remove('open');
-                this.menuToggle.setAttribute('aria-expanded', 'false');
+                if (this.menuToggle) {
+                    this.menuToggle.classList.remove('open');
+                    this.menuToggle.setAttribute('aria-expanded', 'false');
+                }
                 if (this.navBackdrop) this.navBackdrop.classList.remove('active');
                 if (!this.sidebarNav || !this.sidebarNav.classList.contains('active')) {
                     document.body.style.overflow = '';
                 }
             }
 
-            toggleSidebar() {
+            toggleLeftSidebar() {
                 const isOpen = this.sidebarNav.classList.contains('active');
-                isOpen ? this.closeSidebar() : this.openSidebar();
+                isOpen ? this.closeLeftSidebar() : this.openLeftSidebar();
             }
 
-            openSidebar() {
+            openLeftSidebar() {
                 this.sidebarNav.classList.add('active');
                 if (this.sidebarBackdrop) this.sidebarBackdrop.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
 
-            closeSidebar() {
+            closeLeftSidebar() {
                 if (!this.sidebarNav) return;
                 this.sidebarNav.classList.remove('active');
                 if (this.sidebarBackdrop) this.sidebarBackdrop.classList.remove('active');
@@ -1622,7 +1673,7 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 2. SEARCH HUD CONTROLLER (IDENTICAL TO courses.html)
+        // 2. SEARCH HUD CONTROLLER (MATCHING courses.html)
         // ==========================================================================
         function initSearchController() {
             const searchOverlay = document.getElementById('searchOverlayModal');
@@ -1657,7 +1708,7 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 3. RESPONSIVE AUTH RELOCATOR (IDENTICAL TO courses.html)
+        // 3. RESPONSIVE AUTH RELOCATOR (MATCHING courses.html)
         // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
@@ -1705,7 +1756,6 @@ Readability counts.
 
                 currentUser = user;
 
-                // Sync navigation bar avatar
                 const authNavGroup = document.getElementById('authNavGroup');
                 if (authNavGroup) {
                     const { data: profile } = await supabase
@@ -1734,7 +1784,6 @@ Readability counts.
                     handleResponsiveAuthLayout();
                 }
 
-                // Check lesson completion status
                 const { data } = await supabase
                     .from('user_progress')
                     .select('completed')
@@ -1791,7 +1840,7 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 5. CODE UTILITIES (COPY, DOWNLOAD, RUN)
+        // 5. CODE UTILITIES
         // ==========================================================================
         window.copyCode = function(elementId, btnElement) {
             const el = document.getElementById(elementId);
@@ -1863,11 +1912,11 @@ Readability counts.
         };
 
         // ==========================================================================
-        // 7. INITIALIZATION & RESIZE
+        // 7. INITIALIZATION
         // ==========================================================================
         document.addEventListener('DOMContentLoaded', () => {
             handleResponsiveAuthLayout();
-            new LessonNavController();
+            new LessonDualNavController();
             initSearchController();
             protectRouteAndInitProgress();
         });
@@ -1882,11 +1931,11 @@ Readability counts.
 
         // Team Popover Database
         const teamDatabase = {
-            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture & scaling.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Interactive UI & APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Database & Auth.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Curriculum & frontend.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Performance & QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
+            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed manages the core architecture, high-performance styling, and scalability of Codify.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
+            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Specializes in interactive UI and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
+            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Manages authentication and database integrity.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
+            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Maintains documentation and styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
+            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Focuses on test cases and performance QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
         };
 
         const engModal = document.getElementById('engineerModal');
