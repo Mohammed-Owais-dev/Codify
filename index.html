@@ -81,9 +81,15 @@
         }
 
         .codify-header-container {
-            display: flex !important; justify-content: space-between !important; align-items: center !important;
-            padding: 10px 24px !important; max-width: 1600px; margin: 0 auto; width: 100% !important; box-sizing: border-box !important;
-        }
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 32px !important; /* Left & right padding so items don't touch the glass edges */
+    max-width: none !important;     /* Removes the 1400px/1600px cap completely */
+    width: 100% !important;        /* Stretches edge-to-edge across any display */
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
 
         .codify-logo {
             display: flex;
