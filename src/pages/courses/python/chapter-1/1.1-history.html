@@ -105,15 +105,15 @@
         .nav-profile-dp:hover { transform: scale(1.08); box-shadow: 0 0 12px rgba(0, 170, 255, 0.5); }
         .nav-profile-dp img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* BACKDROPS */
+        /* BACKDROPS (ISOLATED Z-INDEX) */
         .nav-backdrop, .sidebar-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 10, 20, 0.7); backdrop-filter: blur(6px);
+            background: rgba(5, 10, 20, 0.75); backdrop-filter: blur(6px);
             opacity: 0; visibility: hidden; pointer-events: none;
             transition: opacity 0.35s ease, visibility 0.35s ease;
         }
-        .nav-backdrop { z-index: 1998; }
-        .sidebar-backdrop { z-index: 1498; }
+        .nav-backdrop { z-index: 2050; }
+        .sidebar-backdrop { z-index: 2050; }
         .nav-backdrop.active, .sidebar-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
 
         .codify-nav-links {
@@ -146,7 +146,7 @@
         .mobile-search-trigger:hover { background: rgba(0, 170, 255, 0.2); }
 
         /* ==========================================================================
-           BREADCRUMB BAR (EDGE-TO-EDGE)
+           BREADCRUMB BAR (SUB-HEADER)
            ========================================================================== */
         .codify-breadcrumb-bar {
             position: fixed;
@@ -247,6 +247,9 @@
         }
 
         .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(0, 170, 255, 0.15);
@@ -259,6 +262,18 @@
             font-weight: 800;
         }
 
+        .sidebar-close-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .sidebar-close-btn:hover { color: #00aaff; }
+
+        /* Content section scaled for 1920x1080 */
         .content-workspace {
             flex: 1;
             min-width: 0;
@@ -434,7 +449,7 @@
             .codify-center-nav {
                 position: fixed !important; top: 0 !important; right: -320px !important; width: 280px !important; height: 100vh !important;
                 background: rgba(10, 15, 28, 0.98) !important; backdrop-filter: blur(20px) !important; border-left: 1px solid rgba(0, 170, 255, 0.25) !important;
-                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important; z-index: 2100 !important; padding: 90px 24px 30px 24px !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important; z-index: 2200 !important; padding: 90px 24px 30px 24px !important;
                 box-sizing: border-box !important; display: flex !important; flex-direction: column !important; justify-content: flex-start !important;
                 box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8) !important;
             }
@@ -455,7 +470,7 @@
             .drawer-close-btn {
                 display: flex !important; position: absolute !important; top: 24px !important; left: 24px !important; width: 38px !important; height: 38px !important;
                 background: rgba(0, 170, 255, 0.1) !important; border: 1px solid rgba(0, 170, 255, 0.3) !important; border-radius: 8px !important;
-                align-items: center !important; justify-content: center !important; color: #00aaff !important; cursor: pointer !important; transition: all 0.3s ease !important; z-index: 2200 !important;
+                align-items: center !important; justify-content: center !important; color: #00aaff !important; cursor: pointer !important; transition: all 0.3s ease !important; z-index: 2300 !important;
             }
             .drawer-close-btn:hover { background: rgba(0, 170, 255, 0.2) !important; transform: rotate(90deg) !important; }
             .drawer-close-btn svg { width: 20px; height: 20px; }
@@ -490,21 +505,26 @@
 
             .sidebar-nav {
                 position: fixed !important;
-                top: 106px !important;
+                top: 0 !important;
                 left: -320px !important;
-                height: calc(100vh - 106px) !important;
+                height: 100vh !important;
                 width: 290px !important;
                 min-width: 290px !important;
                 background: rgba(10, 15, 28, 0.98) !important;
+                backdrop-filter: blur(20px) !important;
                 border-right: 1px solid rgba(0, 170, 255, 0.3) !important;
                 transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
-                z-index: 1500 !important;
-                box-shadow: none;
+                z-index: 2200 !important;
+                box-shadow: 10px 0 40px rgba(0, 0, 0, 0.8);
+                padding-top: 24px !important;
             }
 
             .sidebar-nav.active {
                 left: 0 !important;
-                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8) !important;
+            }
+
+            .sidebar-close-btn {
+                display: block !important;
             }
 
             .content-workspace {
@@ -639,6 +659,7 @@
         <aside class="sidebar-nav" id="sidebarNav">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Python Programming</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">✕</button>
             </div>
 
             <ul class="tree-root">
@@ -1444,7 +1465,7 @@ Readability counts.
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE SCRIPTS -->
+    <!-- SCRIPTS -->
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
@@ -1453,22 +1474,22 @@ Readability counts.
         import { supabase } from '/src/js/config/supabase-client.js';
 
         // ==========================================================================
-        // 1. UNIFIED MOBILE NAVIGATION CONTROLLER (RIGHT DRAWER & LEFT SIDEBAR)
+        // 1. ISOLATED MOBILE NAVIGATION CONTROLLER (BALANCED DUAL-DRAWER)
         // ==========================================================================
-        class DualMobileNavController {
+        class LessonNavController {
             constructor() {
-                // Right drawer elements
-                const oldToggle = document.getElementById('menuToggle');
-                if (oldToggle) {
-                    this.menuToggle = oldToggle.cloneNode(true);
-                    oldToggle.parentNode.replaceChild(this.menuToggle, oldToggle);
+                // Right Navigation Elements
+                const oldMenuToggle = document.getElementById('menuToggle');
+                if (oldMenuToggle) {
+                    this.menuToggle = oldMenuToggle.cloneNode(true);
+                    oldMenuToggle.parentNode.replaceChild(this.menuToggle, oldMenuToggle);
                 }
                 this.centerNav = document.getElementById('centerNav');
                 this.navBackdrop = document.getElementById('navBackdrop');
                 this.drawerCloseBtn = document.getElementById('drawerCloseBtn');
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
 
-                // Left sidebar elements
+                // Left Syllabus Sidebar Elements
                 const oldSidebarBtn = document.getElementById('sidebarToggleMobile');
                 if (oldSidebarBtn) {
                     this.sidebarToggleMobile = oldSidebarBtn.cloneNode(true);
@@ -1476,22 +1497,27 @@ Readability counts.
                 }
                 this.sidebarNav = document.getElementById('sidebarNav');
                 this.sidebarBackdrop = document.getElementById('sidebarBackdrop');
+                this.sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
 
                 this.initEvents();
             }
 
             initEvents() {
-                // Right Drawer Events
+                // Right Drawer Trigger
                 if (this.menuToggle) {
                     this.menuToggle.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        this.closeSidebar(); // Ensure other menu closes
+                        e.stopImmediatePropagation();
+                        this.closeSidebar();
                         this.toggleRightMenu();
                     });
                 }
 
                 if (this.drawerCloseBtn) {
-                    this.drawerCloseBtn.addEventListener('click', () => this.closeRightMenu());
+                    this.drawerCloseBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.closeRightMenu();
+                    });
                 }
 
                 if (this.navBackdrop) {
@@ -1502,12 +1528,20 @@ Readability counts.
                     link.addEventListener('click', () => this.closeRightMenu());
                 });
 
-                // Left Sidebar Events
+                // Left Sidebar Trigger
                 if (this.sidebarToggleMobile && this.sidebarNav) {
                     this.sidebarToggleMobile.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        this.closeRightMenu(); // Ensure right menu closes
+                        e.stopImmediatePropagation();
+                        this.closeRightMenu();
                         this.toggleSidebar();
+                    });
+                }
+
+                if (this.sidebarCloseBtn) {
+                    this.sidebarCloseBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.closeSidebar();
                     });
                 }
 
@@ -1515,7 +1549,14 @@ Readability counts.
                     this.sidebarBackdrop.addEventListener('click', () => this.closeSidebar());
                 }
 
-                // Close on topic click in mobile view
+                // Prevent click inside sidebar from bubbling and triggering closing handlers
+                if (this.sidebarNav) {
+                    this.sidebarNav.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+                }
+
+                // Mobile link click closes sidebar
                 document.querySelectorAll('.sidebar-nav .topic-link').forEach(link => {
                     link.addEventListener('click', () => {
                         if (window.innerWidth <= 900) {
@@ -1524,7 +1565,7 @@ Readability counts.
                     });
                 });
 
-                // Escape Key handling
+                // ESC key closes both
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.closeRightMenu();
@@ -1541,6 +1582,7 @@ Readability counts.
             openRightMenu() {
                 this.centerNav.classList.add('active');
                 this.menuToggle.classList.add('open');
+                this.menuToggle.setAttribute('aria-expanded', 'true');
                 if (this.navBackdrop) this.navBackdrop.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1548,6 +1590,7 @@ Readability counts.
             closeRightMenu() {
                 this.centerNav.classList.remove('active');
                 this.menuToggle.classList.remove('open');
+                this.menuToggle.setAttribute('aria-expanded', 'false');
                 if (this.navBackdrop) this.navBackdrop.classList.remove('active');
                 if (!this.sidebarNav || !this.sidebarNav.classList.contains('active')) {
                     document.body.style.overflow = '';
@@ -1576,7 +1619,42 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 2. MOBILE RESPONSIVE AUTH RELOCATOR
+        // 2. SEARCH HUD CONTROLLER
+        // ==========================================================================
+        function initSearchController() {
+            const searchOverlay = document.getElementById('searchOverlayModal');
+            const inputTriggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
+            const modalInput = document.getElementById('modalSearchInput');
+            const modalClose = document.getElementById('modalSearchClose');
+
+            if (!searchOverlay || !modalInput) return;
+
+            const openSearch = (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                searchOverlay.classList.add('active');
+                searchOverlay.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => { modalInput.focus(); }, 50);
+            };
+
+            inputTriggers.forEach(btn => { 
+                if (btn) btn.addEventListener('click', openSearch); 
+            });
+
+            if (modalClose) {
+                modalClose.addEventListener('click', () => {
+                    searchOverlay.classList.remove('active');
+                    searchOverlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                });
+            }
+        }
+
+        // ==========================================================================
+        // 3. RESPONSIVE AUTH RELOCATOR
         // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
@@ -1605,55 +1683,69 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 3. SEARCH HUD CONTROLLER
-        // ==========================================================================
-        function initSearchController() {
-            const searchOverlay = document.getElementById('searchOverlayModal');
-            const inputTriggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
-            const modalInput = document.getElementById('modalSearchInput');
-            const modalClose = document.getElementById('modalSearchClose');
-
-            if (!searchOverlay || !modalInput) return;
-
-            const openSearch = (e) => {
-                if (e) e.preventDefault();
-                searchOverlay.classList.add('active');
-                setTimeout(() => { modalInput.focus(); }, 50);
-            };
-
-            inputTriggers.forEach(btn => { if (btn) btn.addEventListener('click', openSearch); });
-            if (modalClose) modalClose.addEventListener('click', () => searchOverlay.classList.remove('active'));
-        }
-
-        // ==========================================================================
-        // 4. PROGRESS TRACKING & COMPLETION ENGINE
+        // 4. SUPABASE ROUTE PROTECTION & PROGRESS TRACKING
         // ==========================================================================
         const COURSE_ID = 'python-101'; 
         const LESSON_ID = 'python-1.1-history';
         let currentUser = null;
         let isCompleted = false;
 
-        async function initLessonProgress() {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) {
-                sessionStorage.setItem('redirectUrl', window.location.pathname);
-                window.location.href = '/src/auth/login.html';
-                return;
-            }
+        async function protectRouteAndInitProgress() {
+            try {
+                const { data: { user }, error } = await supabase.auth.getUser();
 
-            currentUser = user;
+                if (error || !user) {
+                    sessionStorage.setItem('redirectUrl', window.location.pathname);
+                    window.location.href = '/src/auth/login.html';
+                    return;
+                }
 
-            const { data } = await supabase
-                .from('user_progress')
-                .select('completed')
-                .eq('user_id', user.id)
-                .eq('course_id', COURSE_ID)
-                .eq('lesson_id', LESSON_ID)
-                .maybeSingle();
+                currentUser = user;
 
-            if (data && data.completed) {
-                isCompleted = true;
-                updateButtonUI(true);
+                // Sync navigation bar avatar
+                const authNavGroup = document.getElementById('authNavGroup');
+                if (authNavGroup) {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('avatar_url, first_name')
+                        .eq('id', user.id)
+                        .maybeSingle();
+
+                    const userMetaData = user.user_metadata || {};
+                    const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
+                    const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
+                    const initial = firstName.charAt(0).toUpperCase();
+
+                    if (avatarUrl) {
+                        authNavGroup.innerHTML = `
+                            <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                                <img src="${avatarUrl}" alt="${firstName}'s Profile">
+                            </a>`;
+                    } else {
+                        authNavGroup.innerHTML = `
+                            <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
+                                <span>${initial}</span>
+                            </a>`;
+                    }
+                    authNavGroup.classList.add('ready');
+                    handleResponsiveAuthLayout();
+                }
+
+                // Check lesson completion status
+                const { data } = await supabase
+                    .from('user_progress')
+                    .select('completed')
+                    .eq('user_id', user.id)
+                    .eq('course_id', COURSE_ID)
+                    .eq('lesson_id', LESSON_ID)
+                    .maybeSingle();
+
+                if (data && data.completed) {
+                    isCompleted = true;
+                    updateButtonUI(true);
+                }
+            } catch (err) {
+                console.error("Auth/Progress error:", err);
             }
         }
 
@@ -1696,20 +1788,96 @@ Readability counts.
         }
 
         // ==========================================================================
-        // 5. RUNTIME INITIALIZATION
+        // 5. CODE UTILITIES (COPY, DOWNLOAD, RUN)
+        // ==========================================================================
+        window.copyCode = function(elementId, btnElement) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            navigator.clipboard.writeText(el.innerText || el.textContent).then(() => {
+                const tooltip = btnElement.querySelector('.tooltip');
+                if (tooltip) {
+                    tooltip.style.opacity = '1';
+                    setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
+                }
+            });
+        };
+
+        window.downloadCode = function(elementId, filename) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerText || el.textContent;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        window.runCode = function(outputId) {
+            const outputEl = document.getElementById(outputId);
+            if (!outputEl) return;
+            outputEl.style.display = (outputEl.style.display === 'block') ? 'none' : 'block';
+        };
+
+        // ==========================================================================
+        // 6. QUIZ LOGIC
+        // ==========================================================================
+        window.handleAnswer = function(btnElement, isCorrect, questionNumber) {
+            const optionsContainer = btnElement.parentElement;
+            const allButtons = optionsContainer.querySelectorAll('.q-option');
+            allButtons.forEach(btn => btn.classList.add('locked'));
+
+            if (isCorrect) {
+                btnElement.classList.add('correct');
+            } else {
+                btnElement.classList.add('incorrect');
+                allButtons.forEach(btn => {
+                    if (btn.getAttribute('onclick').includes('true')) {
+                        btn.classList.add('correct');
+                        btn.style.opacity = "0.7";
+                    }
+                });
+            }
+
+            const nextBtn = document.getElementById('next-' + questionNumber);
+            if (nextBtn) nextBtn.style.display = 'block';
+        };
+
+        window.nextQuestion = function(currentNumber) {
+            const cur = document.getElementById('qb-' + currentNumber);
+            const nxt = document.getElementById('qb-' + (currentNumber + 1));
+            if (cur) cur.classList.remove('active-question');
+            if (nxt) nxt.classList.add('active-question');
+        };
+
+        window.finishQuiz = function() {
+            const q5 = document.getElementById('qb-5');
+            const complete = document.getElementById('qb-complete');
+            if (q5) q5.classList.remove('active-question');
+            if (complete) complete.classList.add('active');
+        };
+
+        // ==========================================================================
+        // 7. INITIALIZATION & RESIZE
         // ==========================================================================
         document.addEventListener('DOMContentLoaded', () => {
             handleResponsiveAuthLayout();
-            new DualMobileNavController();
+            new LessonNavController();
             initSearchController();
-            initLessonProgress();
+            protectRouteAndInitProgress();
         });
 
-        window.addEventListener('resize', handleResponsiveAuthLayout);
+        let lastWidth = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth) {
+                lastWidth = window.innerWidth;
+                handleResponsiveAuthLayout();
+            }
+        });
 
-        // ==========================================================================
-        // 6. TEAM MODAL LOGIC
-        // ==========================================================================
+        // Team Popover Database
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture & scaling.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
             'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Interactive UI & APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
