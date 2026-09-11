@@ -16,7 +16,7 @@
 
     <style>
         /* ==========================================================================
-           CRITICAL MOBILE OVERFLOW & RESPONSIVE SCOPE
+           CRITICAL OVERFLOW & 100% FORCED VISIBILITY (FIXES THE BLANK BUG)
            ========================================================================== */
         html, body {
             max-width: 100vw !important;
@@ -37,19 +37,23 @@
             min-height: 100vh;
         }
 
-        main, header, footer, section {
-            max-width: 100% !important;
-            box-sizing: border-box;
+        /* PERMANENT FIX: Defeats style.css opacity: 0 on section elements */
+        main,
+        main section,
+        .progress-card,
+        .chapter-card {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
         }
 
         main {
             display: flex !important;
             flex-direction: column !important;
             flex: 1;
-            opacity: 1 !important;
-            visibility: visible !important;
             margin-top: 90px !important;
-            padding: 20px;
+            padding: 20px 24px 60px 24px !important;
             max-width: 1100px;
             width: 100%;
             margin-left: auto;
@@ -65,7 +69,7 @@
         }
 
         /* ==========================================================================
-           HEADER & TOP BAR (MATCHING courses.html EDGE-TO-EDGE)
+           HEADER (MATCHING courses.html EDGE-TO-EDGE)
            ========================================================================== */
         .codify-main-header {
             position: fixed; top: 0; left: 0; width: 100%;
@@ -140,7 +144,6 @@
         }
         .codify-nav-links li a:hover, .codify-nav-links li a.active-link { color: #00aaff; }
 
-        /* Search Box */
         .codify-search-box { position: relative; display: flex; align-items: center; }
         .codify-search-box input {
             background: rgba(13, 27, 42, 0.6); border: 1px solid rgba(0, 170, 255, 0.2);
@@ -162,14 +165,20 @@
         .mobile-search-trigger:hover { background: rgba(0, 170, 255, 0.2); }
 
         /* ==========================================================================
-           SYLLABUS & PROGRESS CONTENT (MATCHING CYBER-TECH LOOK)
+           HEADER TITLE & PROGRESS CARD (CYBER-TECH CARDS)
            ========================================================================== */
         .index-title {
             color: #ffffff;
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             font-weight: 800;
             margin: 10px 0 24px 0;
             letter-spacing: -0.5px;
+        }
+
+        .index-title span {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .progress-card {
@@ -177,8 +186,9 @@
             border: 1px solid rgba(0, 170, 255, 0.25) !important;
             border-radius: 20px !important;
             padding: 24px 28px !important;
-            margin-bottom: 32px !important;
+            margin-bottom: 30px !important;
             backdrop-filter: blur(16px) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .progress-top {
@@ -219,6 +229,7 @@
             background: rgba(10, 15, 28, 0.85);
             border-radius: 10px;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .progress-bar-fill {
@@ -229,6 +240,9 @@
             transition: width 0.5s ease;
         }
 
+        /* ==========================================================================
+           CHAPTER AND TOPIC LIST CARDS
+           ========================================================================== */
         .chapter-card {
             background: rgba(13, 27, 42, 0.5) !important;
             border: 1px solid rgba(0, 170, 255, 0.2) !important;
@@ -236,21 +250,23 @@
             margin-bottom: 24px !important;
             overflow: hidden !important;
             backdrop-filter: blur(16px) !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .chapter-card:hover {
-            border-color: rgba(0, 170, 255, 0.45) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 170, 255, 0.5) !important;
+            box-shadow: 0 10px 30px rgba(0, 170, 255, 0.15);
         }
 
         .chapter-header {
             padding: 18px 24px;
-            background: rgba(10, 15, 28, 0.65);
+            background: rgba(10, 15, 28, 0.7);
             font-weight: 800;
             color: #00aaff;
             font-size: 1.1rem;
             border-bottom: 1px solid rgba(0, 170, 255, 0.15);
+            letter-spacing: 0.3px;
         }
 
         .topic-list {
@@ -265,12 +281,12 @@
             justify-content: space-between !important;
             padding: 16px 24px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            gap: 12px;
-            transition: background 0.2s ease;
+            gap: 16px;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .topic-item:hover {
-            background: rgba(0, 170, 255, 0.05);
+            background: rgba(0, 170, 255, 0.06);
         }
 
         .topic-item:last-child {
@@ -293,7 +309,7 @@
         .status-pill {
             font-size: 0.8rem;
             font-weight: 700;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 8px;
             white-space: nowrap;
         }
@@ -311,7 +327,7 @@
         }
 
         /* ==========================================================================
-           FOOTER & BOTTOM BAR (MATCHING courses.html)
+           FOOTER (MATCHING courses.html)
            ========================================================================== */
         .codify-footer {
             margin-top: 50px;
@@ -351,7 +367,7 @@
         .member-dot { width: 6px; height: 6px; background: #00aaff; border-radius: 50%; box-shadow: 0 0 8px #00aaff; flex-shrink: 0; }
         .student-id { color: #00aaff; font-size: 0.75rem; font-weight: 800; margin-left: auto; opacity: 0.8; }
 
-        /* Engineer Modal */
+        /* Modal Settings */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 10, 20, 0.85); backdrop-filter: blur(10px);
@@ -408,7 +424,7 @@
         .search-modal-footer kbd { background: #1e293b !important; color: #94a3b8 !important; padding: 2px 6px !important; border-radius: 4px !important; font-family: monospace !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; }
 
         /* ==========================================================================
-           MOBILE NAVIGATION DRAWER & BREAKPOINTS
+           MOBILE RESPONSIVENESS (BREAKPOINTS)
            ========================================================================== */
         .drawer-close-btn { display: none; }
 
@@ -504,7 +520,6 @@
 
     <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 
-    <!-- SYNCHRONIZED TOP HEADER (EDGE-TO-EDGE) -->
     <header class="codify-main-header">
         <div class="codify-header-container">
 
@@ -515,7 +530,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Center Nav Drawer -->
             <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
                 <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -534,13 +548,11 @@
             </nav>
 
             <div class="codify-right-group">
-                <!-- Desktop Search -->
                 <div class="codify-search-box">
                     <input type="text" id="siteSearchTrigger" placeholder="Search everything... (⌘K)" autocomplete="off">
                     <span class="search-kbd"><kbd>⌘K</kbd></span>
                 </div>
 
-                <!-- Mobile Search Icon -->
                 <button class="mobile-search-trigger" id="mobileSearchBtn" aria-label="Search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -549,14 +561,12 @@
                     </svg>
                 </button>
                 
-                <!-- Mobile Menu Hamburger -->
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
 
-                <!-- Auth/Profile Group -->
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="/src/auth/login.html" class="codify-btn-outline" title="Login">
                         <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -581,7 +591,6 @@
         </div>
     </header>
 
-    <!-- Global Search Modal HUD -->
     <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
         <div class="search-modal-card">
             <div class="search-modal-header">
@@ -607,11 +616,11 @@
     </div>
 
     <main>
-        <h1 class="index-title">Python Course Index &amp; Syllabus</h1>
+        <h1 class="index-title">Python <span>Course Index &amp; Syllabus</span></h1>
 
         <section class="progress-card">
             <div class="progress-top">
-                <strong style="color: #ffffff;">Your Course Matrix</strong>
+                <strong style="color: #ffffff; font-size: 1.1rem;">Your Course Matrix</strong>
                 <div class="progress-metrics">
                     <span class="metric-pill finished" id="finishedMetric">0 Finished</span>
                     <span class="metric-pill pending" id="pendingMetric">0 Incomplete</span>
@@ -874,7 +883,6 @@
 
     </main>
 
-    <!-- SYNCHRONIZED FOOTER (IDENTICAL TO courses.html) -->
     <footer class="codify-footer">
         <div>
             Built with precision for future developers • Developed by
@@ -905,7 +913,6 @@
         </div>
     </footer>
 
-    <!-- ENGINEER INFO MODAL -->
     <div class="modal-overlay" id="engineerModal" aria-hidden="true">
         <div class="modal-card">
             <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
@@ -928,7 +935,6 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
@@ -936,7 +942,7 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        // 1. Navigation Controller (Drawer, Overlay, Escape Key)
+        // 1. Navigation Controller
         class NavigationController {
             constructor() {
                 const oldToggle = document.getElementById('menuToggle');
@@ -998,7 +1004,7 @@
             }
         }
 
-        // 2. Search Modal Controller
+        // 2. Search Modal
         function initSearchController() {
             const searchOverlay = document.getElementById('searchOverlayModal');
             const inputTriggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
@@ -1015,7 +1021,7 @@
             };
 
             inputTriggers.forEach(btn => {
-                if (btn) btn.addEventListener('click', openSearch);
+                if(btn) btn.addEventListener('click', openSearch);
             });
 
             if (modalClose) {
@@ -1076,7 +1082,6 @@
                     return;
                 }
 
-                // Header Profile injection
                 const authNavGroup = document.getElementById('authNavGroup');
                 if (authNavGroup) {
                     const { data: profile } = await supabase
@@ -1105,7 +1110,6 @@
                     handleResponsiveAuthLayout();
                 }
 
-                // Verify Enrollment
                 const { data: enrollment } = await supabase
                     .from('enrollments')
                     .select('*')
@@ -1118,7 +1122,6 @@
                     return;
                 }
 
-                // Compute Completion
                 const { data: progress } = await supabase
                     .from('user_progress')
                     .select('lesson_id, completed')
@@ -1151,7 +1154,6 @@
             }
         }
 
-        // 5. System Setup
         document.addEventListener('DOMContentLoaded', () => {
             handleResponsiveAuthLayout();
             new NavigationController();
@@ -1167,7 +1169,6 @@
             }
         });
 
-        // 6. Engineer Modal Logic
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
             'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Dhanush specializes in interactive UI design and seamless API integrations, ensuring students have a smooth learning experience.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
