@@ -105,13 +105,16 @@
         .nav-profile-dp:hover { transform: scale(1.08); box-shadow: 0 0 12px rgba(0, 170, 255, 0.5); }
         .nav-profile-dp img { width: 100%; height: 100%; object-fit: cover; }
 
-        .nav-backdrop {
+        /* BACKDROPS */
+        .nav-backdrop, .sidebar-backdrop {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 10, 20, 0.7); backdrop-filter: blur(6px);
-            z-index: 998; opacity: 0; visibility: hidden; pointer-events: none;
+            opacity: 0; visibility: hidden; pointer-events: none;
             transition: opacity 0.35s ease, visibility 0.35s ease;
         }
-        .nav-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        .nav-backdrop { z-index: 1998; }
+        .sidebar-backdrop { z-index: 1498; }
+        .nav-backdrop.active, .sidebar-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
 
         .codify-nav-links {
             list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; white-space: nowrap;
@@ -162,13 +165,13 @@
         }
 
         .breadcrumb-sidebar-trigger {
-            background: transparent;
-            border: none;
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.3);
             color: #66ccff;
             cursor: pointer;
             border-radius: 8px;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -177,7 +180,7 @@
 
         .breadcrumb-sidebar-trigger:hover {
             color: #00aaff;
-            background: rgba(0, 170, 255, 0.1);
+            background: rgba(0, 170, 255, 0.2);
         }
 
         .breadcrumb-vertical-divider {
@@ -256,7 +259,6 @@
             font-weight: 800;
         }
 
-        /* Content section scaled for 1920x1080 */
         .content-workspace {
             flex: 1;
             min-width: 0;
@@ -268,7 +270,7 @@
 
         .content-body {
             width: 100%;
-            max-width: 1400px; /* Expands smoothly on 1080p displays */
+            max-width: 1400px;
             margin: 0 auto;
             box-sizing: border-box;
         }
@@ -432,7 +434,7 @@
             .codify-center-nav {
                 position: fixed !important; top: 0 !important; right: -320px !important; width: 280px !important; height: 100vh !important;
                 background: rgba(10, 15, 28, 0.98) !important; backdrop-filter: blur(20px) !important; border-left: 1px solid rgba(0, 170, 255, 0.25) !important;
-                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important; z-index: 999 !important; padding: 90px 24px 30px 24px !important;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important; z-index: 2100 !important; padding: 90px 24px 30px 24px !important;
                 box-sizing: border-box !important; display: flex !important; flex-direction: column !important; justify-content: flex-start !important;
                 box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8) !important;
             }
@@ -453,7 +455,7 @@
             .drawer-close-btn {
                 display: flex !important; position: absolute !important; top: 24px !important; left: 24px !important; width: 38px !important; height: 38px !important;
                 background: rgba(0, 170, 255, 0.1) !important; border: 1px solid rgba(0, 170, 255, 0.3) !important; border-radius: 8px !important;
-                align-items: center !important; justify-content: center !important; color: #00aaff !important; cursor: pointer !important; transition: all 0.3s ease !important; z-index: 1000 !important;
+                align-items: center !important; justify-content: center !important; color: #00aaff !important; cursor: pointer !important; transition: all 0.3s ease !important; z-index: 2200 !important;
             }
             .drawer-close-btn:hover { background: rgba(0, 170, 255, 0.2) !important; transform: rotate(90deg) !important; }
             .drawer-close-btn svg { width: 20px; height: 20px; }
@@ -491,16 +493,18 @@
                 top: 106px !important;
                 left: -320px !important;
                 height: calc(100vh - 106px) !important;
-                width: 280px !important;
-                min-width: 280px !important;
+                width: 290px !important;
+                min-width: 290px !important;
+                background: rgba(10, 15, 28, 0.98) !important;
+                border-right: 1px solid rgba(0, 170, 255, 0.3) !important;
                 transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
-                z-index: 1500;
+                z-index: 1500 !important;
                 box-shadow: none;
             }
 
             .sidebar-nav.active {
                 left: 0 !important;
-                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.7);
+                box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8) !important;
             }
 
             .content-workspace {
@@ -523,6 +527,7 @@
 <body>
 
     <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
 
     <!-- MAIN HEADER -->
     <header class="codify-main-header">
@@ -629,7 +634,7 @@
         </nav>
     </header>
 
-    <!-- WORKSPACE SPLIT (OPTIMIZED FOR 1080P) -->
+    <!-- WORKSPACE SPLIT (1080P COMPATIBLE) -->
     <div class="page-wrapper">
         <aside class="sidebar-nav" id="sidebarNav">
             <div class="sidebar-header">
@@ -1439,162 +1444,140 @@ Readability counts.
         </div>
     </div>
 
+    <!-- MAIN INTERACTIVE SCRIPTS -->
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
-    
-    <script type="module">
-        import { supabase } from '/src/js/config/supabase-client.js';
-
-        async function protectRoute() {
-            const { data: { user }, error } = await supabase.auth.getUser();
-
-            if (error || !user) {
-                sessionStorage.setItem('redirectUrl', window.location.pathname);
-                window.location.href = '/src/auth/login.html';
-            }
-        }
-        
-        protectRoute();
-    </script>
 
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        const COURSE_ID = 'python-101'; 
-        const LESSON_ID = 'python-1.1-history';
-
-        let currentUser = null;
-        let isCompleted = false;
-
-        async function initLessonProgress() {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return;
-
-            currentUser = user;
-
-            const { data } = await supabase
-                .from('user_progress')
-                .select('completed')
-                .eq('user_id', user.id)
-                .eq('course_id', COURSE_ID)
-                .eq('lesson_id', LESSON_ID)
-                .maybeSingle();
-
-            if (data && data.completed) {
-                isCompleted = true;
-                updateButtonUI(true);
-            }
-        }
-
-        window.toggleLessonCompletion = async function() {
-            if (!currentUser) {
-                alert("Please log in to track your course progress!");
-                window.location.href = '/src/auth/login.html';
-                return;
-            }
-
-            isCompleted = !isCompleted;
-            updateButtonUI(isCompleted);
-
-            try {
-                if (isCompleted) {
-                    await supabase.from('user_progress').upsert({
-                        user_id: currentUser.id,
-                        course_id: COURSE_ID,
-                        lesson_id: LESSON_ID,
-                        completed: true
-                    });
-                } else {
-                    await supabase.from('user_progress')
-                        .delete()
-                        .eq('user_id', currentUser.id)
-                        .eq('course_id', COURSE_ID)
-                        .eq('lesson_id', LESSON_ID);
-                }
-            } catch (err) {
-                console.error("Failed to update progress:", err);
-            }
-        };
-
-        function updateButtonUI(completed) {
-            const btn = document.getElementById('markCompleteBtn');
-            const text = document.getElementById('completeBtnText');
-            
-            if (completed) {
-                btn.classList.add('is-completed');
-                text.textContent = 'Completed';
-            } else {
-                btn.classList.remove('is-completed');
-                text.textContent = 'Mark as Completed';
-            }
-        }
-
-        // Navigation Controller
-        class NavigationController {
+        // ==========================================================================
+        // 1. UNIFIED MOBILE NAVIGATION CONTROLLER (RIGHT DRAWER & LEFT SIDEBAR)
+        // ==========================================================================
+        class DualMobileNavController {
             constructor() {
+                // Right drawer elements
                 const oldToggle = document.getElementById('menuToggle');
-                if (!oldToggle) return;
-                
-                this.menuToggle = oldToggle.cloneNode(true);
-                oldToggle.parentNode.replaceChild(this.menuToggle, oldToggle);
-                
+                if (oldToggle) {
+                    this.menuToggle = oldToggle.cloneNode(true);
+                    oldToggle.parentNode.replaceChild(this.menuToggle, oldToggle);
+                }
                 this.centerNav = document.getElementById('centerNav');
                 this.navBackdrop = document.getElementById('navBackdrop');
-                this.drawerCloseBtn = document.getElementById('drawerCloseBtn'); 
+                this.drawerCloseBtn = document.getElementById('drawerCloseBtn');
                 this.navLinks = document.querySelectorAll('.codify-nav-links a');
-                
-                this.isOpen = false;
+
+                // Left sidebar elements
+                const oldSidebarBtn = document.getElementById('sidebarToggleMobile');
+                if (oldSidebarBtn) {
+                    this.sidebarToggleMobile = oldSidebarBtn.cloneNode(true);
+                    oldSidebarBtn.parentNode.replaceChild(this.sidebarToggleMobile, oldSidebarBtn);
+                }
+                this.sidebarNav = document.getElementById('sidebarNav');
+                this.sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
                 this.initEvents();
             }
 
             initEvents() {
-                this.menuToggle.addEventListener('click', () => this.toggleMenu());
-                if (this.drawerCloseBtn) this.drawerCloseBtn.addEventListener('click', () => this.closeMenu());
-                if (this.navBackdrop) this.navBackdrop.addEventListener('click', () => this.closeMenu());
-                this.navLinks.forEach(link => link.addEventListener('click', () => this.closeMenu()));
-                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.isOpen) this.closeMenu(); });
+                // Right Drawer Events
+                if (this.menuToggle) {
+                    this.menuToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.closeSidebar(); // Ensure other menu closes
+                        this.toggleRightMenu();
+                    });
+                }
+
+                if (this.drawerCloseBtn) {
+                    this.drawerCloseBtn.addEventListener('click', () => this.closeRightMenu());
+                }
+
+                if (this.navBackdrop) {
+                    this.navBackdrop.addEventListener('click', () => this.closeRightMenu());
+                }
+
+                this.navLinks.forEach(link => {
+                    link.addEventListener('click', () => this.closeRightMenu());
+                });
+
+                // Left Sidebar Events
+                if (this.sidebarToggleMobile && this.sidebarNav) {
+                    this.sidebarToggleMobile.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.closeRightMenu(); // Ensure right menu closes
+                        this.toggleSidebar();
+                    });
+                }
+
+                if (this.sidebarBackdrop) {
+                    this.sidebarBackdrop.addEventListener('click', () => this.closeSidebar());
+                }
+
+                // Close on topic click in mobile view
+                document.querySelectorAll('.sidebar-nav .topic-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 900) {
+                            this.closeSidebar();
+                        }
+                    });
+                });
+
+                // Escape Key handling
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeRightMenu();
+                        this.closeSidebar();
+                    }
+                });
             }
 
-            toggleMenu() { this.isOpen ? this.closeMenu() : this.openMenu(); }
+            toggleRightMenu() {
+                const isOpen = this.centerNav.classList.contains('active');
+                isOpen ? this.closeRightMenu() : this.openRightMenu();
+            }
 
-            openMenu() {
-                this.isOpen = true;
+            openRightMenu() {
                 this.centerNav.classList.add('active');
                 this.menuToggle.classList.add('open');
                 if (this.navBackdrop) this.navBackdrop.classList.add('active');
-                document.body.style.overflow = 'hidden'; 
+                document.body.style.overflow = 'hidden';
             }
 
-            closeMenu() {
-                this.isOpen = false;
+            closeRightMenu() {
                 this.centerNav.classList.remove('active');
                 this.menuToggle.classList.remove('open');
                 if (this.navBackdrop) this.navBackdrop.classList.remove('active');
-                document.body.style.overflow = ''; 
+                if (!this.sidebarNav || !this.sidebarNav.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            toggleSidebar() {
+                const isOpen = this.sidebarNav.classList.contains('active');
+                isOpen ? this.closeSidebar() : this.openSidebar();
+            }
+
+            openSidebar() {
+                this.sidebarNav.classList.add('active');
+                if (this.sidebarBackdrop) this.sidebarBackdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeSidebar() {
+                if (!this.sidebarNav) return;
+                this.sidebarNav.classList.remove('active');
+                if (this.sidebarBackdrop) this.sidebarBackdrop.classList.remove('active');
+                if (!this.centerNav || !this.centerNav.classList.contains('active')) {
+                    document.body.style.overflow = '';
+                }
             }
         }
 
-        // Search Controller
-        function initSearchController() {
-            const searchOverlay = document.getElementById('searchOverlayModal');
-            const inputTriggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
-            const modalInput = document.getElementById('modalSearchInput');
-            const modalClose = document.getElementById('modalSearchClose');
-
-            if (!searchOverlay || !modalInput) return;
-
-            const openSearch = (e) => {
-                if (e) e.preventDefault();
-                searchOverlay.classList.add('active');
-                setTimeout(() => { modalInput.focus(); }, 50);
-            };
-
-            inputTriggers.forEach(btn => { if(btn) btn.addEventListener('click', openSearch); });
-            if (modalClose) modalClose.addEventListener('click', () => searchOverlay.classList.remove('active'));
-        }
-
-        // Responsive Auth Layout
+        // ==========================================================================
+        // 2. MOBILE RESPONSIVE AUTH RELOCATOR
+        // ==========================================================================
         function handleResponsiveAuthLayout() {
             const authGroup = document.getElementById('authNavGroup');
             const centerNav = document.getElementById('centerNav');
@@ -1621,13 +1604,118 @@ Readability counts.
             }
         }
 
-        // Team Database
+        // ==========================================================================
+        // 3. SEARCH HUD CONTROLLER
+        // ==========================================================================
+        function initSearchController() {
+            const searchOverlay = document.getElementById('searchOverlayModal');
+            const inputTriggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
+            const modalInput = document.getElementById('modalSearchInput');
+            const modalClose = document.getElementById('modalSearchClose');
+
+            if (!searchOverlay || !modalInput) return;
+
+            const openSearch = (e) => {
+                if (e) e.preventDefault();
+                searchOverlay.classList.add('active');
+                setTimeout(() => { modalInput.focus(); }, 50);
+            };
+
+            inputTriggers.forEach(btn => { if (btn) btn.addEventListener('click', openSearch); });
+            if (modalClose) modalClose.addEventListener('click', () => searchOverlay.classList.remove('active'));
+        }
+
+        // ==========================================================================
+        // 4. PROGRESS TRACKING & COMPLETION ENGINE
+        // ==========================================================================
+        const COURSE_ID = 'python-101'; 
+        const LESSON_ID = 'python-1.1-history';
+        let currentUser = null;
+        let isCompleted = false;
+
+        async function initLessonProgress() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                sessionStorage.setItem('redirectUrl', window.location.pathname);
+                window.location.href = '/src/auth/login.html';
+                return;
+            }
+
+            currentUser = user;
+
+            const { data } = await supabase
+                .from('user_progress')
+                .select('completed')
+                .eq('user_id', user.id)
+                .eq('course_id', COURSE_ID)
+                .eq('lesson_id', LESSON_ID)
+                .maybeSingle();
+
+            if (data && data.completed) {
+                isCompleted = true;
+                updateButtonUI(true);
+            }
+        }
+
+        window.toggleLessonCompletion = async function() {
+            if (!currentUser) return;
+
+            isCompleted = !isCompleted;
+            updateButtonUI(isCompleted);
+
+            try {
+                if (isCompleted) {
+                    await supabase.from('user_progress').upsert({
+                        user_id: currentUser.id,
+                        course_id: COURSE_ID,
+                        lesson_id: LESSON_ID,
+                        completed: true
+                    });
+                } else {
+                    await supabase.from('user_progress')
+                        .delete()
+                        .eq('user_id', currentUser.id)
+                        .eq('course_id', COURSE_ID)
+                        .eq('lesson_id', LESSON_ID);
+                }
+            } catch (err) {
+                console.error("Progress error:", err);
+            }
+        };
+
+        function updateButtonUI(completed) {
+            const btn = document.getElementById('markCompleteBtn');
+            const text = document.getElementById('completeBtnText');
+            if (completed) {
+                btn.classList.add('is-completed');
+                text.textContent = 'Completed';
+            } else {
+                btn.classList.remove('is-completed');
+                text.textContent = 'Mark as Completed';
+            }
+        }
+
+        // ==========================================================================
+        // 5. RUNTIME INITIALIZATION
+        // ==========================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            handleResponsiveAuthLayout();
+            new DualMobileNavController();
+            initSearchController();
+            initLessonProgress();
+        });
+
+        window.addEventListener('resize', handleResponsiveAuthLayout);
+
+        // ==========================================================================
+        // 6. TEAM MODAL LOGIC
+        // ==========================================================================
         const teamDatabase = {
-            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed manages the core architecture, high-performance styling, and scalability of Codify.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Specializes in interactive UI and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Manages authentication and database integrity.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Maintains documentation and styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Focuses on test cases and performance QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
+            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture & scaling.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
+            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Interactive UI & APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
+            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Database & Auth.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
+            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Curriculum & frontend.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
+            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Performance & QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
         };
 
         const engModal = document.getElementById('engineerModal');
@@ -1653,15 +1741,6 @@ Readability counts.
                 document.body.style.overflow = ''; 
             });
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            handleResponsiveAuthLayout();
-            new NavigationController();
-            initSearchController();
-            initLessonProgress();
-        });
-
-        window.addEventListener('resize', handleResponsiveAuthLayout);
     </script>
 </body>
 
