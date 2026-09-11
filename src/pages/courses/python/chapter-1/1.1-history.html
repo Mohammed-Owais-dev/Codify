@@ -77,18 +77,26 @@
         <div class="codify-header-container">
 
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='../../../../../index.html'">
-                    Codify
+                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
+                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
+                    <span class="logo-text">Codify</span>
                 </div>
             </div>
 
-            <nav class="codify-center-nav" aria-label="Main menu links">
+            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
+                <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="../../../../../index.html">Home</a></li>
-                    <li><a href="../../courses.html" class="active-link">Courses</a></li>
-                    <li><a href="../../exam.html">Quizzes & Exams</a></li>
-                    <li><a href="../../certificate.html">Certificates</a></li>
-                    <li><a href="../../contact.html">Contact</a></li>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/src/pages/courses.html" class="active-link" aria-current="page">Courses</a></li>
+                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
+                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
+                    <li><a href="/src/pages/contact.html">Contact</a></li>
                 </ul>
             </nav>
 
@@ -98,23 +106,39 @@
                     <span class="search-kbd"><kbd>⌘K</kbd></span>
                 </div>
 
-                <button class="mobile-search-trigger" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <button class="mobile-search-trigger" id="mobileSearchBtn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.3-4.3"></path>
                     </svg>
                 </button>
-
-                <div class="codify-auth-group" id="authNavGroup">
-                    <a href="../../../../auth/login.html" class="codify-btn-outline">Login</a>
-                    <a href="../../../../auth/signup.html" class="codify-btn-outline">Signup</a>
-                </div>
-
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
+
+                <div class="codify-auth-group" id="authNavGroup">
+                    <a href="/src/auth/login.html" class="codify-btn-outline" title="Login">
+                        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span class="auth-text">Login</span>
+                    </a>
+                    <a href="/src/auth/signup.html" class="codify-btn-outline" title="Signup">
+                        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                        <span class="auth-text">Signup</span>
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -1011,7 +1035,7 @@ Readability counts.
             
             if (completed) {
                 btn.classList.add('is-completed');
-                text.textContent = '✓ Completed';
+                text.textContent = 'Completed';
             } else {
                 btn.classList.remove('is-completed');
                 text.textContent = 'Mark as Completed';
