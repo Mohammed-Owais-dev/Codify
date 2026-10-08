@@ -21,20 +21,6 @@
     <!-- Locked, stable Marked.js Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
 
-<style id="authGuardStyle">
-    html.auth-checking body {
-        display: none !important;
-    }
-</style>
-
-<script>
-    document.documentElement.classList.add('auth-checking');
-
-    // Safety fallback: always reveal the page
-    setTimeout(() => {
-        document.documentElement.classList.remove('auth-checking');
-    }, 5000);
-</script>
 
     <style>
         /* Live Code Sandbox Preview Modal (Exclusive for HTML / Web interactive previews) */
