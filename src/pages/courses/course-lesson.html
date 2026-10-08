@@ -567,7 +567,16 @@ let fileParam = urlParams.get('file');
     file: top.file,
     id: top.id
 });
-                        treeHtml += `<li><a href="/courses/${courseParam}/${top.id || top.file.split('/').pop().split('-')[0]}" ...`
+                        const lessonId = top.id || top.file.split('/').pop().split('-')[0];
+
+treeHtml += `
+    <li>
+        <a href="/courses/${courseParam}/${lessonId}"
+           data-title="${top.title}">
+            ${top.title}
+        </a>
+    </li>
+`;
                     });
                     treeHtml += `</ul></li>`;
                 });
