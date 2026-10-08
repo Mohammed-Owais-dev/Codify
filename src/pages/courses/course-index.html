@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/style.css?v=2">
     <title>Course Syllabus | Codify</title>
     
     <style>
@@ -288,7 +288,7 @@
             <nav class="codify-center-nav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links">
                     <li><a href="/index.html">Home</a></li>
-                    <li><a href="/src/pages/courses.html" class="active-link">Courses</a></li>
+                    <li><a href="/courses" class="active-link">Courses</a></li>
                     <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
                     <li><a href="/src/pages/certificate.html">Certificates</a></li>
                     <li><a href="/src/pages/contact.html">Contact</a></li>
@@ -383,8 +383,8 @@ const pathParts = window.location.pathname.split('/').filter(Boolean);
 
 const courseParam =
     pathParts[0] === 'courses' && pathParts[1]
-        ? pathParts[1]
-        : (window.__RESOLVED_COURSE || urlParams.get('course') || 'c');
+        ? pathParts[1].toLowerCase()
+        : (window.__RESOLVED_COURSE || urlParams.get('course') || 'c').toLowerCase();
         
         const courseConfigMap = {
             'c': { id: 'c-101', enrollPage: '/src/pages/courses/c/c-enroll.html', jsonPath: '/src/data/c-syllabus.json' },
@@ -394,7 +394,13 @@ const courseParam =
             'html': { id: 'html-101', enrollPage: '/src/pages/courses/html/html-enroll.html', jsonPath: '/src/data/html-syllabus.json' }
         };
 
-        const activeCourse = courseConfigMap[courseParam] || courseConfigMap['c'];
+        const activeCourse = courseConfigMap[courseParam];
+
+        if (!activeCourse) {
+            window.location.replace('/courses');
+            throw new Error(`Unknown course: ${courseParam}`);
+        }
+
         const COURSE_ID = activeCourse.id;
 
         function normalizePath(path) {
