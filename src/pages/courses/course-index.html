@@ -378,8 +378,14 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        // Use the silent in-memory resolver instead of URL search params
-        const courseParam = window.__RESOLVED_COURSE || 'c';
+        const urlParams = new URLSearchParams(window.location.search);
+const pathParts = window.location.pathname.split('/').filter(Boolean);
+
+const courseParam =
+    pathParts[0] === 'courses' && pathParts[1]
+        ? pathParts[1]
+        : (window.__RESOLVED_COURSE || urlParams.get('course') || 'c');
+        
         const courseConfigMap = {
             'c': { id: 'c-101', enrollPage: '/src/pages/courses/c/c-enroll.html', jsonPath: '/src/data/c-syllabus.json' },
             'python': { id: 'python-101', enrollPage: '/src/pages/courses/python/python-enroll.html', jsonPath: '/src/data/python-syllabus.json' },

@@ -356,8 +356,19 @@
         marked.setOptions({ gfm: true, breaks: true });
 
         const urlParams = new URLSearchParams(window.location.search);
-        const courseParam = urlParams.get('course') || 'c';
-        const fileParam = urlParams.get('file');
+const pathParts = window.location.pathname.split('/').filter(Boolean);
+
+const courseParam =
+    pathParts[0] === 'courses' && pathParts[1]
+        ? pathParts[1]
+        : (urlParams.get('course') || 'c');
+
+const lessonParam =
+    pathParts[0] === 'courses' && pathParts[2]
+        ? pathParts[2]
+        : null;
+
+let fileParam = urlParams.get('file');
 
         const courseConfigMap = {
             'c': { id: 'c-101', indexPage: 'course-index.html?course=c', jsonPath: '/src/data/c-syllabus.json', baseDir: '/src/pages/courses/c/' },
@@ -551,8 +562,12 @@
                             <ul class="tree-leaves">
                     `;
                     ch.topics.forEach(top => {
-                        flatTopics.push({ title: top.title, file: top.file });
-                        treeHtml += `<li><a href="course-lesson.html?course=${courseParam}&file=${top.file}" class="topic-link" data-title="${top.title}">${top.title}</a></li>`;
+                        flatTopics.push({
+    title: top.title,
+    file: top.file,
+    id: top.id
+});
+                        treeHtml += `<li><a href="/courses/${courseParam}/${top.id || top.file.split('/').pop().split('-')[0]}" ...`
                     });
                     treeHtml += `</ul></li>`;
                 });
@@ -566,8 +581,29 @@
                     };
                 });
 
-                const defaultFile = flatTopics.length > 0 ? flatTopics[0].file : '';
-                const targetFile = fileParam || defaultFile;
+                let targetFile = fileParam;
+
+if (!targetFile && lessonParam) {
+    const selectedTopic = flatTopics.find(topic => {
+        const lessonId =
+            topic.id ||
+            topic.file.split('/').pop().split('-')[0];
+
+        return lessonId === lessonParam;
+    });
+
+    if (!selectedTopic) {
+        throw new Error(`Lesson not found: ${lessonParam}`);
+    }
+
+    targetFile = selectedTopic.file;
+}
+
+const defaultFile = flatTopics.length > 0 ? flatTopics[0].file : '';
+targetFile = targetFile || defaultFile;
+
+// Keep progress tracking compatible with the existing database
+fileParam = targetFile;
                 const targetUrl = `${window.location.origin}${activeCourse.baseDir}${targetFile}`;
 
                 const mdRes = await fetch(targetUrl);
@@ -592,8 +628,18 @@
                     }
                 });
 
-                const prevHref = activeIdx > 0 ? `course-lesson.html?course=${courseParam}&file=${flatTopics[activeIdx - 1].file}` : activeCourse.indexPage;
-                const nextHref = activeIdx >= 0 && activeIdx < flatTopics.length - 1 ? `course-lesson.html?course=${courseParam}&file=${flatTopics[activeIdx + 1].file}` : activeCourse.indexPage;
+                const getLessonId = topic =>
+    topic.id || topic.file.split('/').pop().split('-')[0];
+
+const prevHref =
+    activeIdx > 0
+        ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx - 1])}`
+        : `/courses/${courseParam}`;
+
+const nextHref =
+    activeIdx >= 0 && activeIdx < flatTopics.length - 1
+        ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx + 1])}`
+        : `/courses/${courseParam}`;
 
                 ['prevTopicBtnTop', 'prevTopicBtnBtm'].forEach(id => document.getElementById(id).href = prevHref);
                 ['nextTopicBtnTop', 'nextTopicBtnBtm'].forEach(id => document.getElementById(id).href = nextHref);
