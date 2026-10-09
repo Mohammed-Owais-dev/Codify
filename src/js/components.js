@@ -146,9 +146,11 @@ setTimeout(() => {
 
         try {
             const syllabusFiles = [
-                { path: '/html-syllabus.json', category: 'HTML' },
-                { path: '/java-syllabus.json', category: 'Java' },
-                { path: '/python-syllabus.json', category: 'Python' }
+                { path: '/src/data/html-syllabus.json', category: 'HTML' },
+                { path: '/src/data/java-syllabus.json', category: 'Java' },
+                { path: '/src/data/python-syllabus.json', category: 'Python' },
+                { path: '/src/data/c-syllabus.json', category: 'C' },
+                { path: '/src/data/cpp-syllabus.json', category: 'Cpp' }
             ];
 
             let index = [
