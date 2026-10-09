@@ -132,33 +132,31 @@ document.getElementById('footer-placeholder').innerHTML = `
         </div>
     </div>
 `;
-
-// 3. Dynamic High-Speed Syllabus Search Engine Setup
+// 3. Dynamic High-Speed Syllabus Search Engine Setup (Clean URL Version)
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
     
     let masterSearchIndex = null;
 
-    // Automatically indexes your syllabus files and standard pages
     async function loadMasterIndex() {
         if (masterSearchIndex) return masterSearchIndex;
 
         try {
             const syllabusFiles = [
-                { path: '/src/data/html-syllabus.json', category: 'HTML' },
-                { path: '/src/data/java-syllabus.json', category: 'Java' },
-                { path: '/src/data/python-syllabus.json', category: 'Python' },
-                { path: '/src/data/c-syllabus.json', category: 'C' },
-                { path: '/src/data/cpp-syllabus.json', category: 'Cpp' }
+                { path: '/src/data/html-syllabus.json', category: 'html', name: 'HTML' },
+                { path: '/src/data/java-syllabus.json', category: 'java', name: 'Java' },
+                { path: '/src/data/python-syllabus.json', category: 'python', name: 'Python' },
+                { path: '/src/data/c-syllabus.json', category: 'c', name: 'C' },
+                { path: '/src/data/cpp-syllabus.json', category: 'cpp', name: 'Cpp' }
             ];
 
             let index = [
-                { title: 'Home Dashboard', category: 'General', url: 'index.html' },
-                { title: 'All Courses & Modules', category: 'Courses', url: 'src/pages/courses.html' },
-                { title: 'Quizzes & Final Exams', category: 'Assessment', url: 'src/pages/courses/exam.html' },
-                { title: 'Certificates & Credentials', category: 'General', url: 'src/pages/certificate.html' },
-                { title: 'Contact Support Team', category: 'General', url: 'src/pages/contact.html' }
+                { title: 'Home Dashboard', category: 'General', url: '/index.html' },
+                { title: 'All Courses & Modules', category: 'Courses', url: '/courses' },
+                { title: 'Quizzes & Final Exams', category: 'Assessment', url: '/src/pages/courses/exam.html' },
+                { title: 'Certificates & Credentials', category: 'General', url: '/src/pages/certificate.html' },
+                { title: 'Contact Support Team', category: 'General', url: '/src/pages/contact.html' }
             ];
 
             for (let file of syllabusFiles) {
@@ -166,12 +164,21 @@ setTimeout(() => {
                 const data = await response.json();
                 
                 if (data.chapters) {
+                    // Add track hub entry e.g. /courses/cpp
+                    index.push({
+                        title: `${data.course_title || file.name} Course Hub`,
+                        category: file.name,
+                        url: `/courses/${file.category}`
+                    });
+
                     data.chapters.forEach(chapter => {
                         chapter.topics.forEach(topic => {
+                            // Extract clean lesson ID (e.g. '1.3' from filename or topic id)
+                            const lessonId = topic.id || topic.file.split('/').pop().split('-')[0];
                             index.push({
                                 title: `${topic.title} (${chapter.chapter_title})`,
-                                category: file.category,
-                                url: `src/pages/courses/${file.category.toLowerCase()}/${topic.file.replace('.md', '.html')}`
+                                category: file.name,
+                                url: `/courses/${file.category}/${lessonId}`
                             });
                         });
                     });
@@ -190,8 +197,8 @@ setTimeout(() => {
         let debounceTimer;
 
         searchInput.addEventListener('focus', () => {
-            searchInput.style.borderColor = '#6366f1';
-            searchInput.style.backgroundColor = '#ffffff';
+            searchInput.style.borderColor = '#00aaff';
+            searchInput.style.backgroundColor = '#0d1b2a';
         });
         
         searchInput.addEventListener('blur', () => {
@@ -225,24 +232,25 @@ setTimeout(() => {
 
                     matches.forEach(item => {
                         const row = document.createElement('div');
-                        row.style.cssText = 'padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;';
+                        row.style.cssText = 'padding: 10px 14px; cursor: pointer; border-bottom: 1px solid rgba(0, 170, 255, 0.1); display: flex; justify-content: space-between; align-items: center; background: #0d1b2a;';
 
                         const titleSpan = document.createElement('span');
                         titleSpan.textContent = item.title;
-                        titleSpan.style.cssText = 'font-size: 13px; font-weight: 500; color: #1e293b;';
+                        titleSpan.style.cssText = 'font-size: 13px; font-weight: 500; color: #e0e6ed;';
 
                         const catBadge = document.createElement('span');
                         catBadge.textContent = item.category;
-                        catBadge.style.cssText = 'font-size: 11px; padding: 2px 6px; border-radius: 4px; background-color: #e0e7ff; color: #4338ca; white-space: nowrap;';
+                        catBadge.style.cssText = 'font-size: 11px; padding: 2px 6px; border-radius: 4px; background-color: rgba(0, 170, 255, 0.15); color: #00aaff; white-space: nowrap; border: 1px solid rgba(0, 170, 255, 0.3);';
 
                         row.appendChild(titleSpan);
                         row.appendChild(catBadge);
 
-                        row.onmouseover = () => row.style.backgroundColor = '#f8fafc';
-                        row.onmouseout = () => row.style.backgroundColor = '#ffffff';
+                        row.onmouseover = () => row.style.backgroundColor = 'rgba(0, 170, 255, 0.08)';
+                        row.onmouseout = () => row.style.backgroundColor = '#0d1b2a';
                         
+                        // Navigate directly to the clean URL
                         row.onclick = () => {
-                            window.location.href = '/' + item.url.replace(/^\/+/, '');
+                            window.location.href = item.url;
                         };
 
                         fragment.appendChild(row);
@@ -251,12 +259,11 @@ setTimeout(() => {
                     searchResults.appendChild(fragment);
                 } else {
                     searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div style="padding: 12px 14px; font-size: 13px; color: #64748b; text-align: center;">No matching topics found</div>';
+                    searchResults.innerHTML = '<div style="padding: 12px 14px; font-size: 13px; color: #94a3b8; text-align: center; background: #0d1b2a;">No matching topics found</div>';
                 }
             }, 30);
         });
 
-        // Hide results dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.style.display = 'none';
