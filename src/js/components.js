@@ -1,6 +1,6 @@
-// components.js
+// components.js - Codify Shared Components & Global Search Engine
 
-// 1. Inject the Top Navigation Bar (with a theme-matched global search bar)
+// 1. Inject the Top Navigation Bar & Global Search
 document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
@@ -12,16 +12,16 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 </div>
             </div>
 
-            <!-- Global Search Container matching Codify theme -->
-            <div class="codify-search-container" style="position: relative; flex: 0 1 280px; margin: 0 20px;">
+            <!-- Global Search Bar Container -->
+            <div class="codify-search-container" style="position: relative; flex: 0 1 300px; margin: 0 20px;">
                 <div style="position: relative; display: flex; align-items: center;">
                     <svg style="position: absolute; left: 12px; width: 16px; height: 16px; color: #888;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="globalSiteSearch" placeholder="Search global topics, courses..." aria-label="Global Search" style="width: 100%; padding: 8px 12px 8px 36px; border-radius: 8px; border: 1px solid var(--border-color, #e2e8f0); background-color: var(--bg-input, #f8fafc); color: var(--text-color, #1e293b); font-size: 14px; outline: none; transition: all 0.2s ease;">
+                    <input type="text" id="globalSiteSearch" placeholder="Search HTML, Java, Python topics..." aria-label="Global Search" style="width: 100%; padding: 8px 12px 8px 36px; border-radius: 8px; border: 1px solid #e2e8f0; background-color: #f8fafc; color: #1e293b; font-size: 14px; outline: none; transition: all 0.2s ease;">
                 </div>
-                <div id="globalSearchResults" class="codify-search-dropdown" style="position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); display: none; z-index: 1000; max-height: 280px; overflow-y: auto;"></div>
+                <div id="globalSearchResults" class="codify-search-dropdown" style="position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); display: none; z-index: 1000; max-height: 300px; overflow-y: auto;"></div>
             </div>
 
             <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
@@ -73,18 +73,78 @@ document.getElementById('navbar-placeholder').innerHTML = `
     </header>
 `;
 
+// 2. Inject the Footer & Engineer Modal
+document.getElementById('footer-placeholder').innerHTML = `
+    <footer class="codify-footer">
+        <div>
+            Built with precision for future developers • Developed by
+            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="team-trigger">Codify Team</span>
+
+                <div class="team-popover" role="tooltip">
+                    <div class="popover-header">Core Engineers</div>
+                    <ul class="team-list">
+                        <li class="team-member interactive" onclick="openEngineerModal('owais')" style="font-weight: 700;">
+                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
+                        </li>
+                        <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
+                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
+                        </li>
+                        <li class="team-member interactive" onclick="openEngineerModal('feroz')">
+                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
+                        </li>
+                        <li class="team-member interactive" onclick="openEngineerModal('basha')">
+                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
+                        </li>
+                        <li class="team-member interactive" onclick="openEngineerModal('prasad')">
+                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
+                        </li>
+                    </ul>
+                </div>
+            </span>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="engineerModal" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div id="engAvatar" class="eng-avatar"></div>
+                <h2 id="engName" class="eng-name">Name</h2>
+                <p id="engId" class="eng-id">ID</p>
+                <span id="engRole" class="eng-role">Role</span>
+            </div>
+
+            <div class="eng-bio-box">
+                <p id="engBio">Bio goes here...</p>
+            </div>
+
+            <div class="eng-actions">
+                <a href="#" id="engEmail" class="codify-btn-outline">
+                    <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg> Email
+                </a>
+                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
+            </div>
+        </div>
+    </div>
+`;
+
+// 3. Dynamic High-Speed Syllabus Search Engine Setup
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
     
     let masterSearchIndex = null;
 
-    // Automatically load and parse syllabus files into a unified search array
+    // Automatically indexes your syllabus files and standard pages
     async function loadMasterIndex() {
         if (masterSearchIndex) return masterSearchIndex;
 
         try {
-            // List all your syllabus files here
             const syllabusFiles = [
                 { path: '/html-syllabus.json', category: 'HTML' },
                 { path: '/java-syllabus.json', category: 'Java' },
@@ -95,14 +155,14 @@ setTimeout(() => {
                 { title: 'Home Dashboard', category: 'General', url: 'index.html' },
                 { title: 'All Courses & Modules', category: 'Courses', url: 'src/pages/courses.html' },
                 { title: 'Quizzes & Final Exams', category: 'Assessment', url: 'src/pages/courses/exam.html' },
-                { title: 'Certificates & Credentials', category: 'General', url: 'src/pages/certificate.html' }
+                { title: 'Certificates & Credentials', category: 'General', url: 'src/pages/certificate.html' },
+                { title: 'Contact Support Team', category: 'General', url: 'src/pages/contact.html' }
             ];
 
             for (let file of syllabusFiles) {
                 const response = await fetch(file.path);
                 const data = await response.json();
                 
-                // Loop through chapters and topics automatically
                 if (data.chapters) {
                     data.chapters.forEach(chapter => {
                         chapter.topics.forEach(topic => {
@@ -126,6 +186,16 @@ setTimeout(() => {
 
     if (searchInput && searchResults) {
         let debounceTimer;
+
+        searchInput.addEventListener('focus', () => {
+            searchInput.style.borderColor = '#6366f1';
+            searchInput.style.backgroundColor = '#ffffff';
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchInput.style.borderColor = '#e2e8f0';
+            searchInput.style.backgroundColor = '#f8fafc';
+        });
 
         searchInput.addEventListener('input', function() {
             clearTimeout(debounceTimer);
@@ -184,6 +254,7 @@ setTimeout(() => {
             }, 30);
         });
 
+        // Hide results dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.style.display = 'none';
