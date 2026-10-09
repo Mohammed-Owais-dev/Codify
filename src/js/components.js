@@ -1,10 +1,8 @@
-// components.js - Codify Shared Components & Global Search Engine (Keyboard Nav Enabled)
+const currentPath = window.location.pathname;
 
-// 1. Inject the Top Navigation Bar & Global Search matching Codify Theme
 document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
-
             <div class="codify-left-group">
                 <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
                     <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
@@ -12,93 +10,51 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 </div>
             </div>
 
-            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
-                <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-
+            <nav class="codify-center-nav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/courses" class="active-link" aria-current="page">Courses</a></li>
-                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="/src/pages/contact.html">Contact</a></li>
+                    <li><a href="/index.html" class="${currentPath === '/' || currentPath === '/index.html' ? 'active-link' : ''}">Home</a></li>
+                    <li><a href="/courses" class="${currentPath.startsWith('/courses') ? 'active-link' : ''}">Courses</a></li>
+                    <li><a href="/src/pages/courses/exam.html" class="${currentPath.includes('exam.html') ? 'active-link' : ''}">Quizzes &amp; Exams</a></li>
+                    <li><a href="/src/pages/certificate.html" class="${currentPath.includes('certificate.html') ? 'active-link' : ''}">Certificates</a></li>
+                    <li><a href="/src/pages/contact.html" class="${currentPath.includes('contact.html') ? 'active-link' : ''}">Contact</a></li>
                 </ul>
             </nav>
 
             <div class="codify-right-group">
-                <!-- Codify Themed Search Box with Glassmorphism Dropdown -->
-                <div class="codify-search-box" style="position: relative;">
-                    <input type="text" id="globalSiteSearch" placeholder="Search everything... (⌘K)" autocomplete="off" aria-label="Global Search">
-                    <span class="search-kbd"><kbd>⌘K</kbd></span>
-                    
-                    <!-- Structured Glassmorphism Dropdown Results -->
-                    <div id="globalSearchResults" class="codify-search-dropdown" style="
-                        position: absolute; 
-                        top: calc(100% + 10px); 
-                        right: 0; 
-                        width: 440px; 
-                        background: rgba(13, 27, 42, 0.88); 
-                        backdrop-filter: blur(16px); 
-                        -webkit-backdrop-filter: blur(16px); 
-                        border: 1.5px solid rgba(0, 170, 255, 0.35); 
-                        border-radius: 16px; 
-                        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 170, 255, 0.15); 
-                        display: none; 
-                        z-index: 10000; 
-                        max-height: 380px; 
-                        overflow-y: auto;
-                        padding: 8px;
-                    "></div>
-                </div>
-
-                <button class="mobile-search-trigger" id="mobileSearchBtn" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                </button>
-
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
+                <!-- Codify Themed Search Box with Glassmorphism Dropdown & Keyboard SVG Icon -->
+<div class="codify-search-box">
+    <svg class="search-box-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+    </svg>
+    <input type="text" id="globalSiteSearch" placeholder="Search everything..." autocomplete="off" aria-label="Global Search">
+    <span class="search-kbd-icon" title="Quick Search Shortcut">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2" ry="2"></rect>
+            <path d="M6 8h.001"></path>
+            <path d="M10 8h.001"></path>
+            <path d="M14 8h.001"></path>
+            <path d="M18 8h.001"></path>
+            <path d="M6 12h.001"></path>
+            <path d="M10 12h.001"></path>
+            <path d="M14 12h.001"></path>
+            <path d="M18 12h.001"></path>
+            <path d="M7 16h10"></path>
+        </svg>
+    </span>
+    
+    <!-- Structured Glassmorphism Dropdown Results -->
+    <div id="globalSearchResults" class="codify-search-dropdown"></div>
+</div>
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="/src/auth/login.html" class="codify-btn-outline" title="Login">Login</a>
                     <a href="/src/auth/signup.html" class="codify-btn-outline" title="Signup">Signup</a>
                 </div>
             </div>
-
         </div>
     </header>
 `;
-
-// Inject custom cyberpunk scrollbar styling dynamically
-const cyberScrollStyle = document.createElement('style');
-cyberScrollStyle.textContent = `
-    #globalSearchResults::-webkit-scrollbar {
-        width: 6px;
-    }
-    #globalSearchResults::-webkit-scrollbar-track {
-        background: rgba(13, 27, 42, 0.5);
-        border-radius: 8px;
-    }
-    #globalSearchResults::-webkit-scrollbar-thumb {
-        background: rgba(0, 170, 255, 0.4);
-        border-radius: 8px;
-    }
-    #globalSearchResults::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 170, 255, 0.7);
-    }
-`;
-document.head.appendChild(cyberScrollStyle);
-
-// 2. Inject the Footer & Engineer Modal
+// 2. Inject the Footer & Engineer Modal (Clean Structure & SVG Icons)
 document.getElementById('footer-placeholder').innerHTML = `
     <footer class="codify-footer">
         <div>
@@ -130,11 +86,12 @@ document.getElementById('footer-placeholder').innerHTML = `
         </div>
     </footer>
 
+    <!-- ENGINEER MODAL -->
     <div class="modal-overlay" id="engineerModal" aria-hidden="true">
         <div class="modal-card">
             <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
-
-            <div style="text-align: center; margin-bottom: 20px;">
+            
+            <div class="eng-modal-profile">
                 <div id="engAvatar" class="eng-avatar"></div>
                 <h2 id="engName" class="eng-name">Name</h2>
                 <p id="engId" class="eng-id">ID</p>
@@ -146,8 +103,12 @@ document.getElementById('footer-placeholder').innerHTML = `
             </div>
 
             <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">✉️ Email</a>
-                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
+                <a href="#" id="engEmail" class="codify-btn-outline">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="vertical-align: middle; margin-right: 6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email
+                </a>
+                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="vertical-align: middle; margin-right: 6px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> GitHub
+                </a>
             </div>
         </div>
     </div>
@@ -219,17 +180,13 @@ setTimeout(() => {
         if (currentFocus >= rows.length) currentFocus = 0;
         if (currentFocus < 0) currentFocus = rows.length - 1;
         
-        rows[currentFocus].style.backgroundColor = 'rgba(0, 170, 255, 0.22)';
-        rows[currentFocus].style.transform = 'translateX(6px)';
-        rows[currentFocus].style.borderColor = 'rgba(0, 170, 255, 0.5)';
+        rows[currentFocus].classList.add('search-item-active');
         rows[currentFocus].scrollIntoView({ block: 'nearest' });
     }
 
     function removeActive(rows) {
         for (let i = 0; i < rows.length; i++) {
-            rows[i].style.backgroundColor = 'transparent';
-            rows[i].style.transform = 'translateX(0px)';
-            rows[i].style.borderColor = 'transparent';
+            rows[i].classList.remove('search-item-active');
         }
     }
 
@@ -263,26 +220,15 @@ setTimeout(() => {
 
                     matches.forEach((item, idx) => {
                         const row = document.createElement('div');
-                        row.style.cssText = `
-                            padding: 12px 16px; 
-                            cursor: pointer; 
-                            border-bottom: 1px solid rgba(0, 170, 255, 0.08); 
-                            display: flex; 
-                            justify-content: space-between; 
-                            align-items: center; 
-                            border-radius: 10px;
-                            transition: background 0.2s ease, transform 0.2s ease;
-                            margin-bottom: 4px;
-                            border: 1px solid transparent;
-                        `;
+                        row.className = 'search-result-row';
 
                         const titleSpan = document.createElement('span');
                         titleSpan.textContent = item.title;
-                        titleSpan.style.cssText = 'font-size: 13.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4;';
+                        titleSpan.className = 'search-result-title';
 
                         const catBadge = document.createElement('span');
                         catBadge.textContent = item.category;
-                        catBadge.style.cssText = 'font-size: 11px; padding: 4px 9px; border-radius: 6px; background-color: rgba(0, 170, 255, 0.12); color: #00aaff; white-space: nowrap; border: 1px solid rgba(0, 170, 255, 0.25); font-weight: 700; margin-left: 12px;';
+                        catBadge.className = 'search-result-badge';
 
                         row.appendChild(titleSpan);
                         row.appendChild(catBadge);
@@ -305,7 +251,7 @@ setTimeout(() => {
                     searchResults.appendChild(fragment);
                 } else {
                     searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div style="padding: 20px; font-size: 13.5px; color: #94a3b8; text-align: center; font-weight: 500;">No matching course topics found</div>';
+                    searchResults.innerHTML = '<div class="search-no-results">No matching course topics found</div>';
                 }
             }, 30);
         });
