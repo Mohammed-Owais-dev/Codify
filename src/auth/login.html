@@ -663,7 +663,7 @@
             hideAlert();
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: provider,
-                options: { redirectTo: `${window.location.origin}/src/auth/login.html` }
+                options: { redirectTo: `${window.location.origin}/login` }
             });
             if (error) showAlert(`❌ ${provider} login error: ${error.message}`);
         }
@@ -779,7 +779,7 @@
                 }
 
                 const { error } = await supabase.auth.resetPasswordForEmail(emailToUse, {
-                    redirectTo: `${window.location.origin}/src/auth/login.html`
+                    redirectTo: `${window.location.origin}/login`
                 });
                 if (error) throw error;
 
