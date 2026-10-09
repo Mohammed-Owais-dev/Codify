@@ -5,8 +5,24 @@
       "destination": "/src/pages/courses.html"
     },
     {
+      "source": "/exam",
+      "destination": "/src/pages/exam.html"
+    },
+    {
+      "source": "/certificate",
+      "destination": "/src/pages/certificate.html"
+    },
+    {
       "source": "/contact",
       "destination": "/src/pages/contact.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/src/auth/login.html"
+    },
+    {
+      "source": "/signup",
+      "destination": "/src/auth/signup.html"
     },
     {
       "source": "/courses/:course",

@@ -4,7 +4,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
+                <div class="codify-logo" onclick="window.location.href='/'" role="button" tabindex="0" aria-label="Codify Homepage">
                     <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
                     <span class="logo-text">Codify</span>
                 </div>
@@ -12,10 +12,10 @@ document.getElementById('navbar-placeholder').innerHTML = `
 
             <nav class="codify-center-nav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/index.html" class="${currentPath === '/' || currentPath === '/index.html' ? 'active-link' : ''}">Home</a></li>
+                    <li><a href="/" class="${currentPath === '/' || currentPath === '/index.html' ? 'active-link' : ''}">Home</a></li>
                     <li><a href="/courses" class="${currentPath.startsWith('/courses') ? 'active-link' : ''}">Courses</a></li>
-                    <li><a href="/src/pages/courses/exam.html" class="${currentPath.includes('exam.html') ? 'active-link' : ''}">Quizzes &amp; Exams</a></li>
-                    <li><a href="/src/pages/certificate.html" class="${currentPath.includes('certificate.html') ? 'active-link' : ''}">Certificates</a></li>
+                    <li><a href="/exam" class="${currentPath === '/exam' ? 'active-link' : ''}">Quizzes &amp; Exams</a></li>
+                    <li><a href="/certificate" class="${currentPath === '/certificate' ? 'active-link' : ''}">Certificates</a></li>
                     <li><a href="/contact" class="${currentPath === '/contact' ? 'active-link' : ''}">Contact</a></li>
                 </ul>
             </nav
@@ -47,8 +47,8 @@ document.getElementById('navbar-placeholder').innerHTML = `
     <div id="globalSearchResults" class="codify-search-dropdown"></div>
 </div>
                 <div class="codify-auth-group" id="authNavGroup">
-                    <a href="/src/auth/login.html" class="codify-btn-outline" title="Login">Login</a>
-                    <a href="/src/auth/signup.html" class="codify-btn-outline" title="Signup">Signup</a>
+                    <a href="/login" class="codify-btn-outline" title="Login">Login</a>
+                    <a href="/signup" class="codify-btn-outline" title="Signup">Signup</a>
                 </div>
             </div>
         </div>
