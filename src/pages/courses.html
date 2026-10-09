@@ -15,6 +15,7 @@
     <title>Courses | Codify</title>
 
     <style>
+
         /* ==========================================================================
            100% VISIBLE HERO SECTION
            ========================================================================== */
@@ -322,29 +323,6 @@
     <div id="navbar-placeholder"></div>
 
 
-    <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
-        <div class="search-modal-card">
-            <div class="search-modal-header">
-                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <input type="text" id="modalSearchInput" placeholder="Type keywords (e.g., Python history, loop...)" autocomplete="off">
-                <button class="search-modal-close" id="modalSearchClose" aria-label="Close Search">✕</button>
-            </div>
-            <div class="search-results-viewport">
-                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course parameters...</div>
-                <ul class="search-results-list" id="searchResultsList"></ul>
-            </div>
-            <div class="search-modal-footer">
-                <span><kbd>↑↓</kbd> Navigate</span>
-                <span><kbd>Enter</kbd> Select</span>
-                <span><kbd>ESC</kbd> Close</span>
-            </div>
-        </div>
-    </div>
 
     <main>
         <section class="hero-section" aria-labelledby="heroHeading">
@@ -509,56 +487,8 @@
         </section>
     </main>
 
-    <footer class="codify-footer">
-        <div>
-            Built with precision for future developers • Developed by
-            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="team-trigger">Codify Team</span>
-
-                <div class="team-popover" role="tooltip">
-                    <div class="popover-header">Core Engineers</div>
-                    <ul class="team-list">
-                        <li class="team-member interactive" onclick="openEngineerModal('owais')" style="font-weight: 700;">
-                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('feroz')">
-                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('basha')">
-                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('prasad')">
-                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
-                        </li>
-                    </ul>
-                </div>
-            </span>
-        </div>
-    </footer>
-
-    <div class="modal-overlay" id="engineerModal" aria-hidden="true">
-        <div class="modal-card">
-            <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div id="engAvatar" class="eng-avatar"></div>
-                <h2 id="engName" class="eng-name">Name</h2>
-                <p id="engId" class="eng-id">ID</p>
-                <span id="engRole" class="eng-role">Role</span>
-            </div>
-            <div class="eng-bio-box">
-                <p id="engBio">Bio goes here...</p>
-            </div>
-            <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">✉️ Email</a>
-                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
-            </div>
-        </div>
-    </div>
-
     <div id="footer-placeholder"></div>
+
 
     <script src="/src/js/components.js"></script>
     <script src="/src/js/script.js"></script>
