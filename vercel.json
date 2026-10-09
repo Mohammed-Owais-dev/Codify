@@ -5,6 +5,10 @@
       "destination": "/src/pages/courses.html"
     },
     {
+      "source": "/contact",
+      "destination": "/src/pages/contact.html"
+    },
+    {
       "source": "/courses/:course",
       "destination": "/src/pages/courses/course-index.html"
     },

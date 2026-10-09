@@ -16,9 +16,9 @@ document.getElementById('navbar-placeholder').innerHTML = `
                     <li><a href="/courses" class="${currentPath.startsWith('/courses') ? 'active-link' : ''}">Courses</a></li>
                     <li><a href="/src/pages/courses/exam.html" class="${currentPath.includes('exam.html') ? 'active-link' : ''}">Quizzes &amp; Exams</a></li>
                     <li><a href="/src/pages/certificate.html" class="${currentPath.includes('certificate.html') ? 'active-link' : ''}">Certificates</a></li>
-                    <li><a href="/src/pages/contact.html" class="${currentPath.includes('contact.html') ? 'active-link' : ''}">Contact</a></li>
+                    <li><a href="/contact" class="${currentPath === '/contact' ? 'active-link' : ''}">Contact</a></li>
                 </ul>
-            </nav>
+            </nav
 
             <div class="codify-right-group">
                 <!-- Codify Themed Search Box with Glassmorphism Dropdown & Keyboard SVG Icon -->
