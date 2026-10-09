@@ -5,6 +5,9 @@ document.getElementById('navbar-placeholder').innerHTML = `
         <div class="codify-header-container">
             <div class="codify-left-group">
                 <div class="codify-logo" onclick="window.location.href='/'" role="button" tabindex="0" aria-label="Codify Homepage">
+                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
+                    <span class="logo-text">Codify</span>
+                </div>
             </div>
 
             <nav class="codify-center-nav" aria-label="Main navigation menu">
