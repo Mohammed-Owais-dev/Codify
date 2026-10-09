@@ -1,6 +1,6 @@
-// components.js - Codify Shared Components & Global Search Engine
+// components.js - Codify Shared Components & Global Search Engine (Themed)
 
-// 1. Inject the Top Navigation Bar & Global Search
+// 1. Inject the Top Navigation Bar & Global Search matching Codify Theme
 document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
@@ -12,18 +12,6 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 </div>
             </div>
 
-            <!-- Global Search Bar Container -->
-            <div class="codify-search-container" style="position: relative; flex: 0 1 300px; margin: 0 20px;">
-                <div style="position: relative; display: flex; align-items: center;">
-                    <svg style="position: absolute; left: 12px; width: 16px; height: 16px; color: #888;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" id="globalSiteSearch" placeholder="Search HTML, Java, Python topics..." aria-label="Global Search" style="width: 100%; padding: 8px 12px 8px 36px; border-radius: 8px; border: 1px solid #e2e8f0; background-color: #f8fafc; color: #1e293b; font-size: 14px; outline: none; transition: all 0.2s ease;">
-                </div>
-                <div id="globalSearchResults" class="codify-search-dropdown" style="position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); display: none; z-index: 1000; max-height: 300px; overflow-y: auto;"></div>
-            </div>
-
             <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
                 <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -33,15 +21,31 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 </button>
 
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="index.html" class="active-link" aria-current="page">Home</a></li>
-                    <li><a href="src/pages/courses.html">Courses</a></li>
-                    <li><a href="src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="src/pages/contact.html">Contact</a></li>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/courses" class="active-link" aria-current="page">Courses</a></li>
+                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
+                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
+                    <li><a href="/src/pages/contact.html">Contact</a></li>
                 </ul>
             </nav>
 
             <div class="codify-right-group">
+                <!-- Codify Themed Search Box with Dropdown Container -->
+                <div class="codify-search-box" style="position: relative;">
+                    <input type="text" id="globalSiteSearch" placeholder="Search everything... (⌘K)" autocomplete="off" aria-label="Global Search">
+                    <span class="search-kbd"><kbd>⌘K</kbd></span>
+                    
+                    <!-- Dynamic Dropdown Results -->
+                    <div id="globalSearchResults" class="codify-search-dropdown" style="position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #0d1b2a; border: 1.5px solid rgba(0, 170, 255, 0.3); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: none; z-index: 1000; max-height: 320px; overflow-y: auto;"></div>
+                </div>
+
+                <button class="mobile-search-trigger" id="mobileSearchBtn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                </button>
+
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
                     <span></span>
                     <span></span>
@@ -49,23 +53,8 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 </button>
 
                 <div class="codify-auth-group" id="authNavGroup">
-                    <a href="src/auth/login.html" class="codify-btn-outline" title="Login">
-                        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                            <polyline points="10 17 15 12 10 7"></polyline>
-                            <line x1="15" y1="12" x2="3" y2="12"></line>
-                        </svg>
-                        <span class="auth-text">Login</span>
-                    </a>
-                    <a href="src/auth/signup.html" class="codify-btn-outline" title="Signup">
-                        <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <line x1="20" y1="8" x2="20" y2="14"></line>
-                            <line x1="23" y1="11" x2="17" y2="11"></line>
-                        </svg>
-                        <span class="auth-text">Signup</span>
-                    </a>
+                    <a href="/src/auth/login.html" class="codify-btn-outline" title="Login">Login</a>
+                    <a href="/src/auth/signup.html" class="codify-btn-outline" title="Signup">Signup</a>
                 </div>
             </div>
 
@@ -121,18 +110,14 @@ document.getElementById('footer-placeholder').innerHTML = `
             </div>
 
             <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">
-                    <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg> Email
-                </a>
+                <a href="#" id="engEmail" class="codify-btn-outline">✉️ Email</a>
                 <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
             </div>
         </div>
     </div>
 `;
-// 3. Dynamic High-Speed Syllabus Search Engine Setup (Clean URL Version)
+
+// 3. Dynamic Clean-URL Syllabus Search Engine Setup
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
@@ -164,7 +149,6 @@ setTimeout(() => {
                 const data = await response.json();
                 
                 if (data.chapters) {
-                    // Add track hub entry e.g. /courses/cpp
                     index.push({
                         title: `${data.course_title || file.name} Course Hub`,
                         category: file.name,
@@ -173,7 +157,6 @@ setTimeout(() => {
 
                     data.chapters.forEach(chapter => {
                         chapter.topics.forEach(topic => {
-                            // Extract clean lesson ID (e.g. '1.3' from filename or topic id)
                             const lessonId = topic.id || topic.file.split('/').pop().split('-')[0];
                             index.push({
                                 title: `${topic.title} (${chapter.chapter_title})`,
@@ -195,16 +178,6 @@ setTimeout(() => {
 
     if (searchInput && searchResults) {
         let debounceTimer;
-
-        searchInput.addEventListener('focus', () => {
-            searchInput.style.borderColor = '#00aaff';
-            searchInput.style.backgroundColor = '#0d1b2a';
-        });
-        
-        searchInput.addEventListener('blur', () => {
-            searchInput.style.borderColor = '#e2e8f0';
-            searchInput.style.backgroundColor = '#f8fafc';
-        });
 
         searchInput.addEventListener('input', function() {
             clearTimeout(debounceTimer);
@@ -232,23 +205,22 @@ setTimeout(() => {
 
                     matches.forEach(item => {
                         const row = document.createElement('div');
-                        row.style.cssText = 'padding: 10px 14px; cursor: pointer; border-bottom: 1px solid rgba(0, 170, 255, 0.1); display: flex; justify-content: space-between; align-items: center; background: #0d1b2a;';
+                        row.style.cssText = 'padding: 10px 16px; cursor: pointer; border-bottom: 1px solid rgba(0, 170, 255, 0.12); display: flex; justify-content: space-between; align-items: center; transition: background 0.2s ease;';
 
                         const titleSpan = document.createElement('span');
                         titleSpan.textContent = item.title;
-                        titleSpan.style.cssText = 'font-size: 13px; font-weight: 500; color: #e0e6ed;';
+                        titleSpan.style.cssText = 'font-size: 13px; font-weight: 600; color: #ffffff;';
 
                         const catBadge = document.createElement('span');
                         catBadge.textContent = item.category;
-                        catBadge.style.cssText = 'font-size: 11px; padding: 2px 6px; border-radius: 4px; background-color: rgba(0, 170, 255, 0.15); color: #00aaff; white-space: nowrap; border: 1px solid rgba(0, 170, 255, 0.3);';
+                        catBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 6px; background-color: rgba(0, 170, 255, 0.15); color: #00aaff; white-space: nowrap; border: 1px solid rgba(0, 170, 255, 0.3); font-weight: 700;';
 
                         row.appendChild(titleSpan);
                         row.appendChild(catBadge);
 
-                        row.onmouseover = () => row.style.backgroundColor = 'rgba(0, 170, 255, 0.08)';
-                        row.onmouseout = () => row.style.backgroundColor = '#0d1b2a';
+                        row.onmouseover = () => row.style.backgroundColor = 'rgba(0, 170, 255, 0.15)';
+                        row.onmouseout = () => row.style.backgroundColor = 'transparent';
                         
-                        // Navigate directly to the clean URL
                         row.onclick = () => {
                             window.location.href = item.url;
                         };
@@ -259,9 +231,17 @@ setTimeout(() => {
                     searchResults.appendChild(fragment);
                 } else {
                     searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div style="padding: 12px 14px; font-size: 13px; color: #94a3b8; text-align: center; background: #0d1b2a;">No matching topics found</div>';
+                    searchResults.innerHTML = '<div style="padding: 14px; font-size: 13px; color: #94a3b8; text-align: center;">No matching topics found</div>';
                 }
             }, 30);
+        });
+
+        // Global shortcut (⌘K) to focus search
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
         });
 
         document.addEventListener('click', function(e) {
