@@ -363,11 +363,11 @@ const lessonParam =
 let fileParam = urlParams.get('file');
 
         const courseConfigMap = {
-            'c': { id: 'c-101', indexPage: 'course-index.html?course=c', jsonPath: '/src/data/c-syllabus.json', baseDir: '/src/pages/courses/c/' },
-            'python': { id: 'python-101', indexPage: 'course-index.html?course=python', jsonPath: '/src/data/python-syllabus.json', baseDir: '/src/pages/courses/python/' },
-            'cpp': { id: 'cpp-101', indexPage: 'course-index.html?course=cpp', jsonPath: '/src/data/cpp-syllabus.json', baseDir: '/src/pages/courses/cpp/' },
-            'java': { id: 'java-101', indexPage: 'course-index.html?course=java', jsonPath: '/src/data/java-syllabus.json', baseDir: '/src/pages/courses/java/' },
-            'html': { id: 'html-101', indexPage: 'course-index.html?course=html', jsonPath: '/src/data/html-syllabus.json', baseDir: '/src/pages/courses/html/' }
+            'c': { id: 'c-101', indexPage: '/courses/c', jsonPath: '/src/data/c-syllabus.json', baseDir: '/src/pages/courses/c/' },
+            'python': { id: 'python-101', indexPage: '/courses/python', jsonPath: '/src/data/python-syllabus.json', baseDir: '/src/pages/courses/python/' },
+            'cpp': { id: 'cpp-101', indexPage: '/courses/cpp', jsonPath: '/src/data/cpp-syllabus.json', baseDir: '/src/pages/courses/cpp/' },
+            'java': { id: 'java-101', indexPage: '/courses/java', jsonPath: '/src/data/java-syllabus.json', baseDir: '/src/pages/courses/java/' },
+            'html': { id: 'html-101', indexPage: '/courses/html', jsonPath: '/src/data/html-syllabus.json', baseDir: '/src/pages/courses/html/' }
         };
 
         const activeCourse = courseConfigMap[courseParam] || courseConfigMap['c'];
