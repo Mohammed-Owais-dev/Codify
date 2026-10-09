@@ -1,4 +1,4 @@
-// components.js - Codify Shared Components & Global Search Engine (Themed)
+// components.js - Codify Shared Components & Global Search Engine (Cyberpunk Glassmorphism)
 
 // 1. Inject the Top Navigation Bar & Global Search matching Codify Theme
 document.getElementById('navbar-placeholder').innerHTML = `
@@ -30,13 +30,29 @@ document.getElementById('navbar-placeholder').innerHTML = `
             </nav>
 
             <div class="codify-right-group">
-                <!-- Codify Themed Search Box with Dropdown Container -->
+                <!-- Codify Themed Search Box with Glassmorphism Dropdown -->
                 <div class="codify-search-box" style="position: relative;">
                     <input type="text" id="globalSiteSearch" placeholder="Search everything... (⌘K)" autocomplete="off" aria-label="Global Search">
                     <span class="search-kbd"><kbd>⌘K</kbd></span>
                     
-                    <!-- Dynamic Dropdown Results -->
-                    <div id="globalSearchResults" class="codify-search-dropdown" style="position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #0d1b2a; border: 1.5px solid rgba(0, 170, 255, 0.3); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: none; z-index: 1000; max-height: 320px; overflow-y: auto;"></div>
+                    <!-- Structured Glassmorphism Dropdown Results -->
+                    <div id="globalSearchResults" class="codify-search-dropdown" style="
+                        position: absolute; 
+                        top: calc(100% + 10px); 
+                        right: 0; 
+                        width: 440px; 
+                        background: rgba(13, 27, 42, 0.85); 
+                        backdrop-filter: blur(16px); 
+                        -webkit-backdrop-filter: blur(16px); 
+                        border: 1.5px solid rgba(0, 170, 255, 0.35); 
+                        border-radius: 16px; 
+                        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 170, 255, 0.15); 
+                        display: none; 
+                        z-index: 10000; 
+                        max-height: 380px; 
+                        overflow-y: auto;
+                        padding: 8px;
+                    "></div>
                 </div>
 
                 <button class="mobile-search-trigger" id="mobileSearchBtn" aria-label="Search">
@@ -61,6 +77,26 @@ document.getElementById('navbar-placeholder').innerHTML = `
         </div>
     </header>
 `;
+
+// Inject custom cyberpunk scrollbar styling dynamically
+const cyberScrollStyle = document.createElement('style');
+cyberScrollStyle.textContent = `
+    #globalSearchResults::-webkit-scrollbar {
+        width: 6px;
+    }
+    #globalSearchResults::-webkit-scrollbar-track {
+        background: rgba(13, 27, 42, 0.5);
+        border-radius: 8px;
+    }
+    #globalSearchResults::-webkit-scrollbar-thumb {
+        background: rgba(0, 170, 255, 0.4);
+        border-radius: 8px;
+    }
+    #globalSearchResults::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 170, 255, 0.7);
+    }
+`;
+document.head.appendChild(cyberScrollStyle);
 
 // 2. Inject the Footer & Engineer Modal
 document.getElementById('footer-placeholder').innerHTML = `
@@ -205,21 +241,37 @@ setTimeout(() => {
 
                     matches.forEach(item => {
                         const row = document.createElement('div');
-                        row.style.cssText = 'padding: 10px 16px; cursor: pointer; border-bottom: 1px solid rgba(0, 170, 255, 0.12); display: flex; justify-content: space-between; align-items: center; transition: background 0.2s ease;';
+                        row.style.cssText = `
+                            padding: 12px 16px; 
+                            cursor: pointer; 
+                            border-bottom: 1px solid rgba(0, 170, 255, 0.1); 
+                            display: flex; 
+                            justify-content: space-between; 
+                            align-items: center; 
+                            border-radius: 10px;
+                            transition: all 0.2s ease;
+                            margin-bottom: 4px;
+                        `;
 
                         const titleSpan = document.createElement('span');
                         titleSpan.textContent = item.title;
-                        titleSpan.style.cssText = 'font-size: 13px; font-weight: 600; color: #ffffff;';
+                        titleSpan.style.cssText = 'font-size: 13.5px; font-weight: 600; color: #f1f5f9; line-height: 1.4;';
 
                         const catBadge = document.createElement('span');
                         catBadge.textContent = item.category;
-                        catBadge.style.cssText = 'font-size: 11px; padding: 3px 8px; border-radius: 6px; background-color: rgba(0, 170, 255, 0.15); color: #00aaff; white-space: nowrap; border: 1px solid rgba(0, 170, 255, 0.3); font-weight: 700;';
+                        catBadge.style.cssText = 'font-size: 11px; padding: 4px 9px; border-radius: 6px; background-color: rgba(0, 170, 255, 0.12); color: #00aaff; white-space: nowrap; border: 1px solid rgba(0, 170, 255, 0.25); font-weight: 700; margin-left: 12px;';
 
                         row.appendChild(titleSpan);
                         row.appendChild(catBadge);
 
-                        row.onmouseover = () => row.style.backgroundColor = 'rgba(0, 170, 255, 0.15)';
-                        row.onmouseout = () => row.style.backgroundColor = 'transparent';
+                        row.onmouseover = () => {
+                            row.style.backgroundColor = 'rgba(0, 170, 255, 0.18)';
+                            row.style.transform = 'translateX(4px)';
+                        };
+                        row.onmouseout = () => {
+                            row.style.backgroundColor = 'transparent';
+                            row.style.transform = 'translateX(0px)';
+                        };
                         
                         row.onclick = () => {
                             window.location.href = item.url;
@@ -231,7 +283,7 @@ setTimeout(() => {
                     searchResults.appendChild(fragment);
                 } else {
                     searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div style="padding: 14px; font-size: 13px; color: #94a3b8; text-align: center;">No matching topics found</div>';
+                    searchResults.innerHTML = '<div style="padding: 20px; font-size: 13.5px; color: #94a3b8; text-align: center; font-weight: 500;">No matching course topics found</div>';
                 }
             }, 30);
         });
