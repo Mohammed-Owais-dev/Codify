@@ -47,8 +47,7 @@ html {
     align-items: center;
 }
 
-.codify-left-group,
-.codify-right-group {
+.codify-left-group, .codify-right-group {
     display: flex;
     align-items: center;
     gap: 25px;
@@ -87,8 +86,7 @@ html {
     transition: color 0.3s ease;
 }
 
-.codify-nav-links li a:hover,
-.codify-nav-links li a.active-link {
+.codify-nav-links li a:hover, .codify-nav-links li a.active-link {
     color: #00aaff;
 }
 
@@ -103,8 +101,7 @@ html {
     transition: width 0.3s ease;
 }
 
-.codify-nav-links li a:hover::after,
-.codify-nav-links li a.active-link::after {
+.codify-nav-links li a:hover::after, .codify-nav-links li a.active-link::after {
     width: 100%;
 }
 
@@ -117,8 +114,7 @@ html {
     background: rgba(13, 27, 42, 0.75);
     border: 1.5px solid rgba(0, 170, 255, 0.25);
     border-radius: 12px;
-    padding: 6px 12px 6px 38px;
-    /* Left padding creates space for the SVG icon */
+    padding: 6px 12px 6px 38px; /* Left padding creates space for the SVG icon */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -205,17 +201,14 @@ html {
 .codify-search-dropdown::-webkit-scrollbar {
     width: 6px;
 }
-
 .codify-search-dropdown::-webkit-scrollbar-track {
     background: rgba(13, 27, 42, 0.5);
     border-radius: 8px;
 }
-
 .codify-search-dropdown::-webkit-scrollbar-thumb {
     background: rgba(0, 170, 255, 0.4);
     border-radius: 8px;
 }
-
 .codify-search-dropdown::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 170, 255, 0.7);
 }
@@ -497,8 +490,7 @@ html {
     padding: 20px;
 }
 
-.modal-overlay.active,
-.modal-overlay.show {
+.modal-overlay.active, .modal-overlay.show {
     display: flex;
 }
 
@@ -620,7 +612,6 @@ html {
 .sidebar-nav::-webkit-scrollbar {
     width: 6px;
 }
-
 .sidebar-nav::-webkit-scrollbar-thumb {
     background: rgba(0, 170, 255, 0.3);
     border-radius: 10px;
@@ -785,17 +776,9 @@ html {
     border-radius: 50%;
 }
 
-.mac-red {
-    background-color: #ff5f56;
-}
-
-.mac-yellow {
-    background-color: #ffbd2e;
-}
-
-.mac-green {
-    background-color: #27c93f;
-}
+.mac-red { background-color: #ff5f56; }
+.mac-yellow { background-color: #ffbd2e; }
+.mac-green { background-color: #27c93f; }
 
 .mac-lang-tag {
     color: #8b949e;
@@ -956,19 +939,6 @@ html {
     cursor: pointer;
     font-size: 0.9rem;
 }
-
-.hud-dismiss-btn:hover {
-    color: #ff5f56;
-}
-
-.hud-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.hud-divider {
-    width: 1px;
-    height: 16px;
-    background: rgba(0, 170, 255, 0.3);
-}
+.hud-dismiss-btn:hover { color: #ff5f56; }
+.hud-item { display: flex; align-items: center; gap: 8px; }
+.hud-divider { width: 1px; height: 16px; background: rgba(0, 170, 255, 0.3); }
