@@ -13,7 +13,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
             <nav class="codify-center-nav" aria-label="Main navigation menu">
             <ul class="codify-nav-links" id="navLinks">
                 <li><a href="/">Home</a></li>
-                <li><a href="/courses" class="active-link" aria-current="page">Courses</a></li>
+                <li><a href="/courses">Courses</a></li>
                 <li><a href="/exam">Quizzes &amp; Exams</a></li>
                 <li><a href="/certificate">Certificates</a></li>
                 <li><a href="/contact">Contact</a></li>
