@@ -1,6 +1,6 @@
 // components.js
 
-// 1. Inject the Top Navigation Bar
+// 1. Inject the Top Navigation Bar (including a professional search bar)
 document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
@@ -10,6 +10,12 @@ document.getElementById('navbar-placeholder').innerHTML = `
                     <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
                     <span class="logo-text">Codify</span>
                 </div>
+            </div>
+
+            <!-- Professional Search Bar Container -->
+            <div class="codify-search-wrapper" style="position: relative; flex: 0 1 250px; margin: 0 15px;">
+                <input type="text" id="siteSearchInput" placeholder="Search courses, exams..." aria-label="Search" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;">
+                <div id="siteSearchResults" class="search-dropdown-results" style="position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #ddd; border-radius: 6px; margin-top: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; z-index: 1000; max-height: 200px; overflow-y: auto;"></div>
             </div>
 
             <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
@@ -120,3 +126,65 @@ document.getElementById('footer-placeholder').innerHTML = `
         </div>
     </div>
 `;
+
+// 3. Search Bar Functionality Setup
+setTimeout(() => {
+    const searchInput = document.getElementById('siteSearchInput');
+    const searchResults = document.getElementById('siteSearchResults');
+
+    // Define searchable items (Add your site pages/courses here)
+    const searchableItems = [
+        { title: 'Home', url: 'index.html' },
+        { title: 'Courses', url: 'src/pages/courses.html' },
+        { title: 'Quizzes & Exams', url: 'src/pages/courses/exam.html' },
+        { title: 'Certificates', url: 'src/pages/certificate.html' },
+        { title: 'Contact Us', url: 'src/pages/contact.html' },
+        { title: 'Login', url: 'src/auth/login.html' },
+        { title: 'Signup', url: 'src/auth/signup.html' }
+    ];
+
+    if (searchInput && searchResults) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+
+            if (query.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const filtered = searchableItems.filter(item => item.title.toLowerCase().includes(query));
+
+            if (filtered.length > 0) {
+                searchResults.style.display = 'block';
+                filtered.forEach(item => {
+                    const div = document.createElement('div');
+                    div.textContent = item.title;
+                    div.style.padding = '8px 12px';
+                    div.style.cursor = 'pointer';
+                    div.style.borderBottom = '1px solid #f0f0f0';
+                    div.onmouseover = () => div.style.background = '#f8f9fa';
+                    div.onmouseout = () => div.style.background = '#fff';
+                    div.onclick = () => {
+                        window.location.href = item.url;
+                    };
+                    searchResults.appendChild(div);
+                });
+            } else {
+                searchResults.style.display = 'block';
+                const div = document.createElement('div');
+                div.textContent = 'No results found';
+                div.style.padding = '8px 12px';
+                div.style.color = '#888';
+                searchResults.appendChild(div);
+            }
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    }
+}, 100);
