@@ -4,7 +4,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
             <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
+                <div class="codify-logo" onclick="window.location.href='/'" role="button" tabindex="0" aria-label="Codify Homepage">
                     <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
                     <span class="logo-text">Codify</span>
                 </div>
@@ -12,7 +12,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
 
             <nav class="codify-center-nav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/" class="${currentPath === '/' ? 'active-link' : ''}">Home</a></li>
+                    <li><a href="/" class="${currentPath === '/' || currentPath === '/index.html' ? 'active-link' : ''}">Home</a></li>
                     <li><a href="/courses" class="${currentPath.startsWith('/courses') ? 'active-link' : ''}">Courses</a></li>
                     <li><a href="/exam" class="${currentPath.includes('/exam') ? 'active-link' : ''}">Quizzes &amp; Exams</a></li>
                     <li><a href="/certificate" class="${currentPath.includes('/certificate') ? 'active-link' : ''}">Certificates</a></li>
@@ -21,34 +21,17 @@ document.getElementById('navbar-placeholder').innerHTML = `
             </nav>
 
             <div class="codify-right-group">
-                <!-- Codify Themed Search Box with Glassmorphism Dropdown & Keyboard SVG Icon -->
-<div class="codify-search-box">
-    <svg class="search-box-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-    </svg>
-    <input type="text" id="globalSiteSearch" placeholder="Search everything..." autocomplete="off" aria-label="Global Search">
-    <span class="search-kbd-icon" title="Quick Search Shortcut">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2" ry="2"></rect>
-            <path d="M6 8h.001"></path>
-            <path d="M10 8h.001"></path>
-            <path d="M14 8h.001"></path>
-            <path d="M18 8h.001"></path>
-            <path d="M6 12h.001"></path>
-            <path d="M10 12h.001"></path>
-            <path d="M14 12h.001"></path>
-            <path d="M18 12h.001"></path>
-            <path d="M7 16h10"></path>
-        </svg>
-    </span>
-    
-    <!-- Structured Glassmorphism Dropdown Results -->
-    <div id="globalSearchResults" class="codify-search-dropdown"></div>
-</div>
+                <div class="codify-search-box">
+                    <svg class="search-box-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                    <input type="text" id="globalSiteSearch" placeholder="Search everything..." autocomplete="off" aria-label="Global Search">
+                    <span class="search-kbd-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" ry="2"></rect><path d="M6 8h.001"></path><path d="M10 8h.001"></path><path d="M14 8h.001"></path><path d="M18 8h.001"></path><path d="M6 12h.001"></path><path d="M10 12h.001"></path><path d="M14 12h.001"></path><path d="M18 12h.001"></path><path d="M7 16h10"></path></svg>
+                    </span>
+                    <div id="globalSearchResults" class="codify-search-dropdown"></div>
+                </div>
                 <div class="codify-auth-group" id="authNavGroup">
-                    <a href="/src/auth/login.html" class="codify-btn-outline" title="Login">Login</a>
-                    <a href="/src/auth/signup.html" class="codify-btn-outline" title="Signup">Signup</a>
+                    <a href="/login" class="codify-btn-outline" title="Login">Login</a>
+                    <a href="/signup" class="codify-btn-outline" title="Signup">Signup</a>
                 </div>
             </div>
         </div>
