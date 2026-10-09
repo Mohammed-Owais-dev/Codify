@@ -73,160 +73,117 @@ document.getElementById('navbar-placeholder').innerHTML = `
     </header>
 `;
 
-// 2. Inject the Footer & Engineer Modal
-document.getElementById('footer-placeholder').innerHTML = `
-    <footer class="codify-footer">
-        <div>
-            Built with precision for future developers • Developed by
-            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="team-trigger">Codify Team</span>
-
-                <div class="team-popover" role="tooltip">
-                    <div class="popover-header">Core Engineers</div>
-                    <ul class="team-list">
-                        <li class="team-member interactive" onclick="openEngineerModal('owais')" style="font-weight: 700;">
-                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('feroz')">
-                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('basha')">
-                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('prasad')">
-                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
-                        </li>
-                    </ul>
-                </div>
-            </span>
-        </div>
-    </footer>
-
-    <div class="modal-overlay" id="engineerModal" aria-hidden="true">
-        <div class="modal-card">
-            <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
-
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div id="engAvatar" class="eng-avatar"></div>
-                <h2 id="engName" class="eng-name">Name</h2>
-                <p id="engId" class="eng-id">ID</p>
-                <span id="engRole" class="eng-role">Role</span>
-            </div>
-
-            <div class="eng-bio-box">
-                <p id="engBio">Bio goes here...</p>
-            </div>
-
-            <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">
-                    <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg> Email
-                </a>
-                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
-            </div>
-        </div>
-    </div>
-`;
-
-// 3. Global Search Logic Setup across all Pages & Topics
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
+    
+    let masterSearchIndex = null;
 
-    // Comprehensive global index of your site pages and topics
-    const globalDatabase = [
-        { title: 'Home Dashboard', category: 'General', url: 'index.html' },
-        { title: 'All Courses & Modules', category: 'Courses', url: 'src/pages/courses.html' },
-        { title: 'Quizzes & Final Exams', category: 'Assessment', url: 'src/pages/courses/exam.html' },
-        { title: 'Certificates & Credentials', category: 'General', url: 'src/pages/certificate.html' },
-        { title: 'Contact Support Team', category: 'General', url: 'src/pages/contact.html' },
-        { title: 'User Login', category: 'Authentication', url: 'src/auth/login.html' },
-        { title: 'Create Account (Signup)', category: 'Authentication', url: 'src/auth/signup.html' }
-        // Add any extra topic or lesson pages below as you build them:
-        // { title: 'Python Programming Basics', category: 'Courses', url: 'src/pages/courses/python.html' },
-    ];
+    // Automatically load and parse syllabus files into a unified search array
+    async function loadMasterIndex() {
+        if (masterSearchIndex) return masterSearchIndex;
+
+        try {
+            // List all your syllabus files here
+            const syllabusFiles = [
+                { path: '/html-syllabus.json', category: 'HTML' },
+                { path: '/java-syllabus.json', category: 'Java' },
+                { path: '/python-syllabus.json', category: 'Python' }
+            ];
+
+            let index = [
+                { title: 'Home Dashboard', category: 'General', url: 'index.html' },
+                { title: 'All Courses & Modules', category: 'Courses', url: 'src/pages/courses.html' },
+                { title: 'Quizzes & Final Exams', category: 'Assessment', url: 'src/pages/courses/exam.html' },
+                { title: 'Certificates & Credentials', category: 'General', url: 'src/pages/certificate.html' }
+            ];
+
+            for (let file of syllabusFiles) {
+                const response = await fetch(file.path);
+                const data = await response.json();
+                
+                // Loop through chapters and topics automatically
+                if (data.chapters) {
+                    data.chapters.forEach(chapter => {
+                        chapter.topics.forEach(topic => {
+                            index.push({
+                                title: `${topic.title} (${chapter.chapter_title})`,
+                                category: file.category,
+                                url: `src/pages/courses/${file.category.toLowerCase()}/${topic.file.replace('.md', '.html')}`
+                            });
+                        });
+                    });
+                }
+            }
+
+            masterSearchIndex = index;
+            return masterSearchIndex;
+        } catch (error) {
+            console.error('Error building search index from syllabi:', error);
+            return [];
+        }
+    }
 
     if (searchInput && searchResults) {
-        // Add focus effects matching standard input field interaction
-        searchInput.addEventListener('focus', () => {
-            searchInput.style.borderColor = '#6366f1'; // Codify accent border color
-            searchInput.style.backgroundColor = '#ffffff';
-        });
-        
-        searchInput.addEventListener('blur', () => {
-            searchInput.style.borderColor = '#e2e8f0';
-            searchInput.style.backgroundColor = '#f8fafc';
-        });
+        let debounceTimer;
 
         searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
             const query = this.value.toLowerCase().trim();
-            searchResults.innerHTML = '';
 
-            if (query.length === 0) {
-                searchResults.style.display = 'none';
-                return;
-            }
+            debounceTimer = setTimeout(async () => {
+                searchResults.innerHTML = '';
 
-            const matches = globalDatabase.filter(item => 
-                item.title.toLowerCase().includes(query) || 
-                item.category.toLowerCase().includes(query)
-            );
+                if (query.length === 0) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
 
-            if (matches.length > 0) {
-                searchResults.style.display = 'block';
-                matches.forEach(item => {
-                    const row = document.createElement('div');
-                    row.style.padding = '10px 14px';
-                    row.style.cursor = 'pointer';
-                    row.style.borderBottom = '1px solid #f1f5f9';
-                    row.style.display = 'flex';
-                    row.style.justifyContent = 'space-between';
-                    row.style.alignItems = 'center';
+                const database = await loadMasterIndex();
+                const keywords = query.split(/\s+/);
 
-                    const titleSpan = document.createElement('span');
-                    titleSpan.textContent = item.title;
-                    titleSpan.style.fontSize = '13px';
-                    titleSpan.style.fontWeight = '500';
-                    titleSpan.style.color = '#1e293b';
-
-                    const catBadge = document.createElement('span');
-                    catBadge.textContent = item.category;
-                    catBadge.style.fontSize = '11px';
-                    catBadge.style.padding = '2px 6px';
-                    catBadge.style.borderRadius = '4px';
-                    catBadge.style.backgroundColor = '#e0e7ff';
-                    catBadge.style.color = '#4338ca';
-
-                    row.appendChild(titleSpan);
-                    row.appendChild(catBadge);
-
-                    row.onmouseover = () => row.style.backgroundColor = '#f8fafc';
-                    row.onmouseout = () => row.style.backgroundColor = '#ffffff';
-                    
-                    row.onclick = () => {
-                        window.location.href = '/' + item.url.replace(/^\/+/, '');
-                    };
-
-                    searchResults.appendChild(row);
+                const matches = database.filter(item => {
+                    const searchableText = `${item.title} ${item.category}`.toLowerCase();
+                    return keywords.every(kw => searchableText.includes(kw));
                 });
-            } else {
-                searchResults.style.display = 'block';
-                const emptyRow = document.createElement('div');
-                emptyRow.textContent = 'No matching pages or topics found';
-                emptyRow.style.padding = '12px 14px';
-                emptyRow.style.fontSize = '13px';
-                emptyRow.style.color = '#64748b';
-                emptyRow.style.textAlign = 'center';
-                searchResults.appendChild(emptyRow);
-            }
+
+                if (matches.length > 0) {
+                    searchResults.style.display = 'block';
+                    const fragment = document.createDocumentFragment();
+
+                    matches.forEach(item => {
+                        const row = document.createElement('div');
+                        row.style.cssText = 'padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;';
+
+                        const titleSpan = document.createElement('span');
+                        titleSpan.textContent = item.title;
+                        titleSpan.style.cssText = 'font-size: 13px; font-weight: 500; color: #1e293b;';
+
+                        const catBadge = document.createElement('span');
+                        catBadge.textContent = item.category;
+                        catBadge.style.cssText = 'font-size: 11px; padding: 2px 6px; border-radius: 4px; background-color: #e0e7ff; color: #4338ca; white-space: nowrap;';
+
+                        row.appendChild(titleSpan);
+                        row.appendChild(catBadge);
+
+                        row.onmouseover = () => row.style.backgroundColor = '#f8fafc';
+                        row.onmouseout = () => row.style.backgroundColor = '#ffffff';
+                        
+                        row.onclick = () => {
+                            window.location.href = '/' + item.url.replace(/^\/+/, '');
+                        };
+
+                        fragment.appendChild(row);
+                    });
+
+                    searchResults.appendChild(fragment);
+                } else {
+                    searchResults.style.display = 'block';
+                    searchResults.innerHTML = '<div style="padding: 12px 14px; font-size: 13px; color: #64748b; text-align: center;">No matching topics found</div>';
+                }
+            }, 30);
         });
 
-        // Hide results when clicking outside
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.style.display = 'none';
