@@ -1,4 +1,4 @@
-// components.js - Codify Shared Components & Global Search Engine (Cyberpunk Glassmorphism)
+// components.js - Codify Shared Components & Global Search Engine (Keyboard Nav Enabled)
 
 // 1. Inject the Top Navigation Bar & Global Search matching Codify Theme
 document.getElementById('navbar-placeholder').innerHTML = `
@@ -41,7 +41,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
                         top: calc(100% + 10px); 
                         right: 0; 
                         width: 440px; 
-                        background: rgba(13, 27, 42, 0.85); 
+                        background: rgba(13, 27, 42, 0.88); 
                         backdrop-filter: blur(16px); 
                         -webkit-backdrop-filter: blur(16px); 
                         border: 1.5px solid rgba(0, 170, 255, 0.35); 
@@ -153,12 +153,13 @@ document.getElementById('footer-placeholder').innerHTML = `
     </div>
 `;
 
-// 3. Dynamic Clean-URL Syllabus Search Engine Setup
+// 3. Dynamic Clean-URL Syllabus Search Engine Setup with Arrow Key Support
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
     
     let masterSearchIndex = null;
+    let currentFocus = -1;
 
     async function loadMasterIndex() {
         if (masterSearchIndex) return masterSearchIndex;
@@ -212,11 +213,32 @@ setTimeout(() => {
         }
     }
 
+    function addActive(rows) {
+        if (!rows || rows.length === 0) return;
+        removeActive(rows);
+        if (currentFocus >= rows.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = rows.length - 1;
+        
+        rows[currentFocus].style.backgroundColor = 'rgba(0, 170, 255, 0.22)';
+        rows[currentFocus].style.transform = 'translateX(6px)';
+        rows[currentFocus].style.borderColor = 'rgba(0, 170, 255, 0.5)';
+        rows[currentFocus].scrollIntoView({ block: 'nearest' });
+    }
+
+    function removeActive(rows) {
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.backgroundColor = 'transparent';
+            rows[i].style.transform = 'translateX(0px)';
+            rows[i].style.borderColor = 'transparent';
+        }
+    }
+
     if (searchInput && searchResults) {
         let debounceTimer;
 
         searchInput.addEventListener('input', function() {
             clearTimeout(debounceTimer);
+            currentFocus = -1;
             const query = this.value.toLowerCase().trim();
 
             debounceTimer = setTimeout(async () => {
@@ -239,18 +261,19 @@ setTimeout(() => {
                     searchResults.style.display = 'block';
                     const fragment = document.createDocumentFragment();
 
-                    matches.forEach(item => {
+                    matches.forEach((item, idx) => {
                         const row = document.createElement('div');
                         row.style.cssText = `
                             padding: 12px 16px; 
                             cursor: pointer; 
-                            border-bottom: 1px solid rgba(0, 170, 255, 0.1); 
+                            border-bottom: 1px solid rgba(0, 170, 255, 0.08); 
                             display: flex; 
                             justify-content: space-between; 
                             align-items: center; 
                             border-radius: 10px;
-                            transition: all 0.2s ease;
+                            transition: background 0.2s ease, transform 0.2s ease;
                             margin-bottom: 4px;
+                            border: 1px solid transparent;
                         `;
 
                         const titleSpan = document.createElement('span');
@@ -265,12 +288,11 @@ setTimeout(() => {
                         row.appendChild(catBadge);
 
                         row.onmouseover = () => {
-                            row.style.backgroundColor = 'rgba(0, 170, 255, 0.18)';
-                            row.style.transform = 'translateX(4px)';
+                            currentFocus = idx;
+                            addActive(searchResults.children);
                         };
                         row.onmouseout = () => {
-                            row.style.backgroundColor = 'transparent';
-                            row.style.transform = 'translateX(0px)';
+                            removeActive(searchResults.children);
                         };
                         
                         row.onclick = () => {
@@ -286,6 +308,27 @@ setTimeout(() => {
                     searchResults.innerHTML = '<div style="padding: 20px; font-size: 13.5px; color: #94a3b8; text-align: center; font-weight: 500;">No matching course topics found</div>';
                 }
             }, 30);
+        });
+
+        // Keydown listener for Arrow navigation, Enter selection, and ⌘K
+        searchInput.addEventListener('keydown', function(e) {
+            const rows = searchResults.children;
+            if (searchResults.style.display === 'block' && rows.length > 0) {
+                if (e.key === 'ArrowDown') {
+                    currentFocus++;
+                    addActive(rows);
+                    e.preventDefault();
+                } else if (e.key === 'ArrowUp') {
+                    currentFocus--;
+                    addActive(rows);
+                    e.preventDefault();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (currentFocus > -1 && rows[currentFocus]) {
+                        rows[currentFocus].click();
+                    }
+                }
+            }
         });
 
         // Global shortcut (⌘K) to focus search
