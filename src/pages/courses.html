@@ -715,6 +715,13 @@
     }
 }
 
+// Instantiate controllers upon DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    handleResponsiveAuthLayout();
+    new NavigationController();
+    new AuthManager();
+});
+
     </script>
 </body>
 
