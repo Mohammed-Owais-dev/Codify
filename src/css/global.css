@@ -38,13 +38,16 @@ html {
     box-sizing: border-box;
 }
 
+
 .codify-header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 32px !important;
+    max-width: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
 }
 
 .codify-left-group, .codify-right-group {
@@ -54,8 +57,8 @@ html {
 }
 
 .codify-logo {
-    font-size: 1.8rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: 800;
     color: #00aaff;
     text-shadow: 0 0 12px rgba(0, 170, 255, 0.7);
     cursor: pointer;
@@ -63,6 +66,13 @@ html {
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
 }
 
 .codify-logo:hover {
