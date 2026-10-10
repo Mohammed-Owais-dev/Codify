@@ -568,30 +568,30 @@
             }
 
             applyEnrollmentUI(enrolledCourseIds) {
-                const enrolledSet = new Set(enrolledCourseIds.map(id => (id || '').toLowerCase().trim()));
+    const enrolledSet = new Set(enrolledCourseIds.map(id => (id || '').toLowerCase().trim()));
 
-                this.actionButtons.forEach(button => {
-                    const courseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
-                    const indexUrl = button.getAttribute('data-index-url');
+    this.actionButtons.forEach(button => {
+        const courseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
+        const rawIndexUrl = button.getAttribute('data-index-url');
+        
+        // Extract base course slug (e.g., 'c-101' becomes 'c', or keep as is)
+        const baseSlug = courseId.replace('-101', '');
 
-                    const isEnrolled = enrolledSet.has(courseId) || 
-                                       (courseId === 'java-101' && enrolledSet.has('java')) ||
-                                       (courseId === 'html-101' && enrolledSet.has('html')) ||
-                                       (courseId === 'python-101' && enrolledSet.has('python')) ||
-                                       (courseId === 'c-101' && enrolledSet.has('c')) ||
-                                       (courseId === 'cpp-101' && enrolledSet.has('cpp'));
+        const isEnrolled = enrolledSet.has(courseId) || 
+                           enrolledSet.has(baseSlug) ||
+                           enrolledSet.has(courseId + '-101');
 
-                    if (isEnrolled && indexUrl && indexUrl !== '#') {
-                        button.innerText = 'Continue Learning';
-                        button.setAttribute('href', indexUrl);
-                        button.classList.add('enrolled-btn');
-                    } else {
-                        button.innerText = 'Enroll Now';
-                        button.classList.remove('enrolled-btn');
-                    }
-                    button.classList.add('ready');
-                });
-            }
+        if (isEnrolled && rawIndexUrl && rawIndexUrl !== '#') {
+            button.innerText = 'Continue Learning';
+            button.setAttribute('href', rawIndexUrl);
+            button.classList.add('enrolled-btn');
+        } else {
+            button.innerText = 'Enroll Now';
+            button.classList.remove('enrolled-btn');
+        }
+        button.classList.add('ready');
+    });
+}
 
             async initAuth() {
                 const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
