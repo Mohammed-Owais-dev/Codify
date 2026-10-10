@@ -15,8 +15,7 @@
     <link rel="icon" type="image/svg+xml" href="src/assets/logos/main-logo.svg">
     <!-- <link rel="stylesheet" href="src/css/style.css"> -->
     <link rel="stylesheet" href="src/css/global.css">
-    <script>document.documentElement.classList.add('js');</script>
-    <title>Codify | Learn to Code - From "Hello World" to "Hire Me"</title>
+    <title>Codify | Master Computer Science & Development</title>
 
     <style>
         /* ==========================================================================
@@ -940,173 +939,6 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
-    
-        /* ==========================================================================
-           HOME 2.0  (all classes prefixed hm- to avoid clashing with shared styles)
-           ========================================================================== */
-        :root { --hm-blue: #00aaff; --hm-deep: #0077ff; --hm-green: #00e0a4; --hm-card: rgba(13, 27, 42, 0.55); --hm-line: rgba(0, 170, 255, 0.2); }
-
-        .hm-grad { background: linear-gradient(90deg, #0077ff, #00aaff 60%, #00e0a4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .hm-center { text-align: center; margin-top: 32px; }
-
-        .hm-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 3000; background: linear-gradient(90deg, #0077ff, #00aaff, #00e0a4); box-shadow: 0 0 10px rgba(0, 170, 255, .8); }
-
-        .hm-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-        .hm-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 170, 255, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 170, 255, .06) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%); mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 75%); }
-        .hm-bg-orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
-        .hm-orb-1 { width: 480px; height: 480px; background: rgba(0, 119, 255, .35); top: -120px; left: -100px; animation: hmDrift 18s ease-in-out infinite alternate; }
-        .hm-orb-2 { width: 420px; height: 420px; background: rgba(0, 224, 164, .18); top: 35%; right: -120px; animation: hmDrift 22s ease-in-out infinite alternate-reverse; }
-        .hm-cursor-glow { position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 170, 255, .14), transparent 65%); transform: translate(-50%, -50%); left: 50%; top: 30%; transition: left .25s ease-out, top .25s ease-out; }
-        @keyframes hmDrift { to { transform: translate(60px, 70px) scale(1.15); } }
-
-        /* ---- hero ---- */
-        .hm-hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding: 48px 32px 24px; position: relative; z-index: 2; }
-        .hm-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(0, 170, 255, .1); border: 1px solid rgba(0, 170, 255, .3); color: #8fd8ff; padding: 7px 16px; border-radius: 999px; font-size: .88rem; font-weight: 700; margin-bottom: 22px; }
-        .hm-pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hm-green); box-shadow: 0 0 0 0 rgba(0, 224, 164, .7); animation: hmPulse 1.8s infinite; }
-        @keyframes hmPulse { 70% { box-shadow: 0 0 0 10px rgba(0, 224, 164, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 224, 164, 0); } }
-        .hm-title { font-size: clamp(2.3rem, 5vw, 3.9rem); line-height: 1.15; font-weight: 800; color: #fff; letter-spacing: -.5px; margin-bottom: 20px; }
-        .hm-typed-wrap { display: inline-block; min-width: 3ch; }
-        .hm-caret { display: inline-block; width: 3px; height: 1em; background: var(--hm-blue); margin-left: 3px; vertical-align: text-bottom; animation: hmBlink 1s steps(1) infinite; }
-        @keyframes hmBlink { 50% { opacity: 0; } }
-        .hm-sub { color: #9fb0c6; font-size: 1.12rem; line-height: 1.7; max-width: 560px; margin-bottom: 30px; }
-        .hm-cta { display: flex; gap: 14px; flex-wrap: wrap; }
-        .hm-btn-big { padding: 16px 32px !important; font-size: 1.05rem !important; min-height: 54px; border-radius: 14px !important; }
-        .btn-primary-glow { position: relative; overflow: hidden; }
-        .btn-primary-glow::after { content: ''; position: absolute; top: 0; left: -80%; width: 50%; height: 100%; background: linear-gradient(120deg, transparent, rgba(255, 255, 255, .35), transparent); transform: skewX(-20deg); animation: hmShine 3.8s ease-in-out infinite; }
-        @keyframes hmShine { 0%, 55% { left: -80%; } 100% { left: 140%; } }
-        .hm-trust { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; margin-top: 26px; color: #9fb0c6; font-size: .9rem; font-weight: 600; }
-        .hm-trust li { display: flex; align-items: center; gap: 6px; }
-
-        .hm-hero-visual { position: relative; }
-        .hm-terminal { background: rgba(8, 16, 30, .92); border: 1px solid rgba(0, 170, 255, .35); border-radius: 18px; box-shadow: 0 25px 70px rgba(0, 0, 0, .55), 0 0 50px rgba(0, 170, 255, .18); overflow: hidden; transform-style: preserve-3d; transition: transform .15s ease-out; }
-        .hm-term-bar { display: flex; align-items: center; gap: 7px; padding: 12px 16px; background: rgba(0, 170, 255, .07); border-bottom: 1px solid var(--hm-line); }
-        .hm-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .hm-r { background: #ff5f57; } .hm-y { background: #febc2e; } .hm-g { background: #28c840; }
-        .hm-term-title { margin-left: 10px; color: #7f93ad; font-size: .82rem; font-weight: 700; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-        .hm-term-body { margin: 0; padding: 22px 22px 14px; min-height: 190px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .95rem; line-height: 1.75; color: #d6e4f5; white-space: pre-wrap; word-break: break-word; }
-        .hm-term-body code { font-family: inherit; }
-        .hm-term-body .hm-caret { height: 1.05em; }
-        .hm-term-out { padding: 14px 22px 20px; min-height: 64px; border-top: 1px dashed var(--hm-line); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92rem; color: var(--hm-green); background: rgba(0, 224, 164, .04); }
-        .tk-k { color: #ff7ab2; } .tk-s { color: #8bd5a1; } .tk-f { color: #66ccff; } .tk-c { color: #6b7f99; } .tk-n { color: #ffcb6b; }
-        .hm-float { position: absolute; width: 58px; height: 58px; border-radius: 16px; background: rgba(13, 27, 42, .9); border: 1px solid var(--hm-line); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0, 0, 0, .45); z-index: 3; animation: hmFloat 6s ease-in-out infinite; }
-        .hm-float img { width: 34px; height: 34px; object-fit: contain; }
-        .hm-float-1 { top: -22px; right: 28px; } .hm-float-2 { bottom: 34px; left: -26px; animation-delay: -1.5s; } .hm-float-3 { top: 45%; right: -24px; animation-delay: -3s; } .hm-float-4 { bottom: -22px; right: 22%; animation-delay: -4.5s; }
-        @keyframes hmFloat { 50% { transform: translateY(-14px); } }
-
-        /* ---- stats ---- */
-        .hm-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 40px 32px; padding: 26px; background: var(--hm-card); border: 1px solid var(--hm-line); border-radius: 22px; backdrop-filter: blur(14px); position: relative; z-index: 2; }
-        .hm-stat { text-align: center; padding: 6px; }
-        .hm-stat strong { display: block; font-size: 2.4rem; font-weight: 800; color: #fff; line-height: 1.1; }
-        .hm-stat span { color: #8fa3bd; font-size: .92rem; font-weight: 600; }
-
-        /* ---- sections ---- */
-        .hm-section { padding: 64px 32px 8px; position: relative; z-index: 2; scroll-margin-top: 90px; }
-        .hm-section-head { text-align: center; max-width: 720px; margin: 0 auto 36px; }
-        .hm-eyebrow { display: inline-block; color: var(--hm-blue); font-size: .8rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-        .hm-section-head h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); color: #fff; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
-        .hm-section-head p { color: #9fb0c6; font-size: 1.05rem; line-height: 1.6; }
-
-        /* reveal on scroll (only hides when JS is running, so no-JS users still see everything) */
-        .js .hm-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.16, 1, .3, 1); }
-        .js .hm-reveal.hm-in { opacity: 1; transform: none; }
-
-        /* ---- course explorer ---- */
-        .hm-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
-        .hm-chip { background: rgba(13, 27, 42, .7); color: #c9d6e6; border: 1px solid var(--hm-line); padding: 10px 20px; border-radius: 999px; font-weight: 700; font-size: .95rem; cursor: pointer; transition: all .2s ease; font-family: inherit; }
-        .hm-chip:hover { border-color: var(--hm-blue); color: #fff; transform: translateY(-2px); }
-        .hm-chip.active { background: linear-gradient(90deg, #0077ff, #00aaff); color: #fff; border-color: transparent; box-shadow: 0 6px 20px rgba(0, 170, 255, .35); }
-        .hm-course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
-        .hm-course { display: flex; align-items: center; gap: 16px; padding: 18px 20px; background: var(--hm-card); border: 1px solid var(--hm-line); border-radius: 18px; text-decoration: none; color: inherit; backdrop-filter: blur(12px); position: relative; overflow: hidden; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, opacity .3s ease; }
-        .hm-course::before { content: ''; position: absolute; inset: 0; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(0, 170, 255, .16), transparent 60%); opacity: 0; transition: opacity .25s; }
-        .hm-course:hover::before { opacity: 1; }
-        .hm-course:hover { transform: translateY(-6px); border-color: rgba(0, 170, 255, .65); box-shadow: 0 16px 36px rgba(0, 170, 255, .18); }
-        .hm-course img { width: 56px; height: 56px; border-radius: 14px; object-fit: contain; background: #fff; padding: 6px; flex-shrink: 0; position: relative; }
-        .hm-course > div { flex: 1; min-width: 0; position: relative; }
-        .hm-course h3 { color: #fff; font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
-        .hm-course p { color: #94a3b8; font-size: .88rem; line-height: 1.45; }
-        .hm-meta { display: flex; gap: 10px; margin-top: 8px; }
-        .hm-meta span { font-size: .75rem; font-weight: 700; color: #7fc8ff; background: rgba(0, 170, 255, .1); padding: 3px 9px; border-radius: 6px; }
-        .hm-pill { font-size: .78rem; font-weight: 800; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--hm-line); color: #8fa3bd; position: relative; flex-shrink: 0; }
-        .hm-pill-live { background: rgba(0, 224, 164, .12); color: var(--hm-green); border-color: rgba(0, 224, 164, .4); }
-        .hm-course:hover .hm-pill-live { background: var(--hm-green); color: #04231a; }
-        .hm-soon { opacity: .72; }
-        .hm-course.hm-hide { display: none; }
-        .hm-empty { text-align: center; color: #9fb0c6; margin-top: 20px; }
-
-        /* ---- playground ---- */
-        .hm-play { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 1100px; margin: 0 auto; }
-        .hm-play-pane { background: rgba(8, 16, 30, .92); border: 1px solid rgba(0, 170, 255, .3); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; min-height: 340px; box-shadow: 0 18px 50px rgba(0, 0, 0, .4); }
-        .hm-pane-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; background: rgba(0, 170, 255, .07); border-bottom: 1px solid var(--hm-line); color: #8fa3bd; font-size: .82rem; font-weight: 800; font-family: ui-monospace, Menlo, Consolas, monospace; }
-        .hm-presets { display: flex; gap: 6px; }
-        .hm-presets button { background: transparent; color: #8fd8ff; border: 1px solid var(--hm-line); border-radius: 8px; padding: 4px 10px; font-size: .75rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .2s; }
-        .hm-presets button:hover { background: rgba(0, 170, 255, .18); color: #fff; }
-        .hm-live { color: var(--hm-green); display: flex; align-items: center; gap: 6px; }
-        .hm-live i { width: 7px; height: 7px; border-radius: 50%; background: var(--hm-green); animation: hmPulse 1.8s infinite; }
-        #hmEditor { flex: 1; width: 100%; min-height: 290px; resize: none; background: transparent; color: #d6e4f5; border: 0; outline: 0; padding: 16px 18px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92rem; line-height: 1.7; tab-size: 2; }
-        #hmEditor:focus { box-shadow: inset 0 0 0 2px rgba(0, 170, 255, .45); }
-        #hmPreview { flex: 1; width: 100%; min-height: 290px; border: 0; background: #fff; }
-
-        /* ---- steps ---- */
-        .hm-steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; counter-reset: s; }
-        .hm-steps::before { content: ''; position: absolute; top: 28px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, transparent, var(--hm-blue), transparent); opacity: .5; }
-        .hm-steps li { text-align: center; padding: 0 8px; position: relative; }
-        .hm-step-n { width: 56px; height: 56px; margin: 0 auto 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800; color: #fff; background: linear-gradient(135deg, #0077ff, #00aaff); box-shadow: 0 0 0 6px rgba(0, 170, 255, .15), 0 8px 24px rgba(0, 170, 255, .4); transition: transform .3s; }
-        .hm-steps li:hover .hm-step-n { transform: scale(1.12) rotate(-6deg); }
-        .hm-steps h3 { color: #fff; font-size: 1.1rem; margin-bottom: 6px; font-weight: 800; }
-        .hm-steps p { color: #94a3b8; font-size: .92rem; line-height: 1.55; }
-
-        /* ---- features ---- */
-        .hm-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px; }
-        .hm-feature { content-visibility: visible !important; }
-
-        /* ---- faq ---- */
-        .hm-faq { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .hm-faq details { background: var(--hm-card); border: 1px solid var(--hm-line); border-radius: 14px; padding: 0 20px; transition: border-color .2s, background .2s; }
-        .hm-faq details[open] { border-color: rgba(0, 170, 255, .6); background: rgba(0, 170, 255, .06); }
-        .hm-faq summary { cursor: pointer; list-style: none; padding: 18px 0; color: #fff; font-weight: 700; font-size: 1.02rem; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-        .hm-faq summary::-webkit-details-marker { display: none; }
-        .hm-faq summary::after { content: '+'; color: var(--hm-blue); font-size: 1.5rem; font-weight: 400; transition: transform .25s; }
-        .hm-faq details[open] summary::after { transform: rotate(45deg); }
-        .hm-faq details p { color: #9fb0c6; padding: 0 0 18px; line-height: 1.65; }
-
-        /* ---- final cta ---- */
-        .hm-final { text-align: center; margin: 72px 32px 64px; padding: 56px 24px; border-radius: 28px; border: 1px solid rgba(0, 170, 255, .4); background: radial-gradient(circle at 50% 0%, rgba(0, 170, 255, .22), rgba(13, 27, 42, .7) 65%); box-shadow: 0 0 60px rgba(0, 170, 255, .15); position: relative; z-index: 2; }
-        .hm-final h2 { font-size: clamp(1.7rem, 3.6vw, 2.5rem); color: #fff; font-weight: 800; margin-bottom: 12px; }
-        .hm-final p { color: #9fb0c6; font-size: 1.05rem; margin-bottom: 26px; }
-        .hm-final .hm-cta { justify-content: center; }
-
-        /* ---- back to top ---- */
-        .hm-top { position: fixed; right: 22px; bottom: 22px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(0, 170, 255, .5); background: rgba(13, 27, 42, .92); color: var(--hm-blue); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1500; opacity: 0; visibility: hidden; transform: translateY(12px); transition: all .3s; box-shadow: 0 8px 24px rgba(0, 0, 0, .5); }
-        .hm-top.show { opacity: 1; visibility: visible; transform: none; }
-        .hm-top:hover { background: var(--hm-blue); color: #04121f; }
-
-        a:focus-visible, button:focus-visible, summary:focus-visible, textarea:focus-visible { outline: 2px solid var(--hm-blue); outline-offset: 3px; }
-
-        /* ---- responsive ---- */
-        @media (max-width: 1000px) {
-            .hm-hero { grid-template-columns: 1fr; text-align: center; padding: 28px 18px 8px; gap: 40px; }
-            .hm-sub { margin-left: auto; margin-right: auto; }
-            .hm-cta, .hm-trust { justify-content: center; }
-            .hm-hero-visual { max-width: 560px; margin: 0 auto; width: 100%; }
-            .hm-term-body { text-align: left; }
-            .hm-play { grid-template-columns: 1fr; }
-            .hm-steps { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
-            .hm-steps::before { display: none; }
-        }
-        @media (max-width: 700px) {
-            .hm-stats { grid-template-columns: repeat(2, 1fr); margin: 32px 16px; }
-            .hm-section { padding: 48px 16px 4px; }
-            .hm-final { margin: 56px 16px 48px; padding: 40px 18px; }
-            .hm-hero .hm-cta { flex-direction: column; }
-            .hm-hero .hm-cta a, .hm-final .hm-cta a { width: 100%; }
-            .hm-float-2, .hm-float-3 { display: none; }
-            .hm-steps { grid-template-columns: 1fr; }
-            .hm-stat strong { font-size: 2rem; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation: none !important; transition: none !important; }
-            .js .hm-reveal { opacity: 1; transform: none; }
-        }
     </style>
 </head>
 
@@ -1114,293 +946,82 @@
 
     <div id="navbar-placeholder"></div>
 
-        <!-- Scroll progress + ambient background -->
-    <div class="hm-progress" id="hmProgress" aria-hidden="true"></div>
-    <div class="hm-bg" aria-hidden="true">
-        <div class="hm-bg-grid"></div>
-        <div class="hm-bg-orb hm-orb-1"></div>
-        <div class="hm-bg-orb hm-orb-2"></div>
-        <div class="hm-cursor-glow" id="hmCursorGlow"></div>
-    </div>
-
     <main>
-        <!-- ================= HERO ================= -->
-        <section class="hm-hero" aria-labelledby="heroHeading">
-            <div class="hm-hero-text">
-                <div class="hm-badge" id="hmBadge">
-                    <span class="hm-pulse-dot"></span>
-                    <span id="hmBadgeText">5 courses live &bull; 100% free to start</span>
+        <section class="hero-section visible" aria-labelledby="heroHeading">
+            <div class="hero-badge" style="display: inline-flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    style="color: #00aaff; filter: drop-shadow(0 0 6px rgba(0, 170, 255, 0.5));">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                <span>Welcome to Next-Gen Learning</span>
+            </div>
+
+            <h1 class="hero-title" id="heroHeading">
+                Go from <span>"Hello World"</span> to <span>"Hire Me"</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Master modern computer science, algorithms, and practical software development through interactive,
+                step-by-step tutorials designed for modern developers.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="/courses" class="btn-primary-glow">
+                    Explore Courses
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+                <a href="#features" class="btn-secondary-outline">Learn More</a>
+            </div>
+        </section>
+
+        <section class="features-grid visible" id="features" aria-labelledby="featuresHeading">
+            <h2 id="featuresHeading" class="visually-hidden">Key Features</h2>
+
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
                 </div>
-
-                <h1 class="hm-title" id="heroHeading">
-                    Go from <span class="hm-grad">"Hello World"</span><br>
-                    to <span class="hm-grad hm-typed-wrap"><span id="hmTyped">"Hire Me"</span><span class="hm-caret"></span></span>
-                </h1>
-
-                <p class="hm-sub">
-                    Learn to code by actually coding. Short lessons, hands-on practice, quizzes after every
-                    chapter and a verified certificate when you finish. Pick a course and start in under a minute.
+                <h3>Structured Matrix</h3>
+                <p>Carefully hand-crafted course paths covering foundational C, C++, Python, Web Dev, and SQL databases.
                 </p>
+            </div>
 
-                <div class="hm-cta">
-                    <a href="/courses" class="btn-primary-glow hm-btn-big" id="hmPrimaryCta">
-                        Start Learning Free
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </a>
-                    <a href="#playground" class="btn-secondary-outline hm-btn-big">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:8px"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        Try Code Now
-                    </a>
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
                 </div>
-
-                <ul class="hm-trust">
-                    <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e0a4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> No credit card</li>
-                    <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e0a4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Learn at your pace</li>
-                    <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e0a4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Certificate included</li>
-                </ul>
+                <h3>Hands-On Practice</h3>
+                <p>Learn by building real software projects and completing interactive quizzes to lock in core concepts.
+                </p>
             </div>
 
-            <!-- Animated terminal -->
-            <div class="hm-hero-visual" aria-hidden="true">
-                <div class="hm-float hm-float-1"><img src="/src/assets/logos/python.webp" alt=""></div>
-                <div class="hm-float hm-float-2"><img src="/src/assets/logos/java.webp" alt=""></div>
-                <div class="hm-float hm-float-3"><img src="/src/assets/logos/html.webp" alt=""></div>
-                <div class="hm-float hm-float-4"><img src="/src/assets/logos/cpp.webp" alt=""></div>
-
-                <div class="hm-terminal" id="hmTerminal">
-                    <div class="hm-term-bar">
-                        <span class="hm-dot hm-r"></span><span class="hm-dot hm-y"></span><span class="hm-dot hm-g"></span>
-                        <span class="hm-term-title" id="hmTermTitle">hello.py</span>
-                    </div>
-                    <pre class="hm-term-body"><code id="hmTermCode"></code><span class="hm-caret"></span></pre>
-                    <div class="hm-term-out" id="hmTermOut"></div>
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
                 </div>
-            </div>
-        </section>
-
-        <!-- ================= STATS ================= -->
-        <section class="hm-stats hm-reveal" aria-label="Codify at a glance">
-            <div class="hm-stat"><strong data-count="5">0</strong><span>Live courses</span></div>
-            <div class="hm-stat"><strong data-count="50">0</strong><span>Chapters</span></div>
-            <div class="hm-stat"><strong data-count="241" data-suffix="+">0</strong><span>Bite-sized lessons</span></div>
-            <div class="hm-stat"><strong data-count="5" data-prefix="">0</strong><span>Certificates to earn</span></div>
-        </section>
-
-        <!-- ================= COURSE EXPLORER ================= -->
-        <section class="hm-section hm-reveal" id="courses" aria-labelledby="coursesHeading">
-            <div class="hm-section-head">
-                <span class="hm-eyebrow">Pick your path</span>
-                <h2 id="coursesHeading">What do you want to <span class="hm-grad">build</span> first?</h2>
-                <p>Not sure where to begin? Choose a goal and we'll point you to the right course.</p>
-            </div>
-
-            <div class="hm-chips" role="tablist" aria-label="Filter courses by goal">
-                <button class="hm-chip active" role="tab" aria-selected="true" data-filter="all">All</button>
-                <button class="hm-chip" role="tab" aria-selected="false" data-filter="web">Websites</button>
-                <button class="hm-chip" role="tab" aria-selected="false" data-filter="software">Software &amp; Apps</button>
-                <button class="hm-chip" role="tab" aria-selected="false" data-filter="beginner">Total beginner</button>
-                <button class="hm-chip" role="tab" aria-selected="false" data-filter="data">Data &amp; AI</button>
-            </div>
-
-            <div class="hm-course-grid" id="hmCourseGrid">
-                <a class="hm-course" data-tags="beginner data" href="/src/pages/courses/course-enroll.html?course=python">
-                    <img src="/src/assets/logos/python.webp" alt="" loading="lazy">
-                    <div>
-                        <h3>Python for Beginners</h3>
-                        <p>Scripting, automation, data science and ML basics.</p>
-                        <div class="hm-meta"><span>10 chapters</span><span>50 lessons</span></div>
-                    </div>
-                    <span class="hm-pill hm-pill-live">Start</span>
-                </a>
-                <a class="hm-course" data-tags="web beginner" href="/src/pages/courses/course-enroll.html?course=html">
-                    <img src="/src/assets/logos/html.webp" alt="" loading="lazy">
-                    <div>
-                        <h3>HTML</h3>
-                        <p>Build your first real website with semantic markup.</p>
-                        <div class="hm-meta"><span>10 chapters</span><span>41 lessons</span></div>
-                    </div>
-                    <span class="hm-pill hm-pill-live">Start</span>
-                </a>
-                <a class="hm-course" data-tags="software beginner" href="/src/pages/courses/course-enroll.html?course=c">
-                    <img src="/src/assets/logos/c.webp" alt="" loading="lazy">
-                    <div>
-                        <h3>C Programming</h3>
-                        <p>The mother of languages. Master core coding logic.</p>
-                        <div class="hm-meta"><span>10 chapters</span><span>50 lessons</span></div>
-                    </div>
-                    <span class="hm-pill hm-pill-live">Start</span>
-                </a>
-                <a class="hm-course" data-tags="software" href="/src/pages/courses/course-enroll.html?course=cpp">
-                    <img src="/src/assets/logos/cpp.webp" alt="" loading="lazy">
-                    <div>
-                        <h3>C++ &amp; OOPs</h3>
-                        <p>Object-oriented design and high-performance apps.</p>
-                        <div class="hm-meta"><span>10 chapters</span><span>50 lessons</span></div>
-                    </div>
-                    <span class="hm-pill hm-pill-live">Start</span>
-                </a>
-                <a class="hm-course" data-tags="software" href="/src/pages/courses/course-enroll.html?course=java">
-                    <img src="/src/assets/logos/java.webp" alt="" loading="lazy">
-                    <div>
-                        <h3>Java Programming</h3>
-                        <p>Enterprise-ready backends and Android foundations.</p>
-                        <div class="hm-meta"><span>10 chapters</span><span>50 lessons</span></div>
-                    </div>
-                    <span class="hm-pill hm-pill-live">Start</span>
-                </a>
-                <a class="hm-course hm-soon" data-tags="web" href="/courses">
-                    <img src="/src/assets/logos/css.webp" alt="" loading="lazy">
-                    <div><h3>CSS</h3><p>Flexbox, Grid, animations and responsive design.</p></div>
-                    <span class="hm-pill">Soon</span>
-                </a>
-                <a class="hm-course hm-soon" data-tags="web software" href="/courses">
-                    <img src="/src/assets/logos/js.webp" alt="" loading="lazy">
-                    <div><h3>JavaScript</h3><p>DOM, async code and real interactive web apps.</p></div>
-                    <span class="hm-pill">Soon</span>
-                </a>
-                <a class="hm-course hm-soon" data-tags="data" href="/courses">
-                    <img src="/src/assets/logos/dbms.png" alt="" loading="lazy">
-                    <div><h3>SQL</h3><p>Queries, joins and indexing on real datasets.</p></div>
-                    <span class="hm-pill">Soon</span>
-                </a>
-                <a class="hm-course hm-soon" data-tags="data" href="/courses">
-                    <img src="/src/assets/logos/dbms.jpg" alt="" loading="lazy">
-                    <div><h3>DBMS</h3><p>Relational design, normalization and theory.</p></div>
-                    <span class="hm-pill">Soon</span>
-                </a>
-            </div>
-            <p class="hm-empty" id="hmEmpty" hidden>No courses match that goal yet &mdash; more are on the way!</p>
-            <div class="hm-center"><a href="/courses" class="btn-secondary-outline">Browse all courses &rarr;</a></div>
-        </section>
-
-        <!-- ================= PLAYGROUND ================= -->
-        <section class="hm-section hm-reveal" id="playground" aria-labelledby="playHeading">
-            <div class="hm-section-head">
-                <span class="hm-eyebrow">Live playground</span>
-                <h2 id="playHeading">Write code. <span class="hm-grad">See it instantly.</span></h2>
-                <p>This is how every Codify lesson feels. Edit the HTML on the left and watch the result update live.</p>
-            </div>
-
-            <div class="hm-play">
-                <div class="hm-play-pane">
-                    <div class="hm-pane-bar">
-                        <span>index.html</span>
-                        <div class="hm-presets">
-                            <button type="button" data-preset="hello">Hello</button>
-                            <button type="button" data-preset="card">Card</button>
-                            <button type="button" data-preset="button">Button</button>
-                        </div>
-                    </div>
-                    <textarea id="hmEditor" spellcheck="false" aria-label="HTML code editor"></textarea>
-                </div>
-                <div class="hm-play-pane">
-                    <div class="hm-pane-bar"><span>Live preview</span><span class="hm-live"><i></i> LIVE</span></div>
-                    <iframe id="hmPreview" title="Live preview" sandbox="allow-scripts"></iframe>
-                </div>
-            </div>
-            <div class="hm-center">
-                <a href="/src/pages/courses/course-enroll.html?course=html" class="btn-primary-glow">Learn how this works &rarr;</a>
-            </div>
-        </section>
-
-        <!-- ================= HOW IT WORKS ================= -->
-        <section class="hm-section hm-reveal" aria-labelledby="howHeading">
-            <div class="hm-section-head">
-                <span class="hm-eyebrow">Your journey</span>
-                <h2 id="howHeading">Four steps to a <span class="hm-grad">certificate</span></h2>
-            </div>
-            <ol class="hm-steps">
-                <li><span class="hm-step-n">1</span><h3>Create a free account</h3><p>Sign up in seconds. Your progress is saved automatically.</p></li>
-                <li><span class="hm-step-n">2</span><h3>Enroll &amp; learn</h3><p>Work through short chapters with clear examples you can try right away.</p></li>
-                <li><span class="hm-step-n">3</span><h3>Pass the final exam</h3><p>Test yourself with quizzes and a final assessment with instant results.</p></li>
-                <li><span class="hm-step-n">4</span><h3>Earn your certificate</h3><p>Finish 100% of topics, pass the exam and download a verified certificate.</p></li>
-            </ol>
-        </section>
-
-        <!-- ================= FEATURES ================= -->
-        <section class="hm-section hm-reveal" id="features" aria-labelledby="featuresHeading">
-            <div class="hm-section-head">
-                <span class="hm-eyebrow">Why Codify</span>
-                <h2 id="featuresHeading">Built so you <span class="hm-grad">actually finish</span></h2>
-            </div>
-            <div class="hm-features">
-                <div class="feature-card hm-feature">
-                    <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
-                    <h3>Structured paths</h3>
-                    <p>Hand-crafted chapters that build on each other, so you always know what to learn next.</p>
-                </div>
-                <div class="feature-card hm-feature">
-                    <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
-                    <h3>Hands-on practice</h3>
-                    <p>Real examples and interactive quizzes lock in every concept before you move on.</p>
-                </div>
-                <div class="feature-card hm-feature">
-                    <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
-                    <h3>Self-paced</h3>
-                    <p>Pause any time. Your session and progress follow you across devices.</p>
-                </div>
-                <div class="feature-card hm-feature">
-                    <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
-                    <h3>Progress tracking</h3>
-                    <p>See completed and remaining topics at a glance and pick up exactly where you left off.</p>
-                </div>
-                <div class="feature-card hm-feature">
-                    <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg></div>
-                    <h3>Verified certificates</h3>
-                    <p>Prove your skills with a certificate you can share on your CV and LinkedIn.</p>
-                </div>
-                <div class="feature-card hm-feature">
-                    <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></div>
-                    <h3>Works everywhere</h3>
-                    <p>Fully responsive, so you can learn on a laptop, tablet or phone.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= FAQ ================= -->
-        <section class="hm-section hm-reveal" aria-labelledby="faqHeading">
-            <div class="hm-section-head">
-                <span class="hm-eyebrow">Questions?</span>
-                <h2 id="faqHeading">Quick <span class="hm-grad">answers</span></h2>
-            </div>
-            <div class="hm-faq">
-                <details>
-                    <summary>Do I need any coding experience?</summary>
-                    <p>No. Python and HTML are designed for complete beginners, and every lesson starts from the basics.</p>
-                </details>
-                <details>
-                    <summary>Is Codify free?</summary>
-                    <p>You can create an account and start learning right away at no cost.</p>
-                </details>
-                <details>
-                    <summary>How do I get a certificate?</summary>
-                    <p>Complete 100% of a course's topics, then pass the final exam. Your certificate is generated instantly and appears in My Certificates.</p>
-                </details>
-                <details>
-                    <summary>Can I learn on my phone?</summary>
-                    <p>Yes. The whole site is responsive and your progress syncs across devices when you log in.</p>
-                </details>
-                <details>
-                    <summary>What if a course says "Soon"?</summary>
-                    <p>CSS, JavaScript, SQL and DBMS are in progress. Start with a live course now and you will be ready when they land.</p>
-                </details>
-            </div>
-        </section>
-
-        <!-- ================= FINAL CTA ================= -->
-        <section class="hm-final hm-reveal" aria-labelledby="finalHeading">
-            <h2 id="finalHeading">Your first line of code is <span class="hm-grad">one click away</span></h2>
-            <p>Join Codify today and turn "I want to learn" into "I built it".</p>
-            <div class="hm-cta">
-                <a href="/signup" class="btn-primary-glow hm-btn-big" id="hmFinalCta">Create Free Account</a>
-                <a href="/courses" class="btn-secondary-outline hm-btn-big">Explore Courses</a>
+                <h3>Self-Paced Progress</h3>
+                <p>Learn at your own speed with instant profile session persistence, workspace tracking, and saved
+                    updates.</p>
             </div>
         </section>
     </main>
-
-    <button class="hm-top" id="hmTop" aria-label="Back to top" title="Back to top">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </button>
 
     <div id="footer-placeholder"></div>
 
@@ -1600,150 +1221,6 @@
         if (engModal) engModal.addEventListener('click', (e) => { if (e.target === engModal) closeEngineerModal(); });
 
     </script>
-
-    <script>
-        /* ==========================================================================
-           HOME 2.0 INTERACTIONS (plain JS, no dependencies)
-           ========================================================================== */
-        (function () {
-            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const $ = (s, r = document) => r.querySelector(s);
-            const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-            const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-            /* 1. Rotating headline word */
-            (async function typedHeadline() {
-                const el = $('#hmTyped'); if (!el || reduce) return;
-                const words = ['"Hire Me"', '"Job Ready"', '"Certified"', '"Hired"'];
-                let i = 0;
-                await sleep(2200);
-                while (true) {
-                    const w = words[i % words.length];
-                    for (let n = w.length; n >= 0; n--) { el.textContent = w.slice(0, n); await sleep(45); }
-                    i++;
-                    const next = words[i % words.length];
-                    for (let n = 1; n <= next.length; n++) { el.textContent = next.slice(0, n); await sleep(85); }
-                    await sleep(2200);
-                }
-            })();
-
-            /* 2. Hero terminal: cycles through languages */
-            const snippets = [
-                { file: 'hello.py', out: 'Hello, World!', code: '<span class="tk-c"># Your first program</span>\n<span class="tk-f">print</span>(<span class="tk-s">"Hello, World!"</span>)\n\n<span class="tk-k">for</span> i <span class="tk-k">in</span> <span class="tk-f">range</span>(<span class="tk-n">3</span>):\n    <span class="tk-f">print</span>(<span class="tk-s">"Level"</span>, i + <span class="tk-n">1</span>)' , out2: 'Hello, World!\nLevel 1\nLevel 2\nLevel 3' },
-                { file: 'Main.java', code: '<span class="tk-k">public class</span> <span class="tk-f">Main</span> {\n  <span class="tk-k">public static void</span> <span class="tk-f">main</span>(String[] a) {\n    System.out.<span class="tk-f">println</span>(<span class="tk-s">"Hire me!"</span>);\n  }\n}', out2: 'Hire me!' },
-                { file: 'index.html', code: '<span class="tk-k">&lt;h1&gt;</span>Hello, Web!<span class="tk-k">&lt;/h1&gt;</span>\n<span class="tk-k">&lt;button&gt;</span>Click me<span class="tk-k">&lt;/button&gt;</span>', out2: 'Rendered: Hello, Web!  [ Click me ]' }
-            ];
-            const stripTags = h => { const d = document.createElement('div'); d.innerHTML = h; return d.textContent; };
-            (async function terminal() {
-                const codeEl = $('#hmTermCode'), outEl = $('#hmTermOut'), titleEl = $('#hmTermTitle');
-                if (!codeEl) return;
-                let i = 0;
-                if (reduce) { const s = snippets[0]; titleEl.textContent = s.file; codeEl.innerHTML = s.code; outEl.textContent = '> ' + s.out2.replace(/\n/g, '\n> '); return; }
-                while (true) {
-                    const s = snippets[i % snippets.length];
-                    titleEl.textContent = s.file; codeEl.innerHTML = ''; outEl.textContent = '';
-                    /* type character by character but keep the syntax-highlight spans */
-                    const tmp = document.createElement('div'); tmp.innerHTML = s.code;
-                    const queue = [];
-                    (function walk(node, path) { node.childNodes.forEach(n => { if (n.nodeType === 3) { queue.push({ cls: path, text: n.textContent }); } else { walk(n, n.className); } }); })(tmp, '');
-                    for (const part of queue) {
-                        const target = document.createElement('span');
-                        if (part.cls) target.className = part.cls;
-                        codeEl.appendChild(target);
-                        for (const ch of part.text) { target.textContent += ch; await sleep(ch === '\n' ? 140 : 24); }
-                    }
-                    await sleep(500);
-                    outEl.textContent = '> Running...'; await sleep(600);
-                    outEl.textContent = '';
-                    for (const line of s.out2.split('\n')) { outEl.textContent += (outEl.textContent ? '\n' : '') + '> ' + line; await sleep(260); }
-                    await sleep(3000); i++;
-                }
-            })();
-
-            /* 3. 3D tilt on hero terminal (desktop pointers only) */
-            const term = $('#hmTerminal'), hero = $('.hm-hero');
-            if (term && hero && !reduce && window.matchMedia('(hover: hover)').matches) {
-                hero.addEventListener('mousemove', e => {
-                    const r = term.getBoundingClientRect();
-                    const x = (e.clientX - (r.left + r.width / 2)) / r.width, y = (e.clientY - (r.top + r.height / 2)) / r.height;
-                    term.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
-                });
-                hero.addEventListener('mouseleave', () => { term.style.transform = ''; });
-            }
-
-            /* 4. Cursor glow */
-            const glow = $('#hmCursorGlow');
-            if (glow && !reduce) window.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }, { passive: true });
-
-            /* 5. Scroll reveal + animated counters */
-            const countUp = el => {
-                const target = +el.dataset.count, suf = el.dataset.suffix || '', dur = 1400, t0 = performance.now();
-                if (reduce) { el.textContent = target + suf; return; }
-                const tick = t => { const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(target * e) + suf; if (p < 1) requestAnimationFrame(tick); };
-                requestAnimationFrame(tick);
-            };
-            const io = new IntersectionObserver(entries => {
-                entries.forEach(en => {
-                    if (!en.isIntersecting) return;
-                    en.target.classList.add('hm-in');
-                    $$('[data-count]', en.target).forEach(countUp);
-                    io.unobserve(en.target);
-                });
-            }, { threshold: 0.12 });
-            $$('.hm-reveal').forEach(el => io.observe(el));
-
-            /* 6. Course filter chips */
-            const chips = $$('.hm-chip'), cards = $$('.hm-course'), empty = $('#hmEmpty');
-            chips.forEach(chip => chip.addEventListener('click', () => {
-                chips.forEach(c => { c.classList.toggle('active', c === chip); c.setAttribute('aria-selected', c === chip); });
-                const f = chip.dataset.filter; let shown = 0;
-                cards.forEach(card => { const ok = f === 'all' || card.dataset.tags.split(' ').includes(f); card.classList.toggle('hm-hide', !ok); if (ok) shown++; });
-                empty.hidden = shown !== 0;
-            }));
-            cards.forEach(card => card.addEventListener('mousemove', e => {
-                const r = card.getBoundingClientRect();
-                card.style.setProperty('--mx', (e.clientX - r.left) + 'px'); card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-            }));
-
-            /* 7. Live HTML playground */
-            const ed = $('#hmEditor'), pv = $('#hmPreview');
-            const presets = {
-                hello: '<h1 style="color:#0077ff">Hello, Codify!</h1>\n<p>Edit me and watch the preview change.</p>',
-                card: '<div style="max-width:260px;margin:20px auto;padding:20px;border-radius:16px;\n  box-shadow:0 8px 24px rgba(0,0,0,.15);font-family:sans-serif;text-align:center">\n  <h2>Ada Lovelace</h2>\n  <p>First programmer</p>\n</div>',
-                button: '<button onclick="this.textContent = \'You did it! 🎉\'"\n  style="display:block;margin:70px auto;padding:14px 28px;font-size:18px;\n  border:0;border-radius:12px;color:#fff;background:#0077ff;cursor:pointer">\n  Click me\n</button>'
-            };
-            if (ed && pv) {
-                let timer;
-                const render = () => { pv.srcdoc = '<body style="font-family:sans-serif;margin:16px">' + ed.value + '</body>'; };
-                ed.value = presets.hello; render();
-                ed.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 200); });
-                ed.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); const s = ed.selectionStart; ed.setRangeText('  ', s, ed.selectionEnd, 'end'); ed.dispatchEvent(new Event('input')); } });
-                $$('[data-preset]').forEach(b => b.addEventListener('click', () => { ed.value = presets[b.dataset.preset]; render(); }));
-            }
-
-            /* 8. Scroll progress + back to top */
-            const bar = $('#hmProgress'), top = $('#hmTop');
-            const onScroll = () => {
-                const h = document.documentElement, max = h.scrollHeight - h.clientHeight;
-                bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
-                top.classList.toggle('show', h.scrollTop > 600);
-            };
-            window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-            top.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
-
-            /* 9. Personalise CTAs when logged in (re-uses the nav's avatar as the signal) */
-            let tries = 0;
-            const personalise = setInterval(() => {
-                const loggedIn = document.querySelector('#authNavGroup .nav-profile-dp');
-                if (loggedIn) {
-                    clearInterval(personalise);
-                    const p = $('#hmPrimaryCta'); if (p) p.firstChild.textContent = 'Continue Learning ';
-                    const f = $('#hmFinalCta'); if (f) { f.textContent = 'Go to My Courses'; f.href = '/courses'; }
-                    const b = $('#hmBadgeText'); if (b) b.textContent = 'Welcome back! Pick up where you left off';
-                } else if (++tries > 30) clearInterval(personalise);
-            }, 300);
-        })();
-    </script>
 </body>
 
-</html> 
+</html>
