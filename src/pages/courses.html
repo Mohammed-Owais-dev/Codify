@@ -148,67 +148,7 @@
         .member-dot { width: 6px; height: 6px; background: #00aaff; border-radius: 50%; box-shadow: 0 0 8px #00aaff; flex-shrink: 0; }
         .student-id { color: #00aaff; font-size: 0.75rem; font-weight: 800; margin-left: auto; opacity: 0.8; }
 
-        /* ==========================================================================
-           ENGINEER INFO MODAL
-           ========================================================================== */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 10, 20, 0.85); backdrop-filter: blur(10px);
-            display: none; align-items: center; justify-content: center; z-index: 9999;
-            padding: 20px; box-sizing: border-box; opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.show { display: flex; opacity: 1; }
-        .modal-card {
-            background: #0d1b2a; border: 1.5px solid #00aaff; border-radius: 24px; max-width: 450px; width: 100%; padding: 32px; text-align: center;
-            box-shadow: 0 0 40px rgba(0, 170, 255, 0.35); position: relative; transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .modal-overlay.show .modal-card { transform: scale(1); }
-        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer; transition: color 0.2s ease; }
-        .modal-close-btn:hover { color: #00aaff; }
-        .eng-avatar { width: 80px; height: 80px; background: rgba(0, 170, 255, 0.15); border: 2px solid #00aaff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #00aaff; margin: 0 auto 15px auto; font-weight: bold; }
-        .eng-name { margin: 0; color: #fff; font-size: 1.6rem; font-weight: 800; }
-        .eng-id { color: #00aaff; font-weight: 700; margin: 5px 0 15px 0; font-size: 0.95rem; }
-        .eng-role { background: rgba(13, 27, 42, 0.8); border: 1px solid rgba(0, 170, 255, 0.3); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; color: #e0e6ed; font-weight: bold; display: inline-block; }
-        .eng-bio-box { background: rgba(10, 15, 28, 0.5); padding: 20px; border-radius: 12px; border: 1px solid rgba(0, 170, 255, 0.15); margin: 20px 0; }
-        .eng-bio-box p { margin: 0; color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
-        .eng-actions { display: flex; gap: 12px; justify-content: center; }
-        .eng-actions a { flex: 1; padding: 10px; font-size: 0.95rem; }
-
-        /* ==========================================================================
-           GLOBAL SEARCH MODAL HUD
-           ========================================================================== */
-        .search-overlay-modal {
-            position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important;
-            background: rgba(8, 11, 20, 0.92) !important; backdrop-filter: blur(15px) !important; -webkit-backdrop-filter: blur(15px) !important;
-            z-index: 99999 !important; display: flex !important; align-items: flex-start !important; justify-content: center !important;
-            padding-top: 10vh !important; opacity: 0; visibility: hidden; transition: opacity 0.25s ease, visibility 0.25s ease !important;
-        }
-        .search-overlay-modal.active { opacity: 1 !important; visibility: visible !important; }
-        .search-modal-card {
-            background: #0d1220 !important; border: 1px solid rgba(0, 170, 255, 0.25) !important;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 170, 255, 0.1) !important;
-            width: 90% !important; max-width: 680px !important; border-radius: 16px !important; overflow: hidden !important;
-            display: flex !important; flex-direction: column !important; transform: translateY(-30px); transition: transform 0.3s ease-out;
-        }
-        .search-overlay-modal.active .search-modal-card { transform: translateY(0); }
-        .search-modal-header { display: flex !important; align-items: center !important; padding: 18px 24px !important; border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; background: rgba(10, 15, 28, 0.5) !important; gap: 14px !important; }
-        .search-icon-svg { color: #00aaff !important; filter: drop-shadow(0 0 5px rgba(0, 170, 255, 0.4)); }
-        #modalSearchInput { flex: 1 !important; background: transparent !important; border: none !important; outline: none !important; color: #fff !important; font-size: 1.15rem !important; font-weight: 600 !important; }
-        .search-modal-close { background: transparent !important; border: none !important; color: #94a3b8 !important; font-size: 1.1rem !important; cursor: pointer !important; transition: color 0.2s; }
-        .search-modal-close:hover { color: #ff5252 !important; }
-        .search-results-viewport { max-height: 450px !important; overflow-y: auto !important; padding: 14px !important; }
-        .search-results-status { padding: 20px !important; text-align: center !important; color: #94a3b8 !important; font-size: 0.95rem !important; }
-        .search-results-list { list-style: none !important; display: flex !important; flex-direction: column !important; gap: 8px !important; margin: 0 !important; padding: 0 !important; }
-        .search-result-item a { display: flex !important; flex-direction: column !important; padding: 14px 18px !important; background: rgba(255, 255, 255, 0.02) !important; border: 1px solid rgba(255, 255, 255, 0.04) !important; border-radius: 10px !important; text-decoration: none !important; transition: all 0.2s ease !important; }
-        .search-result-item.selected a, .search-result-item a:hover { background: rgba(0, 170, 255, 0.08) !important; border-color: #00aaff !important; transform: translateX(4px); }
-        .result-item-title { font-size: 1.05rem !important; font-weight: 700 !important; color: #fff !important; margin-bottom: 4px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; }
-        .result-item-category { font-size: 0.75rem !important; text-transform: uppercase; letter-spacing: 1px; color: #66ccff !important; background: rgba(0, 170, 255, 0.1) !important; padding: 2px 8px !important; border-radius: 4px !important; }
-        .result-item-desc { font-size: 0.88rem !important; color: #94a3b8 !important; line-height: 1.4 !important; }
-        .search-match-hl { color: #00aaff !important; background: rgba(0, 170, 255, 0.15) !important; font-weight: 800 !important; border-radius: 2px !important; padding: 0 2px !important; }
-        .search-modal-footer { display: flex !important; align-items: center !important; gap: 20px !important; padding: 12px 24px !important; background: #080c15 !important; border-top: 1px solid rgba(255, 255, 255, 0.05) !important; font-size: 0.8rem !important; color: #64748b !important; }
-        .search-modal-footer kbd { background: #1e293b !important; color: #94a3b8 !important; padding: 2px 6px !important; border-radius: 4px !important; font-family: monospace !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; }
-
-        /
+        
     </style>
 </head>
 
@@ -772,48 +712,6 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            handleResponsiveAuthLayout();
-            new NavigationController();
-            new AuthManager();
-            new AdvancedSearchEngine();
-            initMobileScrollAnimation();
-        });
-
-        const teamDatabase = {
-            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture and platform development.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'UI design and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Authentication and security.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Curriculum layout and styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Performance testing and QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
-        };
-
-        const engModal = document.getElementById('engineerModal');
-        const closeEngBtn = document.getElementById('closeEngineerModal');
-
-        window.openEngineerModal = function(memberKey) {
-            const engineer = teamDatabase[memberKey];
-            if (!engineer) return;
-
-            document.getElementById('engAvatar').textContent = engineer.initials;
-            document.getElementById('engName').textContent = engineer.name;
-            document.getElementById('engId').textContent = `Student ID: ${engineer.id}`;
-            document.getElementById('engRole').textContent = engineer.role;
-            document.getElementById('engBio').textContent = engineer.bio;
-            document.getElementById('engEmail').href = engineer.email;
-            document.getElementById('engGithub').href = engineer.github;
- 
-            engModal.classList.add('show');
-            document.body.style.overflow = 'hidden'; 
-        };
-
-        function closeEngineerModal() {
-            engModal.classList.remove('show');
-            document.body.style.overflow = ''; 
-        }
-
-        if (closeEngBtn) closeEngBtn.addEventListener('click', closeEngineerModal);
-        if (engModal) engModal.addEventListener('click', (e) => { if (e.target === engModal) closeEngineerModal(); });
     </script>
 </body>
 
