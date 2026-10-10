@@ -648,35 +648,30 @@
         setupPasswordToggle('newPasswordInput', 'toggleResetPasswordBtn');
 
         window.addEventListener('DOMContentLoaded', async () => {
-    // 1. If the URL contains OAuth hash tokens, clear them from the address bar immediately for security and cleanliness
-    if (window.location.hash && window.location.hash.includes('access_token')) {
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
+            // 1. Clear hash tokens from address bar and redirect if session exists
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+                window.location.href = '../pages/courses.html';
+                return;
+            }
 
-    // 2. Check if an active session exists
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-        window.location.href = '/courses';
-        return;
-    }
+            // 2. Listen for auth state changes when OAuth tokens resolve
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    window.location.href = '../pages/courses.html';
+                }
+            });
 
-    // 3. Listen for state changes (handles the async moment Google returns tokens)
-    supabase.auth.onAuthStateChange((event, session) => {
-        if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-            window.history.replaceState({}, document.title, window.location.pathname);
-            window.location.href = '/courses';
-        }
-    });
+            const hash = window.location.hash;
+            const searchParams = new URLSearchParams(window.location.search);
 
-    const hash = window.location.hash;
-    const searchParams = new URLSearchParams(window.location.search);
-
-    if (hash.includes('type=recovery') || searchParams.get('type') === 'recovery' || window.location.href.includes('token_hash')) {
-        switchView(forgotStep2View, "Set Your New Password");
-        if (footerPrompt) footerPrompt.style.display = 'none';
-    }
-});
-        
+            if (hash.includes('type=recovery') || searchParams.get('type') === 'recovery' || window.location.href.includes('token_hash')) {
+                switchView(forgotStep2View, "Set Your New Password");
+                if (footerPrompt) footerPrompt.style.display = 'none';
+            }
+        });
         async function handleOAuth(provider) {
             hideAlert();
             const { error } = await supabase.auth.signInWithOAuth({
