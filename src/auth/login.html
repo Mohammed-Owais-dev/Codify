@@ -648,7 +648,22 @@
         setupPasswordToggle('newPasswordInput', 'toggleResetPasswordBtn');
 
         // Check if user arrived via password reset email link
+        // Check session on load and listen for auth state changes (e.g. after Google OAuth return)
         window.addEventListener('DOMContentLoaded', async () => {
+            // Check if already logged in
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = '../pages/courses.html';
+                return;
+            }
+
+            // Listen for successful OAuth callback session establishment
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+                    window.location.href = '../pages/courses.html';
+                }
+            });
+
             const hash = window.location.hash;
             const searchParams = new URLSearchParams(window.location.search);
 
