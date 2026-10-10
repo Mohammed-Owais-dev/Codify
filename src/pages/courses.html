@@ -572,10 +572,14 @@
 
     this.actionButtons.forEach(button => {
         const courseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
+        const hrefVal = button.getAttribute('href') || '';
+        const urlParams = new URLSearchParams(hrefVal.split('?')[1] || '');
+        const courseParam = (urlParams.get('course') || '').toLowerCase().trim();
         const indexUrl = button.getAttribute('data-index-url');
-        const baseSlug = courseId.replace('-101', '');
 
-        const isEnrolled = enrolledSet.has(courseId) || enrolledSet.has(baseSlug);
+        const isEnrolled = enrolledSet.has(courseId) || 
+                           enrolledSet.has(courseParam) || 
+                           enrolledSet.has(courseId.replace('-101', ''));
 
         if (isEnrolled && indexUrl && indexUrl !== '#') {
             button.innerText = 'Continue Learning';
