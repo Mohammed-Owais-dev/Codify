@@ -572,18 +572,14 @@
 
     this.actionButtons.forEach(button => {
         const courseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
-        const rawIndexUrl = button.getAttribute('data-index-url');
-        
-        // Extract base course slug (e.g., 'c-101' becomes 'c', or keep as is)
+        const indexUrl = button.getAttribute('data-index-url');
         const baseSlug = courseId.replace('-101', '');
 
-        const isEnrolled = enrolledSet.has(courseId) || 
-                           enrolledSet.has(baseSlug) ||
-                           enrolledSet.has(courseId + '-101');
+        const isEnrolled = enrolledSet.has(courseId) || enrolledSet.has(baseSlug);
 
-        if (isEnrolled && rawIndexUrl && rawIndexUrl !== '#') {
+        if (isEnrolled && indexUrl && indexUrl !== '#') {
             button.innerText = 'Continue Learning';
-            button.setAttribute('href', rawIndexUrl);
+            button.setAttribute('href', indexUrl);
             button.classList.add('enrolled-btn');
         } else {
             button.innerText = 'Enroll Now';
