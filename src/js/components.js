@@ -2,9 +2,9 @@
 
 const currentPath = window.location.pathname;
 
-// 1. Inject the Top Navigation Bar & Global Search matching Codify Theme
+// 1. Inject the Top Navigation Bar & Global Search matching Codify Theme (Fixed Position)
 document.getElementById('navbar-placeholder').innerHTML = `
-    <header class="codify-main-header">
+    <header class="codify-main-header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;">
         <div class="codify-header-container">
             <div class="codify-left-group">
                 <div class="codify-logo" onclick="window.location.href='/'" role="button" tabindex="0" aria-label="Codify Homepage">
