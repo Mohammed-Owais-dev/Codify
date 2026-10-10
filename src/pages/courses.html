@@ -568,36 +568,33 @@
     }
 
     applyEnrollmentUI(enrolledCourseIds) {
-        // Normalize all database enrollment IDs to lowercase and clean strings
-        const enrolledSet = new Set(enrolledCourseIds.map(id => (id || '').toLowerCase().trim()));
+    console.log("Raw Enrolled IDs from DB/Storage:", enrolledCourseIds);
+    const enrolledSet = new Set(enrolledCourseIds.map(id => (id || '').toLowerCase().trim()));
 
-        this.actionButtons.forEach(button => {
-            const rawCourseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
-            const hrefVal = button.getAttribute('href') || '';
-            const urlParams = new URLSearchParams(hrefVal.split('?')[1] || '');
-            const courseParam = (urlParams.get('course') || '').toLowerCase().trim();
-            const indexUrl = button.getAttribute('data-index-url');
+    this.actionButtons.forEach(button => {
+        const rawCourseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
+        const hrefVal = button.getAttribute('href') || '';
+        const urlParams = new URLSearchParams(hrefVal.split('?')[1] || '');
+        const courseParam = (urlParams.get('course') || '').toLowerCase().trim();
+        const indexUrl = button.getAttribute('data-index-url');
 
-            // Strip numeric suffixes like '-101' to check base slugs like 'c', 'cpp', 'html'
-            const cleanCourseId = rawCourseId.replace(/-101$/, '');
-            const cleanParam = courseParam.replace(/-101$/, '');
+        const baseCourseId = rawCourseId.replace('-101', '');
 
-            const isEnrolled = enrolledSet.has(rawCourseId) || 
-                               enrolledSet.has(cleanCourseId) || 
-                               enrolledSet.has(courseParam) || 
-                               enrolledSet.has(cleanParam);
+        const isEnrolled = enrolledSet.has(rawCourseId) || 
+                           enrolledSet.has(baseCourseId) || 
+                           enrolledSet.has(courseParam);
 
-            if (isEnrolled && indexUrl && indexUrl !== '#') {
-                button.innerText = 'Continue Learning';
-                button.setAttribute('href', indexUrl);
-                button.classList.add('enrolled-btn');
-            } else {
-                button.innerText = 'Enroll Now';
-                button.classList.remove('enrolled-btn');
-            }
-            button.classList.add('ready');
-        });
-    }
+        if (isEnrolled && indexUrl && indexUrl !== '#') {
+            button.innerText = 'Continue Learning';
+            button.setAttribute('href', indexUrl);
+            button.classList.add('enrolled-btn');
+        } else {
+            button.innerText = 'Enroll Now';
+            button.classList.remove('enrolled-btn');
+        }
+        button.classList.add('ready');
+    });
+}
 
     async initAuth() {
         const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
