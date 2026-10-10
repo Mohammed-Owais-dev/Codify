@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="/src/css/style.css">
     <link rel="stylesheet" href="/src/css/global.css">
     <title>Contact &amp; Support | Codify</title>
     <style>
@@ -256,31 +255,7 @@
 
 <body>
 
-    <!-- STANDARD UNIFIED TOP NAVBAR -->
-    <header class="codify-main-header">
-        <div class="codify-header-container">
-            <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
-                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
-                    <span class="logo-text">Codify</span>
-                </div>
-            </div>
-
-            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
-                <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/src/pages/courses.html">Courses</a></li>
-                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="/src/pages/contact.html" class="active">Contact</a></li>
-                </ul>
-            </nav>
-
-            <div class="codify-right-group">
-                <div class="codify-auth-group" id="authNavGroup"></div>
-            </div>
-        </div>
-    </header>
+    <div id="navbar-placeholder"></div>
 
     <main class="contact-container">
         <div class="contact-card">
@@ -349,56 +324,9 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="codify-footer">
-        <div>
-            Built with precision for future developers • Developed by
-            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="team-trigger">Codify Team</span>
-                <div class="team-popover" role="tooltip">
-                    <div class="popover-header">Core Engineers</div>
-                    <ul class="team-list">
-                        <li class="team-member" onclick="openEngineerModal('owais')" style="font-weight: 700;">
-                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('feroz')">
-                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('basha')">
-                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('prasad')">
-                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
-                        </li>
-                    </ul>
-                </div>
-            </span>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
 
-    <!-- ENGINEER MODAL -->
-    <div class="modal-overlay" id="engineerModal" aria-hidden="true">
-        <div class="modal-card">
-            <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div id="engAvatar" class="eng-avatar"></div>
-                <h2 id="engName" class="eng-name">Name</h2>
-                <p id="engId" class="eng-id">ID</p>
-                <span id="engRole" class="eng-role">Role</span>
-            </div>
-            <div class="eng-bio-box">
-                <p id="engBio">Bio goes here...</p>
-            </div>
-            <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">✉️ Email</a>
-                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
-            </div>
-        </div>
-    </div>
-
+    <script src="/src/js/components.js"></script>
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
 
@@ -536,38 +464,7 @@ document.addEventListener('DOMContentLoaded', initContactUser);
         showContactAlert(`Error saving ticket: ${err.message}`, true);
     }
 });
-        document.addEventListener('DOMContentLoaded', initContactUser);
-
-        // Core Engineers Popover & Modal Handlers
-        const teamDatabase = {
-            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture and platform development.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'UI design and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Authentication and security.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Curriculum layout and styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Performance testing and QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
-        };
-
-        const engModal = document.getElementById('engineerModal');
-        window.openEngineerModal = function (key) {
-            const eng = teamDatabase[key];
-            if (!eng || !engModal) return;
-            document.getElementById('engAvatar').textContent = eng.initials;
-            document.getElementById('engName').textContent = eng.name;
-            document.getElementById('engId').textContent = `Student ID: ${eng.id}`;
-            document.getElementById('engRole').textContent = eng.role;
-            document.getElementById('engBio').textContent = eng.bio;
-            document.getElementById('engEmail').href = eng.email;
-            document.getElementById('engGithub').href = eng.github;
-            engModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        };
-
-        document.getElementById('closeEngineerModal')?.addEventListener('click', () => {
-            if (engModal) {
-                engModal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        });
+        
     </script>
 </body>
 

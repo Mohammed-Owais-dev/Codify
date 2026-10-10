@@ -1,5 +1,8 @@
+// components.js - Codify Shared Components & Global Search Engine (Desktop Only)
+
 const currentPath = window.location.pathname;
 
+// 1. Inject the Top Navigation Bar & Global Search matching Codify Theme
 document.getElementById('navbar-placeholder').innerHTML = `
     <header class="codify-main-header">
         <div class="codify-header-container">
@@ -18,34 +21,35 @@ document.getElementById('navbar-placeholder').innerHTML = `
                     <li><a href="/certificate" class="${currentPath === '/certificate' ? 'active-link' : ''}">Certificates</a></li>
                     <li><a href="/contact" class="${currentPath === '/contact' ? 'active-link' : ''}">Contact</a></li>
                 </ul>
-            </nav
+            </nav>
 
             <div class="codify-right-group">
                 <!-- Codify Themed Search Box with Glassmorphism Dropdown & Keyboard SVG Icon -->
-<div class="codify-search-box">
-    <svg class="search-box-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-    </svg>
-    <input type="text" id="globalSiteSearch" placeholder="Search everything..." autocomplete="off" aria-label="Global Search">
-    <span class="search-kbd-icon" title="Quick Search Shortcut">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2" ry="2"></rect>
-            <path d="M6 8h.001"></path>
-            <path d="M10 8h.001"></path>
-            <path d="M14 8h.001"></path>
-            <path d="M18 8h.001"></path>
-            <path d="M6 12h.001"></path>
-            <path d="M10 12h.001"></path>
-            <path d="M14 12h.001"></path>
-            <path d="M18 12h.001"></path>
-            <path d="M7 16h10"></path>
-        </svg>
-    </span>
-    
-    <!-- Structured Glassmorphism Dropdown Results -->
-    <div id="globalSearchResults" class="codify-search-dropdown"></div>
-</div>
+                <div class="codify-search-box">
+                    <svg class="search-box-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <input type="text" id="globalSiteSearch" placeholder="Search everything..." autocomplete="off" aria-label="Global Search">
+                    <span class="search-kbd-icon" title="Quick Search Shortcut">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2" ry="2"></rect>
+                            <path d="M6 8h.001"></path>
+                            <path d="M10 8h.001"></path>
+                            <path d="M14 8h.001"></path>
+                            <path d="M18 8h.001"></path>
+                            <path d="M6 12h.001"></path>
+                            <path d="M10 12h.001"></path>
+                            <path d="M14 12h.001"></path>
+                            <path d="M18 12h.001"></path>
+                            <path d="M7 16h10"></path>
+                        </svg>
+                    </span>
+                    
+                    <!-- Structured Glassmorphism Dropdown Results -->
+                    <div id="globalSearchResults" class="codify-search-dropdown"></div>
+                </div>
+
                 <div class="codify-auth-group" id="authNavGroup">
                     <a href="/login" class="codify-btn-outline" title="Login">Login</a>
                     <a href="/signup" class="codify-btn-outline" title="Signup">Signup</a>
@@ -54,6 +58,27 @@ document.getElementById('navbar-placeholder').innerHTML = `
         </div>
     </header>
 `;
+
+// Inject custom cyberpunk scrollbar styling dynamically
+const cyberScrollStyle = document.createElement('style');
+cyberScrollStyle.textContent = `
+    #globalSearchResults::-webkit-scrollbar {
+        width: 6px;
+    }
+    #globalSearchResults::-webkit-scrollbar-track {
+        background: rgba(13, 27, 42, 0.5);
+        border-radius: 8px;
+    }
+    #globalSearchResults::-webkit-scrollbar-thumb {
+        background: rgba(0, 170, 255, 0.4);
+        border-radius: 8px;
+    }
+    #globalSearchResults::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 170, 255, 0.7);
+    }
+`;
+document.head.appendChild(cyberScrollStyle);
+
 // 2. Inject the Footer & Engineer Modal (Clean Structure & SVG Icons)
 document.getElementById('footer-placeholder').innerHTML = `
     <footer class="codify-footer">
@@ -113,6 +138,41 @@ document.getElementById('footer-placeholder').innerHTML = `
         </div>
     </div>
 `;
+
+const teamDatabase = {
+    'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
+    'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Dhanush specializes in interactive UI design and seamless API integrations, ensuring students have a smooth learning experience.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
+    'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Feroz manages secure user authentication, database row-level security, and the backend tracking logic for course progress.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
+    'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Basha focuses on creating structured, easy-to-understand interactive course material and maintaining the site styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
+    'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Prasad rigorously tests platform features, catches bugs, and optimizes performance metrics to keep Codify running at 100%.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
+};
+
+const engModal = document.getElementById('engineerModal');
+const closeEngBtn = document.getElementById('closeEngineerModal');
+
+window.openEngineerModal = function (memberKey) {
+    const engineer = teamDatabase[memberKey];
+    if (!engineer) return;
+
+    document.getElementById('engAvatar').textContent = engineer.initials;
+    document.getElementById('engName').textContent = engineer.name;
+    document.getElementById('engId').textContent = `Student ID: ${engineer.id}`;
+    document.getElementById('engRole').textContent = engineer.role;
+    document.getElementById('engBio').textContent = engineer.bio;
+    document.getElementById('engEmail').href = engineer.email;
+    document.getElementById('engGithub').href = engineer.github;
+
+    engModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+};
+
+function closeEngineerModal() {
+    engModal.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+if (closeEngBtn) closeEngBtn.addEventListener('click', closeEngineerModal);
+if (engModal) engModal.addEventListener('click', (e) => { if (e.target === engModal) closeEngineerModal(); });
 
 // 3. Dynamic Clean-URL Syllabus Search Engine Setup with Arrow Key Support
 setTimeout(() => {
