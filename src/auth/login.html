@@ -647,31 +647,58 @@
         setupPasswordToggle('userPassword', 'toggleLoginPasswordBtn');
         setupPasswordToggle('newPasswordInput', 'toggleResetPasswordBtn');
 
+
         window.addEventListener('DOMContentLoaded', async () => {
-            // 1. Clear hash tokens from address bar and redirect if session exists
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                window.history.replaceState({}, document.title, window.location.pathname);
-                window.location.href = '../pages/courses.html';
-                return;
-            }
-
-            // 2. Listen for auth state changes when OAuth tokens resolve
-            supabase.auth.onAuthStateChange((event, session) => {
-                if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                    window.location.href = '../pages/courses.html';
-                }
-            });
-
             const hash = window.location.hash;
             const searchParams = new URLSearchParams(window.location.search);
 
-            if (hash.includes('type=recovery') || searchParams.get('type') === 'recovery' || window.location.href.includes('token_hash')) {
-                switchView(forgotStep2View, "Set Your New Password");
+            // Preserve the password-recovery screen.
+            if (
+                hash.includes('type=recovery') ||
+                searchParams.get('type') === 'recovery' ||
+                window.location.href.includes('token_hash')
+            ) {
+                switchView(forgotStep2View, 'Set Your New Password');
                 if (footerPrompt) footerPrompt.style.display = 'none';
+                return;
             }
+
+            // Wait for Supabase to restore or process the OAuth session.
+            const { data, error } = await supabase.auth.getSession();
+
+            if (error) {
+                console.error('Session restoration failed:', error.message);
+                return;
+            }
+
+            if (data.session) {
+                // Remove OAuth tokens from the visible URL.
+                window.history.replaceState(
+                    {},
+                    document.title,
+                    window.location.pathname
+                );
+
+                // Use the public Courses route.
+                window.location.replace('/courses');
+                return;
+            }
+
+            // Handle a session created after this initial check.
+            const { data: authListener } = supabase.auth.onAuthStateChange(
+                (event, session) => {
+                    if (session && event === 'SIGNED_IN') {
+                        window.history.replaceState(
+                            {},
+                            document.title,
+                            window.location.pathname
+                        );
+                        window.location.replace('/courses');
+                    }
+                }
+            );
         });
+
         async function handleOAuth(provider) {
             hideAlert();
             const { error } = await supabase.auth.signInWithOAuth({
@@ -706,8 +733,10 @@
             return null;
         }
 
+
         async function executeLogin() {
             hideAlert();
+
             const identifierVal = loginIdentifier?.value.trim();
             const passwordVal = userPassword?.value;
 
@@ -720,10 +749,24 @@
             btnLoginSubmit.style.opacity = '0.7';
 
             try {
-                const emailToUse = await resolveEmailFromIdentifier(identifierVal);
-                if (!emailToUse) {
-                    showAlert(`❌ No account found for "${identifierVal.replace(/^@/, '')}"`);
-                    return;
+                let emailToUse;
+
+                if (
+                    identifierVal.includes('@') &&
+                    identifierVal.includes('.')
+                ) {
+                    // Authenticate directly with the supplied email.
+                    emailToUse = identifierVal.toLowerCase();
+                } else {
+                    // Username resolution needs a properly secured lookup.
+                    emailToUse = await resolveEmailFromIdentifier(identifierVal);
+
+                    if (!emailToUse) {
+                        showAlert(
+                            'Username not found. Try signing in with your email.'
+                        );
+                        return;
+                    }
                 }
 
                 const { error } = await supabase.auth.signInWithPassword({
@@ -733,16 +776,17 @@
 
                 if (error) throw error;
 
-                showAlert('✓ Access Granted. Redirecting...', false);
-                setTimeout(() => { window.location.href = '../pages/courses.html'; }, 800);
+                window.location.replace('/courses');
 
             } catch (err) {
-                showAlert(`❌ ${err.message}`);
+                console.error('Login failed:', err);
+                showAlert('Login failed. Check your email/username and password.');
             } finally {
                 btnLoginSubmit.disabled = false;
                 btnLoginSubmit.style.opacity = '1';
             }
         }
+
 
         if (btnLoginSubmit) btnLoginSubmit.addEventListener('click', executeLogin);
 
