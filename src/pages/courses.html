@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Explore and enroll in interactive computer science courses on Codify[cite: 7].">
+    <meta name="description" content="Explore and enroll in interactive computer science courses on Codify.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +19,10 @@
         body {
             min-width: 1280px !important;
             overflow-x: auto !important;
+            font-family: 'Nunito', sans-serif;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
         }
 
         /* ==========================================================================
@@ -99,21 +103,16 @@
             padding: 0 20px;
             position: relative;
             z-index: 2;
-            opacity: 1 !important;
-            visibility: visible !important;
         }
 
         .course-card {
-            background: rgba(13, 27, 42, 0.5) !important;
+            background: rgba(13, 27, 42, 0.55) !important;
             border: 1px solid rgba(0, 170, 255, 0.2) !important;
             border-radius: 20px !important;
             backdrop-filter: blur(16px) !important;
             display: flex !important;
             flex-direction: column !important;
             overflow: hidden !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) scale(1) !important;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease !important;
         }
 
@@ -162,41 +161,114 @@
         }
 
         .card-footer {
-            padding: 15px 40px 30px 40px;
+            padding: 15px 20px 25px 20px;
             display: flex;
-            justify-content: center;
+            gap: 10px;
             margin-top: auto;
         }
 
-        .start-btn {
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #fff;
-            background: linear-gradient(90deg, #0077ff, #00aaff);
-            padding: 10px 24px;
+        /* Action Buttons */
+        .btn-course-view,
+        .btn-course-enroll,
+        .btn-continue-learning {
+            flex: 1;
+            padding: 10px 14px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .start-btn:hover {
+        .btn-course-view {
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #00aaff;
+        }
+
+        .btn-course-view:hover {
+            background: rgba(0, 170, 255, 0.1);
+            border-color: #00aaff;
+            color: #ffffff;
+        }
+
+        .btn-course-enroll {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25);
+        }
+
+        .btn-course-enroll:hover {
             background: linear-gradient(90deg, #00aaff, #0077ff);
-            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+            transform: translateY(-1px);
         }
 
-        .start-btn.enrolled-btn {
-            background: #10b981 !important;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35) !important;
-            color: #ffffff !important;
+        .btn-continue-learning {
+            width: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
         }
 
-        .start-btn.enrolled-btn:hover {
-            background: #059669 !important;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
+        .btn-continue-learning:hover {
+            background: linear-gradient(90deg, #059669, #10b981);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Codify Theme Toast Notification */
+        .codify-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(13, 27, 42, 0.95);
+            border: 1px solid rgba(0, 170, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: #e0e6ed;
+            padding: 16px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .codify-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .codify-toast .toast-login-btn {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: all 0.2s ease;
+        }
+
+        .codify-toast .toast-login-btn:hover {
+            background: linear-gradient(90deg, #00aaff, #0077ff);
         }
     </style>
-
 </head>
 
 <body>
@@ -222,52 +294,53 @@
 
         <section id="courses" class="courses-container" aria-label="Available Courses">
 
-            <div class="course-card">
+            <!-- Course Card 1: C Programming -->
+            <div class="course-card" data-course-id="c-101" data-index-url="/src/courses/c/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/c.webp" alt="C Tutorial thumbnail">
                     <h3>C Programming</h3>
                 </div>
                 <div class="card-body">
-                    <p>C language is considered the mother language of all programming languages. Master foundational
-                        coding logic.</p>
+                    <p>C language is considered the mother language of all programming languages. Master foundational coding logic.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="/src/pages/courses/course-enroll.html?course=c" data-course-id="c-101"
-                        data-index-url="/courses/c" class="start-btn course-action-btn">Enroll Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 2: C++ & OOPs -->
+            <div class="course-card" data-course-id="cpp-101" data-index-url="/courses/cpp/">
                 <div class="card-header">
                     <img src="/src/assets/logos/cpp.webp" alt="C++ Tutorial thumbnail">
                     <h3>C++ &amp; OOPs</h3>
                 </div>
                 <div class="card-body">
-                    <p>Dive deep into Object-Oriented Programming, templates, and high-performance applications with
-                        C++.</p>
+                    <p>Dive deep into Object-Oriented Programming, templates, and high-performance applications with C++.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="/src/pages/courses/course-enroll.html?course=cpp" data-course-id="cpp-101"
-                        data-index-url="/courses/cpp" class="start-btn course-action-btn">Enroll Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 3: DBMS -->
+            <div class="course-card" data-course-id="dbms-101" data-index-url="/src/courses/dbms/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/dbms.jpg" alt="DBMS thumbnail">
                     <h3>DBMS</h3>
                 </div>
                 <div class="card-body">
-                    <p>Learn relational databases, normalizations, and how to write complex SQL queries to manage
-                        backend data.</p>
+                    <p>Learn relational databases, normalizations, and how to write complex SQL queries to manage backend data.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-course-id="dbms-101" data-index-url="#" class="start-btn course-action-btn">Enroll
-                        Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 4: HTML -->
+            <div class="course-card" data-course-id="html-101" data-index-url="/src/courses/html/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/html.webp" alt="HTML thumbnail">
                     <h3>HTML</h3>
@@ -276,12 +349,13 @@
                     <p>Build stunning modern websites. Master document markup, structure, and semantic web elements.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="/src/pages/courses/course-enroll.html?course=html" data-course-id="html-101"
-                        data-index-url="/courses/html" class="start-btn course-action-btn">Enroll Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 5: CSS -->
+            <div class="course-card" data-course-id="css-101" data-index-url="/src/courses/css/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/css.webp" alt="CSS thumbnail">
                     <h3>CSS</h3>
@@ -290,12 +364,13 @@
                     <p>Style modern responsive interfaces with Flexbox, Grid, keyframe animations, and themes.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-course-id="css-101" data-index-url="#" class="start-btn course-action-btn">Enroll
-                        Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 6: JavaScript -->
+            <div class="course-card" data-course-id="js-101" data-index-url="/src/courses/js/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/js.webp" alt="JavaScript thumbnail">
                     <h3>JavaScript</h3>
@@ -304,12 +379,13 @@
                     <p>Add dynamic interactivity, web apps, DOM manipulation, and asynchronous API integration.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-course-id="js-101" data-index-url="#" class="start-btn course-action-btn">Enroll
-                        Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 7: SQL -->
+            <div class="course-card" data-course-id="sql-101" data-index-url="/src/courses/sql/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/dbms.png" alt="SQL thumbnail">
                     <h3>SQL</h3>
@@ -318,27 +394,28 @@
                     <p>Learn relational databases, queries, joins, indexing, and managing real-time datasets.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-course-id="sql-101" data-index-url="#" class="start-btn course-action-btn">Enroll
-                        Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 8: Java Programming -->
+            <div class="course-card" data-course-id="java-101" data-index-url="/src/courses/java/index.html">
                 <div class="card-header">
                     <img src="/src/assets/logos/java.webp" alt="Java thumbnail">
                     <h3>Java Programming</h3>
                 </div>
                 <div class="card-body">
-                    <p>Learn enterprise-ready programming with Java. Build robust backend applications and Android apps.
-                    </p>
+                    <p>Learn enterprise-ready programming with Java. Build robust backend applications and Android apps.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="/src/pages/courses/course-enroll.html?course=java" data-course-id="java-101"
-                        data-index-url="/courses/java" class="start-btn course-action-btn">Enroll Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
-            <div class="course-card">
+            <!-- Course Card 9: Python for Beginners -->
+            <div class="course-card" data-course-id="python-101" data-index-url="/courses/python">
                 <div class="card-header">
                     <img src="/src/assets/logos/python.webp" alt="Python thumbnail">
                     <h3>Python for Beginners</h3>
@@ -347,8 +424,8 @@
                     <p>Unlock Python. Perfect for Scripting, Web automation, Data Science, and Machine Learning.</p>
                 </div>
                 <div class="card-footer">
-                    <a href="/src/pages/courses/course-enroll.html?course=python" data-course-id="python-101"
-                        data-index-url="/courses/python" class="start-btn course-action-btn">Enroll Now</a>
+                    <button type="button" class="btn-course-view">View</button>
+                    <button type="button" class="btn-course-enroll">Enroll</button>
                 </div>
             </div>
 
@@ -365,318 +442,110 @@
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
-        class AdvancedSearchEngine {
-            constructor() {
-                this.overlay = document.getElementById('searchOverlayModal');
-                this.input = document.getElementById('modalSearchInput');
-                this.closeBtn = document.getElementById('modalSearchClose');
-                this.resultsList = document.getElementById('searchResultsList');
-                this.statusBox = document.getElementById('searchResultsStatus');
-                this.triggers = [document.getElementById('siteSearchTrigger'), document.getElementById('mobileSearchBtn')];
+        let toastTimeout = null;
+        let remainingTime = 3000;
+        let startTime = null;
 
-                this.focusedIndex = -1;
-                this.debounceTimer = null;
+        function showEnrollToast() {
+            let toast = document.getElementById('codifyToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'codifyToast';
+                toast.className = 'codify-toast';
+                toast.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>Please log in to enroll in this course.</span>
+                    <a href="/src/auth/login.html" class="toast-login-btn">Log In</a>
+                `;
+                document.body.appendChild(toast);
 
-                this.database = [
-                    { title: "Home Dashboard", url: "/index.html", category: "System", keywords: "welcome landing campus learn cs main", desc: "The foundational entryway launchpad containing information summary streams for Codify courses." },
-                    { title: "Course Curriculum Overview", url: "/courses", category: "Dashboard", keywords: "tracks selection menu python java database system architecture modules", desc: "Comprehensive collection platform to navigate tracks, access evaluations, and launch learning nodes." }
-                ];
-
-                if (this.overlay && this.input) this.init();
-            }
-
-            init() {
-                this.triggers.forEach(btn => {
-                    if (btn) btn.addEventListener('click', (e) => this.openSearch(e));
-                });
-                if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.closeSearch());
-                this.input.addEventListener('input', (e) => this.handleInput(e));
-                document.addEventListener('keydown', (e) => this.handleKeydown(e));
-            }
-
-            openSearch(e) {
-                if (e) e.preventDefault();
-                this.overlay.classList.add('active');
-                this.overlay.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden';
-                setTimeout(() => { this.input.focus(); }, 50);
-                this.focusedIndex = -1;
-            }
-
-            closeSearch() {
-                this.overlay.classList.remove('active');
-                this.overlay.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = '';
-                this.input.value = "";
-                this.resultsList.innerHTML = "";
-                this.statusBox.style.display = "block";
-                this.statusBox.innerText = "Start typing to search your course parameters...";
-            }
-
-            handleInput(e) {
-                clearTimeout(this.debounceTimer);
-                const query = e.target.value.trim().toLowerCase();
-                if (!query) {
-                    this.statusBox.style.display = "block";
-                    this.statusBox.innerText = "Start typing to search your course parameters...";
-                    this.resultsList.innerHTML = '';
-                    return;
-                }
-                this.debounceTimer = setTimeout(() => { this.performSearch(query); }, 200);
-            }
-
-            performSearch(query) {
-                const terms = query.split(' ').filter(t => t);
-                let results = this.database.map(item => {
-                    let score = 0;
-                    let titleMatch = item.title.toLowerCase();
-                    let catMatch = item.category.toLowerCase();
-                    let keyMatch = item.keywords.toLowerCase();
-                    let descMatch = item.desc.toLowerCase();
-
-                    terms.forEach(term => {
-                        if (titleMatch.includes(term)) score += 10;
-                        if (catMatch.includes(term)) score += 5;
-                        if (keyMatch.includes(term)) score += 3;
-                        if (descMatch.includes(term)) score += 1;
-                    });
-                    return { ...item, score };
-                });
-
-                results = results.filter(r => r.score > 0).sort((a, b) => b.score - a.score);
-
-                this.resultsList.innerHTML = "";
-                this.focusedIndex = -1;
-
-                if (results.length === 0) {
-                    this.statusBox.style.display = "block";
-                    this.statusBox.innerText = `No site parameters discovered matching sequence: "${this.input.value}"`;
-                    return;
-                }
-
-                this.statusBox.style.display = "none";
-                results.forEach((result, idx) => {
-                    const li = document.createElement('li');
-                    li.className = "search-result-item";
-                    li.setAttribute('data-index', idx);
-                    li.innerHTML = `
-                        <a href="${result.url}">
-                            <div class="result-item-title">
-                                <span>${result.title}</span>
-                                <span class="result-item-category">${result.category}</span>
-                            </div>
-                            <div class="result-item-desc">${result.desc}</div>
-                        </a>
-                    `;
-                    this.resultsList.appendChild(li);
-                });
-            }
-
-            handleKeydown(e) {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                    e.preventDefault();
-                    this.openSearch();
-                    return;
-                }
-                if (this.overlay.classList.contains('active')) {
-                    if (e.key === 'Escape') {
-                        this.closeSearch();
-                        return;
+                toast.addEventListener('mouseenter', () => {
+                    if (toastTimeout) {
+                        clearTimeout(toastTimeout);
+                        remainingTime -= (Date.now() - startTime);
                     }
-                }
+                });
+
+                toast.addEventListener('mouseleave', () => {
+                    if (remainingTime > 0) {
+                        startTime = Date.now();
+                        toastTimeout = setTimeout(() => hideToast(toast), remainingTime);
+                    }
+                });
             }
+
+            toast.classList.add('show');
+            remainingTime = 3000;
+            startTime = Date.now();
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => hideToast(toast), remainingTime);
         }
 
-        class AuthManager {
-            constructor() {
-                this.authNavGroup = document.getElementById('authNavGroup');
-                this.actionButtons = document.querySelectorAll('.course-action-btn');
-                if (this.authNavGroup) this.initAuth();
-            }
+        function hideToast(toast) {
+            if (toast) toast.classList.remove('show');
+        }
 
-            applyEnrollmentUI(enrolledCourseIds) {
-                const enrolledSet = new Set(enrolledCourseIds.map(id => (id || '').toLowerCase().trim()));
-
-                this.actionButtons.forEach(button => {
-                    const courseId = (button.getAttribute('data-course-id') || '').toLowerCase().trim();
-                    const indexUrl = button.getAttribute('data-index-url');
-
-                    const isEnrolled = enrolledSet.has(courseId) ||
-                        (courseId === 'java-101' && enrolledSet.has('java')) ||
-                        (courseId === 'html-101' && enrolledSet.has('html')) ||
-                        (courseId === 'python-101' && enrolledSet.has('python')) ||
-                        (courseId === 'c-101' && enrolledSet.has('c')) ||
-                        (courseId === 'cpp-101' && enrolledSet.has('cpp'));
-
-                    if (isEnrolled && indexUrl && indexUrl !== '#') {
-                        button.innerText = 'Continue Learning';
-                        button.setAttribute('href', indexUrl);
-                        button.classList.add('enrolled-btn');
-                    } else {
-                        button.innerText = 'Enroll Now';
-                        button.classList.remove('enrolled-btn');
-                    }
-                    button.classList.add('ready');
-                });
-            }
-
-            async initAuth() {
-                const cachedEnrollments = JSON.parse(localStorage.getItem('codify_enrollments') || '[]');
-                if (cachedEnrollments.length > 0) {
-                    this.applyEnrollmentUI(cachedEnrollments);
-                }
-
-                try {
-                    const { data: { session } } = await supabase.auth.getSession();
-                    const user = session?.user;
-
-                    if (user) {
-                        const { data: profile } = await supabase
-                            .from('profiles')
-                            .select('avatar_url, first_name, surname, username')
-                            .eq('id', user.id)
-                            .maybeSingle();
-
-                        const userMetaData = user.user_metadata || {};
-                        const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
-                        const firstName = profile?.first_name || userMetaData.first_name || 'User';
-                        const surname = profile?.surname || userMetaData.surname || '';
-                        const fullName = `${firstName} ${surname}`.trim();
-                        const username = profile?.username || userMetaData.username || user.email.split('@')[0];
-                        const email = user.email || 'mail@gmail.com';
-                        const initial = firstName.charAt(0).toUpperCase();
-
-                        let avatarHtml = avatarUrl ? `<img src="${avatarUrl}" alt="${fullName}" width="38" height="38" loading="eager">` : `<span>${initial}</span>`;
-
-                        this.authNavGroup.innerHTML = `
-                            <div class="profile-menu-container" id="profileMenuContainer">
-                                <div class="nav-profile-dp" id="profileDpTrigger" title="Open Profile Menu">
-                                    ${avatarHtml}
-                                </div>
-                                <div class="profile-dropdown-list" id="profileDropdownList">
-                                    <div class="profile-dropdown-header">
-                                        <span class="profile-dropdown-name">${fullName}</span>
-                                        <span class="profile-dropdown-username">@${username}</span>
-                                        <span class="profile-dropdown-email">${email}</span>
-                                    </div>
-                                    <div class="profile-dropdown-items">
-                                        <a href="/profile" class="profile-dropdown-item">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                            Profile Settings
-                                        </a>
-                                        <a href="/certificate" class="profile-dropdown-item">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>
-                                            Achievements
-                                        </a>
-                                        <a href="/activity" class="profile-dropdown-item">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                            Activity
-                                        </a>
-                                        <a href="/settings" class="profile-dropdown-item">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                            Account Security
-                                        </a>
-                                    </div>
-                                    <div class="profile-dropdown-divider"></div>
-                                    <div class="profile-dropdown-items">
-                                        <a href="/login" class="profile-dropdown-item">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"></path></svg>
-                                            Switch Account
-                                        </a>
-                                        <button type="button" id="logoutBtn" class="profile-dropdown-item danger">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                                            Logout
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>`;
-
-                        const dpTrigger = document.getElementById('profileDpTrigger');
-                        const dropdownList = document.getElementById('profileDropdownList');
-
-                        if (dpTrigger && dropdownList) {
-                            dpTrigger.addEventListener('click', (e) => {
-                                e.stopPropagation();
-                                dropdownList.classList.toggle('active');
-                            });
-
-                            document.addEventListener('click', (e) => {
-                                if (!dropdownList.contains(e.target) && !dpTrigger.contains(e.target)) {
-                                    dropdownList.classList.remove('active');
-                                }
-                            });
-                        }
-
-                        const logoutBtn = document.getElementById('logoutBtn');
-                        if (logoutBtn) {
-                            logoutBtn.addEventListener('click', async () => {
-                                await supabase.auth.signOut();
-                                localStorage.removeItem('codify_enrollments');
-                                window.location.href = '/index.html';
-                            });
-                        }
-
-                        const { data: enrollments, error: enrollErr } = await supabase
-                            .from('user_enrollments')
-                            .select('course_id')
-                            .eq('user_id', user.id);
-
-                        if (!enrollErr && enrollments) {
-                            const liveCourseIds = enrollments.map(item => item.course_id);
-                            localStorage.setItem('codify_enrollments', JSON.stringify(liveCourseIds));
-                            this.applyEnrollmentUI(liveCourseIds);
-                        }
-                    } else {
-                        localStorage.removeItem('codify_enrollments');
-                        this.actionButtons.forEach(btn => btn.classList.add('ready'));
-                    }
-                } catch (err) {
-                    console.error("Auth rendering error:", err.message);
-                } finally {
-                    this.authNavGroup.classList.add('ready');
+        async function initializeCourseInteractions() {
+            const { data: { session } } = await supabase.auth.getSession();
+            const user = session?.user;
+            
+            let enrolledCourseIds = [];
+            if (user) {
+                const { data: enrollments } = await supabase
+                    .from('user_enrollments')
+                    .select('course_id')
+                    .eq('user_id', user.id);
+                
+                if (enrollments) {
+                    enrolledCourseIds = enrollments.map(item => item.course_id.toLowerCase().trim());
                 }
             }
+
+            document.querySelectorAll('.course-card').forEach(card => {
+                const courseId = card.getAttribute('data-course-id');
+                const indexUrl = card.getAttribute('data-index-url');
+                const viewBtn = card.querySelector('.btn-course-view');
+                const enrollBtn = card.querySelector('.btn-course-enroll');
+                const cardFooter = card.querySelector('.card-footer');
+
+                // 1. View Button Handler (Free public access to course index)
+                if (viewBtn && indexUrl) {
+                    viewBtn.addEventListener('click', () => {
+                        window.location.href = indexUrl;
+                    });
+                }
+
+                // 2. Check if already enrolled
+                const isEnrolled = enrolledCourseIds.includes(courseId.toLowerCase().trim());
+
+                if (isEnrolled && cardFooter) {
+                    // Transform to single "Continue Learning" button
+                    cardFooter.innerHTML = `
+                        <button type="button" class="btn-continue-learning">Continue Learning</button>
+                    `;
+                    cardFooter.querySelector('.btn-continue-learning').addEventListener('click', () => {
+                        window.location.href = indexUrl;
+                    });
+                } else if (enrollBtn) {
+                    // Enroll Button Handler
+                    enrollBtn.addEventListener('click', async () => {
+                        const { data: { session: activeSession } } = await supabase.auth.getSession();
+                        
+                        if (!activeSession) {
+                            showEnrollToast();
+                            return;
+                        }
+
+                        // Authenticated: Go to protected enroll/payment page
+                        window.location.href = `/src/pages/courses/course-enroll.html?course=${courseId.split('-')[0]}`;
+                    });
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            new AuthManager();
-            new AdvancedSearchEngine();
+            initializeCourseInteractions();
         });
-
-        const teamDatabase = {
-            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture and platform development.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'UI design and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Authentication and security.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Curriculum layout and styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Performance testing and QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
-        };
-
-        const engModal = document.getElementById('engineerModal');
-        const closeEngBtn = document.getElementById('closeEngineerModal');
-
-        window.openEngineerModal = function (memberKey) {
-            const engineer = teamDatabase[memberKey];
-            if (!engineer) return;
-
-            document.getElementById('engAvatar').textContent = engineer.initials;
-            document.getElementById('engName').textContent = engineer.name;
-            document.getElementById('engId').textContent = `Student ID: ${engineer.id}`;
-            document.getElementById('engRole').textContent = engineer.role;
-            document.getElementById('engBio').textContent = engineer.bio;
-            document.getElementById('engEmail').href = engineer.email;
-            document.getElementById('engGithub').href = engineer.github;
-
-            engModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        };
-
-        function closeEngineerModal() {
-            engModal.classList.remove('show');
-            document.body.style.overflow = '';
-        }
-
-        if (closeEngBtn) closeEngBtn.addEventListener('click', closeEngineerModal);
-        if (engModal) engModal.addEventListener('click', (e) => { if (e.target === engModal) closeEngineerModal(); });
     </script>
 </body>
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Master programming languages through structured curriculum tracking on Codify.">
+    <meta name="description" content="Master programming languages through structured curriculum tracking on Codify[cite: 7].">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
     
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="/src/css/style.css?v=2">
-    <title>Course Syllabus | Codify</title>
+    <title>Course Syllabus | Codify[cite: 7]</title>
     
     <style>
         html, body {
@@ -288,7 +288,7 @@
             <nav class="codify-center-nav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links">
                     <li><a href="/index.html">Home</a></li>
-                    <li><a href="/courses" class="active-link">Courses</a></li>
+                    <li><a href="/src/pages/courses.html" class="active-link">Courses</a></li>
                     <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
                     <li><a href="/src/pages/certificate.html">Certificates</a></li>
                     <li><a href="/src/pages/contact.html">Contact</a></li>
@@ -379,12 +379,12 @@
         import { supabase } from '/src/js/config/supabase-client.js';
 
         const urlParams = new URLSearchParams(window.location.search);
-const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
 
-const courseParam =
-    pathParts[0] === 'courses' && pathParts[1]
-        ? pathParts[1].toLowerCase()
-        : (window.__RESOLVED_COURSE || urlParams.get('course') || 'c').toLowerCase();
+        const courseParam =
+            pathParts[0] === 'courses' && pathParts[1]
+                ? pathParts[1].toLowerCase()
+                : (window.__RESOLVED_COURSE || urlParams.get('course') || 'c').toLowerCase();
         
         const courseConfigMap = {
             'c': { id: 'c-101', enrollPage: '/src/pages/courses/c/c-enroll.html', jsonPath: '/src/data/c-syllabus.json' },
@@ -397,7 +397,7 @@ const courseParam =
         const activeCourse = courseConfigMap[courseParam];
 
         if (!activeCourse) {
-            window.location.replace('/courses');
+            window.location.replace('/src/pages/courses.html');
             throw new Error(`Unknown course: ${courseParam}`);
         }
 
@@ -408,28 +408,13 @@ const courseParam =
             return path.replace(/^\/+/, '').trim();
         }
 
-        async function verifyEnrollmentGuard(user) {
-            const { data: enrollment, error } = await supabase
-                .from('user_enrollments')
-                .select('id')
-                .eq('user_id', user.id)
-                .eq('course_id', COURSE_ID)
-                .maybeSingle();
-
-            if (!enrollment || error) {
-                window.location.replace(activeCourse.enrollPage);
-                return false;
-            }
-            return true;
-        }
-
         async function initPage() {
             try {
                 const response = await fetch(activeCourse.jsonPath);
                 if (!response.ok) throw new Error('Failed to fetch course syllabus configuration');
                 const syllabusData = await response.json();
 
-                document.title = `${syllabusData.course_title.split(' ')[0]} Syllabus | Codify`;
+                document.title = `${syllabusData.course_title.split(' ')[0]} Syllabus | Codify[cite: 7]`;
                 document.getElementById('coursePageTitle').innerHTML = `${syllabusData.course_title.split(' ')[0]} Programming <span>Course Index &amp; Syllabus</span>`;
 
                 const container = document.getElementById('syllabusContainer');
@@ -444,11 +429,8 @@ const courseParam =
                     `;
                     chapter.topics.forEach(topic => {
                         totalTopicsCount++;
-                        
-                        // Extract the clean lesson number/ID (e.g., extracts "1.1" from "chapter-1/1.1-how-the-web-works.md")
                         const lessonId = topic.id || topic.file.split('/').pop().split('-')[0];
 
-                        // Generate clean URLs for each lesson
                         htmlContent += `
                             <li class="topic-item">
                                 <a href="/courses/${courseParam}/${lessonId}" class="topic-link">${topic.title}</a>
@@ -463,49 +445,42 @@ const courseParam =
 
                 container.innerHTML = htmlContent;
 
+                // Optionally check session to display live progress for logged-in users, without blocking public view
                 const { data: { session } } = await supabase.auth.getSession();
                 const user = session?.user;
 
-                if (!user) {
-                    window.location.replace('/src/auth/login.html');
-                    return;
-                }
-
-                const isEnrolled = await verifyEnrollmentGuard(user);
-                if (!isEnrolled) return;
-
-                const { data: progress, error } = await supabase
-                    .from('user_progress')
-                    .select('lesson_id, completed')
-                    .eq('user_id', user.id)
-                    .eq('course_id', COURSE_ID);
-
-                if (error) throw error;
-
                 let finishedCount = 0;
 
-                if (progress && progress.length > 0) {
-                    const completedSet = new Set(
-                        progress.filter(p => p.completed).map(p => normalizePath(p.lesson_id))
-                    );
+                if (user) {
+                    const { data: progress, error } = await supabase
+                        .from('user_progress')
+                        .select('lesson_id, completed')
+                        .eq('user_id', user.id)
+                        .eq('course_id', COURSE_ID);
 
-                    document.querySelectorAll('.status-pill[data-topic]').forEach(badge => {
-                        const topicKey = normalizePath(badge.getAttribute('data-topic'));
-                        const isDone = Array.from(completedSet).some(comp => comp.includes(topicKey) || topicKey.includes(comp));
+                    if (!error && progress && progress.length > 0) {
+                        const completedSet = new Set(
+                            progress.filter(p => p.completed).map(p => normalizePath(p.lesson_id))
+                        );
 
-                        if (isDone) {
-                            finishedCount++;
-                            badge.className = 'status-pill done';
-                            badge.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Finished';
-                        } else {
-                            badge.className = 'status-pill open';
-                            badge.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="9"></circle></svg> Incomplete';
-                        }
-                    });
+                        document.querySelectorAll('.status-pill[data-topic]').forEach(badge => {
+                            const topicKey = normalizePath(badge.getAttribute('data-topic'));
+                            const isDone = Array.from(completedSet).some(comp => comp.includes(topicKey) || topicKey.includes(comp));
+
+                            if (isDone) {
+                                finishedCount++;
+                                badge.className = 'status-pill done';
+                                badge.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Finished';
+                            } else {
+                                badge.className = 'status-pill open';
+                                badge.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="9"></circle></svg> Incomplete';
+                            }
+                        });
+                    }
                 }
 
                 const pendingCount = Math.max(0, totalTopicsCount - finishedCount);
-                const percentage = Math.round((finishedCount / totalTopicsCount) * 100);
+                const percentage = totalTopicsCount > 0 ? Math.round((finishedCount / totalTopicsCount) * 100) : 0;
 
                 const finishedEl = document.getElementById('finishedMetric');
                 const pendingEl = document.getElementById('pendingMetric');

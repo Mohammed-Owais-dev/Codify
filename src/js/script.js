@@ -1,7 +1,7 @@
 /**
  * ==========================================================================
  * CODIFY - CORE INTERACTIVE ENGINE & RUNTIME PIPELINE LAYER
- * Fully Optimized, Unified, and Repaired
+ * Fully Optimized, Unified, and Repaired with Enrollment Toast Support
  * ==========================================================================
  */
 
@@ -51,15 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e) e.stopPropagation();
         
         if (window.innerWidth > 768) {
-            // Desktop Split: Toggle structural layout metrics (25% / 75% vs 0% / 100%)
             sidebarNav.classList.toggle('collapsed');
             document.querySelector('.page-wrapper')?.classList.toggle('sidebar-is-collapsed');
         } else {
-            // Mobile Overlay: Toggle off-canvas left drawer sliders
             sidebarNav.classList.toggle('active');
         }
 
-        // Synchronize display text toggles seamlessly
         [sidebarToggle, sidebarToggleMobile].forEach(btn => {
             if (!btn) return;
             const toggleIcon = btn.querySelector('.toggle-icon');
@@ -92,8 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         node.addEventListener('click', () => {
             const branch = node.parentElement;
             if (!branch) return;
-
-            // Simply toggle class — CSS handles all smooth rotation & sliding physics!
             branch.classList.toggle('expanded');
         });
     });
@@ -107,8 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const hrefAttr = link.getAttribute('href');
         if (hrefAttr && currentFile !== '' && hrefAttr.includes(currentFile)) {
             link.classList.add('active');
-            
-            // Auto-expand active chapter category panels on system initialization
             let parentBranch = link.closest('.tree-branch');
             if (parentBranch) parentBranch.classList.add('expanded');
         }
@@ -116,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     topicLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            // Only use single-page prevention if intentionally handling localized DOM switches
             if (link.getAttribute('href').startsWith('#')) {
                 e.preventDefault();
                 topicLinks.forEach(l => l.classList.remove('active'));
@@ -251,162 +243,147 @@ function showKeywordDef(name, description) {
 }
 
 // ----------------------------------------------------------------------
-    // 11. PROFESSIONAL LIVE ENGINE SITE-SEARCH ENGINE (HUD MODAL SYSTEM)
-    // ----------------------------------------------------------------------
-    
-    // Comprehensive Index Mapping Database containing all contents across site platforms
-    const siteContentDatabase = [
-        { title: "Home Dashboard", url: "/index.html", category: "System", keywords: "welcome landing campus learn cs main", desc: "The foundational entryway launchpad containing information summary streams for Codify courses." },
-        { title: "Course Curriculum Overview", url: "/course.html", category: "Dashboard", keywords: "tracks selection menu python java database system architecture modules modules", desc: "Comprehensive collection platform to navigate tracks, access evaluations, and launch learning nodes." },
-        { title: "1.1 History of Python", url: "/src/courses/python/chapter-1/1.1-history-of-python.html", category: "Python basics", keywords: "guido van rossum abc language programming origins 1991 standard general intent", desc: "Discover the chronological origin story and design paradigms established during Python's creation matrix." },
-        { title: "1.2 Python Core Features", url: "/src/courses/python/chapter-1/1.2-list-python-features.html", category: "Python basics", keywords: "batteries included open source platform independent high level dynamic interpretation object oriented readable syntax libraries", desc: "Analyze technical capabilities including automatic platform management vectors, object bindings, and implicit compilation workflows." },
-        { title: "1.3 Applications of Python", url: "/src/courses/python/chapter-1/1.3-list-and-explian-applications-of-python.html", category: "Python basics", keywords: "web development artificial intelligence data science machine learning automation scraping django framework statistics flask scripts api desktop apps", desc: "Breakdown structural systems leveraging computational toolkits across neural networking models, automation frameworks, and web architectures." },
-        { title: "1.4 Explaining Python IDLE", url: "/src/courses/python/chapter-1/1.4-explain-python-idle.html", category: "Python basics", keywords: "integrated development learning environment script window interactive shell debugger syntax check shortcut execution keys run module f5 save print statements text editor", desc: "Master configuration controls across standard interactive shells, syntax debugging highlights, and compilation output pipelines." },
-        { title: "1.5 Running Python Scripts", url: "/src/courses/python/chapter-1/1.5-explain-process-of-running-python-scripts.html", category: "Python basics", keywords: "compilation steps source code conversion interpreter execution layer dynamic pvm virtual machine engine runtimes compilation bytecode file format pyc path logic variables", desc: "Track low-level mechanics mapping operations from structural plaintext definitions into optimized bytecode maps interpreted inside hardware states." },
-        { title: "1.6 Identifiers, Keywords & Indentation Rules", url: "/src/courses/python/chapter-1/1.6-explain-identifier-keywords-indentation.html", category: "Python basics", keywords: "variable naming definitions case sensitive keywords blocks system scope space code structural indentation errors indentationerror tokens logic validation tester tools definitions functions class structure formatting parameters alignment", desc: "Examine strict semantic conventions regulating structural layout boundaries, namespace parameters, and naming safety formats within scope stacks." }
-    ];
+// 11. PROFESSIONAL LIVE ENGINE SITE-SEARCH ENGINE (HUD MODAL SYSTEM)
+// ----------------------------------------------------------------------
+const siteContentDatabase = [
+    { title: "Home Dashboard", url: "/index.html", category: "System", keywords: "welcome landing campus learn cs main", desc: "The foundational entryway launchpad containing information summary streams for Codify courses." },
+    { title: "Course Curriculum Overview", url: "/course.html", category: "Dashboard", keywords: "tracks selection menu python java database system architecture modules modules", desc: "Comprehensive collection platform to navigate tracks, access evaluations, and launch learning nodes." },
+    { title: "1.1 History of Python", url: "/src/courses/python/chapter-1/1.1-history-of-python.html", category: "Python basics", keywords: "guido van rossum abc language programming origins 1991 standard general intent", desc: "Discover the chronological origin story and design paradigms established during Python's creation matrix." },
+    { title: "1.2 Python Core Features", url: "/src/courses/python/chapter-1/1.2-list-python-features.html", category: "Python basics", keywords: "batteries included open source platform independent high level dynamic interpretation object oriented readable syntax libraries", desc: "Analyze technical capabilities including automatic platform management vectors, object bindings, and implicit compilation workflows." },
+    { title: "1.3 Applications of Python", url: "/src/courses/python/chapter-1/1.3-list-and-explian-applications-of-python.html", category: "Python basics", keywords: "web development artificial intelligence data science machine learning automation scraping django framework statistics flask scripts api desktop apps", desc: "Breakdown structural systems leveraging computational toolkits across neural networking models, automation frameworks, and web architectures." },
+    { title: "1.4 Explaining Python IDLE", url: "/src/courses/python/chapter-1/1.4-explain-python-idle.html", category: "Python basics", keywords: "integrated development learning environment script window interactive shell debugger syntax check shortcut execution keys run module f5 save print statements text editor", desc: "Master configuration controls across standard interactive shells, syntax debugging highlights, and compilation output pipelines." },
+    { title: "1.5 Running Python Scripts", url: "/src/courses/python/chapter-1/1.5-explain-process-of-running-python-scripts.html", category: "Python basics", keywords: "compilation steps source code conversion interpreter execution layer dynamic pvm virtual machine engine runtimes compilation bytecode file format pyc path logic variables", desc: "Track low-level mechanics mapping operations from structural plaintext definitions into optimized bytecode maps interpreted inside hardware states." },
+    { title: "1.6 Identifiers, Keywords & Indentation Rules", url: "/src/courses/python/chapter-1/1.6-explain-identifier-keywords-indentation.html", category: "Python basics", keywords: "variable naming definitions case sensitive keywords blocks system scope space code structural indentation errors indentationerror tokens logic validation tester tools definitions functions class structure formatting parameters alignment", desc: "Examine strict semantic conventions regulating structural layout boundaries, namespace parameters, and naming safety formats within scope stacks." }
+];
 
-    const searchOverlay = document.getElementById('searchOverlayModal');
-    const inputTrigger = document.getElementById('siteSearchTrigger');
-    const modalInput = document.getElementById('modalSearchInput');
-    const modalClose = document.getElementById('modalSearchClose');
-    const resultsList = document.getElementById('searchResultsList');
-    const statusBox = document.getElementById('searchResultsStatus');
-    let focusedResultIndex = -1;
+const searchOverlay = document.getElementById('searchOverlayModal');
+const inputTrigger = document.getElementById('siteSearchTrigger');
+const modalInput = document.getElementById('modalSearchInput');
+const modalClose = document.getElementById('modalSearchClose');
+const resultsList = document.getElementById('searchResultsList');
+const statusBox = document.getElementById('searchResultsStatus');
+let focusedResultIndex = -1;
 
-    if (searchOverlay && modalInput && resultsList && statusBox) {
-        
-        // Open Search Modal HUD Function
-        const openSearchHUD = (e) => {
-            if (e) e.preventDefault();
-            searchOverlay.classList.add('active');
-            searchOverlay.setAttribute('aria-hidden', 'false');
-            setTimeout(() => { modalInput.focus(); }, 50);
-            focusedResultIndex = -1;
-        };
+if (searchOverlay && modalInput && resultsList && statusBox) {
+    const openSearchHUD = (e) => {
+        if (e) e.preventDefault();
+        searchOverlay.classList.add('active');
+        searchOverlay.setAttribute('aria-hidden', 'false');
+        setTimeout(() => { modalInput.focus(); }, 50);
+        focusedResultIndex = -1;
+    };
 
-        // Close Search Modal HUD Function
-        const closeSearchHUD = () => {
-            searchOverlay.classList.remove('active');
-            searchOverlay.setAttribute('aria-hidden', 'true');
-            modalInput.value = "";
-            resultsList.innerHTML = "";
+    const closeSearchHUD = () => {
+        searchOverlay.classList.remove('active');
+        searchOverlay.setAttribute('aria-hidden', 'true');
+        modalInput.value = "";
+        resultsList.innerHTML = "";
+        statusBox.style.display = "block";
+        statusBox.innerText = "Start typing to search your course parameters...";
+    };
+
+    if (inputTrigger) {
+        inputTrigger.addEventListener('click', openSearchHUD);
+        inputTrigger.addEventListener('focus', openSearchHUD);
+    }
+    if (modalClose) modalClose.addEventListener('click', closeSearchHUD);
+
+    const textHighlightMatch = (text, query) => {
+        if (!query) return text;
+        const matchRegex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+        return text.replace(matchRegex, '<span class="search-match-hl">$1</span>');
+    };
+
+    modalInput.addEventListener('input', () => {
+        const query = modalInput.value.trim().toLowerCase();
+        resultsList.innerHTML = "";
+        focusedResultIndex = -1;
+
+        if (!query) {
             statusBox.style.display = "block";
             statusBox.innerText = "Start typing to search your course parameters...";
-        };
-
-        // Bind interactive activation entry listeners
-        if (inputTrigger) {
-            inputTrigger.addEventListener('click', openSearchHUD);
-            inputTrigger.addEventListener('focus', openSearchHUD);
+            return;
         }
-        if (modalClose) modalClose.addEventListener('click', closeSearchHUD);
 
-        // Highlight Matching Characters Function
-        const textHighlightMatch = (text, query) => {
-            if (!query) return text;
-            const matchRegex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-            return text.replace(matchRegex, '<span class="search-match-hl">$1</span>');
-        };
+        const resultsMatches = siteContentDatabase.filter(item => 
+            item.title.toLowerCase().includes(query) ||
+            item.category.toLowerCase().includes(query) ||
+            item.keywords.toLowerCase().includes(query) ||
+            item.desc.toLowerCase().includes(query)
+        );
 
-        // Live Processing Evaluation Query Engine
-        modalInput.addEventListener('input', () => {
-            const query = modalInput.value.trim().toLowerCase();
-            resultsList.innerHTML = "";
-            focusedResultIndex = -1;
+        if (resultsMatches.length === 0) {
+            statusBox.style.display = "block";
+            statusBox.innerText = `No site parameters discovered matching sequence: "${modalInput.value}"`;
+            return;
+        }
 
-            if (!query) {
-                statusBox.style.display = "block";
-                statusBox.innerText = "Start typing to search your course parameters...";
-                return;
-            }
+        statusBox.style.display = "none";
 
-            // Filter database array matches matching metrics across title, category tags or core text descriptors
-            const resultsMatches = siteContentDatabase.filter(item => 
-                item.title.toLowerCase().includes(query) ||
-                item.category.toLowerCase().includes(query) ||
-                item.keywords.toLowerCase().includes(query) ||
-                item.desc.toLowerCase().includes(query)
-            );
-
-            if (resultsMatches.length === 0) {
-                statusBox.style.display = "block";
-                statusBox.innerText = `No site parameters discovered matching sequence: "${modalInput.value}"`;
-                return;
-            }
-
-            statusBox.style.display = "none"; // Hide system message grid to give space for results lists
-
-            // Injects dynamic matches directly into live UI list nodes
-            resultsMatches.forEach((result, idx) => {
-                const li = document.createElement('li');
-                li.className = "search-result-item";
-                li.setAttribute('data-index', idx);
-                
-                li.innerHTML = `
-                    <a href="${result.url}">
-                        <div class="result-item-title">
-                            <span>${textHighlightMatch(result.title, query)}</span>
-                            <span class="result-item-category">${textHighlightMatch(result.category, query)}</span>
-                        </div>
-                        <div class="result-item-desc">${textHighlightMatch(result.desc, query)}</div>
-                    </a>
-                `;
-                resultsList.appendChild(li);
-            });
+        resultsMatches.forEach((result, idx) => {
+            const li = document.createElement('li');
+            li.className = "search-result-item";
+            li.setAttribute('data-index', idx);
+            
+            li.innerHTML = `
+                <a href="${result.url}">
+                    <div class="result-item-title">
+                        <span>${textHighlightMatch(result.title, query)}</span>
+                        <span class="result-item-category">${textHighlightMatch(result.category, query)}</span>
+                    </div>
+                    <div class="result-item-desc">${textHighlightMatch(result.desc, query)}</div>
+                </a>
+            `;
+            resultsList.appendChild(li);
         });
+    });
 
-        // Sync Focus State Highlights during index keyboard tracking configurations
-        const refreshItemKeyboardFocus = (itemsList) => {
-            itemsList.forEach(item => item.classList.remove('selected'));
-            if (focusedResultIndex >= 0 && focusedResultIndex < itemsList.length) {
-                const focusedItem = itemsList[focusedResultIndex];
-                focusedItem.classList.add('selected');
-                focusedItem.scrollIntoView({ block: 'nearest' }); // Smooth view alignment tracking
-            }
-        };
+    const refreshItemKeyboardFocus = (itemsList) => {
+        itemsList.forEach(item => item.classList.remove('selected'));
+        if (focusedResultIndex >= 0 && focusedResultIndex < itemsList.length) {
+            const focusedItem = itemsList[focusedResultIndex];
+            focusedItem.classList.add('selected');
+            focusedItem.scrollIntoView({ block: 'nearest' });
+        }
+    };
 
-        // Global Keydown Keyboard Event Manager for Search shortcuts (⌘K / ESC / Arrows / Enter)
-        document.addEventListener('keydown', (e) => {
-            // Open search on Ctrl+K / Cmd+K combo inputs
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            openSearchHUD();
+            return;
+        }
+
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            closeSearchHUD();
+            return;
+        }
+
+        if (searchOverlay.classList.contains('active')) {
+            const searchItems = resultsList.querySelectorAll('.search-result-item');
+            if (searchItems.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                openSearchHUD();
-                return;
-            }
-
-            // Exit modal cleanly on hitting Escape key
-            if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
-                closeSearchHUD();
-                return;
-            }
-
-            // Keyboard Arrow Actions logic context when search overlay module is running actively
-            if (searchOverlay.classList.contains('active')) {
-                const searchItems = resultsList.querySelectorAll('.search-result-item');
-                if (searchItems.length === 0) return;
-
-                if (e.key === 'ArrowDown') {
+                focusedResultIndex = (focusedResultIndex + 1 >= searchItems.length) ? 0 : focusedResultIndex + 1;
+                refreshItemKeyboardFocus(searchItems);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                focusedResultIndex = (focusedResultIndex - 1 < 0) ? searchItems.length - 1 : focusedResultIndex - 1;
+                refreshItemKeyboardFocus(searchItems);
+            } else if (e.key === 'Enter') {
+                if (focusedResultIndex >= 0 && focusedResultIndex < searchItems.length) {
                     e.preventDefault();
-                    focusedResultIndex = (focusedResultIndex + 1 >= searchItems.length) ? 0 : focusedResultIndex + 1;
-                    refreshItemKeyboardFocus(searchItems);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    focusedResultIndex = (focusedResultIndex - 1 < 0) ? searchItems.length - 1 : focusedResultIndex - 1;
-                    refreshItemKeyboardFocus(searchItems);
-                } else if (e.key === 'Enter') {
-                    if (focusedResultIndex >= 0 && focusedResultIndex < searchItems.length) {
-                        e.preventDefault();
-                        const targetedLink = searchItems[focusedResultIndex].querySelector('a');
-                        if (targetedLink) targetedLink.click(); // Trigger routing choice sequence execution
-                    }
+                    const targetedLink = searchItems[focusedResultIndex].querySelector('a');
+                    if (targetedLink) targetedLink.click();
                 }
             }
-        });
-    }
+        }
+    });
+}
 
 // ==========================================================================
-// 13. HIGH-FIDELITY AUTOMATED DATA EXPORT ENGINE (COPY & DOWNLOAD BLOCKS)
+// 12. HIGH-FIDELITY AUTOMATED DATA EXPORT ENGINE (COPY & DOWNLOAD BLOCKS)
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const codeSource = document.getElementById('zenOfPythonSource');
@@ -415,15 +392,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!codeSource) return;
 
-    // A. Clean Asynchronous Secure Clipboard Handler
     if (copyTrigger) {
         copyTrigger.addEventListener('click', async () => {
             try {
-                // Extract text directly from the specific code DOM node scope boundary
                 const textContent = codeSource.textContent;
                 await navigator.clipboard.writeText(textContent);
                 
-                // Active visual confirmation update state indicators
                 const legacyLabel = copyTrigger.innerHTML;
                 copyTrigger.innerHTML = `✓ Copied!`;
                 copyTrigger.style.borderColor = "#2ea44f";
@@ -440,31 +414,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // B. Client-Side Virtual File Stream Generator (Download Engine)
     if (downloadTrigger) {
         downloadTrigger.addEventListener('click', () => {
             try {
                 const rawText = codeSource.textContent;
-                
-                // Pack raw plaintext contents into an explicit script data array blob container
                 const textBlob = new Blob([rawText], { type: 'text/plain' });
-                
-                // Build a virtual processing element route target inside runtime scope
                 const downloadAnchor = document.createElement('a');
                 
-                // Convert the raw text storage array into an executable framework URL reference
                 downloadAnchor.download = "zen_of_python.py";
                 downloadAnchor.href = window.URL.createObjectURL(textBlob);
                 downloadAnchor.style.display = "none";
                 
-                // Inject, fire click handler triggers, and systematically clean memory traces
                 document.body.appendChild(downloadAnchor);
                 downloadAnchor.click();
                 
                 document.body.removeChild(downloadAnchor);
                 window.URL.revokeObjectURL(downloadAnchor.href);
                 
-                // Dynamic Download Completion Visual State Indicator
                 const legacyDownloadLabel = downloadTrigger.innerHTML;
                 downloadTrigger.innerHTML = `✓ Downloaded`;
                 downloadTrigger.style.borderColor = "#2ea44f";
@@ -483,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================================================
-// 14. INTERACTIVE TERMINAL HUD CONTROLLER & HYBRID DATA EXPORT ENGINE
+// 13. INTERACTIVE TERMINAL HUD CONTROLLER & HYBRID DATA EXPORT ENGINE
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const terminalTrigger = document.getElementById('zenTerminalTrigger');
@@ -491,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyBtn = document.getElementById('zenCopyTrigger');
     const downloadBtn = document.getElementById('zenDownloadTrigger');
 
-    // 1. Core Sandbox compilation execution display layout routine
     if (terminalTrigger && outputPoem) {
         terminalTrigger.addEventListener('click', () => {
             outputPoem.style.display = "block";
@@ -501,12 +466,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Isolated Helper Function to safely parse pristine text parameters out of the template
     const extractCleanPhilosophyText = () => {
         if (!outputPoem) return "";
-        // Clone the wrapper content node array to process filters safely in isolation
         const documentClone = outputPoem.cloneNode(true);
-        // Eliminate the success log status banner element completely from the text stream mapping
         const successLogNode = documentClone.querySelector('.terminal-success-log');
         if (successLogNode) {
             documentClone.removeChild(successLogNode);
@@ -514,10 +476,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return documentClone.textContent.trim();
     };
 
-    // 2. Clipboard API execution logic block
     if (copyBtn) {
         copyBtn.addEventListener('click', async (e) => {
-            e.stopPropagation(); // Prevents clicking the copy button from firing the parent canvas click loop
+            e.stopPropagation();
             const cleanText = extractCleanPhilosophyText();
             if (!cleanText) return;
 
@@ -539,10 +500,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Virtual Local text downloader logic block
     if (downloadBtn) {
         downloadBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents triggering the console activation script logic loop 
+            e.stopPropagation();
             const cleanExportData = extractCleanPhilosophyText();
             if (!cleanExportData) return;
 
@@ -578,87 +538,81 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-        // CODE CONTAINER ACTIONS (COPY, DOWLOAD, RUN)
-        // ==========================================
+// CODE CONTAINER ACTIONS (COPY, DOWNLOAD, RUN)
+// ==========================================
+function getCleanText(elementId) {
+    const el = document.getElementById(elementId);
+    return el.innerText || el.textContent;
+}
 
-        function getCleanText(elementId) {
-            // Extracts text without HTML tags for copying and downloading
-            const el = document.getElementById(elementId);
-            return el.innerText || el.textContent;
-        }
+function copyCode(elementId, btnElement) {
+    const codeText = getCleanText(elementId);
+    navigator.clipboard.writeText(codeText).then(() => {
+        const tooltip = btnElement.querySelector('.tooltip');
+        tooltip.style.opacity = '1';
+        setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
+    }).catch(err => {
+        console.error("Failed to copy text: ", err);
+    });
+}
 
-        function copyCode(elementId, btnElement) {
-            const codeText = getCleanText(elementId);
-            navigator.clipboard.writeText(codeText).then(() => {
-                const tooltip = btnElement.querySelector('.tooltip');
-                tooltip.style.opacity = '1';
-                setTimeout(() => { tooltip.style.opacity = '0'; }, 2000);
-            }).catch(err => {
-                console.error("Failed to copy text: ", err);
-            });
-        }
+function downloadCode(elementId, filename) {
+    const codeText = getCleanText(elementId);
+    const blob = new Blob([codeText], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
-        function downloadCode(elementId, filename) {
-            const codeText = getCleanText(elementId);
-            const blob = new Blob([codeText], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+function runCode(outputId) {
+    const outputEl = document.getElementById(outputId);
+    if (outputEl.style.display === 'block') {
+        outputEl.style.display = 'none';
+    } else {
+        outputEl.style.display = 'block';
+    }
+}
 
-        function runCode(outputId) {
-            const outputEl = document.getElementById(outputId);
-            // Toggle display
-            if (outputEl.style.display === 'block') {
-                outputEl.style.display = 'none';
-            } else {
-                outputEl.style.display = 'block';
+// ==========================================
+// QUIZ INTERACTIVE LOGIC
+// ==========================================
+function handleAnswer(btnElement, isCorrect, questionNumber) {
+    const optionsContainer = btnElement.parentElement;
+    const allButtons = optionsContainer.querySelectorAll('.q-option');
+    allButtons.forEach(btn => btn.classList.add('locked'));
+
+    if (isCorrect) {
+        btnElement.classList.add('correct');
+    } else {
+        btnElement.classList.add('incorrect');
+        allButtons.forEach(btn => {
+            if (btn.getAttribute('onclick').includes('true')) {
+                btn.classList.add('correct');
+                btn.style.opacity = "0.7";
             }
-        }
+        });
+    }
 
-        // ==========================================
-        // QUIZ INTERACTIVE LOGIC
-        // ==========================================
-        function handleAnswer(btnElement, isCorrect, questionNumber) {
-            const optionsContainer = btnElement.parentElement;
+    document.getElementById('next-' + questionNumber).style.display = 'block';
+}
 
-            // Lock all buttons so user can't click multiple times
-            const allButtons = optionsContainer.querySelectorAll('.q-option');
-            allButtons.forEach(btn => btn.classList.add('locked'));
+function nextQuestion(currentNumber) {
+    document.getElementById('qb-' + currentNumber).classList.remove('active-question');
+    document.getElementById('qb-' + (currentNumber + 1)).classList.add('active-question');
+}
 
-            // Apply styling
-            if (isCorrect) {
-                btnElement.classList.add('correct');
-            } else {
-                btnElement.classList.add('incorrect');
-                // Reveal the true answer if they got it wrong
-                allButtons.forEach(btn => {
-                    if (btn.getAttribute('onclick').includes('true')) {
-                        btn.classList.add('correct');
-                        btn.style.opacity = "0.7"; // Dim slightly to show it wasn't their choice
-                    }
-                });
-            }
+function finishQuiz() {
+    document.getElementById('qb-5').classList.remove('active-question');
+    document.getElementById('qb-complete').classList.add('active');
+}
 
-            // Show the "Next" button
-            document.getElementById('next-' + questionNumber).style.display = 'block';
-        }
-
-        function nextQuestion(currentNumber) {
-            document.getElementById('qb-' + currentNumber).classList.remove('active-question');
-            document.getElementById('qb-' + (currentNumber + 1)).classList.add('active-question');
-        }
-
-        function finishQuiz() {
-            document.getElementById('qb-5').classList.remove('active-question');
-            document.getElementById('qb-complete').classList.add('active');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-    // 1. Core DOM Object Selectors
+// ==========================================
+// LIGHTBOX & ZOOM CONTROLS
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('globalLightbox');
     const lightboxImg = document.getElementById('lightboxTargetImg');
     const closeBtn = document.getElementById('closeLightbox');
@@ -666,7 +620,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const dismissHudBtn = document.getElementById('dismissHudBtn');
     const pageImages = document.querySelectorAll('.content-image-wrapper img');
 
-    // 2. Mechanics & Transformation States
     let currentZoom = 1.0;
     let translateX = 0;
     let translateY = 0;
@@ -675,19 +628,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const MAX_ZOOM = 4.0;
     const MIN_ZOOM = 0.5;
 
-    // Panning (Move) Specific States
     let isDragging = false;
     let startX = 0;
     let startY = 0;
 
     if (lightbox && lightboxImg) {
-        
-        // Unified UI Matrix Synchronizer Routine
         const applyTransformState = () => {
             lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
         };
 
-        // Zoom Execution Routines
         const performZoomIn = () => {
             if (currentZoom < MAX_ZOOM) {
                 currentZoom += ZOOM_STEP;
@@ -715,7 +664,6 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTransformState();
         };
 
-        // --- MOVE/PAN ACTIVE LISTENERS ---
         lightboxImg.addEventListener('mousedown', (e) => {
             e.preventDefault(); 
             isDragging = true;
@@ -738,14 +686,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Open Lightbox Hook
         pageImages.forEach(img => {
             img.addEventListener('click', () => {
                 lightboxImg.src = img.src;
                 lightboxImg.alt = img.alt;
                 resetTransformState(); 
                 
-                // NEW BEHAVIOR: Always show the instruction box on fresh entrance
                 if (hudBox) hudBox.classList.remove('hud-hidden');
                 
                 lightbox.classList.add('active');
@@ -753,7 +699,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Close/Dismiss Routine
         const dismissLightbox = () => {
             lightbox.classList.remove('active');
             document.body.style.overflow = ''; 
@@ -768,10 +713,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // NEW FEATURE ACTION: Hide the HUD shortcut container on click smoothly
         if (dismissHudBtn && hudBox) {
             dismissHudBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Stops parent container click triggers
+                e.stopPropagation();
                 hudBox.classList.add('hud-hidden');
             });
         }
@@ -782,7 +726,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Trackpad / Mouse Scroll Wheel Handling Engine
         lightbox.addEventListener('wheel', (e) => {
             e.preventDefault();
             if (e.deltaY < 0) {
@@ -792,7 +735,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, { passive: false });
 
-        // Keyboard Shortcut Keys Intercept Map Loop
         document.addEventListener('keydown', (e) => {
             if (lightbox.classList.contains('active')) {
                 if (e.key === 'Escape') dismissLightbox();
@@ -802,4 +744,86 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+});
+
+// ==========================================================================
+// 14. COURSE VIEW & ENROLLMENT TOAST HANDLER (HOVER-PAUSE TIMELINE)
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    let toastTimeout = null;
+    let remainingTime = 3000;
+    let startTime = null;
+
+    function showEnrollToast() {
+        let toast = document.getElementById('codifyToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'codifyToast';
+            toast.className = 'codify-toast';
+            toast.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span>Please log in to enroll in this course.</span>
+                <a href="../auth/login.html" class="toast-login-btn">Log In</a>
+            `;
+            document.body.appendChild(toast);
+
+            toast.addEventListener('mouseenter', () => {
+                if (toastTimeout) {
+                    clearTimeout(toastTimeout);
+                    remainingTime -= (Date.now() - startTime);
+                }
+            });
+
+            toast.addEventListener('mouseleave', () => {
+                if (remainingTime > 0) {
+                    startTime = Date.now();
+                    toastTimeout = setTimeout(() => hideToast(toast), remainingTime);
+                }
+            });
+        }
+
+        toast.classList.add('show');
+        remainingTime = 3000;
+        startTime = Date.now();
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => hideToast(toast), remainingTime);
+    }
+
+    function hideToast(toast) {
+        if (toast) toast.classList.remove('show');
+    }
+
+    document.querySelectorAll('.course-card').forEach(card => {
+        const courseId = card.getAttribute('data-course-id');
+        const viewBtn = card.querySelector('.btn-course-view');
+        const enrollBtn = card.querySelector('.btn-course-enroll');
+
+        if (viewBtn && courseId) {
+            viewBtn.addEventListener('click', () => {
+                window.location.href = `course-view.html?id=${courseId}`;
+            });
+        }
+
+        if (enrollBtn && courseId) {
+            enrollBtn.addEventListener('click', async () => {
+                // Dynamically check session using supabase client if available globally or import check
+                const isEnrolled = card.getAttribute('data-enrolled') === 'true';
+                
+                // If unauthenticated check can be handled by checking localStorage/session
+                // Assuming standard workflow triggers toast when not logged in:
+                const isLoggedIn = window.isUserAuthenticated || false; // Set dynamically or check session
+
+                if (!isLoggedIn) {
+                    showEnrollToast();
+                    return;
+                }
+
+                if (!isEnrolled) {
+                    window.location.href = `enroll.html?id=${courseId}`;
+                } else {
+                    window.location.href = `learn.html?id=${courseId}`;
+                }
+            });
+        }
+    });
 });

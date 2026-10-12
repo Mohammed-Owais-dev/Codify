@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Enroll in masterclass courses on Codify. Learn core syntax, architectures, and practical skills.">
+    <meta name="description" content="Enroll in masterclass courses on Codify. Learn core syntax, architectures, and practical skills.[cite: 6]">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="/src/css/style.css">
     
-    <title>Course Enrollment | Codify</title>
+    <title>Course Enrollment | Codify[cite: 6]</title>
 
     <style>
         html, body {
@@ -643,7 +643,7 @@
                     <div class="highlight-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
-                            polyline points="12 6 12 12 16 14"></polyline>
+                            <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                     </div>
                     <div class="highlight-info">
@@ -760,7 +760,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const courseParam = urlParams.get('course') || 'c';
 
-        // Configuration Map matching course handles to IDs, Syllabus JSON files, and Index targets
+        // Configuration Map matching course handles to IDs, Syllabus JSON files, and Index targets[cite: 6]
         const courseConfigMap = {
             'c': { id: 'c-101', indexPage: 'course-index.html?course=c', jsonPath: '/src/data/c-syllabus.json' },
             'python': { id: 'python-101', indexPage: 'course-index.html?course=python', jsonPath: '/src/data/python-syllabus.json' },
@@ -776,13 +776,21 @@
 
         async function initEnrollmentPage() {
             try {
-                // 1. Fetch Syllabus JSON Config to dynamically render course details
+                // 1. Strict Route Guard: Ensure user is logged in before rendering anything[cite: 6]
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError || !session || !session.user) {
+                    window.location.replace('/src/auth/login.html');
+                    return;
+                }
+
+                currentUser = session.user;
+
+                // 2. Fetch Syllabus JSON Config to dynamically render course details[cite: 6]
                 const response = await fetch(activeCourse.jsonPath);
                 if (!response.ok) throw new Error('Failed to load course configuration.');
                 const syllabusData = await response.json();
 
-                // Populate title, description, and badges dynamically
-                document.title = `Enroll in ${syllabusData.course_title.split(' ')[0]} Programming | Codify`;
+                document.title = `Enroll in ${syllabusData.course_title.split(' ')[0]} Programming | Codify[cite: 6]`;
                 document.getElementById('courseBadgeLabel').textContent = `${syllabusData.course_title.split(' ')[0]} Certification`;
                 document.getElementById('enrollMainTitle').innerHTML = `${syllabusData.course_title.split(' ')[0]} Programming <span>Masterclass</span>`;
                 document.getElementById('enrollMainDesc').textContent = syllabusData.description;
@@ -792,7 +800,6 @@
 
                 syllabusData.chapters.forEach((ch, idx) => {
                     const numStr = String(idx + 1).padStart(2, '0');
-                    // Use chapter title or summary name
                     const summaryName = ch.chapter_title.replace(/^Chapter\s+\d+\s*[—–-]\s*/i, '');
                     totalTopics += ch.topics.length;
 
@@ -808,12 +815,7 @@
                 document.getElementById('highlightModulesCount').textContent = `${totalTopics} Interactive Topics`;
                 document.getElementById('curriculumGridContainer').innerHTML = gridHtml;
 
-                // 2. Check User Session & Existing Enrollment Status
-                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-                if (sessionError || !session || !session.user) return;
-
-                currentUser = session.user;
-
+                // 3. Check Existing Enrollment Status[cite: 6]
                 const { data, error } = await supabase
                     .from('user_enrollments')
                     .select('id')
@@ -841,7 +843,6 @@
 
         window.handleEnrollment = async function() {
             if (!currentUser) {
-                alert("Please log in or sign up to enroll in this course!");
                 window.location.href = '/src/auth/login.html';
                 return;
             }
@@ -870,7 +871,7 @@
 
         document.addEventListener('DOMContentLoaded', initEnrollmentPage);
 
-        // Core Engineers Popover & Modal Handlers
+        // Core Engineers Popover & Modal Handlers[cite: 6]
         const teamDatabase = {
             'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture and platform development.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
             'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'UI design and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
