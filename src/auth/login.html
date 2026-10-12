@@ -712,27 +712,26 @@
         document.querySelector('.btn-github-login')?.addEventListener('click', () => handleOAuth('github'));
 
         async function resolveEmailFromIdentifier(identifier) {
-            let cleanIdentifier = identifier.trim().toLowerCase();
-            if (cleanIdentifier.startsWith('@')) {
-                cleanIdentifier = cleanIdentifier.substring(1);
-            } else if (cleanIdentifier.includes('@') && cleanIdentifier.includes('.')) {
-                return cleanIdentifier;
-            }
+    let cleanIdentifier = identifier.trim().toLowerCase();
+    if (cleanIdentifier.startsWith('@')) {
+        cleanIdentifier = cleanIdentifier.substring(1);
+    } else if (cleanIdentifier.includes('@') && cleanIdentifier.includes('.')) {
+        return cleanIdentifier;
+    }
 
-            try {
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('email')
-                    .eq('username', cleanIdentifier)
-                    .maybeSingle();
+    try {
+        // Call our secure Postgres function to resolve email from username in auth.users metadata
+        const { data: email, error } = await supabase.rpc('resolve_email_by_username', { 
+            username_input: cleanIdentifier 
+        });
 
-                if (profile && profile.email) return profile.email;
-            } catch (e) {
-                console.error('Username lookup error:', e);
-            }
-            return null;
-        }
-
+        if (error) throw error;
+        if (email) return email;
+    } catch (e) {
+        console.error('Username lookup error:', e);
+    }
+    return null;
+}
 
         async function executeLogin() {
             hideAlert();

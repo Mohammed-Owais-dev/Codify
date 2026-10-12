@@ -52,21 +52,31 @@ let lastName = '';
 let username = '';
 let userEmail = '';
 let isUsernameAvailable = false;
-let isEmailAvailable = true;
 let isOAuthUser = false;
 let timerInterval = null;
-let selectedAvatarUrl = '/src/assets/images/avatars/avatar-1.png';
+let selectedAvatarUrl = '/src/assets/images/avatars/avatar-1.svg';
 
 // ==================================================
 // 2. HELPER FUNCTIONS & PROGRESS BAR
 // ==================================================
+// ==================================================
+// HELPER FUNCTIONS & THEME SVGs
+// ==================================================
+const alertIcons = {
+    error: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
+    success: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
+};
+
 function showAlert(message, isError = true) {
     if (!validationAlert) return;
-    validationAlert.style.display = 'block';
+    validationAlert.style.display = 'flex';
+    validationAlert.style.alignItems = 'center';
     validationAlert.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
     validationAlert.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
     validationAlert.style.color = isError ? '#f87171' : '#34d399';
-    validationAlert.innerHTML = message;
+    
+    const icon = isError ? alertIcons.error : alertIcons.success;
+    validationAlert.innerHTML = `${icon}<span>${message}</span>`;
 }
 
 function hideAlert() {
@@ -120,7 +130,10 @@ function updateProgress(step) {
 }
 
 // ==================================================
-// 3. OAUTH REDIRECT INTERCEPTOR (IMMEDIATE DEFAULT SAVER)
+// 3. OAUTH REDIRECT INTERCEPTOR
+// ==================================================
+// ==================================================
+// OAUTH REDIRECT INTERCEPTOR (STEP-BY-STEP SOCIAL FLOW)
 // ==================================================
 async function checkOAuthSession() {
     const { data: { session } } = await supabase.auth.getSession();
@@ -129,56 +142,47 @@ async function checkOAuthSession() {
         const user = session.user;
         const metadata = user.user_metadata || {};
 
-        // Query public.profiles database table
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('username, avatar_url, first_name, last_name, display_name')
-            .eq('id', user.id)
-            .maybeSingle();
-
-        // 1. Existing OAuth User (Has completed custom onboarding before) -> Send to course.html
-        if (profile && profile.username && profile.username !== 'pending_setup') {
-            showAlert('✓ Welcome back! Redirecting to workspace...', false);
-            setTimeout(() => { window.location.href = '../pages/courses.html'; }, 800);
+        // If they already completed setup previously, redirect to workspace
+        if (metadata.username && metadata.username !== 'pending_setup') {
+            window.location.href = '../pages/courses.html';
             return;
         }
 
-        // 2. New OAuth User -> Extract Google Info Immediately
         isOAuthUser = true;
 
+        // Extract social metadata
         const googleFirstName = metadata.given_name || metadata.custom_first_name || (metadata.full_name ? metadata.full_name.split(' ')[0] : 'User');
-        const googleLastName = metadata.family_name || metadata.custom_last_name || (metadata.full_name ? metadata.full_name.split(' ').slice(1).join(' ') : '');
-        const googleDisplayName = `${googleFirstName} ${googleLastName}`.trim();
-        
-        // Auto-generate fallback username from email prefix (e.g. owais from owais@gmail.com)
-        const emailPrefix = user.email ? user.email.split('@')[0].replace(/[^a-z0-9._]/gi, '').toLowerCase() : 'user';
-        const defaultUsername = profile?.username || emailPrefix || 'user_' + user.id.slice(0, 5);
-        const defaultAvatar = profile?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
+        const googleSurname = metadata.family_name || metadata.custom_last_name || (metadata.full_name ? metadata.full_name.split(' ').slice(1).join(' ') : '');
+        const socialAvatar = metadata.picture || metadata.avatar_url;
 
         firstName = googleFirstName;
-        lastName = googleLastName;
-        username = defaultUsername;
-        selectedAvatarUrl = defaultAvatar;
+        lastName = googleSurname;
 
         if (firstNameInput) firstNameInput.value = firstName;
-        if (lastNameInput) lastNameInput.value = lastName;
-        if (usernameInput) usernameInput.value = defaultUsername;
+        if (lastNameInput) lastNameInput.value = googleSurname;
 
-        // INSTANTLY SAVE DEFAULT GOOGLE PROFILE DATA TO DATABASE SO NO COLUMNS ARE NULL
-        await supabase.from('profiles').upsert({
-            id: user.id,
-            email: user.email,
-            first_name: googleFirstName,
-            last_name: googleLastName,
-            display_name: googleDisplayName,
-            username: defaultUsername,
-            avatar_url: defaultAvatar,
-            updated_at: new Date().toISOString()
-        }, { onConflict: 'id' });
+        // Setup the separate social avatar container for Phase 6 later
+        const defaultWrapper = document.getElementById('defaultAvatarWrapper');
+        const defaultBtn = document.getElementById('defaultSocialAvatarBtn');
+        const defaultImg = document.getElementById('defaultSocialAvatarImg');
 
-        // Move user to Phase 4 so they can customize their username/avatar if they wish
-        updateProgress(4);
-        showAlert('🎉 Google account linked! Review or customize your username below.', false);
+        if (socialAvatar && defaultWrapper && defaultBtn && defaultImg) {
+            defaultImg.src = socialAvatar;
+            defaultBtn.setAttribute('data-avatar', socialAvatar);
+            defaultWrapper.style.display = 'block';
+            defaultBtn.classList.add('active');
+            selectedAvatarUrl = socialAvatar;
+
+            defaultBtn.addEventListener('click', () => {
+                document.querySelectorAll('.avatar-option').forEach(c => c.classList.remove('active'));
+                defaultBtn.classList.add('active');
+                selectedAvatarUrl = socialAvatar;
+            });
+        }
+
+        // Start OAuth users at Phase 1 (First & Surname confirmation)
+        updateProgress(1);
+        showAlert('🎉 Social account linked! Please confirm your name below.', false);
     }
 }
 
@@ -227,54 +231,70 @@ if (authBackBtn) {
     });
 }
 
-// Phase 1 -> Phase 2
 if (btnNextPhase1) {
     btnNextPhase1.addEventListener('click', () => {
         firstName = firstNameInput ? firstNameInput.value.trim() : '';
         lastName = lastNameInput ? lastNameInput.value.trim() : '';
-        if (!firstName) { showAlert('❌ Please enter your First Name to continue.', true); return; }
-        updateProgress(2);
+        if (!firstName) { showAlert('Please enter your First Name to continue.', true); return; }
+
+        if (isOAuthUser) {
+            // For OAuth users, skip Email/OTP and jump straight to Password (Phase 5)
+            updateProgress(5); 
+        } else {
+            // For standard email users, go to Phase 2 (Email)
+            updateProgress(2);
+        }
     });
 }
 
-// Phase 2 Email Check & OTP
-let emailTimeout = null;
-if (emailInput) {
-    emailInput.addEventListener('input', () => {
-        clearTimeout(emailTimeout);
-        const emailVal = emailInput.value.trim().toLowerCase();
-        if (!emailVal || !emailVal.includes('@')) { isEmailAvailable = false; return; }
-        emailTimeout = setTimeout(async () => {
-            const { data } = await supabase.from('profiles').select('id').eq('email', emailVal).maybeSingle();
-            if (data) {
-                showAlert('⚠️ An account with this email already exists. <a href="login.html">Log in instead</a>', true);
-                isEmailAvailable = false;
-            } else { hideAlert(); isEmailAvailable = true; }
-        }, 400);
-    });
-}
-
+// ==================================================
+// PHASE 2: SEND OTP & CHECK EMAIL STATUS
+// ==================================================
 if (btnNextPhase2) {
     btnNextPhase2.addEventListener('click', async () => {
         userEmail = emailInput ? emailInput.value.trim().toLowerCase() : '';
-        if (!userEmail || !isEmailAvailable) { showAlert('⚠️ Please enter a valid and available email address.', true); return; }
+        if (!userEmail || !userEmail.includes('@')) { 
+            showAlert('Please enter a valid email address.', true); 
+            return; 
+        }
 
         btnNextPhase2.disabled = true;
         try {
-            const { error } = await supabase.auth.signInWithOtp({
+            // 1. Call the secure Postgres function to check if fully registered
+            const { data: status, error: rpcError } = await supabase.rpc('check_email_status', { 
+                email_input: userEmail 
+            });
+
+            if (rpcError) throw rpcError;
+
+            console.log("🔍 Database Status Result:", status);
+
+            // 2. Block ONLY if they have fully completed a prior registration
+            if (status.exists && status.is_fully_registered) {
+                showAlert(`An account with this email already exists. <a href="login.html" style="color: #00aaff; text-decoration: underline; font-weight: 700;">Log in instead</a>`, true);
+                btnNextPhase2.disabled = false;
+                return;
+            }
+
+            // 3. If they abandoned the flow earlier (username is null), let them reuse the email and send a fresh OTP!
+            const { error: otpError } = await supabase.auth.signInWithOtp({
                 email: userEmail,
                 options: { shouldCreateUser: true }
             });
-            if (error) throw error;
+            
+            if (otpError) throw otpError;
+            
             if (sentEmailDisplay) sentEmailDisplay.innerText = userEmail;
             updateProgress(3);
             start2MinTimer();
-        } catch (err) { showAlert(`❌ ${err.message}`, true); } 
-        finally { btnNextPhase2.disabled = false; }
+        } catch (err) { 
+            showAlert(`${err.message}`, true); 
+        } finally { 
+            btnNextPhase2.disabled = false; 
+        }
     });
 }
 
-// Phase 3 OTP Verification
 function start2MinTimer() {
     let timeLeft = 120;
     if (resendOtpBtn) resendOtpBtn.disabled = true;
@@ -325,12 +345,29 @@ if (btnVerifyOtp) {
             const { error } = await supabase.auth.verifyOtp({ email: userEmail, token: token, type: 'email' });
             if (error) throw error;
             clearInterval(timerInterval);
+
+            const fName = firstNameInput ? firstNameInput.value.trim() : 'User';
+            const lName = lastNameInput ? lastNameInput.value.trim() : '';
+            const fullName = `${fName} ${lName}`.trim();
+
+            // Mark user as verified with initial details upon correct OTP entry
+            await supabase.auth.updateUser({
+                data: {
+                    first_name: fName,
+                    surname: lName,
+                    display_name: fullName,
+                    otp_verified: true, // <--- Tracks that OTP was successfully passed
+                    username: null,
+                    avatar_url: '/src/assets/images/avatars/avatar-1.svg'
+                }
+            });
+
             updateProgress(4);
         } catch (err) { showAlert(`❌ Verification failed: ${err.message}`, true); }
     });
 }
 
-// Phase 4 Username Check
+// Phase 4 Username Live Availability Check
 let usernameTimeout = null;
 if (usernameInput) {
     usernameInput.addEventListener('input', () => {
@@ -339,17 +376,29 @@ if (usernameInput) {
         usernameInput.value = val;
 
         if (!val || val.length < 3 || val.length > 20 || !/^[a-z0-9._]+$/.test(val)) {
-            isUsernameAvailable = false; return;
+            showAlert('⚠️ Username must be 3-20 characters long and contain only letters, numbers, dots, or underscores.', true);
+            isUsernameAvailable = false;
+            return;
         }
 
         usernameTimeout = setTimeout(async () => {
-            const { data } = await supabase.from('profiles').select('id').eq('username', val).maybeSingle();
-            if (data && data.id !== (await supabase.auth.getUser()).data.user?.id) {
-                showAlert(`❌ Username <strong>@${val}</strong> is already taken.`, true);
-                isUsernameAvailable = false;
-            } else {
-                showAlert(`✅ <strong>@${val}</strong> is available!`, false);
-                isUsernameAvailable = true;
+            try {
+                // Call our secure Postgres function to check username in auth.users metadata
+                const { data: usernameExists, error } = await supabase.rpc('check_username_exists', { 
+                    username_input: val 
+                });
+
+                if (error) throw error;
+
+                if (usernameExists) {
+                    showAlert(`Username <strong>@${val}</strong> is already taken.`, true);
+                    isUsernameAvailable = false;
+                } else {
+                    showAlert(`<strong>@${val}</strong> is available!`, false);
+                    isUsernameAvailable = true;
+                }
+            } catch (err) {
+                console.error('Username check error:', err);
             }
         }, 400);
     });
@@ -358,15 +407,14 @@ if (usernameInput) {
 if (btnNextPhase4) {
     btnNextPhase4.addEventListener('click', () => {
         username = usernameInput ? usernameInput.value.trim() : '';
-        if (!username) { 
-            showAlert('⚠️ Please enter a valid username.', true); 
+        if (!username || !isUsernameAvailable) { 
+            showAlert('⚠️ Please choose a valid and available username.', true); 
             return; 
         }
         updateProgress(5); 
     });
 }
 
-// Phase 5 Password
 if (togglePasswordBtn && passwordInput) {
     togglePasswordBtn.addEventListener('click', () => {
         const isPassword = passwordInput.type === 'password';
@@ -401,23 +449,24 @@ if (passwordInput) {
 if (btnSetPassword) {
     btnSetPassword.addEventListener('click', async () => {
         const pwd = passwordInput ? passwordInput.value : '';
-        if (!pwd || pwd.length < 6) { showAlert('❌ Password must be at least 6 characters long.', true); return; }
-        if (termsCheck && !termsCheck.checked) { showAlert('❌ You must agree to the Terms of Service.', true); return; }
+        if (!pwd || pwd.length < 6) { showAlert('Password must be at least 6 characters long.', true); return; }
+        if (termsCheck && !termsCheck.checked) { showAlert('You must agree to the Terms of Service.', true); return; }
 
         btnSetPassword.disabled = true;
         try {
             const { error } = await supabase.auth.updateUser({ password: pwd });
             if (error) throw error;
+
+            // Move to Phase 6 (Avatar Selection & Finalize)
             updateProgress(6);
         } catch (err) { 
-            showAlert(`❌ Failed to save password: ${err.message}`, true); 
+            showAlert(`Failed to save password: ${err.message}`, true); 
         } finally { 
             btnSetPassword.disabled = false; 
         }
     });
 }
 
-// Phase 6 Final Profile Update (CUSTOM OVERWRITE)
 if (btnSaveAvatar) {
     btnSaveAvatar.addEventListener('click', async () => {
         btnSaveAvatar.disabled = true;
@@ -440,38 +489,24 @@ if (btnSaveAvatar) {
                 return;
             }
 
-            const finalFirstName = firstName || firstNameInput?.value.trim() || user?.user_metadata?.first_name || user?.user_metadata?.given_name || 'User';
-            const finalLastName = lastName || lastNameInput?.value.trim() || user?.user_metadata?.last_name || user?.user_metadata?.family_name || '';
+            const finalFirstName = firstName || firstNameInput?.value.trim() || user?.user_metadata?.first_name || 'User';
+            const finalLastName = lastName || lastNameInput?.value.trim() || user?.user_metadata?.surname || '';
             const finalUsername = usernameInput?.value.trim() || username;
-            const finalDisplayName = `${finalFirstName} ${finalLastName}`.trim() || finalUsername;
-            const finalAvatar = selectedAvatarUrl || '/src/assets/images/avatars/avatar-1.png';
+            const finalAvatar = selectedAvatarUrl || '/src/assets/images/avatars/avatar-1.svg';
 
-            // 1. Update Auth Metadata
-            await supabase.auth.updateUser({
+            // Push the remaining profile information and final choices to Auth metadata
+            const { error: updateErr } = await supabase.auth.updateUser({
                 data: { 
                     first_name: finalFirstName, 
-                    last_name: finalLastName, 
-                    display_name: finalDisplayName,
+                    surname: finalLastName, 
                     username: finalUsername, 
                     avatar_url: finalAvatar 
                 }
             });
 
-            // 2. Overwrite defaults in public.profiles table
-            const { error: dbErr } = await supabase.from('profiles').upsert({
-                id: user.id,
-                email: user.email,
-                username: finalUsername,
-                first_name: finalFirstName,
-                last_name: finalLastName,
-                display_name: finalDisplayName,
-                avatar_url: finalAvatar,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'id' });
-
-            if (dbErr) {
-                console.error('Supabase Profiles Save Error:', dbErr);
-                showAlert(`❌ Database Save Failed: ${dbErr.message}`, true);
+            if (updateErr) {
+                console.error('Auth Metadata Update Error:', updateErr);
+                showAlert(`❌ Update Failed: ${updateErr.message}`, true);
                 btnSaveAvatar.disabled = false;
                 btnSaveAvatar.style.opacity = '1';
                 return;
