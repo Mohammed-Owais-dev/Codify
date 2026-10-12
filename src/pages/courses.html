@@ -129,17 +129,25 @@
             align-items: center;
         }
 
+        /* Removed circle container, added direct shadow around SVG */
         .card-header img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.2);
-            border: 2px solid rgba(0, 170, 255, 0.4);
+            width: 72px;
+            height: 72px;
+            border-radius: 0;
+            object-fit: contain;
+            background: transparent;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 170, 255, 0.25);
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .course-card:hover .card-header img {
+            transform: scale(1.08);
+            filter: drop-shadow(0 10px 16px rgba(0, 170, 255, 0.45));
         }
 
         .card-header h3 {
-            margin-top: 15px;
+            margin-top: 16px;
             font-size: 1.25rem;
             color: #e0e6ed;
             text-align: center;
@@ -213,14 +221,14 @@
 
         .btn-continue-learning {
             width: 100%;
-            background: linear-gradient(90deg, #10b981, #059669);
+            background: linear-gradient(90deg, #0077ff, #00aaff);
             border: none;
             color: #ffffff;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
         }
 
         .btn-continue-learning:hover {
-            background: linear-gradient(90deg, #059669, #10b981);
+            background: linear-gradient(90deg, #00aaff, #0077ff);
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
             transform: translateY(-1px);
         }
@@ -295,10 +303,10 @@
         <section id="courses" class="courses-container" aria-label="Available Courses">
 
             <!-- Course Card 1: C Programming -->
-            <div class="course-card" data-course-id="c-101" data-index-url="/src/courses/c/index.html">
+            <div class="course-card" data-course-id="c-101" data-index-url="/courses/c">
                 <div class="card-header">
-                    <img src="/src/assets/logos/c.webp" alt="C Tutorial thumbnail">
-                    <h3>C Programming</h3>
+                    <img src="/src/assets/logos/c.svg" alt="C Tutorial thumbnail">
+                    <h3>C</h3>
                 </div>
                 <div class="card-body">
                     <p>C language is considered the mother language of all programming languages. Master foundational coding logic.</p>
@@ -310,9 +318,9 @@
             </div>
 
             <!-- Course Card 2: C++ & OOPs -->
-            <div class="course-card" data-course-id="cpp-101" data-index-url="/courses/cpp/">
+            <div class="course-card" data-course-id="cpp-101" data-index-url="/courses/cpp">
                 <div class="card-header">
-                    <img src="/src/assets/logos/cpp.webp" alt="C++ Tutorial thumbnail">
+                    <img src="/src/assets/logos/cpp.svg" alt="C++ Tutorial thumbnail">
                     <h3>C++ &amp; OOPs</h3>
                 </div>
                 <div class="card-body">
@@ -325,9 +333,9 @@
             </div>
 
             <!-- Course Card 3: DBMS -->
-            <div class="course-card" data-course-id="dbms-101" data-index-url="/src/courses/dbms/index.html">
+            <div class="course-card" data-course-id="dbms-101" data-index-url="/src/pages/courses/dbms/index.html">
                 <div class="card-header">
-                    <img src="/src/assets/logos/dbms.jpg" alt="DBMS thumbnail">
+                    <img src="/src/assets/logos/dbms.svg" alt="DBMS thumbnail">
                     <h3>DBMS</h3>
                 </div>
                 <div class="card-body">
@@ -340,9 +348,9 @@
             </div>
 
             <!-- Course Card 4: HTML -->
-            <div class="course-card" data-course-id="html-101" data-index-url="/src/courses/html/index.html">
+            <div class="course-card" data-course-id="html-101" data-index-url="/src/pages/courses/html/index.html">
                 <div class="card-header">
-                    <img src="/src/assets/logos/html.webp" alt="HTML thumbnail">
+                    <img src="/src/assets/logos/html.svg" alt="HTML thumbnail">
                     <h3>HTML</h3>
                 </div>
                 <div class="card-body">
@@ -355,9 +363,9 @@
             </div>
 
             <!-- Course Card 5: CSS -->
-            <div class="course-card" data-course-id="css-101" data-index-url="/src/courses/css/index.html">
+            <div class="course-card" data-course-id="css-101" data-index-url="/src/pages/courses/css/index.html">
                 <div class="card-header">
-                    <img src="/src/assets/logos/css.webp" alt="CSS thumbnail">
+                    <img src="/src/assets/logos/css.svg" alt="CSS thumbnail">
                     <h3>CSS</h3>
                 </div>
                 <div class="card-body">
@@ -370,9 +378,9 @@
             </div>
 
             <!-- Course Card 6: JavaScript -->
-            <div class="course-card" data-course-id="js-101" data-index-url="/src/courses/js/index.html">
+            <div class="course-card" data-course-id="js-101" data-index-url="/src/pages/courses/js/index.html">
                 <div class="card-header">
-                    <img src="/src/assets/logos/js.webp" alt="JavaScript thumbnail">
+                    <img src="/src/assets/logos/js.svg" alt="JavaScript thumbnail">
                     <h3>JavaScript</h3>
                 </div>
                 <div class="card-body">
@@ -385,9 +393,9 @@
             </div>
 
             <!-- Course Card 7: SQL -->
-            <div class="course-card" data-course-id="sql-101" data-index-url="/src/courses/sql/index.html">
+            <div class="course-card" data-course-id="sql-101" data-index-url="/src/pages/courses/sql/index.html">
                 <div class="card-header">
-                    <img src="/src/assets/logos/dbms.png" alt="SQL thumbnail">
+                    <img src="/src/assets/logos/sql.svg" alt="SQL thumbnail">
                     <h3>SQL</h3>
                 </div>
                 <div class="card-body">
@@ -400,10 +408,10 @@
             </div>
 
             <!-- Course Card 8: Java Programming -->
-            <div class="course-card" data-course-id="java-101" data-index-url="/src/courses/java/index.html">
+            <div class="course-card" data-course-id="java-101" data-index-url="/courses/java">
                 <div class="card-header">
-                    <img src="/src/assets/logos/java.webp" alt="Java thumbnail">
-                    <h3>Java Programming</h3>
+                    <img src="/src/assets/logos/java.svg" alt="Java thumbnail">
+                    <h3>Java</h3>
                 </div>
                 <div class="card-body">
                     <p>Learn enterprise-ready programming with Java. Build robust backend applications and Android apps.</p>
@@ -417,8 +425,8 @@
             <!-- Course Card 9: Python for Beginners -->
             <div class="course-card" data-course-id="python-101" data-index-url="/courses/python">
                 <div class="card-header">
-                    <img src="/src/assets/logos/python.webp" alt="Python thumbnail">
-                    <h3>Python for Beginners</h3>
+                    <img src="/src/assets/logos/python.svg" alt="Python thumbnail">
+                    <h3>Python</h3>
                 </div>
                 <div class="card-body">
                     <p>Unlock Python. Perfect for Scripting, Web automation, Data Science, and Machine Learning.</p>
@@ -508,18 +516,15 @@
                 const enrollBtn = card.querySelector('.btn-course-enroll');
                 const cardFooter = card.querySelector('.card-footer');
 
-                // 1. View Button Handler (Free public access to course index)
                 if (viewBtn && indexUrl) {
                     viewBtn.addEventListener('click', () => {
                         window.location.href = indexUrl;
                     });
                 }
 
-                // 2. Check if already enrolled
                 const isEnrolled = enrolledCourseIds.includes(courseId.toLowerCase().trim());
 
                 if (isEnrolled && cardFooter) {
-                    // Transform to single "Continue Learning" button
                     cardFooter.innerHTML = `
                         <button type="button" class="btn-continue-learning">Continue Learning</button>
                     `;
@@ -527,7 +532,6 @@
                         window.location.href = indexUrl;
                     });
                 } else if (enrollBtn) {
-                    // Enroll Button Handler
                     enrollBtn.addEventListener('click', async () => {
                         const { data: { session: activeSession } } = await supabase.auth.getSession();
                         
@@ -536,7 +540,6 @@
                             return;
                         }
 
-                        // Authenticated: Go to protected enroll/payment page
                         window.location.href = `/src/pages/courses/course-enroll.html?course=${courseId.split('-')[0]}`;
                     });
                 }
