@@ -88,17 +88,20 @@ function updateProgress(step) {
     hideAlert();
 
     if (isOAuthUser) {
+        // OAuth 4-Step Sequence: 1. Name -> 2. Username -> 3. Password -> 4. Avatar
         const oauthTitles = { 
-            4: "Step 1 of 3: Choose Username", 
-            5: "Step 2 of 3: Create Password", 
-            6: "Step 3 of 3: Personalize Profile" 
+            1: "Step 1 of 4: Confirm Name",
+            4: "Step 2 of 4: Choose Username", 
+            5: "Step 3 of 4: Create Password", 
+            6: "Step 4 of 4: Personalize Avatar" 
         };
-        const oauthPercentages = { 4: "33%", 5: "66%", 6: "100%" };
+        const oauthPercentages = { 1: "25%", 4: "50%", 5: "75%", 6: "100%" };
 
         if (progressStepText) {
-            if (step === 4) progressStepText.innerText = "Step 1 of 3";
-            else if (step === 5) progressStepText.innerText = "Step 2 of 3";
-            else progressStepText.innerText = "Step 3 of 3";
+            if (step === 1) progressStepText.innerText = "Step 1 of 4";
+            else if (step === 4) progressStepText.innerText = "Step 2 of 4";
+            else if (step === 5) progressStepText.innerText = "Step 3 of 4";
+            else progressStepText.innerText = "Step 4 of 4";
         }
         if (progressPercentText) progressPercentText.innerText = oauthPercentages[step] || "100%";
         if (progressBarFill) progressBarFill.style.width = oauthPercentages[step] || "100%";
@@ -185,7 +188,7 @@ async function checkOAuthSession() {
 
         // Start OAuth users at Phase 1 (First & Surname confirmation)
         updateProgress(1);
-        showAlert('🎉 Social account linked! Please confirm your name below.', false);
+        showAlert('Social account linked! Please confirm your name below.', false);
     }
 }
 
@@ -218,7 +221,7 @@ async function handleOAuth(provider) {
             data: { custom_first_name: fName, custom_last_name: lName }
         }
     });
-    if (error) showAlert(`❌ OAuth Error: ${error.message}`, true);
+    if (error) showAlert(`OAuth Error: ${error.message}`, true);
 }
 
 // ==================================================
@@ -241,10 +244,9 @@ if (btnNextPhase1) {
         if (!firstName) { showAlert('Please enter your First Name to continue.', true); return; }
 
         if (isOAuthUser) {
-            // For OAuth users, skip Email/OTP and jump straight to Password (Phase 5)
-            updateProgress(5); 
+            // Social users jump directly to Username (Phase 4) as Step 2
+            updateProgress(4); 
         } else {
-            // For standard email users, go to Phase 2 (Email)
             updateProgress(2);
         }
     });
@@ -366,7 +368,7 @@ if (btnVerifyOtp) {
             });
 
             updateProgress(4);
-        } catch (err) { showAlert(`❌ Verification failed: ${err.message}`, true); }
+        } catch (err) { showAlert(`Verification failed: ${err.message}`, true); }
     });
 }
 
@@ -379,7 +381,7 @@ if (usernameInput) {
         usernameInput.value = val;
 
         if (!val || val.length < 3 || val.length > 20 || !/^[a-z0-9._]+$/.test(val)) {
-            showAlert('⚠️ Username must be 3-20 characters long and contain only letters, numbers, dots, or underscores.', true);
+            showAlert('Username must be 3-20 characters long and contain only letters, numbers, dots, or underscores.', true);
             isUsernameAvailable = false;
             return;
         }
@@ -411,10 +413,10 @@ if (btnNextPhase4) {
     btnNextPhase4.addEventListener('click', () => {
         username = usernameInput ? usernameInput.value.trim() : '';
         if (!username || !isUsernameAvailable) { 
-            showAlert('⚠️ Please choose a valid and available username.', true); 
+            showAlert('Please choose a valid and available username.', true); 
             return; 
         }
-        updateProgress(5); 
+        updateProgress(5); // Moves to Password Creation (Step 3 for social)
     });
 }
 
@@ -460,7 +462,7 @@ if (btnSetPassword) {
             const { error } = await supabase.auth.updateUser({ password: pwd });
             if (error) throw error;
 
-            // Move to Phase 6 (Avatar Selection & Finalize)
+            // Move to Phase 6 (Avatar Selection & Finalize as Step 4)
             updateProgress(6);
         } catch (err) { 
             showAlert(`Failed to save password: ${err.message}`, true); 
@@ -479,14 +481,14 @@ if (btnSaveAvatar) {
             const { data: { user }, error: userErr } = await supabase.auth.getUser();
 
             if (userErr || !user) {
-                showAlert('❌ Session expired. Please log in again.', true);
+                showAlert('Session expired. Please log in again.', true);
                 btnSaveAvatar.disabled = false;
                 btnSaveAvatar.style.opacity = '1';
                 return;
             }
 
             if (termsCheck && !termsCheck.checked) {
-                showAlert('❌ You must agree to the Terms of Service to continue.', true);
+                showAlert('You must agree to the Terms of Service to continue.', true);
                 btnSaveAvatar.disabled = false;
                 btnSaveAvatar.style.opacity = '1';
                 return;
@@ -509,20 +511,20 @@ if (btnSaveAvatar) {
 
             if (updateErr) {
                 console.error('Auth Metadata Update Error:', updateErr);
-                showAlert(`❌ Update Failed: ${updateErr.message}`, true);
+                showAlert(`Update Failed: ${updateErr.message}`, true);
                 btnSaveAvatar.disabled = false;
                 btnSaveAvatar.style.opacity = '1';
                 return;
             }
 
-            showAlert('✅ Account configured! Redirecting...', false);
+            showAlert('Account configured! Redirecting...', false);
             setTimeout(() => {
                 window.location.href = '../pages/courses.html';
             }, 800);
 
         } catch (err) {
             console.error('Avatar onboarding error:', err);
-            showAlert(`❌ Error: ${err.message}`, true);
+            showAlert(`Error: ${err.message}`, true);
             btnSaveAvatar.disabled = false;
             btnSaveAvatar.style.opacity = '1';
         }
