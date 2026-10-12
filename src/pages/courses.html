@@ -336,7 +336,7 @@
             
 
             <!-- Course Card 4: HTML -->
-            <div class="course-card" data-course-id="html-101" data-index-url="/src/pages/courses/html/index.html">
+            <div class="course-card" data-course-id="html-101" data-index-url="/courses/html">
                 <div class="card-header">
                     <img src="/src/assets/logos/html.svg" alt="HTML thumbnail">
                     <h3>HTML</h3>
@@ -351,7 +351,7 @@
             </div>
 
             <!-- Course Card 5: CSS -->
-            <div class="course-card" data-course-id="css-101" data-index-url="/src/pages/courses/css/index.html">
+            <div class="course-card" data-course-id="css-101" data-index-url="/courses/css">
                 <div class="card-header">
                     <img src="/src/assets/logos/css.svg" alt="CSS thumbnail">
                     <h3>CSS</h3>
@@ -366,7 +366,7 @@
             </div>
 
             <!-- Course Card 6: JavaScript -->
-            <div class="course-card" data-course-id="js-101" data-index-url="/src/pages/courses/js/index.html">
+            <div class="course-card" data-course-id="js-101" data-index-url="/courses/js">
                 <div class="card-header">
                     <img src="/src/assets/logos/javascript.svg" alt="JavaScript thumbnail">
                     <h3>JavaScript</h3>
@@ -416,9 +416,8 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="/src/js/components.js"></script>
+    <script  type="module" src="/src/js/components.js"></script>
     <script src="/src/js/script.js"></script>
-    <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
 
     <script type="module">
@@ -437,7 +436,7 @@
                 toast.innerHTML = `
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                     <span>Please log in to enroll in this course.</span>
-                    <a href="/src/auth/login.html" class="toast-login-btn">Log In</a>
+                    <a href="/login" class="toast-login-btn">Log In</a>
                 `;
                 document.body.appendChild(toast);
 

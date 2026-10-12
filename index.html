@@ -1126,54 +1126,9 @@
             }
         }
 
-        class AuthManager {
-            constructor() {
-                this.authNavGroup = document.getElementById('authNavGroup');
-                if (this.authNavGroup) this.initAuth();
-            }
-
-            async initAuth() {
-                try {
-                    const { data: { session } } = await supabase.auth.getSession();
-                    const user = session?.user;
-
-                    if (user) {
-                        const { data: profile } = await supabase
-                            .from('profiles')
-                            .select('avatar_url, first_name')
-                            .eq('id', user.id)
-                            .maybeSingle();
-
-                        const userMetaData = user.user_metadata || {};
-                        const avatarUrl = profile?.avatar_url || userMetaData.avatar_url;
-                        const firstName = profile?.first_name || userMetaData.first_name || user.email || 'User';
-                        const initial = firstName.charAt(0).toUpperCase();
-
-                        if (avatarUrl) {
-                            this.authNavGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    <img src="${avatarUrl}" alt="${firstName}'s Profile" width="38" height="38" loading="eager">
-                                </a>`;
-                        } else {
-                            this.authNavGroup.innerHTML = `
-                                <a href="/src/pages/profile.html" class="nav-profile-dp" title="View Profile">
-                                    <span>${initial}</span>
-                                </a>`;
-                        }
-                    }
-                } catch (err) {
-                    console.error("Auth rendering error:", err.message);
-                } finally {
-                    this.authNavGroup.classList.add('ready');
-                    handleResponsiveAuthLayout();
-                }
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             handleResponsiveAuthLayout();
             new NavigationController();
-            new AuthManager();
         });
 
         let lastWidth = window.innerWidth;
@@ -1211,14 +1166,13 @@
             document.body.style.overflow = 'hidden';
         };
 
-        function closeEngineerModal() {
+        function closeEngineerManagerModal() {
             engModal.classList.remove('show');
             document.body.style.overflow = '';
         }
 
-        if (closeEngBtn) closeEngBtn.addEventListener('click', closeEngineerModal);
-        if (engModal) engModal.addEventListener('click', (e) => { if (e.target === engModal) closeEngineerModal(); });
-
+        if (closeEngBtn) closeEngBtn.addEventListener('click', closeEngineerManagerModal);
+        if (engModal) engModal.addEventListener('click', (e) => { if (e.target === engModal) closeEngineerManagerModal(); });
     </script>
 </body>
 

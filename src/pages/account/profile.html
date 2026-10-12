@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="/src/css/style.css">
     <link rel="stylesheet" href="/src/css/global.css">
     <title>Account Settings & Profile | Codify</title>
     <style>
@@ -23,7 +22,7 @@
             flex: 1;
             max-width: 860px;
             width: 100%;
-            margin: 40px auto;
+            margin: 110px auto 40px auto; /* Accounts for fixed top navigation bar */
             padding: 0 20px;
             box-sizing: border-box;
         }
@@ -264,11 +263,6 @@
             color: #fff;
         }
 
-        textarea.profile-input {
-            resize: vertical;
-            min-height: 100px;
-        }
-
         .profile-submit-btn {
             background: linear-gradient(90deg, #0077ff, #00aaff);
             border: none;
@@ -412,31 +406,8 @@
 
 <body>
 
-    <!-- STANDARD UNIFIED TOP NAVBAR -->
-    <header class="codify-main-header">
-        <div class="codify-header-container">
-            <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
-                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
-                    <span class="logo-text">Codify</span>
-                </div>
-            </div>
-
-            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
-                <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/src/pages/courses.html">Courses</a></li>
-                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="/src/pages/contact.html">Contact</a></li>
-                </ul>
-            </nav>
-
-            <div class="codify-right-group">
-                <div class="codify-auth-group" id="authNavGroup"></div>
-            </div>
-        </div>
-    </header>
+    <!-- Unified Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
 
     <main class="profile-container">
         <div class="profile-card">
@@ -444,7 +415,7 @@
             <div class="profile-header">
                 <div class="profile-user-info">
                     <div class="avatar-container" id="avatarContainer">
-                        <img id="avatarImage" class="avatar-img" src="/src/assets/images/avatars/avatar-1.png" alt="Profile Picture">
+                        <img id="avatarImage" class="avatar-img" src="/src/assets/images/avatars/avatar-1.svg" alt="Profile Picture">
                         <div class="avatar-overlay" id="avatarOverlayTrigger">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                         </div>
@@ -509,14 +480,14 @@
                     </div>
 
                     <div class="profile-form-group full-width">
-                        <label for="usernameInput">Username Handle</label>
-                        <input type="text" id="usernameInput" class="profile-input" placeholder="username" disabled required>
+                        <label for="usernameInput">Username Handle (Locked)</label>
+                        <input type="text" id="usernameInput" class="profile-input" disabled>
                     </div>
-                </div>
 
-                <div class="profile-form-group full-width">
-                    <label for="bioInput">About Bio</label>
-                    <textarea id="bioInput" class="profile-input" placeholder="Tell us about yourself..." disabled></textarea>
+                    <div class="profile-form-group full-width">
+                        <label for="emailInput">Email Address (Locked)</label>
+                        <input type="email" id="emailInput" class="profile-input" disabled>
+                    </div>
                 </div>
 
                 <div style="margin-top: 28px;">
@@ -527,6 +498,9 @@
             </form>
         </div>
     </main>
+
+    <!-- Unified Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
     <!-- Password Verification Modal -->
     <div class="modal-overlay" id="passwordModal">
@@ -562,6 +536,11 @@
         </div>
     </div>
 
+    <!-- REQUIRED SCRIPT IMPORTS -->
+    <script src="/src/js/script.js"></script>
+    <script type="module" src="/src/js/components.js"></script>
+    <script type="module" src="/src/js/config/supabase-client.js"></script>
+
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
@@ -569,12 +548,8 @@
         let isEditUnlocked = false;
         let selectedAvatarUrl = null; 
 
-        const alertBox = document.getElementById('statusAlert');
-        const passwordModalAlert = document.getElementById('passwordModalAlert');
-        const passwordModal = document.getElementById('passwordModal');
-        const avatarModal = document.getElementById('avatarModal');
-
         function showAlert(msg, isError = false) {
+            const alertBox = document.getElementById('statusAlert');
             if (!alertBox) return;
             alertBox.style.display = 'block';
             alertBox.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
@@ -588,8 +563,8 @@
             const grid = document.getElementById('avatarGrid');
             if (!grid) return;
             grid.innerHTML = '';
-            for (let i = 1; i <= 20; i++) {
-                const imgUrl = `/src/assets/images/avatars/avatar-${i}.png`;
+            for (let i = 1; i <= 16; i++) {
+                const imgUrl = `/src/assets/images/avatars/avatar-${i}.svg`;
                 const img = document.createElement('img');
                 img.src = imgUrl;
                 img.className = 'avatar-option';
@@ -598,6 +573,7 @@
                     const avatarImgEl = document.getElementById('avatarImage');
                     if (avatarImgEl) avatarImgEl.src = imgUrl;
                     selectedAvatarUrl = imgUrl;
+                    const avatarModal = document.getElementById('avatarModal');
                     if (avatarModal) avatarModal.style.display = 'none';
                 });
                 grid.appendChild(img);
@@ -606,26 +582,22 @@
 
         async function loadProfileAndStats() {
             try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (!user) {
-                    window.location.href = '/src/auth/login.html';
+                // Strict Route Guard: Check session and redirect unauthenticated users
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError || !session || !session.user) {
+                    window.location.replace('/src/auth/login.html');
                     return;
                 }
-                currentAuthUser = user;
-                const userEmail = user.email || '';
+                
+                currentAuthUser = session.user;
+                const userEmail = currentAuthUser.email || '';
+                const userMetaData = currentAuthUser.user_metadata || {};
 
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('first_name, last_name, username, bio, avatar_url, display_name')
-                    .eq('id', user.id)
-                    .maybeSingle();
-
-                const firstName = profile?.first_name || user.user_metadata?.first_name || '';
-                const lastName = profile?.last_name || user.user_metadata?.last_name || '';
+                const firstName = userMetaData.first_name || userMetaData.given_name || '';
+                const lastName = userMetaData.surname || userMetaData.last_name || '';
                 const fallbackUsername = userEmail ? userEmail.split('@')[0] : 'user';
-                const username = profile?.username || user.user_metadata?.username || fallbackUsername;
-                const bio = profile?.bio || '';
-                const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || '/src/assets/images/avatars/avatar-1.png';
+                const username = userMetaData.username || fallbackUsername;
+                const avatarUrl = userMetaData.avatar_url || '/src/assets/images/avatars/avatar-1.svg';
 
                 selectedAvatarUrl = avatarUrl; 
                 
@@ -635,154 +607,171 @@
                 setVal('firstNameInput', firstName);
                 setVal('lastNameInput', lastName);
                 setVal('usernameInput', username);
-                setVal('bioInput', bio);
+                setVal('emailInput', userEmail);
                 
                 const avatarImg = document.getElementById('avatarImage');
                 if (avatarImg) avatarImg.src = avatarUrl;
 
-                const fullDisplayName = profile?.display_name || `${firstName} ${lastName}`.trim() || username;
+                const fullDisplayName = `${firstName} ${lastName}`.trim() || username;
                 setText('headerDisplayName', fullDisplayName);
                 setText('headerUserHandle', `@${username.toLowerCase().replace(/\s+/g, '')}`);
                 setText('headerUserEmail', userEmail);
 
                 try {
                     const { count: courseCount } = await supabase
-                        .from('user_enrollments') // Updated from 'enrollments' to 'user_enrollments'
+                        .from('user_enrollments')
                         .select('*', { count: 'exact', head: true })
-                        .eq('user_id', user.id);
+                        .eq('user_id', currentAuthUser.id);
                             
-                        setText('statEnrolledCourses', courseCount || 0);
-                    } catch(e) { 
-                        setText('statEnrolledCourses', 0); 
-                    }
+                    setText('statEnrolledCourses', courseCount || 0);
+                } catch(e) { 
+                    setText('statEnrolledCourses', 0); 
+                }
 
                 try {
-                    const { count: certCount } = await supabase.from('certificates').select('*', { count: 'exact', head: true }).eq('user_id', user.id);
+                    const { count: certCount } = await supabase
+                        .from('certificates')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', currentAuthUser.id);
                     setText('statCertificates', certCount || 0);
-                } catch(e) { setText('statCertificates', 0); }
+                } catch(e) { 
+                    setText('statCertificates', 0); 
+                }
 
             } catch (err) {
                 console.error('Failed to load user profile:', err);
             }
         }
 
-        // Password Modal Handlers
-        document.getElementById('requestPasswordModalBtn').addEventListener('click', () => {
-            if (passwordModal) {
-                passwordModal.style.display = 'flex';
-                const pwdInput = document.getElementById('confirmPasswordInput');
-                if (pwdInput) pwdInput.value = '';
-                if (passwordModalAlert) passwordModalAlert.style.display = 'none';
-                setTimeout(() => pwdInput?.focus(), 100);
-            }
-        });
-
-        document.getElementById('closePasswordModalBtn').addEventListener('click', () => {
-            if (passwordModal) passwordModal.style.display = 'none';
-        });
-
-        document.getElementById('verifyPasswordBtn').addEventListener('click', async () => {
-            const passwordInput = document.getElementById('confirmPasswordInput');
-            const password = passwordInput ? passwordInput.value : '';
-            
-            if (!password) {
-                if (passwordModalAlert) {
-                    passwordModalAlert.style.display = 'block';
-                    passwordModalAlert.textContent = 'Please enter your password.';
-                }
-                return;
-            }
-
-            try {
-                const { error } = await supabase.auth.signInWithPassword({
-                    email: currentAuthUser.email,
-                    password: password
-                });
-
-                if (error) throw error;
-
-                isEditUnlocked = true;
-                if (passwordModal) passwordModal.style.display = 'none';
-
-                ['firstNameInput', 'lastNameInput', 'usernameInput', 'bioInput'].forEach(id => {
-                    const inputEl = document.getElementById(id);
-                    if (inputEl) inputEl.disabled = false;
-                });
-
-                const avatarCont = document.getElementById('avatarContainer');
-                if (avatarCont) avatarCont.classList.add('editable');
-                
-                const editTriggerBtn = document.getElementById('requestPasswordModalBtn');
-                if (editTriggerBtn) editTriggerBtn.style.display = 'none';
-                
-                const unlockedBadge = document.getElementById('unlockedBadge');
-                if (unlockedBadge) unlockedBadge.style.display = 'inline-flex';
-                
-                const saveBtn = document.getElementById('saveProfileBtn');
-                if (saveBtn) saveBtn.style.display = 'inline-flex';
-
-                showAlert('Password verified! You can now edit your profile details.');
-            } catch (err) {
-                if (passwordModalAlert) {
-                    passwordModalAlert.style.display = 'block';
-                    passwordModalAlert.textContent = `Incorrect password: ${err.message}`;
-                }
-            }
-        });
-
-        // Avatar Modal Handlers
-        document.getElementById('avatarOverlayTrigger').addEventListener('click', () => {
-            if (isEditUnlocked && avatarModal) avatarModal.style.display = 'flex';
-        });
-        document.getElementById('closeAvatarModalBtn').addEventListener('click', () => {
-            if (avatarModal) avatarModal.style.display = 'none';
-        });
-
-        // Profile Form Submission Handler
-        const profileForm = document.getElementById('profileForm');
-        if (profileForm) {
-            profileForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!isEditUnlocked) return;
-
-                const firstName = document.getElementById('firstNameInput')?.value.trim() || '';
-                const lastName = document.getElementById('lastNameInput')?.value.trim() || '';
-                const username = document.getElementById('usernameInput')?.value.trim() || '';
-                const bio = document.getElementById('bioInput')?.value.trim() || '';
-                const computedDisplayName = `${firstName} ${lastName}`.trim();
-
-                try {
-                    const { error: profileErr } = await supabase
-                        .from('profiles')
-                        .upsert({
-                            id: currentAuthUser.id,
-                            first_name: firstName,
-                            last_name: lastName,
-                            display_name: computedDisplayName,
-                            username: username,
-                            email: currentAuthUser.email,
-                            bio: bio,
-                            avatar_url: selectedAvatarUrl,
-                            updated_at: new Date()
-                        });
-
-                    if (profileErr) throw profileErr;
-
-                    showAlert('Profile details saved successfully!');
-                    setTimeout(() => window.location.reload(), 1500);
-
-                } catch (err) {
-                    showAlert(`Error: ${err.message}`, true);
-                }
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             initAvatarGrid();
             loadProfileAndStats();
+
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordModalAlert = document.getElementById('passwordModalAlert');
+            const avatarModal = document.getElementById('avatarModal');
+
+            // 1. Edit Profile Button Click Handler (Opens Password Modal)
+            const requestBtn = document.getElementById('requestPasswordModalBtn');
+            if (requestBtn) {
+                requestBtn.addEventListener('click', () => {
+                    if (passwordModal) {
+                        passwordModal.style.display = 'flex';
+                        const pwdInput = document.getElementById('confirmPasswordInput');
+                        if (pwdInput) pwdInput.value = '';
+                        if (passwordModalAlert) passwordModalAlert.style.display = 'none';
+                        setTimeout(() => pwdInput?.focus(), 100);
+                    }
+                });
+            }
+
+            // 2. Close Password Modal
+            const closePwdBtn = document.getElementById('closePasswordModalBtn');
+            if (closePwdBtn) {
+                closePwdBtn.addEventListener('click', () => {
+                    if (passwordModal) passwordModal.style.display = 'none';
+                });
+            }
+
+            // 3. Verify Password & Unlock Editing
+            const verifyPwdBtn = document.getElementById('verifyPasswordBtn');
+            if (verifyPwdBtn) {
+                verifyPwdBtn.addEventListener('click', async () => {
+                    const passwordInput = document.getElementById('confirmPasswordInput');
+                    const password = passwordInput ? passwordInput.value : '';
+                    
+                    if (!password) {
+                        if (passwordModalAlert) {
+                            passwordModalAlert.style.display = 'block';
+                            passwordModalAlert.textContent = 'Please enter your password.';
+                        }
+                        return;
+                    }
+
+                    try {
+                        const { error } = await supabase.auth.signInWithPassword({
+                            email: currentAuthUser.email,
+                            password: password
+                        });
+
+                        if (error) throw error;
+
+                        isEditUnlocked = true;
+                        if (passwordModal) passwordModal.style.display = 'none';
+
+                        // Unlock First Name and Last Name (Username and Email remain permanently disabled)
+                        ['firstNameInput', 'lastNameInput'].forEach(id => {
+                            const inputEl = document.getElementById(id);
+                            if (inputEl) inputEl.disabled = false;
+                        });
+
+                        const avatarCont = document.getElementById('avatarContainer');
+                        if (avatarCont) avatarCont.classList.add('editable');
+                        
+                        if (requestBtn) requestBtn.style.display = 'none';
+                        
+                        const unlockedBadge = document.getElementById('unlockedBadge');
+                        if (unlockedBadge) unlockedBadge.style.display = 'inline-flex';
+                        
+                        const saveBtn = document.getElementById('saveProfileBtn');
+                        if (saveBtn) saveBtn.style.display = 'inline-flex';
+
+                        showAlert('Password verified! You can now update your avatar, first name, and last name.');
+                    } catch (err) {
+                        if (passwordModalAlert) {
+                            passwordModalAlert.style.display = 'block';
+                            passwordModalAlert.textContent = `Incorrect password: ${err.message}`;
+                        }
+                    }
+                });
+            }
+
+            // 4. Avatar Modal Handlers
+            const avatarOverlay = document.getElementById('avatarOverlayTrigger');
+            if (avatarOverlay) {
+                avatarOverlay.addEventListener('click', () => {
+                    if (isEditUnlocked && avatarModal) avatarModal.style.display = 'flex';
+                });
+            }
+
+            const closeAvatarBtn = document.getElementById('closeAvatarModalBtn');
+            if (closeAvatarBtn) {
+                closeAvatarBtn.addEventListener('click', () => {
+                    if (avatarModal) avatarModal.style.display = 'none';
+                });
+            }
+
+            // 5. Profile Form Submission Handler (Updates auth.users metadata)
+            const profileForm = document.getElementById('profileForm');
+            if (profileForm) {
+                profileForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (!isEditUnlocked) return;
+
+                    const firstName = document.getElementById('firstNameInput')?.value.trim() || '';
+                    const lastName = document.getElementById('lastNameInput')?.value.trim() || '';
+
+                    try {
+                        const { error: updateError } = await supabase.auth.updateUser({
+                            data: {
+                                first_name: firstName,
+                                surname: lastName,
+                                avatar_url: selectedAvatarUrl
+                            }
+                        });
+
+                        if (updateError) throw updateError;
+
+                        showAlert('Profile details saved successfully!');
+                        setTimeout(() => window.location.reload(), 1500);
+
+                    } catch (err) {
+                        showAlert(`Error: ${err.message}`, true);
+                    }
+                });
+            }
         });
     </script>
-    <script type="module" src="/src/js/auth/nav-auth.js"></script>
 </body>
 
 </html>
