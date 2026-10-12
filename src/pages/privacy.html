@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Privacy Policy | Codify</title>
+    <style>
+        body {
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .legal-page-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .legal-page-container::before,
+        .legal-page-container::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .legal-page-container::before {
+            top: 5%;
+            left: 10%;
+        }
+
+        .legal-page-container::after {
+            bottom: 5%;
+            right: 10%;
+        }
+
+        .legal-card {
+            background: rgba(13, 27, 42, 0.55);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
+            width: 100%;
+            max-width: 800px;
+            padding: 50px;
+            z-index: 1;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .legal-logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #00aaff;
+            text-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .legal-header h1 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin: 0 0 8px 0;
+        }
+
+        .legal-header p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .legal-back-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 8px;
+            background: rgba(10, 15, 28, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            gap: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .legal-back-btn:hover {
+            color: #00aaff;
+            border-color: #00aaff;
+            background: rgba(0, 170, 255, 0.1);
+            transform: translateX(-3px);
+        }
+
+        .legal-content {
+            color: #cfd8dc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .legal-content h2 {
+            color: #00aaff;
+            font-size: 1.2rem;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .legal-content p {
+            margin-bottom: 16px;
+        }
+
+        .legal-content ul {
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+
+        .legal-content li {
+            margin-bottom: 6px;
+        }
+
+        .legal-footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #64748b;
+            border-top: 1px solid rgba(0, 170, 255, 0.15);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="legal-page-container">
+        <div class="legal-card">
+            <div class="legal-header">
+                <a href="/src/auth/signup.html" class="legal-back-btn" aria-label="Go back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5"></path>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg> Back
+                </a>
+                <div class="legal-logo" onclick="window.location.href='../index.html'">Codify</div>
+                <h1>Privacy Policy</h1>
+                <p>Last updated: October 2026</p>
+            </div>
+
+            <div class="legal-content">
+                <h2>1. Information We Collect</h2>
+                <p>At Codify, we collect and store only the essential information needed to provide you with a secure and personalized learning environment:</p>
+                <ul>
+                    <li><strong>Account Credentials:</strong> Your email address and secure encrypted password.</li>
+                    <li><strong>Profile Metadata:</strong> Your first name, surname, unique username, and selected avatar URL (stored securely within your Supabase Auth metadata).</li>
+                    <li><strong>Authentication Providers:</strong> Information provided when authenticating via third-party providers such as Google or GitHub (e.g., your display name and default profile picture).</li>
+                </ul>
+
+                <h2>2. How We Use Your Information</h2>
+                <p>We use the data we collect for the following operational purposes:</p>
+                <ul>
+                    <li>Authenticating your sessions and managing account security via OTP and password verification.</li>
+                    <li>Displaying your chosen username and profile avatar across the collaborative workspace and community features.</li>
+                    <li>Sending critical account notifications, password recovery links, and learning updates.</li>
+                </ul>
+
+                <h2>3. Data Security & Storage</h2>
+                <p>Your data is stored securely using Supabase infrastructure with strict JSON metadata isolation. We do not sell, rent, or trade your personal information to third parties.</p>
+
+                <h2>4. Third-Party Authentication</h2>
+                <p>If you choose to sign up or log in using Google or GitHub, those third-party services authenticate your identity and share basic public profile details with us according to your authorization settings with them.</p>
+
+                <h2>5. Your Privacy Rights</h2>
+                <p>You maintain full control over your account metadata and can update your display name, username, or avatar preferences directly through your profile settings.</p>
+
+                <h2>6. Policy Updates</h2>
+                <p>We may update this Privacy Policy from time to time to reflect platform enhancements or security protocols. Any changes will be posted directly on this page.</p>
+            </div>
+
+            <div class="legal-footer">
+                &copy; 2026 Codify Engine. All rights reserved.
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

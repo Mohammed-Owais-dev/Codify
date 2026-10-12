@@ -170,6 +170,9 @@ async function checkOAuthSession() {
             defaultImg.src = socialAvatar;
             defaultBtn.setAttribute('data-avatar', socialAvatar);
             defaultWrapper.style.display = 'block';
+            
+            // Make social DP active by default and clear local grid active state
+            document.querySelectorAll('.avatar-option').forEach(c => c.classList.remove('active'));
             defaultBtn.classList.add('active');
             selectedAvatarUrl = socialAvatar;
 
