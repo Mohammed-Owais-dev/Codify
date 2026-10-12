@@ -16,9 +16,14 @@ window.handleSignOut = async function() {
     }
 };
 
-// 2. Toggle Dropdown Menu Visibility with Smooth State Check
+// 2. Toggle Dropdown Menu Visibility (Ensures search dropdown closes when profile opens)
 window.toggleProfileMenu = function(event) {
     if (event) event.stopPropagation();
+    
+    // Close search dropdown if open
+    const searchResults = document.getElementById('globalSearchResults');
+    if (searchResults) searchResults.style.display = 'none';
+
     const dropdown = document.getElementById('profileDropdownMenu');
     if (dropdown) {
         dropdown.classList.toggle('active');
@@ -92,7 +97,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
     </header>
 `;
 
-// Inject custom cyberpunk scrollbar styling and dropdown activation rules dynamically
+// Inject custom cyberpunk scrollbar styling, dropdown animations, and hover effects dynamically
 const cyberScrollStyle = document.createElement('style');
 cyberScrollStyle.textContent = `
     #globalSearchResults::-webkit-scrollbar {
@@ -113,6 +118,15 @@ cyberScrollStyle.textContent = `
         opacity: 1 !important;
         visibility: visible !important;
         transform: translateY(0) scale(1) !important;
+    }
+    .dropdown-item:hover {
+        background: rgba(0, 170, 255, 0.15) !important;
+        color: #ffffff !important;
+        transform: translateX(4px);
+    }
+    .dropdown-item.logout-btn:hover {
+        background: rgba(239, 68, 68, 0.15) !important;
+        color: #f87171 !important;
     }
 `;
 document.head.appendChild(cyberScrollStyle);
@@ -222,7 +236,6 @@ async function renderNavbarAuth() {
         const user = session?.user;
 
         if (user) {
-            // Read user properties directly from auth.users metadata (user_metadata)
             const userMetaData = user.user_metadata || {};
             const avatarUrl = userMetaData.avatar_url;
             const firstName = userMetaData.first_name || userMetaData.given_name || user.email.split('@')[0];
@@ -309,7 +322,7 @@ async function renderNavbarAuth() {
     }
 }
 
-// 7. Global Search Engine Setup (Syllabus Indexing)
+// 7. Global Search Engine Setup (Syllabus Indexing & closing profile dropdown on typing)
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
@@ -392,6 +405,10 @@ setTimeout(() => {
             clearTimeout(debounceTimer);
             currentFocus = -1;
             const query = this.value.toLowerCase().trim();
+
+            // Close profile dropdown when user starts searching in the search bar
+            const profileDropdown = document.getElementById('profileDropdownMenu');
+            if (profileDropdown) profileDropdown.classList.remove('active');
 
             debounceTimer = setTimeout(async () => {
                 searchResults.innerHTML = '';
