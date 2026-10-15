@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="/src/css/style.css">
     <link rel="stylesheet" href="/src/css/global.css">
     <title>Account Settings & Security | Codify</title>
     <style>
@@ -56,10 +55,11 @@
             flex: 1;
             max-width: 860px;
             width: 100%;
-            margin: 40px auto;
+            margin: 110px auto 40px auto;
             padding: 0 20px;
             box-sizing: border-box;
-            display: none; /* Hidden until security verification passes */
+            display: none;
+            /* Hidden until security verification passes */
         }
 
         .settings-container.unlocked {
@@ -83,9 +83,12 @@
 
         .settings-header h1 {
             margin: 0 0 6px 0;
-            font-size: 1.75rem;
-            color: #ffffff;
+            font-size: 1.85rem;
+            background: linear-gradient(90deg, #ffffff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .settings-header p {
@@ -259,7 +262,8 @@
             <div id="gateOtpMode" style="display: none;">
                 <div class="settings-form-group">
                     <label for="gateOtpInput">Enter 6-Digit OTP Code</label>
-                    <input type="text" id="gateOtpInput" class="settings-input" placeholder="123456" maxlength="6" style="text-align: center; letter-spacing: 4px; font-weight: 800;">
+                    <input type="text" id="gateOtpInput" class="settings-input" placeholder="123456" maxlength="6"
+                        style="text-align: center; letter-spacing: 4px; font-weight: 800;">
                 </div>
                 <button type="button" id="verifyOtpGateBtn" class="btn-action-primary">Verify OTP Code</button>
                 <div class="gate-links">
@@ -270,31 +274,8 @@
         </div>
     </div>
 
-    <!-- STANDARD UNIFIED TOP NAVBAR -->
-    <header class="codify-main-header">
-        <div class="codify-header-container">
-            <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='/index.html'" role="button" tabindex="0" aria-label="Codify Homepage">
-                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" class="logo-icon">
-                    <span class="logo-text">Codify</span>
-                </div>
-            </div>
-
-            <nav class="codify-center-nav" id="centerNav" aria-label="Main navigation menu">
-                <ul class="codify-nav-links" id="navLinks">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/src/pages/courses.html">Courses</a></li>
-                    <li><a href="/src/pages/courses/exam.html">Quizzes &amp; Exams</a></li>
-                    <li><a href="/src/pages/certificate.html">Certificates</a></li>
-                    <li><a href="/src/pages/contact.html">Contact</a></li>
-                </ul>
-            </nav>
-
-            <div class="codify-right-group">
-                <div class="codify-auth-group" id="authNavGroup"></div>
-            </div>
-        </div>
-    </header>
+    <!-- Unified Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
 
     <!-- ACCOUNT SETTINGS MAIN CONTENT -->
     <main class="settings-container" id="settingsMainContainer">
@@ -308,7 +289,10 @@
 
             <!-- Email Management Section -->
             <div class="section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
                 Email Address
             </div>
             <form id="emailUpdateForm" onsubmit="return false;">
@@ -325,7 +309,10 @@
 
             <!-- Password Change Section -->
             <div class="section-title" style="margin-top: 40px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
                 Password & Authentication
             </div>
             <form id="passwordUpdateForm" onsubmit="return false;">
@@ -349,58 +336,12 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="codify-footer">
-        <div>
-            Built with precision for future developers • Developed by
-            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="team-trigger">Codify Team</span>
-                <div class="team-popover" role="tooltip">
-                    <div class="popover-header">Core Engineers</div>
-                    <ul class="team-list">
-                        <li class="team-member" onclick="openEngineerModal('owais')" style="font-weight: 700;">
-                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('feroz')">
-                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('basha')">
-                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member" onclick="openEngineerModal('prasad')">
-                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
-                        </li>
-                    </ul>
-                </div>
-            </span>
-        </div>
-    </footer>
+    <!-- Unified Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
-    <!-- ENGINEER MODAL -->
-    <div class="modal-overlay" id="engineerModal" aria-hidden="true">
-        <div class="modal-card">
-            <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div id="engAvatar" class="eng-avatar"></div>
-                <h2 id="engName" class="eng-name">Name</h2>
-                <p id="engId" class="eng-id">ID</p>
-                <span id="engRole" class="eng-role">Role</span>
-            </div>
-            <div class="eng-bio-box">
-                <p id="engBio">Bio goes here...</p>
-            </div>
-            <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">✉️ Email</a>
-                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
-            </div>
-        </div>
-    </div>
-
-    <script type="module" src="/src/js/auth/nav-auth.js"></script>
-    <script type="module" src="/src/js/config/supabase-client.js"></script>
+    <!-- REQUIRED CENTRALIZED SCRIPT IMPORTS -->
+    <script src="/src/js/script.js"></script>
+    <script type="module" src="/src/js/components.js"></script>
 
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
@@ -427,9 +368,9 @@
         }
 
         async function initPageSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session || !session.user) {
-                window.location.href = '/src/auth/login.html';
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            if (sessionError || !session || !session.user) {
+                window.location.replace('/login');
                 return;
             }
             currentUser = session.user;
@@ -508,7 +449,7 @@
         document.getElementById('forgotPasswordGateBtn').addEventListener('click', async () => {
             try {
                 const { error } = await supabase.auth.resetPasswordForEmail(currentUser.email, {
-                    redirectTo: `${window.location.origin}/src/auth/login.html`
+                    redirectTo: `${window.location.origin}/login`
                 });
                 if (error) throw error;
                 showGateAlert(`✓ Password reset link sent to ${currentUser.email}. Check your inbox!`, false);
@@ -563,42 +504,11 @@
 
         document.getElementById('globalSignOutBtn').addEventListener('click', async () => {
             await supabase.auth.signOut();
-            localStorage.removeItem('codify_enrollments');
-            window.location.href = '/index.html';
+            localStorage.clear();
+            window.location.href = '/login';
         });
 
         document.addEventListener('DOMContentLoaded', initPageSession);
-
-        // Core Engineers Popover & Modal Handlers
-        const teamDatabase = {
-            'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Architecture and platform development.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-            'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'UI design and APIs.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-            'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Authentication and security.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-            'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Curriculum layout and styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-            'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Performance testing and QA.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
-        };
-
-        const engModal = document.getElementById('engineerModal');
-        window.openEngineerModal = function (key) {
-            const eng = teamDatabase[key];
-            if (!eng || !engModal) return;
-            document.getElementById('engAvatar').textContent = eng.initials;
-            document.getElementById('engName').textContent = eng.name;
-            document.getElementById('engId').textContent = `Student ID: ${eng.id}`;
-            document.getElementById('engRole').textContent = eng.role;
-            document.getElementById('engBio').textContent = eng.bio;
-            document.getElementById('engEmail').href = eng.email;
-            document.getElementById('engGithub').href = eng.github;
-            engModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        };
-
-        document.getElementById('closeEngineerModal')?.addEventListener('click', () => {
-            if (engModal) {
-                engModal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        });
     </script>
 </body>
 

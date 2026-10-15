@@ -22,7 +22,7 @@
             flex: 1;
             max-width: 860px;
             width: 100%;
-            margin: 110px auto 40px auto; /* Accounts for fixed top navigation bar */
+            margin: 110px auto 40px auto;
             padding: 0 20px;
             box-sizing: border-box;
         }
@@ -295,10 +295,10 @@
         }
 
         /* MODAL STYLES */
+
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+            position: fixed !important;
+            inset: 0;
             width: 100%;
             height: 100%;
             background: rgba(5, 10, 20, 0.85);
@@ -306,27 +306,65 @@
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
+            z-index: 99999 !important;
             padding: 20px;
             box-sizing: border-box;
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            overflow-y: auto;
         }
 
-        .modal-card {
-            background: #0d1b2a;
-            border: 1.5px solid #00aaff;
-            border-radius: 24px;
-            max-width: 440px;
-            width: 100%;
-            padding: 32px;
-            text-align: center;
-            box-shadow: 0 0 40px rgba(0, 170, 255, 0.35);
-            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .modal-overlay.is-open {
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
         }
+
+        .modal-overlay .modal-card {
+            position: relative;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+
+        
+.modal-card {
+    background: #0d1b2a;
+    border: 1.5px solid #00aaff;
+    border-radius: 24px;
+
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
+    padding: 32px;
+
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0, 170, 255, 0.35);
+
+    /* Keep the modal size stable */
+    flex-shrink: 0;
+    transform: none;
+    opacity: 1;
+    animation: none;
+
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
 
         @keyframes modalPop {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
         .modal-card h2 {
             margin: 0 0 10px 0;
@@ -353,9 +391,15 @@
             scrollbar-width: thin;
             scrollbar-color: #00aaff rgba(10, 15, 28, 0.5);
         }
-        
-        .avatar-selection-grid::-webkit-scrollbar { width: 6px; }
-        .avatar-selection-grid::-webkit-scrollbar-thumb { background: #00aaff; border-radius: 4px; }
+
+        .avatar-selection-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .avatar-selection-grid::-webkit-scrollbar-thumb {
+            background: #00aaff;
+            border-radius: 4px;
+        }
 
         .avatar-option {
             width: 100%;
@@ -391,6 +435,12 @@
             cursor: pointer;
         }
 
+        .btn-modal-secondary:hover {
+                background: rgba(0, 170, 255, 0.1);
+    border-color: #00aaff;
+    color: #ffffff;
+        }
+
         .btn-modal-secondary {
             flex: 1;
             background: transparent;
@@ -411,13 +461,20 @@
 
     <main class="profile-container">
         <div class="profile-card">
-            
+
             <div class="profile-header">
                 <div class="profile-user-info">
                     <div class="avatar-container" id="avatarContainer">
-                        <img id="avatarImage" class="avatar-img" src="/src/assets/images/avatars/avatar-1.svg" alt="Profile Picture">
+                        <img id="avatarImage" class="avatar-img" src="/src/assets/images/avatars/avatar-1.svg"
+                            alt="Profile Picture">
                         <div class="avatar-overlay" id="avatarOverlayTrigger">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                </path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
                         </div>
                     </div>
                     <div class="profile-title-group">
@@ -429,12 +486,20 @@
 
                 <div class="header-actions">
                     <button type="button" class="btn-edit-trigger" id="requestPasswordModalBtn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
                         Edit Profile
                     </button>
-                    
+
                     <div class="edit-badge-unlocked" id="unlockedBadge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
                         Unlocked
                     </div>
                 </div>
@@ -444,7 +509,12 @@
 
             <!-- Learning Progress & Activity Stats -->
             <div class="section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
                 Learning Activity
             </div>
             <div class="stats-grid">
@@ -464,19 +534,25 @@
 
             <form id="profileForm">
                 <div class="section-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
                     Personal Information
                 </div>
-                
+
                 <div class="profile-grid">
                     <div class="profile-form-group">
                         <label for="firstNameInput">First Name</label>
-                        <input type="text" id="firstNameInput" class="profile-input" placeholder="First Name" disabled required>
+                        <input type="text" id="firstNameInput" class="profile-input" placeholder="First Name" disabled
+                            required>
                     </div>
 
                     <div class="profile-form-group">
                         <label for="lastNameInput">Last Name</label>
-                        <input type="text" id="lastNameInput" class="profile-input" placeholder="Last Name" disabled required>
+                        <input type="text" id="lastNameInput" class="profile-input" placeholder="Last Name" disabled
+                            required>
                     </div>
 
                     <div class="profile-form-group full-width">
@@ -490,10 +566,10 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 28px;">
-                    <button type="submit" class="profile-submit-btn" id="saveProfileBtn">
-                        Save Profile Changes
-                    </button>
+                <div style="margin-top: 28px; display:flex; gap:12px; flex-wrap:wrap;">
+                    <button type="submit" class="profile-submit-btn" id="saveProfileBtn">Save Profile Changes</button>
+                    <button type="button" class="btn-modal-secondary" id="cancelEditBtn"
+                        style="display:none; flex:0 0 auto;">Cancel Editing</button>
                 </div>
             </form>
         </div>
@@ -503,31 +579,35 @@
     <div id="footer-placeholder"></div>
 
     <!-- Password Verification Modal -->
-    <div class="modal-overlay" id="passwordModal">
+    <div class="modal-overlay" id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle"
+        aria-hidden="true">
         <div class="modal-card">
-            <h2>Confirm Password</h2>
+            <h2 id="passwordModalTitle">Confirm Password</h2>
             <p>Please enter your current account password to unlock editing.</p>
-            
+
             <div id="passwordModalAlert" class="alert-box"></div>
 
-            <div class="profile-form-group" style="text-align: left; margin-bottom: 20px;">
-                <label for="confirmPasswordInput">CURRENT PASSWORD</label>
-                <input type="password" id="confirmPasswordInput" class="profile-input" placeholder="••••••••">
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-modal-secondary" id="closePasswordModalBtn">Cancel</button>
-                <button type="button" class="btn-modal-primary" id="verifyPasswordBtn">Confirm & Unlock</button>
-            </div>
+            <form id="passwordForm">
+                <div class="profile-form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label for="confirmPasswordInput">CURRENT PASSWORD</label>
+                    <input type="password" id="confirmPasswordInput" class="profile-input" placeholder="••••••••"
+                        autocomplete="current-password" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-modal-secondary" id="closePasswordModalBtn">Cancel</button>
+                    <button type="submit" class="btn-modal-primary" id="verifyPasswordBtn">Confirm &amp; Unlock</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- Avatar Selection Modal -->
-    <div class="modal-overlay" id="avatarModal">
+    <div class="modal-overlay" id="avatarModal" role="dialog" aria-modal="true" aria-labelledby="avatarModalTitle"
+        aria-hidden="true">
         <div class="modal-card" style="max-width: 500px;">
-            <h2>Choose an Avatar</h2>
+            <h2 id="avatarModalTitle">Choose an Avatar</h2>
             <p>Select a profile picture from the gallery below.</p>
-            
+
             <div class="avatar-selection-grid" id="avatarGrid"></div>
 
             <div class="modal-actions">
@@ -536,241 +616,246 @@
         </div>
     </div>
 
-    <!-- REQUIRED SCRIPT IMPORTS -->
+    <!-- REQUIRED CENTRALIZED SCRIPT IMPORTS -->
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/components.js"></script>
-    <script type="module" src="/src/js/config/supabase-client.js"></script>
 
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
+        const $ = (id) => document.getElementById(id);
+        const DEFAULT_AVATAR = '/src/assets/images/avatars/avatar-1.svg';
         let currentAuthUser = null;
         let isEditUnlocked = false;
-        let selectedAvatarUrl = null; 
+        let selectedAvatarUrl = DEFAULT_AVATAR;
+        let originalProfile = null;
+        let lastFocusedElement = null;
 
-        function showAlert(msg, isError = false) {
-            const alertBox = document.getElementById('statusAlert');
-            if (!alertBox) return;
-            alertBox.style.display = 'block';
-            alertBox.style.background = isError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
-            alertBox.style.borderColor = isError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
-            alertBox.style.color = isError ? '#f87171' : '#34d399';
-            alertBox.innerHTML = msg;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function alertBox(element, message = '', type = 'error') {
+            if (!element) return;
+            element.textContent = message;
+            element.style.display = message ? 'block' : 'none';
+            element.style.background = type === 'error' ? 'rgba(239,68,68,.12)' : 'rgba(16,185,129,.12)';
+            element.style.borderColor = type === 'error' ? 'rgba(239,68,68,.3)' : 'rgba(16,185,129,.3)';
+            element.style.color = type === 'error' ? '#f87171' : '#34d399';
+            element.setAttribute('role', type === 'error' ? 'alert' : 'status');
         }
+        function openModal(modal, focusTarget) {
+    if (!modal) return;
 
+    lastFocusedElement = document.activeElement;
+
+    // Force the modal to become visible.
+    modal.style.setProperty('display', 'flex', 'important');
+    modal.style.setProperty('opacity', '1', 'important');
+    modal.style.setProperty('visibility', 'visible', 'important');
+    modal.style.setProperty('z-index', '99999', 'important');
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(() => {
+        if (focusTarget) {
+            focusTarget.focus();
+        }
+    });
+}
+        function closeModal(modal) {
+    if (!modal) return;
+
+    // Move focus out before hiding the modal.
+    if (modal.contains(document.activeElement)) {
+        document.activeElement.blur();
+    }
+
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+
+    modal.style.removeProperty('opacity');
+    modal.style.removeProperty('visibility');
+    modal.style.removeProperty('z-index');
+    modal.style.setProperty('display', 'none', 'important');
+
+    if (
+        !$('passwordModal').classList.contains('is-open') &&
+        !$('avatarModal').classList.contains('is-open')
+    ) {
+        document.body.style.overflow = '';
+    }
+
+    if (
+        lastFocusedElement &&
+        lastFocusedElement.isConnected &&
+        !modal.contains(lastFocusedElement)
+    ) {
+        lastFocusedElement.focus();
+    }
+
+    lastFocusedElement = null;
+}
+        function getProfileFromUser(user) {
+            const meta = user?.user_metadata || {};
+            const email = user?.email || '';
+            return {
+                firstName: meta.first_name || meta.given_name || '',
+                lastName: meta.last_name || meta.surname || '',
+                username: meta.username || (email.includes('@') ? email.split('@')[0] : 'user'),
+                email,
+                avatarUrl: meta.avatar_url || meta.picture || DEFAULT_AVATAR
+            };
+        }
+        function renderProfile(profile) {
+            $('firstNameInput').value = profile.firstName || '';
+            $('lastNameInput').value = profile.lastName || '';
+            $('usernameInput').value = profile.username || '';
+            $('emailInput').value = profile.email || '';
+            $('headerDisplayName').textContent = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || profile.username || 'User Profile';
+            $('headerUserHandle').textContent = `@${(profile.username || 'user').toLowerCase().replace(/\s+/g, '')}`;
+            $('headerUserEmail').textContent = profile.email || 'No email available';
+            selectedAvatarUrl = profile.avatarUrl || DEFAULT_AVATAR;
+            $('avatarImage').src = selectedAvatarUrl;
+        }
+        function setEditMode(enabled) {
+            isEditUnlocked = enabled;
+            $('firstNameInput').disabled = !enabled;
+            $('lastNameInput').disabled = !enabled;
+            $('avatarContainer').classList.toggle('editable', enabled);
+            $('requestPasswordModalBtn').style.display = enabled ? 'none' : 'inline-flex';
+            $('unlockedBadge').style.display = enabled ? 'inline-flex' : 'none';
+            $('saveProfileBtn').style.display = enabled ? 'inline-flex' : 'none';
+            $('cancelEditBtn').style.display = enabled ? 'inline-flex' : 'none';
+        }
         function initAvatarGrid() {
-            const grid = document.getElementById('avatarGrid');
+            const grid = $('avatarGrid');
             if (!grid) return;
-            grid.innerHTML = '';
+            grid.replaceChildren();
             for (let i = 1; i <= 16; i++) {
-                const imgUrl = `/src/assets/images/avatars/avatar-${i}.svg`;
-                const img = document.createElement('img');
-                img.src = imgUrl;
-                img.className = 'avatar-option';
-                
-                img.addEventListener('click', () => {
-                    const avatarImgEl = document.getElementById('avatarImage');
-                    if (avatarImgEl) avatarImgEl.src = imgUrl;
-                    selectedAvatarUrl = imgUrl;
-                    const avatarModal = document.getElementById('avatarModal');
-                    if (avatarModal) avatarModal.style.display = 'none';
+                const url = `/src/assets/images/avatars/avatar-${i}.svg`;
+                const image = document.createElement('img');
+                image.src = url;
+                image.alt = `Avatar ${i}`;
+                image.className = 'avatar-option';
+                image.tabIndex = 0;
+                image.setAttribute('role', 'button');
+                image.addEventListener('click', () => {
+                    selectedAvatarUrl = url;
+                    $('avatarImage').src = url;
+                    closeModal($('avatarModal'));
                 });
-                grid.appendChild(img);
+                image.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); image.click(); }
+                });
+                grid.appendChild(image);
             }
         }
-
-        async function loadProfileAndStats() {
+        async function loadProfile() {
             try {
-                // Strict Route Guard: Check session and redirect unauthenticated users
-                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-                if (sessionError || !session || !session.user) {
-                    window.location.replace('/src/auth/login.html');
-                    return;
-                }
-                
-                currentAuthUser = session.user;
-                const userEmail = currentAuthUser.email || '';
-                const userMetaData = currentAuthUser.user_metadata || {};
-
-                const firstName = userMetaData.first_name || userMetaData.given_name || '';
-                const lastName = userMetaData.surname || userMetaData.last_name || '';
-                const fallbackUsername = userEmail ? userEmail.split('@')[0] : 'user';
-                const username = userMetaData.username || fallbackUsername;
-                const avatarUrl = userMetaData.avatar_url || '/src/assets/images/avatars/avatar-1.svg';
-
-                selectedAvatarUrl = avatarUrl; 
-                
-                const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
-                const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-
-                setVal('firstNameInput', firstName);
-                setVal('lastNameInput', lastName);
-                setVal('usernameInput', username);
-                setVal('emailInput', userEmail);
-                
-                const avatarImg = document.getElementById('avatarImage');
-                if (avatarImg) avatarImg.src = avatarUrl;
-
-                const fullDisplayName = `${firstName} ${lastName}`.trim() || username;
-                setText('headerDisplayName', fullDisplayName);
-                setText('headerUserHandle', `@${username.toLowerCase().replace(/\s+/g, '')}`);
-                setText('headerUserEmail', userEmail);
-
-                try {
-                    const { count: courseCount } = await supabase
-                        .from('user_enrollments')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('user_id', currentAuthUser.id);
-                            
-                    setText('statEnrolledCourses', courseCount || 0);
-                } catch(e) { 
-                    setText('statEnrolledCourses', 0); 
-                }
-
-                try {
-                    const { count: certCount } = await supabase
-                        .from('certificates')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('user_id', currentAuthUser.id);
-                    setText('statCertificates', certCount || 0);
-                } catch(e) { 
-                    setText('statCertificates', 0); 
-                }
-
-            } catch (err) {
-                console.error('Failed to load user profile:', err);
+                const { data, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                if (!data.session?.user) { window.location.replace('/login'); return; }
+                currentAuthUser = data.session.user;
+                originalProfile = getProfileFromUser(currentAuthUser);
+                renderProfile(originalProfile);
+                initAvatarGrid();
+            } catch (error) {
+                console.error('Failed to load profile:', error);
+                alertBox($('statusAlert'), 'Unable to load your profile. Please refresh the page and try again.');
             }
         }
+        function initProfilePage() {
+            const passwordModal = $('passwordModal');
+            const avatarModal = $('avatarModal');
+            const passwordInput = $('confirmPasswordInput');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initAvatarGrid();
-            loadProfileAndStats();
+            // Use a ready-state-safe initializer so listeners still attach if this module loads late.
+            $('requestPasswordModalBtn').addEventListener('click', () => {
+                alertBox($('passwordModalAlert'), '');
+                $('confirmPasswordInput').value = '';
+                openModal(passwordModal, passwordInput);
+            });
+            $('closePasswordModalBtn').addEventListener('click', () => closeModal(passwordModal));
+            $('closeAvatarModalBtn').addEventListener('click', () => closeModal(avatarModal));
+            $('avatarOverlayTrigger').addEventListener('click', () => {
+                if (isEditUnlocked) openModal(avatarModal, $('avatarGrid').querySelector('img'));
+            });
+            passwordModal.addEventListener('click', (event) => { if (event.target === passwordModal) closeModal(passwordModal); });
+            avatarModal.addEventListener('click', (event) => { if (event.target === avatarModal) closeModal(avatarModal); });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    if (avatarModal.style.display === 'flex') closeModal(avatarModal);
+                    else if (passwordModal.style.display === 'flex') closeModal(passwordModal);
+                }
+            });
+            $('cancelEditBtn').addEventListener('click', () => {
+                if (originalProfile) renderProfile(originalProfile);
+                setEditMode(false);
+                alertBox($('statusAlert'), '');
+            });
 
-            const passwordModal = document.getElementById('passwordModal');
-            const passwordModalAlert = document.getElementById('passwordModalAlert');
-            const avatarModal = document.getElementById('avatarModal');
+            $('passwordForm')?.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                alertBox($('passwordModalAlert'), '');
+                const password = passwordInput.value;
+                if (!password) { alertBox($('passwordModalAlert'), 'Please enter your current password.'); passwordInput.focus(); return; }
+                if (!currentAuthUser?.email) { alertBox($('passwordModalAlert'), 'Your account email is unavailable. Please sign in again.'); return; }
+                const button = $('verifyPasswordBtn');
+                button.disabled = true;
+                button.textContent = 'Verifying…';
+                try {
+                    const { error } = await supabase.auth.signInWithPassword({ email: currentAuthUser.email, password });
+                    if (error) throw error;
+                    closeModal(passwordModal);
+                    setEditMode(true);
+                    alertBox($('statusAlert'), 'Password verified. You can now edit your name and avatar.', 'success');
+                    $('firstNameInput').focus();
+                } catch (error) {
+                    console.error('Password verification failed:', error);
+                    alertBox($('passwordModalAlert'), 'Password verification failed. Check your password and try again. If you use Google sign-in and have not set an account password, this method may not work for your account.');
+                } finally {
+                    button.disabled = false;
+                    button.textContent = 'Confirm & Unlock';
+                }
+            });
 
-            // 1. Edit Profile Button Click Handler (Opens Password Modal)
-            const requestBtn = document.getElementById('requestPasswordModalBtn');
-            if (requestBtn) {
-                requestBtn.addEventListener('click', () => {
-                    if (passwordModal) {
-                        passwordModal.style.display = 'flex';
-                        const pwdInput = document.getElementById('confirmPasswordInput');
-                        if (pwdInput) pwdInput.value = '';
-                        if (passwordModalAlert) passwordModalAlert.style.display = 'none';
-                        setTimeout(() => pwdInput?.focus(), 100);
-                    }
-                });
-            }
-
-            // 2. Close Password Modal
-            const closePwdBtn = document.getElementById('closePasswordModalBtn');
-            if (closePwdBtn) {
-                closePwdBtn.addEventListener('click', () => {
-                    if (passwordModal) passwordModal.style.display = 'none';
-                });
-            }
-
-            // 3. Verify Password & Unlock Editing
-            const verifyPwdBtn = document.getElementById('verifyPasswordBtn');
-            if (verifyPwdBtn) {
-                verifyPwdBtn.addEventListener('click', async () => {
-                    const passwordInput = document.getElementById('confirmPasswordInput');
-                    const password = passwordInput ? passwordInput.value : '';
-                    
-                    if (!password) {
-                        if (passwordModalAlert) {
-                            passwordModalAlert.style.display = 'block';
-                            passwordModalAlert.textContent = 'Please enter your password.';
+            $('profileForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                if (!isEditUnlocked || !currentAuthUser) return;
+                alertBox($('statusAlert'), '');
+                const firstName = $('firstNameInput').value.trim();
+                const lastName = $('lastNameInput').value.trim();
+                if (!firstName) { alertBox($('statusAlert'), 'Please enter your first name.'); $('firstNameInput').focus(); return; }
+                const saveButton = $('saveProfileBtn');
+                saveButton.disabled = true;
+                saveButton.textContent = 'Saving…';
+                try {
+                    const { data, error } = await supabase.auth.updateUser({
+                        data: {
+                            first_name: firstName, last_name: lastName, surname: lastName, avatar_url: selectedAvatarUrl
                         }
-                        return;
-                    }
-
-                    try {
-                        const { error } = await supabase.auth.signInWithPassword({
-                            email: currentAuthUser.email,
-                            password: password
-                        });
-
-                        if (error) throw error;
-
-                        isEditUnlocked = true;
-                        if (passwordModal) passwordModal.style.display = 'none';
-
-                        // Unlock First Name and Last Name (Username and Email remain permanently disabled)
-                        ['firstNameInput', 'lastNameInput'].forEach(id => {
-                            const inputEl = document.getElementById(id);
-                            if (inputEl) inputEl.disabled = false;
-                        });
-
-                        const avatarCont = document.getElementById('avatarContainer');
-                        if (avatarCont) avatarCont.classList.add('editable');
-                        
-                        if (requestBtn) requestBtn.style.display = 'none';
-                        
-                        const unlockedBadge = document.getElementById('unlockedBadge');
-                        if (unlockedBadge) unlockedBadge.style.display = 'inline-flex';
-                        
-                        const saveBtn = document.getElementById('saveProfileBtn');
-                        if (saveBtn) saveBtn.style.display = 'inline-flex';
-
-                        showAlert('Password verified! You can now update your avatar, first name, and last name.');
-                    } catch (err) {
-                        if (passwordModalAlert) {
-                            passwordModalAlert.style.display = 'block';
-                            passwordModalAlert.textContent = `Incorrect password: ${err.message}`;
-                        }
-                    }
-                });
-            }
-
-            // 4. Avatar Modal Handlers
-            const avatarOverlay = document.getElementById('avatarOverlayTrigger');
-            if (avatarOverlay) {
-                avatarOverlay.addEventListener('click', () => {
-                    if (isEditUnlocked && avatarModal) avatarModal.style.display = 'flex';
-                });
-            }
-
-            const closeAvatarBtn = document.getElementById('closeAvatarModalBtn');
-            if (closeAvatarBtn) {
-                closeAvatarBtn.addEventListener('click', () => {
-                    if (avatarModal) avatarModal.style.display = 'none';
-                });
-            }
-
-            // 5. Profile Form Submission Handler (Updates auth.users metadata)
-            const profileForm = document.getElementById('profileForm');
-            if (profileForm) {
-                profileForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    if (!isEditUnlocked) return;
-
-                    const firstName = document.getElementById('firstNameInput')?.value.trim() || '';
-                    const lastName = document.getElementById('lastNameInput')?.value.trim() || '';
-
-                    try {
-                        const { error: updateError } = await supabase.auth.updateUser({
-                            data: {
-                                first_name: firstName,
-                                surname: lastName,
-                                avatar_url: selectedAvatarUrl
-                            }
-                        });
-
-                        if (updateError) throw updateError;
-
-                        showAlert('Profile details saved successfully!');
-                        setTimeout(() => window.location.reload(), 1500);
-
-                    } catch (err) {
-                        showAlert(`Error: ${err.message}`, true);
-                    }
-                });
-            }
-        });
+                    });
+                    if (error) throw error;
+                    currentAuthUser = data.user || currentAuthUser;
+                    originalProfile = getProfileFromUser(currentAuthUser);
+                    originalProfile.firstName = firstName;
+                    originalProfile.lastName = lastName;
+                    originalProfile.avatarUrl = selectedAvatarUrl;
+                    renderProfile(originalProfile);
+                    setEditMode(false);
+                    alertBox($('statusAlert'), 'Your profile has been saved successfully.', 'success');
+                } catch (error) {
+                    console.error('Failed to save profile:', error);
+                    alertBox($('statusAlert'), 'Could not save your changes. Please try again.');
+                } finally {
+                    saveButton.disabled = false;
+                    saveButton.textContent = 'Save Profile Changes';
+                }
+            });
+            loadProfile();
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initProfilePage, { once: true });
+        else initProfilePage();
     </script>
 </body>
 
