@@ -29,6 +29,22 @@
       "destination": "/src/auth/signup.html"
     },
     {
+      "source": "/profile",
+      "destination": "/src/pages/account/profile.html"
+    },
+    {
+      "source": "/account-settings",
+      "destination": "/src/pages/account/account-settings.html"
+    },
+    {
+      "source": "/activity",
+      "destination": "/src/pages/account/activity.html"
+    },
+    {
+      "source": "/courses/:course/enroll",
+      "destination": "/src/pages/courses/course-enroll.html"
+    },
+    {
       "source": "/courses/:course",
       "destination": "/src/pages/courses/course-index.html"
     },

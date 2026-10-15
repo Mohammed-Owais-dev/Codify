@@ -490,9 +490,9 @@
                 const cardFooter = card.querySelector('.card-footer');
 
                 if (viewBtn && indexUrl) {
-                    viewBtn.addEventListener('click', () => {
+                    viewBtn.onclick = () => {
                         window.location.href = indexUrl;
-                    });
+                    };
                 }
 
                 const isEnrolled = enrolledCourseIds.includes(courseId.toLowerCase().trim());
@@ -501,20 +501,37 @@
                     cardFooter.innerHTML = `
                         <button type="button" class="btn-continue-learning">Continue Learning</button>
                     `;
-                    cardFooter.querySelector('.btn-continue-learning').addEventListener('click', () => {
+                    cardFooter.querySelector('.btn-continue-learning').onclick = () => {
                         window.location.href = indexUrl;
-                    });
-                } else if (enrollBtn) {
-                    enrollBtn.addEventListener('click', async () => {
-                        const { data: { session: activeSession } } = await supabase.auth.getSession();
-                        
-                        if (!activeSession) {
-                            showEnrollToast();
-                            return;
-                        }
+                    };
+                } else if (cardFooter) {
+                    cardFooter.innerHTML = `
+                        <button type="button" class="btn-course-view">View</button>
+                        <button type="button" class="btn-course-enroll">Enroll</button>
+                    `;
 
-                        window.location.href = `/src/pages/courses/course-enroll.html?course=${courseId.split('-')[0]}`;
-                    });
+                    const newViewBtn = cardFooter.querySelector('.btn-course-view');
+                    if (newViewBtn && indexUrl) {
+                        newViewBtn.onclick = () => {
+                            window.location.href = indexUrl;
+                        };
+                    }
+
+                    const newEnrollBtn = cardFooter.querySelector('.btn-course-enroll');
+                    if (newEnrollBtn) {
+                        newEnrollBtn.onclick = async () => {
+                            const { data: { session: activeSession } } = await supabase.auth.getSession();
+                            
+                            if (!activeSession) {
+                                showEnrollToast();
+                                return;
+                            }
+
+                            // Extracts short name (e.g., 'python' from 'python-101') and routes to courses/python/enroll
+                            const courseSlug = courseId.split('-')[0];
+                            window.location.href = `/courses/${courseSlug}/enroll`;
+                        };
+                    }
                 }
             });
         }

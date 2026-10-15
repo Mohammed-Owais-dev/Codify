@@ -3,84 +3,48 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/global.css">
     <title>My Certificates | Codify</title>
 
     <style>
-        /* Base Reset & Core Layout */
         html, body {
-            height: 100%;
-            margin: 0;
-            background-color: #0a0f1c;
-            color: #e0e6ed;
-            font-family: 'Nunito', sans-serif;
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
+            position: relative;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Prevent Layout Flicker */
-        .codify-auth-group, main {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
-        }
-
-        .codify-auth-group.ready, main.ready {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Navigation Profile DP */
-        .nav-profile-dp {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid #00aaff;
-            background: linear-gradient(135deg, #0077ff, #00aaff);
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
-            transition: transform 0.25s ease;
-        }
-
-        .nav-profile-dp:hover {
-            transform: scale(1.08);
-        }
-
-        .nav-profile-dp img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         /* Main Workspace Bounds */
         main {
-            flex: 1 0 auto;
-            margin-top: 110px !important;
-            padding: 20px;
+            display: flex !important;
+            flex-direction: column !important;
+            flex: 1;
+            margin-top: 90px !important;
+            padding: 20px 24px 80px 24px !important;
             max-width: 900px;
             width: 100%;
             margin-left: auto;
             margin-right: auto;
             box-sizing: border-box;
-            position: relative;
-            z-index: 2;
+            position: relative !important;
+            z-index: 2 !important;
         }
 
         /* Summary Header Banner */
@@ -120,7 +84,7 @@
             font-size: 0.92rem;
         }
 
-        /* Topic List Style (Matches Course Index Layout) */
+        /* Topic List Style */
         .cert-list-container {
             display: flex;
             flex-direction: column;
@@ -190,7 +154,7 @@
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
-        /* Motivational Card (Shown when 0 certificates earned) */
+        /* Motivational Card */
         .motivational-card {
             background: rgba(13, 27, 42, 0.75);
             border: 2px dashed rgba(0, 170, 255, 0.35);
@@ -232,7 +196,7 @@
             box-shadow: 0 6px 26px rgba(0, 170, 255, 0.5);
         }
 
-        /* MODAL / VIEWER SECTION FOR PRINTING AND DOWNLOAD */
+        /* MODAL / VIEWER SECTION */
         .cert-modal-overlay {
             position: fixed;
             top: 0;
@@ -241,7 +205,7 @@
             height: 100%;
             background: rgba(10, 15, 28, 0.92);
             backdrop-filter: blur(12px);
-            z-index: 2000;
+            z-index: 3000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -289,7 +253,6 @@
             border-color: #ff4d4d;
         }
 
-        /* Certificate Layout Inside Modal */
         .cert-action-bar {
             display: flex;
             align-items: center;
@@ -442,7 +405,6 @@
             font-weight: 700;
         }
 
-        /* PRINT STYLESHEET */
         @media print {
             body * { visibility: hidden; }
             .cert-modal-overlay.active, .cert-modal-overlay.active * { visibility: visible; }
@@ -462,33 +424,10 @@
 
 <body>
 
-    <header class="codify-main-header">
-        <div class="codify-header-container">
-            <div class="codify-left-group">
-                <div class="codify-logo" onclick="window.location.href='../../index.html'">Codify</div>
-            </div>
+    <!-- Shared Navigation Bar Placeholder -->
+    <div id="navbar-placeholder"></div>
 
-            <nav class="codify-center-nav">
-                <ul class="codify-nav-links">
-                    <li><a href="../../index.html">Home</a></li>
-                    <li><a href="courses.html">Courses</a></li>
-                    <li><a href="courses/exam.html">Quizzes & Exams</a></li>
-                    <li><a href="#" class="active-link">Certificates</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-
-            <div class="codify-right-group">
-                <div class="codify-auth-group" id="authNavGroup">
-                    <a href="../auth/login.html" class="codify-btn-outline">Login</a>
-                    <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main id="mainWorkspace">
-        
+    <main>
         <div class="cert-summary-banner">
             <div class="summary-info">
                 <h2>Your Earned Credentials</h2>
@@ -503,14 +442,13 @@
             <p>
                 Your collection is ready to grow! Complete all lessons in a course track and clear the final exam to generate your official, verifiable certificate.
             </p>
-            <a href="courses.html" class="btn-motive-action">Browse Courses & Get Started →</a>
+            <a href="/courses" class="btn-motive-action">Browse Courses & Get Started →</a>
         </div>
 
-        <div class="cert-list-container" id="certListContainer">
-            </div>
-
+        <div class="cert-list-container" id="certListContainer"></div>
     </main>
 
+    <!-- Certificate View Modal -->
     <div class="cert-modal-overlay" id="certModalOverlay">
         <div class="cert-modal-container">
             <button class="cert-modal-close" onclick="closeCertModal()">✕</button>
@@ -558,82 +496,16 @@
         </div>
     </div>
 
-    <footer class="codify-footer">
-        <div>
-            Built with precision for future developers • Developed by 
-            <span class="team-hover-wrapper">
-                <span class="team-trigger">Codify Team</span>
-                <div class="team-popover">
-                    <div class="popover-header">Core Engineers</div>
-                    <ul class="team-list">
-                        <li class="team-member"><span class="member-dot"></span>Mohammed Owais</li>
-                        <li class="team-member"><span class="member-dot"></span>M. Dhanush</li>
-                        <li class="team-member"><span class="member-dot"></span>MD. Feroz Basha</li>
-                        <li class="team-member"><span class="member-dot"></span>M. Basha</li>
-                        <li class="team-member"><span class="member-dot"></span>M. Prasad</li>
-                    </ul>
-                </div>
-            </span>
-        </div>
-    </footer>
+    <!-- Shared Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
-    <script src="../js/script.js"></script>
-    <script type="module" src="../js/auth/nav-auth.js"></script>
+    <script type="module" src="/src/js/components.js"></script>
+    <script src="/src/js/script.js"></script>
+    <script type="module" src="/src/js/config/supabase-client.js"></script>
+
     <script type="module">
-        import { supabase } from '../js/config/supabase-client.js';
+        import { supabase } from '/src/js/config/supabase-client.js';
 
-async function setupProfileHeader() {
-    const authNavGroup = document.getElementById('authNavGroup');
-    if (!authNavGroup) return;
-
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-            console.error("Supabase Auth Error:", error);
-        }
-
-        const user = session?.user;
-
-        if (user) {
-            const meta = user.user_metadata || {};
-            const avatarUrl = meta.avatar_url;
-            const firstName = meta.first_name || meta.full_name || user.email || 'User';
-            const initial = firstName.charAt(0).toUpperCase();
-
-            // Render Circular Profile DP
-            if (avatarUrl) {
-                authNavGroup.innerHTML = `
-                    <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
-                        <img src="${avatarUrl}" alt="${firstName}'s Profile">
-                    </a>`;
-            } else {
-                authNavGroup.innerHTML = `
-                    <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
-                        <span>${initial}</span>
-                    </a>`;
-            }
-        } else {
-            // Keep Login / Signup if user is logged out
-            authNavGroup.innerHTML = `
-                <a href="../auth/login.html" class="codify-btn-outline">Login</a>
-                <a href="../auth/signup.html" class="codify-btn-outline">Signup</a>`;
-        }
-    } catch (err) {
-        console.error("Failed to load header profile:", err);
-    } finally {
-        // Reveal header once auth state is resolved
-        authNavGroup.classList.add('ready');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', setupProfileHeader);
-    </script>
-    <script type="module">
-        
-        import { supabase } from '../js/config/supabase-client.js';
-
-        // Master Courses Specification
         const COURSES = [
             { id: 'python-101', name: 'Python Programming Mastery', desc: 'Core syntax, OOPs, data handling, and automation scripting.' },
             { id: 'c-101', name: 'C Language Fundamentals', desc: 'Pointers, manual memory allocation, and computer science logic.' },
@@ -641,49 +513,21 @@ document.addEventListener('DOMContentLoaded', setupProfileHeader);
             { id: 'html-101', name: 'HTML5 Web Architecture', desc: 'Semantic web markups, document structure, and accessibility.' },
             { id: 'css-101', name: 'CSS3 Responsive UI Design', desc: 'Flexbox, Grid, keyframe animations, and custom theme systems.' },
             { id: 'js-101', name: 'JavaScript ES6+ Development', desc: 'Asynchronous APIs, DOM manipulation, and dynamic web apps.' },
-            { id: 'sql-101', name: 'Relational SQL Databases', desc: 'Structured queries, multi-table joins, indexing, and schema design.' },
-            { id: 'java-101', name: 'Java Enterprise Development', desc: 'Robust cross-platform applications and backend development.' },
-            { id: 'dbms-101', name: 'DBMS Architecture & Logic', desc: 'Database systems, normalization forms, and ACID properties.' }
+            { id: 'java-101', name: 'Java Enterprise Development', desc: 'Robust cross-platform applications and backend development.' }
         ];
 
         let currentUser = null;
         let passedCourseIds = new Set();
 
-        (async function initCertificatesDirectory() {
-            const authNavGroup = document.getElementById('authNavGroup');
-            const mainWorkspace = document.getElementById('mainWorkspace');
-
-            // 1. INSTANT LOCAL SESSION READ (0ms Delay)
+        async function initCertificatesDirectory() {
             const { data: { session } } = await supabase.auth.getSession();
             currentUser = session?.user;
 
-            if (currentUser) {
-                const meta = currentUser.user_metadata || {};
-                const avatarUrl = meta.avatar_url;
-                const firstName = meta.first_name || currentUser.email.split('@')[0];
-                const initial = firstName.charAt(0).toUpperCase();
-
-                if (authNavGroup) {
-                    authNavGroup.innerHTML = avatarUrl ? `
-                        <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
-                            <img src="${avatarUrl}" alt="${firstName}'s Profile">
-                        </a>` : `
-                        <a href="../profile/profile.html" class="nav-profile-dp" title="View Profile">
-                            <span>${initial}</span>
-                        </a>`;
-                }
-            }
-
-            if (authNavGroup) authNavGroup.classList.add('ready');
-
-            // 2. READ CACHED PASSED EXAMS FOR INSTANT 0ms RENDER
             const cachedPassedExams = JSON.parse(localStorage.getItem('codify_passed_exams') || '[]');
             passedCourseIds = new Set(cachedPassedExams);
 
             renderEarnedCertificates();
-            if (mainWorkspace) mainWorkspace.classList.add('ready');
 
-            // 3. BACKGROUND SYNC WITH SUPABASE
             if (currentUser) {
                 const { data: exams } = await supabase
                     .from('exam_results')
@@ -698,9 +542,8 @@ document.addEventListener('DOMContentLoaded', setupProfileHeader);
                     renderEarnedCertificates();
                 }
             }
-        })();
+        }
 
-        // RENDER LIST OF EARNED CERTIFICATES ONLY
         function renderEarnedCertificates() {
             const container = document.getElementById('certListContainer');
             const motiveCard = document.getElementById('motivationalCard');
@@ -708,22 +551,18 @@ document.addEventListener('DOMContentLoaded', setupProfileHeader);
 
             if (!container) return;
 
-            // Filter courses to keep ONLY those the user earned
             const earnedCourses = COURSES.filter(course => passedCourseIds.has(course.id));
 
             if (counter) counter.innerText = `${earnedCourses.length} Earned`;
 
-            // If user has NO earned certificates, display motivational card
             if (earnedCourses.length === 0) {
                 if (motiveCard) motiveCard.style.display = 'block';
                 container.innerHTML = '';
                 return;
             }
 
-            // Hide motivational card when at least 1 certificate is earned
             if (motiveCard) motiveCard.style.display = 'none';
 
-            // Populate earned items
             container.innerHTML = earnedCourses.map(course => {
                 return `
                     <div class="cert-list-item" onclick="openCertModal('${course.id}')">
@@ -742,7 +581,6 @@ document.addEventListener('DOMContentLoaded', setupProfileHeader);
             }).join('');
         }
 
-        // OPEN CERTIFICATE MODAL
         window.openCertModal = function(courseId) {
             const courseObj = COURSES.find(c => c.id === courseId);
             if (!courseObj || !currentUser) return;
@@ -770,6 +608,8 @@ document.addEventListener('DOMContentLoaded', setupProfileHeader);
             navigator.clipboard.writeText(window.location.href);
             alert("✓ Certificate link copied to clipboard!");
         };
+
+        document.addEventListener('DOMContentLoaded', initCertificatesDirectory);
     </script>
 </body>
 

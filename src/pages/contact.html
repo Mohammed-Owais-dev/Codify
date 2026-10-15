@@ -3,18 +3,51 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Get support, ask curriculum questions, and contact the Codify core engineering team.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
     <link rel="stylesheet" href="/src/css/global.css">
+    
     <title>Contact &amp; Support | Codify</title>
+
     <style>
+        html, body {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            position: relative;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
         .contact-container {
+            display: flex !important;
+            flex-direction: column !important;
             flex: 1;
+            margin-top: 90px !important;
+            padding: 20px 24px 80px 24px !important;
             max-width: 900px;
             width: 100%;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin-left: auto;
+            margin-right: auto;
             box-sizing: border-box;
+            position: relative !important;
+            z-index: 2 !important;
         }
 
         .contact-card {
@@ -255,6 +288,7 @@
 
 <body>
 
+    <!-- Shared Navigation Bar Placeholder -->
     <div id="navbar-placeholder"></div>
 
     <main class="contact-container">
@@ -271,7 +305,7 @@
                 <div class="contact-info-panel">
                     <h3>Support Channels</h3>
                     <p>Our core technical engineers and support staff are ready to help resolve any issues quickly.</p>
-                    
+
                     <div class="channel-item">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                         codify.admin@gmail.com
@@ -324,50 +358,48 @@
         </div>
     </main>
 
+    <!-- Shared Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <script src="/src/js/components.js"></script>
-    <script type="module" src="/src/js/auth/nav-auth.js"></script>
+    <script type="module" src="/src/js/components.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
 
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
         async function initContactUser() {
-    try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            // Auto-fill email
-            if (user.email) {
-                const emailInput = document.getElementById('contactEmail');
-                if (emailInput) emailInput.value = user.email;
-            }
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    if (user.email) {
+                        const emailInput = document.getElementById('contactEmail');
+                        if (emailInput) emailInput.value = user.email;
+                    }
 
-            // Auto-fill full name from user metadata
-            const fullName = user.user_metadata?.full_name || user.user_metadata?.name || '';
-            if (fullName) {
-                const nameInput = document.getElementById('contactName');
-                if (nameInput) nameInput.value = fullName;
-            } else {
-                // Fallback: query the profiles table if full name is stored there
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('full_name')
-                    .eq('id', user.id)
-                    .single();
-                
-                if (profile && profile.full_name) {
-                    const nameInput = document.getElementById('contactName');
-                    if (nameInput) nameInput.value = profile.full_name;
+                    const fullName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+                    if (fullName) {
+                        const nameInput = document.getElementById('contactName');
+                        if (nameInput) nameInput.value = fullName;
+                    } else {
+                        const { data: profile } = await supabase
+                            .from('profiles')
+                            .select('full_name')
+                            .eq('id', user.id)
+                            .single();
+                        
+                        if (profile && profile.full_name) {
+                            const nameInput = document.getElementById('contactName');
+                            if (nameInput) nameInput.value = profile.full_name;
+                        }
+                    }
                 }
+            } catch (e) {
+                console.error('Error auto-filling user details:', e);
             }
         }
-    } catch (e) {
-        console.error('Error auto-filling user details:', e);
-    }
-}
 
-document.addEventListener('DOMContentLoaded', initContactUser);
+        document.addEventListener('DOMContentLoaded', initContactUser);
+
         const alertBox = document.getElementById('contactAlert');
 
         function showContactAlert(msg, isError = false) {
@@ -407,64 +439,61 @@ document.addEventListener('DOMContentLoaded', initContactUser);
         });
 
         document.getElementById('submitTicketBtn').addEventListener('click', async () => {
-    const name = document.getElementById('contactName').value.trim();
-    const email = document.getElementById('contactEmail').value.trim().toLowerCase();
-    const subject = hiddenSubjectInput.value;
-    const message = document.getElementById('contactMessage').value.trim();
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim().toLowerCase();
+            const subject = hiddenSubjectInput.value;
+            const message = document.getElementById('contactMessage').value.trim();
 
-    if (!name || !email || !subject || !message) {
-        showContactAlert('Please fill out all required fields before submitting.', true);
-        return;
-    }
+            if (!name || !email || !subject || !message) {
+                showContactAlert('Please fill out all required fields before submitting.', true);
+                return;
+            }
 
-    // 1. Strict Regex Format Check
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!emailRegex) {
-        showContactAlert('Please enter a valid email address format.', true);
-        document.getElementById('contactEmail').focus();
-        return;
-    }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!emailRegex) {
+                showContactAlert('Please enter a valid email address format.', true);
+                document.getElementById('contactEmail').focus();
+                return;
+            }
 
-    // 2. Block Common Disposable / Fake Email Domains
-    const disposableDomains = [
-        'mailinator.com', 'tempmail.com', '10minutemail.com', 
-        'guerrillamail.com', 'trashmail.com', 'sharklasers.com', 'fakemail.com'
-    ];
-    const domain = email.split('@')[1];
-    if (disposableDomains.includes(domain)) {
-        showContactAlert('Temporary or disposable email addresses are not accepted. Please use a real email.', true);
-        document.getElementById('contactEmail').focus();
-        return;
-    }
+            const disposableDomains = [
+                'mailinator.com', 'tempmail.com', '10minutemail.com', 
+                'guerrillamail.com', 'trashmail.com', 'sharklasers.com', 'fakemail.com'
+            ];
+            const domain = email.split('@')[1];
+            if (disposableDomains.includes(domain)) {
+                showContactAlert('Temporary or disposable email addresses are not accepted. Please use a real email.', true);
+                document.getElementById('contactEmail').focus();
+                return;
+            }
 
-    try {
-        const { data: { user } } = await supabase.auth.getUser();
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
 
-        const { error } = await supabase
-            .from('support_tickets')
-            .insert([{
-                user_id: user ? user.id : null,
-                name: name,
-                email: email,
-                subject: subject,
-                message: message
-            }]);
+                const { error } = await supabase
+                    .from('support_tickets')
+                    .insert([{
+                        user_id: user ? user.id : null,
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: message
+                    }]);
 
-        if (error) throw error;
+                if (error) throw error;
 
-        showContactAlert('✓ Support ticket successfully sent and saved! Our engineering team will get back to you shortly.', false);
-        document.getElementById('contactForm').reset();
-        selectedLabel.textContent = 'Select an inquiry type';
-        selectedLabel.style.color = '#94a3b8';
-        hiddenSubjectInput.value = '';
-        document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
-        
-        initContactUser();
-    } catch (err) {
-        showContactAlert(`Error saving ticket: ${err.message}`, true);
-    }
-});
-        
+                showContactAlert('✓ Support ticket successfully sent and saved! Our engineering team will get back to you shortly.', false);
+                document.getElementById('contactForm').reset();
+                selectedLabel.textContent = 'Select an inquiry type';
+                selectedLabel.style.color = '#94a3b8';
+                hiddenSubjectInput.value = '';
+                document.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+                
+                initContactUser();
+            } catch (err) {
+                showContactAlert(`Error saving ticket: ${err.message}`, true);
+            }
+        });
     </script>
 </body>
 
