@@ -58,7 +58,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 <ul class="codify-nav-links" id="navLinks">
                     <li><a href="/" class="${currentPath === '/' || currentPath === '/index.html' ? 'active-link' : ''}">Home</a></li>
                     <li><a href="/courses" class="${currentPath.startsWith('/courses') ? 'active-link' : ''}">Courses</a></li>
-                    <li><a href="/courses/quick-notes" class="${currentPath === '/quick-notes' ? 'active-link' : ''}">Quick Notes</a></li>
+                    <li><a href="/quick-notes" class="${currentPath === '/quick-notes' ? 'active-link' : ''}">Quick Notes</a></li>
                     <li><a href="/certificate" class="${currentPath === '/certificate' ? 'active-link' : ''}">Certificates</a></li>
                     <li><a href="/contact" class="${currentPath === '/contact' ? 'active-link' : ''}">Contact</a></li>
                 </ul>
