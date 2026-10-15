@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="../assets/logos/main-logo.svg">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/global.css">
     <title>Welcome Back | Codify Login</title>
     <style>
         body {
@@ -130,17 +130,19 @@
 
         .auth-header .auth-logo {
             font-size: 2.2rem;
-            font-weight: bold;
+            font-weight: 800;
             color: #00aaff;
-            text-shadow: 0 0 12px rgba(0, 170, 255, 0.5);
+            text-shadow: 0 0 12px rgba(0, 170, 255, 0.4);
             margin-bottom: 6px;
-            cursor: pointer;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             transition: transform 0.3s ease;
         }
 
         .auth-header .auth-logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.04);
         }
 
         .auth-header p {
@@ -393,7 +395,7 @@
     <div class="auth-page-container">
 
         <div class="auth-card">
-            <a href="../pages/courses.html" class="auth-back-btn" id="authBackBtn" aria-label="Go back">
+            <a href="/courses" class="auth-back-btn" id="authBackBtn" aria-label="Go back">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 12H5"></path>
@@ -401,7 +403,7 @@
                 </svg> Back
             </a>
 
-            <a href="../pages/courses.html" class="auth-close-btn" id="authCloseBtn" aria-label="Close login">
+            <a href="/courses" class="auth-close-btn" id="authCloseBtn" aria-label="Close login">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -410,7 +412,10 @@
             </a>
 
             <div class="auth-header">
-                <div class="auth-logo" onclick="window.location.href='../../index.html'">Codify</div>
+                <div class="auth-logo" onclick="window.location.href='/'" style="display: inline-flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <img src="/src/assets/logos/main-logo.svg" alt="Codify Logo" style="width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0, 170, 255, 0.5));">
+                    <span>Codify</span>
+                </div>
                 <p id="headerSubtitle">Compile insights & access your workspace</p>
             </div>
 
@@ -555,14 +560,14 @@
             </div>
 
             <div class="auth-footer-prompt" id="footerPrompt">
-                New to the engine? <a href="signup.html">Create account</a>
+                New to the engine? <a href="/signup">Create account</a>
             </div>
         </div>
 
     </div>
 
     <script type="module">
-        import { supabase } from '../js/config/supabase-client.js';
+        import { supabase } from '/src/js/config/supabase-client.js';
 
         const validationAlert = document.getElementById('validationAlert');
         const headerSubtitle = document.getElementById('headerSubtitle');
@@ -607,6 +612,7 @@
             if (headerSubtitle && subtitle) headerSubtitle.innerText = subtitle;
         }
 
+        // Fixed Password Visibility Toggle
         function setupPasswordToggle(inputId, buttonId) {
             const input = document.getElementById(inputId);
             const button = document.getElementById(buttonId);
@@ -636,17 +642,16 @@
 
             if (data.session) {
                 window.history.replaceState({}, document.title, window.location.pathname);
-                window.location.replace('../pages/courses.html');
+                window.location.replace('/courses');
                 return;
             }
         });
 
-        // Redirect social login/signup attempts straight to signup.html
         async function handleOAuth(provider) {
             hideAlert();
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: provider,
-                options: { redirectTo: `${window.location.origin}/src/auth/signup.html` }
+                options: { redirectTo: `${window.location.origin}/signup` }
             });
             if (error) showAlert(`${provider} login error: ${error.message}`, true);
         }
@@ -706,7 +711,7 @@
 
                 if (error) throw error;
 
-                window.location.replace('../pages/courses.html');
+                window.location.replace('/courses');
 
             } catch (err) {
                 showAlert('Login failed. Check your email/username and password.', true);
@@ -762,7 +767,7 @@
                 }
 
                 const { error } = await supabase.auth.resetPasswordForEmail(emailToUse, {
-                    redirectTo: `${window.location.origin}/src/auth/login.html`
+                    redirectTo: `${window.location.origin}/login`
                 });
                 if (error) throw error;
 
@@ -777,8 +782,37 @@
         }
 
         if (btnSendRecoveryLink) btnSendRecoveryLink.addEventListener('click', executeSendRecovery);
+
+        // Password Reset Update Submission Handler for Step 2
+        if (btnResetPasswordSubmit) {
+            btnResetPasswordSubmit.addEventListener('click', async () => {
+                hideAlert();
+                const newPass = newPasswordInput?.value;
+                if (!newPass || newPass.length < 6) {
+                    showAlert('Password must be at least 6 characters long.', true);
+                    return;
+                }
+
+                btnResetPasswordSubmit.disabled = true;
+                btnResetPasswordSubmit.style.opacity = '0.7';
+
+                try {
+                    const { error } = await supabase.auth.updateUser({ password: newPass });
+                    if (error) throw error;
+
+                    showAlert('Password updated successfully! Redirecting to login...', false);
+                    setTimeout(() => {
+                        window.location.replace('/login');
+                    }, 2000);
+                } catch (err) {
+                    showAlert(err.message, true);
+                    btnResetPasswordSubmit.disabled = false;
+                    btnResetPasswordSubmit.style.opacity = '1';
+                }
+            });
+        }
     </script>
-    <script src="../js/script.js"></script>
+    <script src="/src/js/script.js"></script>
 </body>
 
 </html>
