@@ -13,7 +13,6 @@
         rel="stylesheet">
 
     <link rel="icon" type="image/svg+xml" href="src/assets/logos/main-logo.svg">
-    <!-- <link rel="stylesheet" href="src/css/style.css"> -->
     <link rel="stylesheet" href="src/css/global.css">
     <title>Codify | Master Computer Science & Development</title>
 
@@ -107,11 +106,8 @@
             justify-content: space-between !important;
             align-items: center !important;
             padding: 10px 32px !important;
-            /* Left & right padding so items don't touch the glass edges */
             max-width: none !important;
-            /* Removes the 1400px/1600px cap completely */
             width: 100% !important;
-            /* Stretches edge-to-edge across any display */
             box-sizing: border-box !important;
             margin: 0 !important;
         }
@@ -222,20 +218,6 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(0, 170, 255, 0.12);
-            border: 1px solid rgba(0, 170, 255, 0.35);
-            color: #00aaff;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             background: rgba(0, 170, 255, 0.08);
             border: 1px solid rgba(0, 170, 255, 0.25);
             padding: 6px 14px;
@@ -326,7 +308,7 @@
         }
 
         /* ==========================================================================
-           FEATURES GRID (GPU Fast Load, Matching courses max-width limit)
+           FEATURES GRID
            ========================================================================== */
         .features-grid {
             display: grid !important;
@@ -651,7 +633,7 @@
         }
 
         /* ==========================================================================
-           MOBILE NAVIGATION & COMPONENT SPACING (Fixed at 1280px for 150%+ zoom)
+           MOBILE NAVIGATION & COMPONENT SPACING
            ========================================================================== */
         .drawer-close-btn {
             display: none;
@@ -1025,6 +1007,7 @@
 
     <div id="footer-placeholder"></div>
 
+    <!-- Scripts Section -->
     <script src="src/js/script.js"></script>
     <script type="module" src="/src/js/components.js"></script>
     <script type="module" src="src/js/config/supabase-client.js"></script>

@@ -17,6 +17,10 @@
       "destination": "/src/pages/contact.html"
     },
     {
+      "source": "/quick-notes",
+      "destination": "/src/pages/quick-notes.html"
+    },
+    {
       "source": "/login",
       "destination": "/src/auth/login.html"
     },

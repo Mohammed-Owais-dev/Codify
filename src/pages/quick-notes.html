@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Quick revision notes and concise chapter summaries for fast learning on Codify.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <title>Quick Notes | Codify</title>
+
+    <style>
+        body {
+            min-width: 1280px !important;
+            overflow-x: auto !important;
+            font-family: 'Nunito', sans-serif;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
+        }
+
+        /* ==========================================================================
+           100% VISIBLE HERO SECTION
+           ========================================================================== */
+        .hero-section {
+            display: block !important;
+            position: relative;
+            text-align: center;
+            max-width: 900px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+            z-index: 2;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 170, 255, 0.12);
+            border: 1px solid rgba(0, 170, 255, 0.35);
+            color: #00aaff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.25;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ==========================================================================
+           COURSE GRID CONFIGURATION (Max 4 Per Row)
+           ========================================================================== */
+        .courses-container {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 24px;
+            max-width: 1300px;
+            margin: 20px auto 80px auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .course-card {
+            background: rgba(13, 27, 42, 0.55) !important;
+            border: 1px solid rgba(0, 170, 255, 0.2) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease !important;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px) scale(1.02) !important;
+            border-color: rgba(0, 170, 255, 0.6) !important;
+            box-shadow: 0 15px 35px rgba(0, 170, 255, 0.25) !important;
+        }
+
+        .card-header {
+            padding: 30px 20px 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-header img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            filter: drop-shadow(0 6px 12px rgba(0, 170, 255, 0.35));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .course-card:hover .card-header img {
+            transform: scale(1.08);
+            filter: drop-shadow(0 10px 18px rgba(0, 170, 255, 0.6));
+        }
+
+        .card-header h3 {
+            margin-top: 16px;
+            font-size: 1.25rem;
+            color: #e0e6ed;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .card-body {
+            padding: 15px 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            color: #cfd8dc;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .card-footer {
+            padding: 15px 20px 25px 20px;
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        /* Action Button: Revise */
+        .btn-revise {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25);
+        }
+
+        .btn-revise:hover {
+            background: linear-gradient(90deg, #00aaff, #0077ff);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <section class="hero-section" aria-labelledby="heroHeading">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                Concise Chapter Summaries
+            </div>
+            <h1 class="hero-title" id="heroHeading">
+                Quick <span>Notes</span> &amp; Revision
+            </h1>
+            <p class="hero-subtitle">
+                Access rapid chapter summaries, syntax cheat sheets, and core concept breakdowns designed to cover everything in record time.
+            </p>
+        </section>
+
+        <section id="courses" class="courses-container" aria-label="Quick Notes Modules">
+
+            <!-- Course Card 1: C Programming -->
+            <div class="course-card" data-index-url="/courses/c">
+                <div class="card-header">
+                    <img src="/src/assets/logos/c.svg" alt="C Quick Notes">
+                    <h3>C Quick Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Rapidly review pointers, memory allocation, control structures, and essential core syntax.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+            <!-- Course Card 2: C++ & OOPs -->
+            <div class="course-card" data-index-url="/courses/cpp">
+                <div class="card-header">
+                    <img src="/src/assets/logos/cpp.svg" alt="C++ Quick Notes">
+                    <h3>C++ &amp; OOPs Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Concise summaries covering classes, inheritance, polymorphism, templates, and standard libraries.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+            <!-- Course Card 3: HTML -->
+            <div class="course-card" data-index-url="/courses/html">
+                <div class="card-header">
+                    <img src="/src/assets/logos/html.svg" alt="HTML Quick Notes">
+                    <h3>HTML Cheat Sheet</h3>
+                </div>
+                <div class="card-body">
+                    <p>Review semantic elements, document structures, forms, and accessibility guidelines instantly.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+            <!-- Course Card 4: CSS -->
+            <div class="course-card" data-index-url="/courses/css">
+                <div class="card-header">
+                    <img src="/src/assets/logos/css.svg" alt="CSS Quick Notes">
+                    <h3>CSS Quick Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Fast refreshers on Flexbox layouts, Grid tracks, media queries, and modern styling properties.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+            <!-- Course Card 5: JavaScript -->
+            <div class="course-card" data-index-url="/courses/js">
+                <div class="card-header">
+                    <img src="/src/assets/logos/javascript.svg" alt="JavaScript Quick Notes">
+                    <h3>JavaScript Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Quick reference guide for ES6 features, DOM manipulation, asynchronous promises, and events.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+            <!-- Course Card 6: Java Programming -->
+            <div class="course-card" data-index-url="/courses/java">
+                <div class="card-header">
+                    <img src="/src/assets/logos/java.svg" alt="Java Quick Notes">
+                    <h3>Java Quick Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Summary of core Java principles, exception handling, collections framework, and OOP fundamentals.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+            <!-- Course Card 7: Python for Beginners -->
+            <div class="course-card" data-index-url="/courses/python">
+                <div class="card-header">
+                    <img src="/src/assets/logos/python.svg" alt="Python Quick Notes">
+                    <h3>Python Quick Notes</h3>
+                </div>
+                <div class="card-body">
+                    <p>Bite-sized notes covering data structures, list comprehensions, file handling, and functions.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-revise">Revise</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/src/js/components.js"></script>
+    <script src="/src/js/script.js"></script>
+    <script type="module" src="/src/js/config/supabase-client.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.course-card').forEach(card => {
+                const indexUrl = card.getAttribute('data-index-url');
+                const reviseBtn = card.querySelector('.btn-revise');
+
+                if (reviseBtn && indexUrl) {
+                    reviseBtn.addEventListener('click', () => {
+                        window.location.href = indexUrl;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
