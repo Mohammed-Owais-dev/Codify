@@ -100,7 +100,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
     </header>
 `;
 
-// Inject custom cyberpunk scrollbar styling dynamically
+// Inject custom cyberpunk scrollbar & badge styling dynamically
 const cyberScrollStyle = document.createElement('style');
 cyberScrollStyle.textContent = `
     #globalSearchResults::-webkit-scrollbar {
@@ -117,10 +117,26 @@ cyberScrollStyle.textContent = `
     #globalSearchResults::-webkit-scrollbar-thumb:hover {
         background: rgba(0, 170, 255, 0.7);
     }
+    .eng-badge-wrapper {
+        margin: 10px;
+        display: inline-block;
+    }
+    .team-leader-badge {
+        background: linear-gradient(90deg, rgba(0, 170, 255, 0.2), rgba(0, 119, 255, 0.3));
+        border: 1px solid rgba(0, 170, 255, 0.6);
+        color: #00aaff;
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 0 10px rgba(0, 170, 255, 0.25);
+    }
 `;
 document.head.appendChild(cyberScrollStyle);
 
-// 5. Inject the Footer & Engineer Modal (Clean Structure & SVG Icons)
+// 5. Inject the Footer & Engineer Modal
 document.getElementById('footer-placeholder').innerHTML = `
     <footer class="codify-footer">
         <div>
@@ -160,7 +176,10 @@ document.getElementById('footer-placeholder').innerHTML = `
             <div class="eng-modal-profile">
                 <div id="engAvatar" class="eng-avatar"></div>
                 <h2 id="engName" class="eng-name">Name</h2>
-                <p id="engId" class="eng-id">ID</p>
+                <div id="engBadgeContainer" class="eng-badge-wrapper" style="display: none;">
+                    <span id="engBadge" class="team-leader-badge"></span>
+                </div>
+                <p id="engId" class="eng-id" style="margin-top: 8px;">ID</p>
                 <span id="engRole" class="eng-role">Role</span>
             </div>
 
@@ -181,12 +200,57 @@ document.getElementById('footer-placeholder').innerHTML = `
 `;
 
 const teamDatabase = {
-    'owais': { name: 'Mohammed Owais', initials: 'MO', id: '24030-CM-193', role: 'Lead Engineer & Architect', bio: 'Mohammed is responsible for the core architecture of Codify, focusing on front-end performance, database design, and overall system scalability.', email: 'mailto:owais@codify.com', github: 'https://github.com/mohammedowais' },
-    'dhanush': { name: 'M. Dhanush', initials: 'MD', id: '24030-CM-189', role: 'Full-Stack Developer', bio: 'Dhanush specializes in interactive UI design and seamless API integrations, ensuring students have a smooth learning experience.', email: 'mailto:dhanush@codify.com', github: 'https://github.com/dhanush' },
-    'feroz': { name: 'MD. Feroz Basha', initials: 'FB', id: '24030-CM-190', role: 'Backend & Authentication Lead', bio: 'Feroz manages secure user authentication, database row-level security, and the backend tracking logic for course progress.', email: 'mailto:feroz@codify.com', github: 'https://github.com/feroz' },
-    'basha': { name: 'M. Basha', initials: 'MB', id: '24030-CM-189', role: 'Content & UI Developer', bio: 'Basha focuses on creating structured, easy-to-understand interactive course material and maintaining the site styling.', email: 'mailto:basha@codify.com', github: 'https://github.com/basha' },
-    'prasad': { name: 'M. Prasad', initials: 'MP', id: '24030-CM-196', role: 'Systems Tester & QA', bio: 'Prasad rigorously tests platform features, catches bugs, and optimizes performance metrics to keep Codify running at 100%.', email: 'mailto:prasad@codify.com', github: 'https://github.com/prasad' }
-};
+    'owais': { 
+        name: 'Mohammed Owais', 
+        badge: 'Project Lead & Architect', 
+        initials: 'MO', 
+        id: '24030-CM-193', 
+        role: 'Lead Architect & Full-Stack Developer', 
+        bio: 'Bringing the platform to life from scratch, Mohammed single-handedly drives Codify from concept to deployment. He oversees everything from creative ideation and intuitive front-end UI design to rigorous testing, maintenance, robust back-end architecture, APIs, database connectivity, and security protocols.', 
+        email: 'mailto:owais@codify.com', 
+        github: 'https://github.com/mohammedowais' 
+    },
+    'dhanush': { 
+        name: 'M. Dhanush', 
+        badge: '',
+        initials: 'MD', 
+        id: '24030-CM-194', 
+        role: 'Lead QA & Systems Testing Engineer', 
+        bio: 'Dhanush spearheads quality assurance and rigorous testing protocols across Codify. By meticulously identifying bugs, evaluating interface responsiveness, and validating user workflows, he ensures a seamless, secure, and bulletproof learning experience for every student.', 
+        email: 'mailto:dhanush@codify.com', 
+        github: 'https://github.com/mdhanush' 
+    },
+    'feroz': { 
+        name: 'Feroz', 
+        badge: '',
+        initials: 'FZ', 
+        id: '24030-CM-195', 
+        role: 'Lead Curriculum & Technical Notes Writer', 
+        bio: 'Feroz leads the creation of comprehensive learning materials and rapid revision notes for Codify. By breaking down complex computer science concepts into clear, structured, and student-friendly chapters, he empowers learners to master technical tracks efficiently.', 
+        email: 'mailto:feroz@codify.com', 
+        github: 'https://github.com/feroz' 
+    },
+    'basha': { 
+        name: 'Basha', 
+        badge: '',
+        initials: 'BS', 
+        id: '24030-CM-196', 
+        role: 'Lead Assessment & Exam Content Developer', 
+        bio: 'Basha designs and formulates rigorous evaluation materials and exam questions for Codify. By crafting challenging scenario-based quizzes and comprehensive tests, he ensures students can accurately measure their mastery and readiness across every course track.', 
+        email: 'mailto:basha@codify.com', 
+        github: 'https://github.com/basha' 
+    },
+    'prasad': { 
+        name: 'Prasad', 
+        badge: '',
+        initials: 'PR', 
+        id: '24030-CM-197', 
+        role: 'Lead Quick Notes & Revision Content Writer', 
+        bio: 'Prasad crafts concise, high-impact quick notes and rapid revision cards for Codify. By distilling complex chapters into streamlined, high-yield summary points, he enables students to review critical concepts and master technical tracks swiftly.', 
+        email: 'mailto:prasad@codify.com', 
+        github: 'https://github.com/prasad' 
+    }
+};  
 
 const engModal = document.getElementById('engineerModal');
 const closeEngBtn = document.getElementById('closeEngineerModal');
@@ -197,6 +261,17 @@ window.openEngineerModal = function (memberKey) {
 
     document.getElementById('engAvatar').textContent = engineer.initials;
     document.getElementById('engName').textContent = engineer.name;
+    
+    const badgeContainer = document.getElementById('engBadgeContainer');
+    const badgeEl = document.getElementById('engBadge');
+    
+    if (engineer.badge) {
+        badgeEl.textContent = engineer.badge;
+        badgeContainer.style.display = 'block';
+    } else {
+        badgeContainer.style.display = 'none';
+    }
+
     document.getElementById('engId').textContent = `Student ID: ${engineer.id}`;
     document.getElementById('engRole').textContent = engineer.role;
     document.getElementById('engBio').textContent = engineer.bio;
@@ -244,14 +319,12 @@ async function renderNavbarAuth() {
 
             authNavGroup.innerHTML = `
                 <div class="user-profile-menu" id="userProfileMenu" style="position: relative; display: inline-block;">
-                    <!-- Use a button element so it toggles the dropdown instead of navigating away -->
                     <button type="button" class="profile-avatar-btn" onclick="toggleProfileMenu(event)" aria-label="User Profile Menu" style="background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center;">
                         ${btnAvatarHtml}
                     </button>
 
                     <div class="profile-dropdown-menu" id="profileDropdownMenu" style="position: absolute; top: calc(100% + 12px); right: 0; width: 280px; background: rgba(13, 27, 42, 0.95); border: 1px solid rgba(0, 170, 255, 0.35); border-radius: 16px; backdrop-filter: blur(16px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 170, 255, 0.15); padding: 16px; display: flex; flex-direction: column; z-index: 3000;">
                         
-                        <!-- Dropdown Header -->
                         <div class="dropdown-header" style="display: flex; align-items: center; gap: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(0, 170, 255, 0.15); margin-bottom: 8px;">
                             <div class="dropdown-avatar-container" style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid #00aaff; display: flex; align-items: center; justify-content: center; background: rgba(0, 170, 255, 0.15); color: #00aaff; font-weight: 800; font-size: 1.1rem; flex-shrink: 0;">
                                 ${dropdownHeaderAvatarHtml}
@@ -263,7 +336,6 @@ async function renderNavbarAuth() {
                             </div>
                         </div>
 
-                        <!-- Dropdown Options Menu -->
                         <div class="dropdown-body" style="display: flex; flex-direction: column; gap: 4px;">
                             <a href="/profile" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -392,7 +464,6 @@ setTimeout(() => {
             currentFocus = -1;
             const query = this.value.toLowerCase().trim();
 
-            // Close profile dropdown when user starts typing in the search bar
             const profileDropdown = document.getElementById('profileDropdownMenu');
             if (profileDropdown) profileDropdown.classList.remove('active');
 
@@ -489,12 +560,10 @@ setTimeout(() => {
     }
 }, 100);
 
-// Single auth change listener
 supabase.auth.onAuthStateChange((event) => {
     if (['SIGNED_IN', 'SIGNED_OUT', 'TOKEN_REFRESHED', 'USER_UPDATED'].includes(event)) {
         renderNavbarAuth();
     }
 });
 
-// Run renderNavbarAuth when DOM is ready
 document.addEventListener('DOMContentLoaded', renderNavbarAuth);

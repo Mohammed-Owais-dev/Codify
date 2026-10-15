@@ -553,6 +553,35 @@
             font-weight: 600;
             margin-left: 4px;
         }
+
+        /* Codify Cyberpunk Toast Notification */
+        .codify-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(13, 27, 42, 0.95);
+            border: 1px solid rgba(0, 170, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: #e0e6ed;
+            padding: 16px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .codify-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
     </style>
 </head>
 
@@ -768,6 +797,26 @@
         </div>
     </div>
 
+    <script>
+        // Global toast helper function for signup success / status notifications
+        window.showToast = function(message) {
+            let toast = document.getElementById('codifyToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'codifyToast';
+                toast.className = 'codify-toast';
+                toast.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>${message}</span>
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        };
+    </script>
     <script type="module" src="/src/js/auth/signup-flow.js"></script>
     <script src="/src/js/script.js"></script>
 </body>

@@ -387,6 +387,35 @@
             display: block;
             animation: phaseFade 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        /* Codify Cyberpunk Toast Notification */
+        .codify-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(13, 27, 42, 0.95);
+            border: 1px solid rgba(0, 170, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: #e0e6ed;
+            padding: 16px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .codify-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
     </style>
 </head>
 
@@ -592,6 +621,24 @@
             success: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; flex-shrink: 0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
         };
 
+        function showToast(message) {
+            let toast = document.getElementById('codifyToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'codifyToast';
+                toast.className = 'codify-toast';
+                toast.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>${message}</span>
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
         function showAlert(message, isError = true) {
             if (!validationAlert) return;
             validationAlert.style.display = 'flex';
@@ -612,7 +659,6 @@
             if (headerSubtitle && subtitle) headerSubtitle.innerText = subtitle;
         }
 
-        // Fixed Password Visibility Toggle
         function setupPasswordToggle(inputId, buttonId) {
             const input = document.getElementById(inputId);
             const button = document.getElementById(buttonId);
@@ -711,11 +757,14 @@
 
                 if (error) throw error;
 
-                window.location.replace('/courses');
+                // Success Toast Display before redirect
+                showToast('Login successful! Launching workspace...');
+                setTimeout(() => {
+                    window.location.replace('/courses');
+                }, 1000);
 
             } catch (err) {
                 showAlert('Login failed. Check your email/username and password.', true);
-            } finally {
                 btnLoginSubmit.disabled = false;
                 btnLoginSubmit.style.opacity = '1';
             }
@@ -783,7 +832,7 @@
 
         if (btnSendRecoveryLink) btnSendRecoveryLink.addEventListener('click', executeSendRecovery);
 
-        // Password Reset Update Submission Handler for Step 2
+        // Password Reset Update Submission Handler for Step 2 with Success Toast
         if (btnResetPasswordSubmit) {
             btnResetPasswordSubmit.addEventListener('click', async () => {
                 hideAlert();
@@ -800,10 +849,10 @@
                     const { error } = await supabase.auth.updateUser({ password: newPass });
                     if (error) throw error;
 
-                    showAlert('Password updated successfully! Redirecting to login...', false);
+                    showToast('Password updated successfully!');
                     setTimeout(() => {
                         window.location.replace('/login');
-                    }, 2000);
+                    }, 1500);
                 } catch (err) {
                     showAlert(err.message, true);
                     btnResetPasswordSubmit.disabled = false;
