@@ -31,12 +31,12 @@
             min-height: 100vh;
         }
 
-        /* Main Workspace Bounds */
+        /* Main Workspace Bounds with Proper Top Spacing */
         main {
             display: flex !important;
             flex-direction: column !important;
             flex: 1;
-            margin-top: 90px !important;
+            margin-top: 100px !important;
             padding: 20px 24px 80px 24px !important;
             max-width: 900px;
             width: 100%;
@@ -82,9 +82,12 @@
             padding: 8px 18px;
             border-radius: 30px;
             font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Topic List Style */
+        /* Certificate List Style */
         .cert-list-container {
             display: flex;
             flex-direction: column;
@@ -122,10 +125,11 @@
             height: 42px;
             border-radius: 10px;
             background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            color: #34d399;
             flex-shrink: 0;
         }
 
@@ -165,10 +169,23 @@
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
         }
 
+        .motivational-icon-wrapper {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px auto;
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00aaff;
+        }
+
         .motivational-card h3 {
             color: #ffffff;
             font-size: 1.5rem;
-            margin: 16px 0 10px 0;
+            margin: 0 0 10px 0;
         }
 
         .motivational-card p {
@@ -186,7 +203,9 @@
             padding: 12px 28px;
             border-radius: 12px;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             box-shadow: 0 4px 18px rgba(0, 170, 255, 0.35);
             transition: all 0.25s ease;
         }
@@ -194,6 +213,7 @@
         .btn-motive-action:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 26px rgba(0, 170, 255, 0.5);
+            color: #fff;
         }
 
         /* MODAL / VIEWER SECTION */
@@ -243,14 +263,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
             transition: all 0.2s ease;
             z-index: 10;
         }
 
         .cert-modal-close:hover {
-            background: rgba(255, 77, 77, 0.8);
-            border-color: #ff4d4d;
+            background: rgba(239, 68, 68, 0.8);
+            border-color: #ef4444;
         }
 
         .cert-action-bar {
@@ -270,13 +289,18 @@
             border-radius: 10px;
             border: none;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             box-shadow: 0 4px 16px rgba(0, 170, 255, 0.3);
             transition: all 0.25s ease;
+            font-family: inherit;
         }
 
         .btn-cert-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 22px rgba(0, 170, 255, 0.5);
+            color: #fff;
         }
 
         .btn-cert-secondary {
@@ -287,7 +311,11 @@
             padding: 10px 18px;
             border-radius: 10px;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.25s ease;
+            font-family: inherit;
         }
 
         .btn-cert-secondary:hover {
@@ -433,16 +461,27 @@
                 <h2>Your Earned Credentials</h2>
                 <p>Select any earned certificate below to view, share, or print your official document.</p>
             </div>
-            <div class="badge-counter" id="earnedCounterDisplay">0 Earned</div>
+            <div class="badge-counter" id="earnedCounterDisplay">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span>0 Earned</span>
+            </div>
         </div>
 
         <div class="motivational-card" id="motivationalCard" style="display: none;">
-            <div style="font-size: 3rem;">🎓</div>
+            <div class="motivational-icon-wrapper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+            </div>
             <h3>No Certificates Earned Yet</h3>
             <p>
                 Your collection is ready to grow! Complete all lessons in a course track and clear the final exam to generate your official, verifiable certificate.
             </p>
-            <a href="/courses" class="btn-motive-action">Browse Courses & Get Started →</a>
+            <a href="/courses" class="btn-motive-action">
+                <span>Browse Courses & Get Started</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
         </div>
 
         <div class="cert-list-container" id="certListContainer"></div>
@@ -451,15 +490,24 @@
     <!-- Certificate View Modal -->
     <div class="cert-modal-overlay" id="certModalOverlay">
         <div class="cert-modal-container">
-            <button class="cert-modal-close" onclick="closeCertModal()">✕</button>
+            <button class="cert-modal-close" onclick="closeCertModal()" aria-label="Close Modal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
 
             <div class="cert-action-bar">
-                <span style="color: #34d399; font-weight: 700; font-size: 0.9rem;">
-                    ✓ Official Verified Credential
+                <span style="color: #34d399; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Official Verified Credential
                 </span>
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn-cert-secondary" onclick="copyCertLink()">📋 Copy Link</button>
-                    <button class="btn-cert-primary" onclick="window.print()">🖨️ Print / Download PDF</button>
+                    <button class="btn-cert-secondary" onclick="copyCertLink()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                        <span>Copy Link</span>
+                    </button>
+                    <button class="btn-cert-primary" onclick="window.print()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect width="12" height="12" x="6" y="14"></rect></svg>
+                        <span>Print / Download PDF</span>
+                    </button>
                 </div>
             </div>
 
@@ -547,13 +595,18 @@
         function renderEarnedCertificates() {
             const container = document.getElementById('certListContainer');
             const motiveCard = document.getElementById('motivationalCard');
-            const counter = document.getElementById('earnedCounterDisplay');
+            const counterDisplay = document.getElementById('earnedCounterDisplay');
 
             if (!container) return;
 
             const earnedCourses = COURSES.filter(course => passedCourseIds.has(course.id));
 
-            if (counter) counter.innerText = `${earnedCourses.length} Earned`;
+            if (counterDisplay) {
+                counterDisplay.innerHTML = `
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>${earnedCourses.length} Earned</span>
+                `;
+            }
 
             if (earnedCourses.length === 0) {
                 if (motiveCard) motiveCard.style.display = 'block';
@@ -567,14 +620,20 @@
                 return `
                     <div class="cert-list-item" onclick="openCertModal('${course.id}')">
                         <div class="cert-item-left">
-                            <div class="cert-item-icon">📜</div>
+                            <div class="cert-item-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                            </div>
                             <div class="cert-item-details">
                                 <h3>${course.name}</h3>
                                 <p>${course.desc}</p>
                             </div>
                         </div>
                         <div class="cert-status-tag">
-                            ✓ View & Print Certificate
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <span>View & Print Certificate</span>
                         </div>
                     </div>
                 `;

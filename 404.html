@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Page not found. Return to the Codify platform dashboard.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/global.css">
+    
+    <title>404 Not Found | Codify</title>
+
+    <style>
+        html, body {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            position: relative;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 404 Workspace Container */
+        .not-found-container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            margin-top: 90px !important;
+            padding: 40px 24px 80px 24px !important;
+            max-width: 800px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            position: relative !important;
+            z-index: 2 !important;
+            text-align: center;
+        }
+
+        .not-found-card {
+            background: rgba(13, 27, 42, 0.75);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            border-radius: 28px;
+            padding: 50px 36px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 170, 255, 0.15);
+            backdrop-filter: blur(16px);
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .not-found-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .error-code {
+            font-size: 7rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 0 0 10px 0;
+            background: linear-gradient(90deg, #0077ff, #00aaff, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            filter: drop-shadow(0 10px 20px rgba(0, 170, 255, 0.3));
+        }
+
+        .error-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 16px 0;
+        }
+
+        .error-description {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            max-width: 520px;
+            margin: 0 auto 32px auto;
+            line-height: 1.6;
+        }
+
+        .error-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-action {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
+            font-family: inherit;
+        }
+
+        .btn-primary-action:hover {
+            box-shadow: 0 6px 25px rgba(0, 170, 255, 0.5);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .btn-secondary-action {
+            background: rgba(10, 15, 28, 0.7);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #00aaff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .btn-secondary-action:hover {
+            background: rgba(0, 170, 255, 0.12);
+            border-color: #00aaff;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .error-terminal-hint {
+            margin-top: 30px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #64748b;
+            background: rgba(10, 15, 28, 0.5);
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Shared Navigation Bar Placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <main class="not-found-container">
+        <div class="not-found-card">
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">Oops! Destination Not Found</h2>
+            <p class="error-description">
+                The page you are looking for might have been moved, deleted, or never existed in this branch of the repository. Let's get you back on track.
+            </p>
+
+            <div class="error-actions">
+                <a href="/" class="btn-primary-action">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Back to Dashboard</span>
+                </a>
+                <a href="/courses" class="btn-secondary-action">
+                    <span>Explore Courses</span>
+                </a>
+            </div>
+
+            <div class="error-terminal-hint">
+                <span style="color: #34d399;">$</span> error: route resolution failed for <span id="failedPath" style="color: #00aaff;"></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Shared Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/src/js/components.js"></script>
+    <script src="/src/js/script.js"></script>
+    <script>
+        // Display the broken route path inside the terminal hint box dynamically
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathDisplay = document.getElementById('failedPath');
+            if (pathDisplay) {
+                pathDisplay.textContent = window.location.pathname;
+            }
+        });
+    </script>
+</body>
+
+</html>

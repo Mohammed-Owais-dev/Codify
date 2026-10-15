@@ -51,6 +51,10 @@
     {
       "source": "/courses/:course/:lesson",
       "destination": "/src/pages/courses/course-lesson.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/src/pages/404.html"
     }
   ]
 }

@@ -25,9 +25,14 @@
             margin: 0;
         }
 
-        /* ==========================================================================
-           100% VISIBLE HERO SECTION
-           ========================================================================== */
+        /* Ensure proper spacing below the fixed navbar so content isn't hidden */
+        main {
+            display: block !important;
+            margin-top: 100px !important;
+            position: relative;
+            z-index: 2;
+        }
+
         .hero-section {
             display: block !important;
             position: relative;
@@ -38,7 +43,7 @@
             z-index: 2;
             opacity: 1 !important;
             visibility: visible !important;
-        }
+        }   
 
         .hero-badge {
             display: inline-flex;
