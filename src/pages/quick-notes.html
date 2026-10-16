@@ -17,8 +17,8 @@
 
     <style>
         body {
-            min-width: 1280px !important;
-            overflow-x: auto !important;
+            min-width: 0 !important;
+            overflow-x: hidden !important;
             font-family: 'Nunito', sans-serif;
             background-color: #0a0f1c;
             color: #e0e6ed;
@@ -205,6 +205,30 @@
             box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
             transform: translateY(-1px);
         }
+    
+        @media (max-width: 900px) {
+            main { margin-top: 104px !important; padding: 0 16px !important; }
+            .hero-section { margin: 18px auto 28px; padding: 0 12px; }
+            .hero-title { font-size: clamp(2rem, 6vw, 2.8rem); }
+            .hero-subtitle { font-size: 1rem; margin-bottom: 24px; }
+            .courses-container { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 16px; padding: 0 4px; margin-bottom: 48px; }
+            .course-card { min-width: 0; }
+            .card-footer { padding: 12px 14px 16px; }
+        }
+        @media (max-width: 560px) {
+            main { margin-top: 112px !important; padding: 0 12px !important; }
+            .hero-section { margin: 14px auto 22px; padding: 0 4px; }
+            .hero-badge { font-size: .78rem; padding: 7px 12px; margin-bottom: 16px; }
+            .hero-title { font-size: clamp(1.8rem, 8vw, 2.35rem); line-height: 1.18; margin-bottom: 12px; }
+            .hero-subtitle { font-size: .95rem; line-height: 1.65; margin-bottom: 20px; }
+            .courses-container { grid-template-columns: minmax(0, 1fr) !important; gap: 14px; padding: 0; margin-top: 12px; }
+            .course-card { border-radius: 16px !important; }
+            .card-header { padding: 18px 18px 12px; }
+            .card-body { padding: 0 18px 18px; }
+            .card-footer { gap: 10px; padding: 0 18px 18px; }
+            .btn-revise { min-height: 44px; }
+        }
+
     </style>
 </head>
 
