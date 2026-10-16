@@ -514,6 +514,7 @@
                     const isInputCue = /^(?:if\s+the\s+)?user\s+enters\s*:?[\s]*$/i.test(siblingText);
 
                     if (isDisplayCue) {
+                        skipInputValues = false;
                         foundOutputCue = true;
                         outputLabelElement = nextSibling;
                         nextSibling = nextSibling.nextElementSibling;
