@@ -437,6 +437,35 @@
             .page-wrapper { margin-top: 136px !important; }
             .sidebar-nav { top: 136px !important; height: calc(100dvh - 136px) !important; }
         }
+
+/* Mobile lesson typography, breadcrumb and navigation polish */
+@media (max-width: 900px) {
+    .codify-breadcrumb-bar { top: 94px !important; height: 42px !important; padding: 0 10px !important; }
+    .codify-breadcrumbs { font-size: .78rem !important; gap: 5px !important; }
+    .codify-breadcrumbs .current-crumb { max-width: 38vw !important; }
+    .page-wrapper { margin-top: 136px !important; }
+    .sidebar-nav { top: 136px !important; height: calc(100dvh - 136px) !important; }
+    .content-workspace, .page-wrapper.sidebar-is-collapsed .content-workspace { padding: 8px 9px 24px !important; }
+    .content-body { border-radius: 17px !important; padding: 1.2rem .9rem !important; }
+    .topic-title { font-size: clamp(1.4rem, 6.5vw, 1.9rem) !important; line-height: 1.25 !important; }
+    .content-body p, .content-body li { font-size: .96rem; line-height: 1.7; overflow-wrap: anywhere; }
+    .content-body h2 { font-size: 1.3rem; line-height: 1.35; }
+    .content-body h3 { font-size: 1.1rem; line-height: 1.4; }
+    .content-body pre, .content-body code { font-size: .84rem; }
+    .content-nav-row { gap: 8px !important; }
+    .nav-btn { min-width: 0 !important; font-size: .78rem !important; padding: 9px 10px !important; }
+}
+@media (max-width: 480px) {
+    .codify-breadcrumb-bar { top: 88px !important; height: 40px !important; }
+    .page-wrapper { margin-top: 128px !important; }
+    .sidebar-nav { top: 128px !important; height: calc(100dvh - 128px) !important; }
+    .content-workspace, .page-wrapper.sidebar-is-collapsed .content-workspace { padding: 7px 7px 20px !important; }
+    .content-body { padding: 1rem .75rem !important; }
+    .topic-title { font-size: 1.4rem !important; margin: 5px 0 14px !important; }
+    .content-body p, .content-body li { font-size: .93rem; }
+    .nav-btn { flex: 1 1 0; justify-content: center; gap: 4px; }
+}
+
 </style>
 </head>
 
