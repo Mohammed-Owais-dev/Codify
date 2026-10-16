@@ -1269,20 +1269,30 @@ body {
 }
 
 
-/* Keep code-window labels and tables on the shared mobile typography scale. */
+/* Use one consistent 0.86rem font size for mobile tables and Mac-style code windows. */
 @media (max-width: 820px) {
+    .content-body .mac-code-window,
+    .content-body .mac-code-window *,
+    .content-body .quiz-mac-window,
+    .content-body .quiz-mac-window *,
     .mac-code-window, .mac-code-window *, .quiz-mac-window, .quiz-mac-window *,
-    .modern-table, .modern-table th, .modern-table td, .table-container table,
-    .table-container th, .table-container td {
-        font-size: .875rem !important;
+    .modern-table, .modern-table th, .modern-table td,
+    .table-container table, .table-container th, .table-container td,
+    .content-body table, .content-body table th, .content-body table td {
+        font-size: .86rem !important;
         line-height: 1.5 !important;
     }
 }
 @media (max-width: 480px) {
+    .content-body .mac-code-window,
+    .content-body .mac-code-window *,
+    .content-body .quiz-mac-window,
+    .content-body .quiz-mac-window *,
     .mac-code-window, .mac-code-window *, .quiz-mac-window, .quiz-mac-window *,
-    .modern-table, .modern-table th, .modern-table td, .table-container table,
-    .table-container th, .table-container td {
-        font-size: .82rem !important;
+    .modern-table, .modern-table th, .modern-table td,
+    .table-container table, .table-container th, .table-container td,
+    .content-body table, .content-body table th, .content-body table td {
+        font-size: .86rem !important;
         line-height: 1.45 !important;
     }
 }
