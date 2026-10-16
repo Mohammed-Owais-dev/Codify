@@ -719,12 +719,20 @@
                 return cleanMarkdown;
             }
 
+            // Escape HTML characters inside Markdown inline-code spans so tags
+            // like `<header>` display literally instead of being parsed as HTML.
+            const formatInlineCode = value => value.replace(/\x60([^\x60]+)\x60/g, (_, codeText) =>
+                '<code>' + codeText
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;') + '</code>'
+            );
+
             let quizHTML = '<div class="interactive-quiz-container">';
             questionBlocks.forEach((qBlock, idx) => {
                 const firstOptionIndex = qBlock.search(/\r?\n\s*[*-]\s*\[[ x]\]/i);
                 const promptSource = firstOptionIndex >= 0 ? qBlock.substring(0, firstOptionIndex) : qBlock;
-                const rawPrompt = promptSource.replace(/^\d+\.\s+/, '').trim()
-                    .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
+                const rawPrompt = formatInlineCode(promptSource.replace(/^\d+\.\s+/, '').trim());
                 const rawOptionsStr = firstOptionIndex >= 0 ? qBlock.substring(firstOptionIndex).trim() : '';
                 const optionLines = rawOptionsStr.split(/\r?\n/)
                     .map(line => line.trim())
@@ -736,8 +744,7 @@
 
                 optionLines.forEach(opt => {
                     const isCorrect = /^[*-]\s*\[x\]/i.test(opt);
-                    const optText = opt.replace(/^[*-]\s*\[[ x]\]\s*/i, '').trim()
-                        .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
+                    const optText = formatInlineCode(opt.replace(/^[*-]\s*\[[ x]\]\s*/i, '').trim());
                     if (optText) {
                         quizHTML += '<button type="button" class="q-option" data-correct="' + isCorrect + '" onclick="handleAnswer(this, ' + isCorrect + ', ' + (idx + 1) + ')">' + optText + '</button>';
                     }
