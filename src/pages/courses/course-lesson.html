@@ -25,7 +25,7 @@
     <style>
         /* Layering & Stacking Fixes */
         .codify-breadcrumb-bar {
-            z-index: 800 !important; /* Sits below the navbar dropdowns and profile menus */
+            z-index: 1100 !important; /* Keep the breadcrumb visible above the fixed navbar layer. */
         }
 
         .sidebar-nav {
@@ -1231,3 +1231,10 @@
 </body>
 
 </html>
+/* Ensure the fixed lesson breadcrumb remains visible below the mobile header. */
+@media (max-width: 900px) {
+    .codify-breadcrumb-bar { z-index: 1100 !important; visibility: visible !important; opacity: 1 !important; }
+}
+@media (max-width: 480px) {
+    .codify-breadcrumb-bar { top: 88px !important; height: 40px !important; z-index: 1100 !important; }
+}
