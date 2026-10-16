@@ -704,15 +704,24 @@
 
         // Parse both Codify checkbox bullet styles: * [x] and - [x].
         function compileMarkdownQuiz(markdownText) {
-            const quizMatch = markdownText.match(/(?:##|###)\s*(?:Topic\s+Quiz|Quiz)[\s\S]*$/i);
+            // Match normal Markdown headings and headings accidentally wrapped
+            // in bold markers, e.g. **## Topic Quiz 🧠 ...**.
+            const headingMatch = markdownText.match(/^[ \t]*(?:\*\*[ \t]*)?#{2,3}[ \t]*(?:Topic[ \t]+Quiz|Quiz)\b[^\r\n]*$/im);
             const mount = document.getElementById('dynamicQuizMount');
-            if (!quizMatch || !mount) {
+            if (!headingMatch || !mount) {
                 if (mount) mount.innerHTML = '';
                 return markdownText;
             }
 
-            const quizRawBlock = quizMatch[0];
-            const cleanMarkdown = markdownText.replace(quizRawBlock, '');
+            const quizRawBlock = markdownText.slice(headingMatch.index);
+            const headingLine = headingMatch[0].trim();
+            const quizTitle = headingLine
+                .replace(/^\*\*[ \t]*/, '')
+                .replace(/^#{2,3}[ \t]*/, '')
+                .replace(/\s*\*\*[ \t]*$/, '')
+                .replace(/&#x20;/gi, ' ')
+                .trim();
+            const cleanMarkdown = markdownText.slice(0, headingMatch.index);
             const questionBlocks = quizRawBlock.split(/\r?\n(?=\d+\.\s+)/).slice(1);
             if (!questionBlocks.length) {
                 mount.innerHTML = '';
@@ -728,7 +737,10 @@
                     .replace(/>/g, '&gt;') + '</code>'
             );
 
-            let quizHTML = '<div class="interactive-quiz-container">';
+            const renderedQuizTitle = window.marked
+                ? marked.parseInline(quizTitle)
+                : quizTitle;
+            let quizHTML = '<h2 class="quiz-section-title">' + renderedQuizTitle + '</h2><div class="interactive-quiz-container">';
             questionBlocks.forEach((qBlock, idx) => {
                 const firstOptionIndex = qBlock.search(/\r?\n\s*[*-]\s*\[[ x]\]/i);
                 const promptSource = firstOptionIndex >= 0 ? qBlock.substring(0, firstOptionIndex) : qBlock;
