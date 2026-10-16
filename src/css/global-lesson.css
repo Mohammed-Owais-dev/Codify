@@ -1227,3 +1227,15 @@ body {
     .codify-breadcrumb-bar { top: 94px !important; height: 42px !important; }
     .page-wrapper { margin-top: 136px !important; }
 }
+
+
+/* Keep lesson workspace spacing aligned with the mobile navbar + breadcrumb. */
+@media (max-width: 900px) {
+    .codify-breadcrumb-bar { top: 94px !important; height: 42px !important; }
+    .page-wrapper { margin-top: 136px !important; }
+    .content-workspace, .page-wrapper.sidebar-is-collapsed .content-workspace { padding: 8px 9px 24px !important; }
+}
+@media (max-width: 480px) {
+    .codify-breadcrumb-bar { top: 88px !important; height: 40px !important; }
+    .page-wrapper { margin-top: 128px !important; }
+}
