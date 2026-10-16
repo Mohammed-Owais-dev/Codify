@@ -497,7 +497,7 @@
             });
         }
 
-        // Fixed Quiz Parser supporting both stacked and inline markdown checkboxes
+        // Parse both Codify checkbox bullet styles: * [x] and - [x].
         function compileMarkdownQuiz(markdownText) {
             const quizMatch = markdownText.match(/(?:##|###)\s*(?:Topic\s+Quiz|Quiz)[\s\S]*$/i);
             const mount = document.getElementById('dynamicQuizMount');
@@ -508,53 +508,47 @@
 
             const quizRawBlock = quizMatch[0];
             const cleanMarkdown = markdownText.replace(quizRawBlock, '');
-            const questionBlocks = quizRawBlock.split(/\n(?=\d+\.\s+)/).slice(1);
-            if (questionBlocks.length === 0) return cleanMarkdown;
+            const questionBlocks = quizRawBlock.split(/\r?\n(?=\d+\.\s+)/).slice(1);
+            if (!questionBlocks.length) {
+                mount.innerHTML = '';
+                return cleanMarkdown;
+            }
 
-            let quizHTML = `<div class="interactive-quiz-container">`;
+            let quizHTML = '<div class="interactive-quiz-container">';
             questionBlocks.forEach((qBlock, idx) => {
-                // Fixed regex bracket syntax to properly match - [ ] and - [x]
-                const firstOptionIndex = qBlock.search(/\n\s*-\s*[[ x]]/i);
-                let rawPrompt = firstOptionIndex !== -1 ? qBlock.substring(0, firstOptionIndex).trim() : qBlock.trim();
-                let rawOptionsStr = firstOptionIndex !== -1 ? qBlock.substring(firstOptionIndex).trim() : '';
+                const firstOptionIndex = qBlock.search(/\r?\n\s*[*-]\s*\[[ x]\]/i);
+                const promptSource = firstOptionIndex >= 0 ? qBlock.substring(0, firstOptionIndex) : qBlock;
+                const rawPrompt = promptSource.replace(/^\d+\.\s+/, '').trim()
+                    .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
+                const rawOptionsStr = firstOptionIndex >= 0 ? qBlock.substring(firstOptionIndex).trim() : '';
+                const optionLines = rawOptionsStr.split(/\r?\n/)
+                    .map(line => line.trim())
+                    .filter(line => /^[*-]\s*\[[ x]\]\s*/i.test(line));
 
-                rawPrompt = rawPrompt.replace(/^\d+\.\s+/, '').trim();
-                rawPrompt = rawPrompt.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-                let optionLines = [];
-                if (rawOptionsStr.includes('- [') || rawOptionsStr.includes('- []')) {
-                    optionLines = rawOptionsStr.split(/(?=-\s*\[[ x]\])/i).map(s => s.trim()).filter(Boolean);
-                } else {
-                    optionLines = rawOptionsStr.split('\n').map(s => s.trim()).filter(Boolean);
-                }
-
-                quizHTML += `
-                    <div class="quiz-question-block ${idx === 0 ? 'active-question' : ''}" id="qb-${idx + 1}">
-                        <div class="quiz-header"><span class="quiz-tracker">Question ${idx + 1} of${questionBlocks.length}</span></div>
-                        <div class="quiz-prompt">${rawPrompt}</div>
-                        <div class="quiz-options">
-                `;
+                quizHTML += '<div class="quiz-question-block ' + (idx === 0 ? 'active-question' : '') + '" id="qb-' + (idx + 1) + '">' +
+                    '<div class="quiz-header"><span class="quiz-tracker">Question ' + (idx + 1) + ' of ' + questionBlocks.length + '</span></div>' +
+                    '<div class="quiz-prompt">' + rawPrompt + '</div><div class="quiz-options">';
 
                 optionLines.forEach(opt => {
-                    const isCorrect = /-\s*\[x\]/i.test(opt);
-                    let optText = opt.replace(/^-\s*\[[ x]\]\s*/i, '').trim().replace(/`([^`]+)`/g, '<code>$1</code>');
+                    const isCorrect = /^[*-]\s*\[x\]/i.test(opt);
+                    const optText = opt.replace(/^[*-]\s*\[[ x]\]\s*/i, '').trim()
+                        .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
                     if (optText) {
-                        quizHTML += `<button class="q-option" onclick="handleAnswer(this, ${isCorrect}, ${idx + 1})">${optText}</button>`;
+                        quizHTML += '<button type="button" class="q-option" data-correct="' + isCorrect + '" onclick="handleAnswer(this, ' + isCorrect + ', ' + (idx + 1) + ')">' + optText + '</button>';
                     }
                 });
 
                 const isLastQuestion = idx === questionBlocks.length - 1;
-                const nextAction = isLastQuestion ? `finishQuiz(${questionBlocks.length})` : `nextQuestion(${idx + 1})`;
-                const btnLabel = isLastQuestion ? `Finish Quiz ➔` : `Next Question ➔`;
-
-                quizHTML += `</div><button class="next-question-btn" id="next-${idx + 1}" onclick="${nextAction}">${btnLabel}</button></div>`;
+                const nextAction = isLastQuestion ? 'finishQuiz(' + questionBlocks.length + ')' : 'nextQuestion(' + (idx + 1) + ')';
+                const btnLabel = isLastQuestion ? 'Finish Quiz ➔' : 'Next Question ➔';
+                quizHTML += '</div><p class="quiz-answer-feedback" aria-live="polite" hidden></p>' +
+                    '<button type="button" class="next-question-btn" id="next-' + (idx + 1) + '" onclick="' + nextAction + '">' + btnLabel + '</button></div>';
             });
 
-            quizHTML += `<div class="quiz-completion" id="qb-complete"><h3 style="color: #00aaff; font-size: 2rem; text-align: center;">Module Complete! 🎉</h3></div></div>`;
+            quizHTML += '<div class="quiz-completion" id="qb-complete"><h3 style="color: #00aaff; font-size: 2rem; text-align: center;">Module Complete! 🎉</h3></div></div>';
             mount.innerHTML = quizHTML;
             return cleanMarkdown;
         }
-
 
         function toggleBranch(branch, forceOpen = false) {
             const leaves = branch.querySelector('.tree-leaves');
@@ -703,10 +697,29 @@
 
         // Quiz sequential handlers
         window.handleAnswer = (btn, isCorrect, qNum) => {
-            const allBtns = btn.parentElement.querySelectorAll('.q-option');
-            allBtns.forEach(b => b.classList.add('locked'));
+            const questionBlock = btn.closest('.quiz-question-block');
+            if (!questionBlock || btn.classList.contains('locked')) return;
+
+            const allBtns = questionBlock.querySelectorAll('.q-option');
+            const correctBtn = questionBlock.querySelector('.q-option[data-correct="true"]');
+            allBtns.forEach(option => option.classList.add('locked'));
+
             btn.classList.add(isCorrect ? 'correct' : 'incorrect');
-            document.getElementById('next-' + qNum).style.display = 'block';
+            if (!isCorrect && correctBtn) correctBtn.classList.add('correct');
+
+            const feedback = questionBlock.querySelector('.quiz-answer-feedback');
+            if (feedback) {
+                feedback.hidden = false;
+                feedback.textContent = isCorrect
+                    ? 'Correct! Well done.'
+                    : 'Incorrect. Correct answer: ' + (correctBtn ? correctBtn.textContent.trim() : 'not found in this question');
+                feedback.style.color = isCorrect ? '#56d364' : '#ff7b72';
+                feedback.style.fontWeight = '700';
+                feedback.style.marginTop = '14px';
+            }
+
+            const nextBtn = document.getElementById('next-' + qNum);
+            if (nextBtn) nextBtn.style.display = 'block';
         };
         window.nextQuestion = (curr) => {
             document.getElementById('qb-' + curr).classList.remove('active-question');
