@@ -1267,3 +1267,22 @@ body {
     .index-title { font-size: 1.35rem !important; }
     .topic-link { font-size: .84rem !important; }
 }
+
+
+/* Keep code-window labels and tables on the shared mobile typography scale. */
+@media (max-width: 820px) {
+    .mac-code-window, .mac-code-window *, .quiz-mac-window, .quiz-mac-window *,
+    .modern-table, .modern-table th, .modern-table td, .table-container table,
+    .table-container th, .table-container td {
+        font-size: .875rem !important;
+        line-height: 1.5 !important;
+    }
+}
+@media (max-width: 480px) {
+    .mac-code-window, .mac-code-window *, .quiz-mac-window, .quiz-mac-window *,
+    .modern-table, .modern-table th, .modern-table td, .table-container table,
+    .table-container th, .table-container td {
+        font-size: .82rem !important;
+        line-height: 1.45 !important;
+    }
+}
