@@ -119,8 +119,13 @@
         }
 
         .html-live-preview {
+            display: none;
             border-top: 1px solid #30363d;
             background: #fff;
+        }
+
+        .html-live-preview.active {
+            display: block;
         }
 
         .html-live-preview-header {
@@ -624,10 +629,7 @@
                 `;
 
                 const livePreviewFrame = macWindow.querySelector('.html-live-preview-frame');
-                if (livePreviewFrame) {
-                    // srcdoc renders the actual HTML example in an isolated browsing context.
-                    livePreviewFrame.srcdoc = rawCode;
-                }
+                const livePreview = macWindow.querySelector('.html-live-preview');
 
                 const copyBtn = macWindow.querySelector('.btn-copy');
                 if (copyBtn) {
@@ -653,8 +655,19 @@
 
                 const runBtn = macWindow.querySelector('.btn-run');
                 const outputDrawer = macWindow.querySelector('.mac-output-drawer');
-                if (runBtn && outputDrawer) {
-                    runBtn.onclick = () => outputDrawer.classList.toggle('active');
+                if (runBtn) {
+                    runBtn.onclick = () => {
+                        if (livePreview && livePreviewFrame) {
+                            // Only render HTML when the student presses Run.
+                            livePreviewFrame.srcdoc = rawCode;
+                            livePreview.classList.toggle('active');
+                            runBtn.setAttribute('aria-expanded', String(livePreview.classList.contains('active')));
+                            runBtn.title = livePreview.classList.contains('active') ? 'Hide Preview' : 'Run HTML';
+                        } else if (outputDrawer) {
+                            outputDrawer.classList.toggle('active');
+                            runBtn.setAttribute('aria-expanded', String(outputDrawer.classList.contains('active')));
+                        }
+                    };
                 }
 
                 pre.parentNode.replaceChild(macWindow, pre);
