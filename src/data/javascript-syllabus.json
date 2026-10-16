@@ -1,0 +1,267 @@
+{
+  "course_id": "js-101",
+  "course_title": "JavaScript Course Index & Syllabus",
+  "description": "Learn JavaScript from programming fundamentals to DOM manipulation, asynchronous programming, and practical browser projects through a structured curriculum on Codify.",
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "chapter_title": "1. Introduction to JavaScript",
+      "topics": [
+        {
+          "title": "1.1 What is JavaScript?",
+          "file": "chapter-1/1.1-what-is-javascript.md"
+        },
+        {
+          "title": "1.2 Features and Uses of JavaScript",
+          "file": "chapter-1/1.2-features-and-uses-of-javascript.md"
+        },
+        {
+          "title": "1.3 JavaScript with HTML and CSS",
+          "file": "chapter-1/1.3-javascript-with-html-css.md"
+        },
+        {
+          "title": "1.4 Setting Up JavaScript and VS Code",
+          "file": "chapter-1/1.4-setting-up-javascript-vscode.md"
+        },
+        {
+          "title": "1.5 Your First JavaScript Program",
+          "file": "chapter-1/1.5-first-javascript-program.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 2,
+      "chapter_title": "2. JavaScript Fundamentals",
+      "topics": [
+        {
+          "title": "2.1 JavaScript Syntax and Comments",
+          "file": "chapter-2/2.1-syntax-and-comments.md"
+        },
+        {
+          "title": "2.2 Variables: let, const and var",
+          "file": "chapter-2/2.2-variables-let-const-var.md"
+        },
+        {
+          "title": "2.3 Data Types",
+          "file": "chapter-2/2.3-data-types.md"
+        },
+        {
+          "title": "2.4 Type Conversion and Coercion",
+          "file": "chapter-2/2.4-type-conversion-coercion.md"
+        },
+        {
+          "title": "2.5 Input, Output and Template Literals",
+          "file": "chapter-2/2.5-input-output-template-literals.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 3,
+      "chapter_title": "3. Operators and Control Flow",
+      "topics": [
+        {
+          "title": "3.1 Arithmetic and Assignment Operators",
+          "file": "chapter-3/3.1-arithmetic-assignment-operators.md"
+        },
+        {
+          "title": "3.2 Comparison and Logical Operators",
+          "file": "chapter-3/3.2-comparison-logical-operators.md"
+        },
+        {
+          "title": "3.3 if, else if and else",
+          "file": "chapter-3/3.3-if-else-conditions.md"
+        },
+        {
+          "title": "3.4 switch Statements",
+          "file": "chapter-3/3.4-switch-statements.md"
+        },
+        {
+          "title": "3.5 Loops: for, while and do...while",
+          "file": "chapter-3/3.5-loops-for-while-do-while.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 4,
+      "chapter_title": "4. Functions and Scope",
+      "topics": [
+        {
+          "title": "4.1 Defining and Calling Functions",
+          "file": "chapter-4/4.1-defining-calling-functions.md"
+        },
+        {
+          "title": "4.2 Parameters, Arguments and Return Values",
+          "file": "chapter-4/4.2-parameters-arguments-return.md"
+        },
+        {
+          "title": "4.3 Function Expressions and Arrow Functions",
+          "file": "chapter-4/4.3-function-expressions-arrow-functions.md"
+        },
+        {
+          "title": "4.4 Scope and Hoisting Basics",
+          "file": "chapter-4/4.4-scope-hoisting-basics.md"
+        },
+        {
+          "title": "4.5 Callback Functions",
+          "file": "chapter-4/4.5-callback-functions.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 5,
+      "chapter_title": "5. Arrays and Strings",
+      "topics": [
+        {
+          "title": "5.1 Working with Strings",
+          "file": "chapter-5/5.1-working-with-strings.md"
+        },
+        {
+          "title": "5.2 Common String Methods",
+          "file": "chapter-5/5.2-string-methods.md"
+        },
+        {
+          "title": "5.3 Creating and Accessing Arrays",
+          "file": "chapter-5/5.3-creating-accessing-arrays.md"
+        },
+        {
+          "title": "5.4 Array Methods: map, filter and reduce",
+          "file": "chapter-5/5.4-array-map-filter-reduce.md"
+        },
+        {
+          "title": "5.5 Searching, Sorting and Iterating Arrays",
+          "file": "chapter-5/5.5-search-sort-iterate-arrays.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 6,
+      "chapter_title": "6. Objects and Modern JavaScript",
+      "topics": [
+        {
+          "title": "6.1 Creating and Using Objects",
+          "file": "chapter-6/6.1-creating-using-objects.md"
+        },
+        {
+          "title": "6.2 Properties, Methods and this",
+          "file": "chapter-6/6.2-properties-methods-this.md"
+        },
+        {
+          "title": "6.3 Destructuring and Spread Syntax",
+          "file": "chapter-6/6.3-destructuring-spread-syntax.md"
+        },
+        {
+          "title": "6.4 Sets, Maps and Useful Built-ins",
+          "file": "chapter-6/6.4-sets-maps-built-ins.md"
+        },
+        {
+          "title": "6.5 JavaScript Modules: import and export",
+          "file": "chapter-6/6.5-javascript-modules.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 7,
+      "chapter_title": "7. The Document Object Model (DOM)",
+      "topics": [
+        {
+          "title": "7.1 Understanding the DOM",
+          "file": "chapter-7/7.1-understanding-dom.md"
+        },
+        {
+          "title": "7.2 Selecting HTML Elements",
+          "file": "chapter-7/7.2-selecting-html-elements.md"
+        },
+        {
+          "title": "7.3 Changing Content, Attributes and Styles",
+          "file": "chapter-7/7.3-changing-content-attributes-styles.md"
+        },
+        {
+          "title": "7.4 Creating, Adding and Removing Elements",
+          "file": "chapter-7/7.4-creating-adding-removing-elements.md"
+        },
+        {
+          "title": "7.5 Events and Event Listeners",
+          "file": "chapter-7/7.5-events-event-listeners.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 8,
+      "chapter_title": "8. Forms, Validation and Browser Storage",
+      "topics": [
+        {
+          "title": "8.1 Handling Form Input",
+          "file": "chapter-8/8.1-handling-form-input.md"
+        },
+        {
+          "title": "8.2 Form Validation",
+          "file": "chapter-8/8.2-form-validation.md"
+        },
+        {
+          "title": "8.3 Event Bubbling and Delegation",
+          "file": "chapter-8/8.3-event-bubbling-delegation.md"
+        },
+        {
+          "title": "8.4 localStorage and sessionStorage",
+          "file": "chapter-8/8.4-localstorage-sessionstorage.md"
+        },
+        {
+          "title": "8.5 Timers and Browser Dialogs",
+          "file": "chapter-8/8.5-timers-browser-dialogs.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 9,
+      "chapter_title": "9. Asynchronous JavaScript",
+      "topics": [
+        {
+          "title": "9.1 Synchronous vs Asynchronous Code",
+          "file": "chapter-9/9.1-sync-vs-async.md"
+        },
+        {
+          "title": "9.2 setTimeout and setInterval",
+          "file": "chapter-9/9.2-settimeout-setinterval.md"
+        },
+        {
+          "title": "9.3 Promises",
+          "file": "chapter-9/9.3-promises.md"
+        },
+        {
+          "title": "9.4 async and await",
+          "file": "chapter-9/9.4-async-await.md"
+        },
+        {
+          "title": "9.5 Fetch API and JSON",
+          "file": "chapter-9/9.5-fetch-api-json.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 10,
+      "chapter_title": "10. Error Handling and Practical Projects",
+      "topics": [
+        {
+          "title": "10.1 Errors and try...catch",
+          "file": "chapter-10/10.1-errors-try-catch.md"
+        },
+        {
+          "title": "10.2 Debugging with Browser DevTools",
+          "file": "chapter-10/10.2-debugging-browser-devtools.md"
+        },
+        {
+          "title": "10.3 ES Modules and Code Organization",
+          "file": "chapter-10/10.3-es-modules-code-organization.md"
+        },
+        {
+          "title": "10.4 JavaScript Best Practices and Accessibility",
+          "file": "chapter-10/10.4-best-practices-accessibility.md"
+        },
+        {
+          "title": "10.5 Final Project: Interactive Task List",
+          "file": "chapter-10/10.5-final-project-interactive-task-list.md"
+        }
+      ]
+    }
+  ]
+}
