@@ -504,19 +504,39 @@
                 if (lang === 'output' || lang === 'console') return;
                 const isPlainText = (lang === 'text');
 
-                let staticOutputText = "Program finished with exit code 0.";
+                let staticOutputText = "No sample output provided.";
                 let nextSibling = pre.nextElementSibling;
-                while (nextSibling && nextSibling.tagName === 'P' && nextSibling.textContent.trim() === '') {
-                    nextSibling = nextSibling.nextElementSibling;
-                }
 
-                if (nextSibling && nextSibling.tagName === 'PRE') {
-                    const nextCode = nextSibling.querySelector('code');
-                    const nextLang = nextCode ? nextCode.className.toLowerCase() : '';
-                    if (nextLang.includes('output') || nextLang.includes('console')) {
-                        staticOutputText = nextCode ? nextCode.textContent.trim() : nextSibling.textContent.trim();
-                        nextSibling.style.display = 'none';
+                // Match this code block with the next explicitly marked output block.
+                // Markdown may insert a heading/paragraph such as "Output:" between them.
+                // Stop at the next normal code block so output can never leak across examples.
+                while (nextSibling) {
+                    if (nextSibling.tagName === 'PRE') {
+                        const nextCode = nextSibling.querySelector('code');
+                        const nextLang = nextCode ? nextCode.className.toLowerCase() : '';
+                        if (nextLang.includes('output') || nextLang.includes('console')) {
+                            staticOutputText = (nextCode ? nextCode.textContent : nextSibling.textContent)
+                                .replace(/^\\n+|\\n+$/g, '');
+                            nextSibling.style.display = 'none';
+                        }
+                        // Whether it is output or source code, do not scan past this code block.
+                        break;
                     }
+
+                    const siblingText = (nextSibling.textContent || '').trim();
+                    const isOutputLabel = /^(?:sample\s+)?output\s*:?$/i.test(siblingText);
+                    const isEmpty = !siblingText;
+                    const isIgnorableLabel = isOutputLabel ||
+                        (nextSibling.tagName === 'P' && /^(?:expected\s+)?output\s*:?$/i.test(siblingText));
+
+                    // Continue through blank nodes and a simple Output label only.
+                    if (isEmpty || isIgnorableLabel) {
+                        nextSibling = nextSibling.nextElementSibling;
+                        continue;
+                    }
+
+                    // Stop at explanatory text/headings; they belong to the next section.
+                    break;
                 }
 
                 const macWindow = document.createElement('div');
