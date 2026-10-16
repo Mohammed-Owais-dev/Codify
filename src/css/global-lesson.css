@@ -141,7 +141,8 @@ body {
     background: rgba(10, 15, 28, 0.75) !important;
     backdrop-filter: blur(15px) !important;
     border-right: 1px solid rgba(0, 170, 255, 0.15) !important;
-    padding: 20px 16px !important;
+    padding: 20px 16px 120px !important; /* Extra scroll space keeps the final topic clear of the footer overlay. */
+    scroll-padding-bottom: 120px;
     overflow-y: auto !important;
     box-sizing: border-box !important;
     z-index: 100 !important;
