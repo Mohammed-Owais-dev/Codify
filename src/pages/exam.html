@@ -399,6 +399,35 @@
         }
         .status-pass { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; }
         .status-fail { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; }
+    
+        /* Responsive exam experience */
+        @media (max-width: 900px) {
+            .exam-container { width: 100% !important; max-width: 100% !important; min-width: 0 !important; padding: 18px 14px 44px !important; box-sizing: border-box; }
+            .exam-card { width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box; padding: 22px !important; }
+            .quiz-layout { grid-template-columns: minmax(0, 1fr) !important; gap: 18px !important; }
+            .quiz-sidebar { max-height: none !important; min-width: 0; padding: 16px !important; }
+            .nav-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; max-height: 180px !important; overflow-y: auto; }
+            .quiz-main { min-width: 0; width: 100%; }
+            .question-title { font-size: clamp(1.1rem, 4.5vw, 1.5rem) !important; line-height: 1.4; overflow-wrap: anywhere; }
+            .options-grid { grid-template-columns: minmax(0, 1fr) !important; }
+            .quiz-top-bar { flex-wrap: wrap; gap: 10px; }
+            .quiz-footer { flex-wrap: wrap; gap: 10px; }
+            .quiz-footer button { flex: 1 1 130px; max-width: 100%; }
+            .exam-modal-overlay { padding: 12px !important; box-sizing: border-box; }
+            .exam-modal-card { width: 100% !important; max-width: 100% !important; max-height: calc(100dvh - 24px); overflow-y: auto; box-sizing: border-box; padding: 20px !important; }
+            .rule-item { padding: 14px !important; gap: 10px !important; }
+            .exam-container button { min-height: 42px; }
+        }
+        @media (max-width: 480px) {
+            .exam-container { padding: 12px 10px 32px !important; }
+            .exam-card { padding: 16px !important; border-radius: 16px !important; }
+            .quiz-sidebar { padding: 12px !important; }
+            .nav-grid { gap: 6px !important; }
+            .nav-pill { font-size: .78rem !important; }
+            .question-counter { font-size: .85rem; }
+            .quiz-footer button { flex-basis: 100%; }
+        }
+
     </style>
 </head>
 
