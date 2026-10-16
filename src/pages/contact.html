@@ -283,6 +283,27 @@
             margin-bottom: 24px;
             display: none;
         }
+    
+        /* Mobile layout refinement — contact page only */
+        @media (max-width: 768px) {
+            .contact-container { width: 100% !important; max-width: 100% !important; box-sizing: border-box; padding: 18px 14px 36px !important; margin-inline: auto !important; }
+            .contact-card { width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box; padding: 22px 18px !important; border-radius: 18px !important; }
+            .contact-header h1 { font-size: clamp(1.45rem, 6vw, 1.85rem) !important; line-height: 1.2; overflow-wrap: anywhere; }
+            .contact-header p { line-height: 1.6; }
+            .contact-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 18px !important; }
+            .contact-info-panel { min-width: 0; padding: 18px !important; }
+            .channel-item { align-items: flex-start; overflow-wrap: anywhere; }
+            .channel-item a, .channel-item span { overflow-wrap: anywhere; word-break: break-word; }
+            .contact-card input, .contact-card textarea, .contact-card select, .contact-card button { max-width: 100%; box-sizing: border-box; font-size: 16px; }
+            .contact-card textarea { min-height: 140px; resize: vertical; }
+            .custom-options { max-width: 100%; box-sizing: border-box; }
+        }
+        @media (max-width: 420px) {
+            .contact-container { padding: 12px 10px 28px !important; }
+            .contact-card { padding: 18px 14px !important; }
+            .contact-info-panel { padding: 15px !important; }
+        }
+
     </style>
 </head>
 
