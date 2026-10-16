@@ -339,12 +339,12 @@
         <div class="lightbox-hud-box" id="lightboxHudBox">
             <button class="hud-dismiss-btn" id="dismissHudBtn" title="Dismiss Hints">✕</button>
             <div class="hud-item">
-                <span class="hud-icon">🖱️</span>
+                <span class="hud-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7v6a7 7 0 0 0 14 0V9a7 7 0 0 0-7-7Z"/><path d="M12 2v7"/></svg></span>
                 <span><strong>Mouse / Trackpad:</strong> Scroll to Zoom. Click &amp; Drag to Pan.</span>
             </div>
             <div class="hud-divider"></div>
             <div class="hud-item">
-                <span class="hud-icon">⌨️</span>
+                <span class="hud-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 15h8"/></svg></span>
                 <span><strong>Shortcuts:</strong> Zoom In <kbd>+</kbd> | Zoom Out <kbd>-</kbd> | Reset View <kbd>0</kbd></span>
             </div>
         </div>
@@ -354,7 +354,7 @@
     <div class="preview-modal-overlay" id="codePreviewModal" aria-hidden="true">
         <div class="preview-modal-card">
             <div class="preview-modal-header">
-                <span>⚡ Live Sandbox Output</span>
+                <span><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="m13 2-3 8h7l-6 12 2-9H6l7-11Z"/></svg>Live Sandbox Output</span>
                 <button class="preview-close-btn" id="closePreviewBtn" title="Close Preview">✕</button>
             </div>
             <iframe class="preview-frame" id="codeSandboxFrame" sandbox="allow-scripts allow-modals"></iframe>
@@ -410,7 +410,7 @@
             container.querySelectorAll('blockquote').forEach(bq => {
                 const alertDiv = document.createElement('div');
                 alertDiv.className = 'cyber-alert info';
-                alertDiv.innerHTML = `<div class="alert-icon">💡</div><div class="alert-text">${bq.innerHTML}</div>`;
+                alertDiv.innerHTML = `<div class="alert-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M8.2 14.5A7 7 0 1 1 15.8 14.5c-1 .8-1.5 1.7-1.7 3h-4.4c-.2-1.3-.7-2.2-1.5-3Z"/></svg></div><div class="alert-text">${bq.innerHTML}</div>`;
                 bq.parentNode.replaceChild(alertDiv, bq);
             });
 
@@ -460,7 +460,7 @@
                     </div>
                     <div class="mac-body"><pre><code>${codeElem ? codeElem.innerHTML : rawCode}</code></pre></div>
                     <div class="mac-output-drawer">
-                        <div class="output-header"><span>⚡ Terminal Output</span></div>
+                        <div class="output-header"><span><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="m13 2-3 8h7l-6 12 2-9H6l7-11Z"/></svg>Terminal Output</span></div>
                         <pre class="output-body">${staticOutputText}</pre>
                     </div>
                 `;
@@ -545,7 +545,7 @@
                     '<button type="button" class="next-question-btn" id="next-' + (idx + 1) + '" onclick="' + nextAction + '">' + btnLabel + '</button></div>';
             });
 
-            quizHTML += '<div class="quiz-completion" id="qb-complete"><h3 style="color: #00aaff; font-size: 2rem; text-align: center;">Module Complete! 🎉</h3></div></div>';
+            quizHTML += '<div class="quiz-completion" id="qb-complete"><h3 style="color: #00aaff; font-size: 2rem; text-align: center;"><svg aria-hidden="true" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-6px;margin-right:8px"><path d="M8 21h8M12 17v4M7 4h10l-1 7a4 4 0 0 1-8 0L7 4Z"/><path d="M7 6H4v2a4 4 0 0 0 4 4M17 6h3v2a4 4 0 0 1-4 4"/></svg>Module Complete!</h3></div></div>';
             mount.innerHTML = quizHTML;
             return cleanMarkdown;
         }
