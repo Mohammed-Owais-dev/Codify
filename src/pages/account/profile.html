@@ -294,6 +294,43 @@
             line-height: 1.5;
         }
 
+
+        /* Toast notifications for security verification (instead of inline alerts) */
+        .security-toast {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: max-content;
+            max-width: min(440px, calc(100vw - 32px));
+            padding: 15px 18px;
+            border: 1px solid rgba(0, 170, 255, .4);
+            border-radius: 14px;
+            background: rgba(13, 27, 42, .96);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .45);
+            backdrop-filter: blur(12px);
+            color: #e0e6ed;
+            font-size: .92rem;
+            line-height: 1.45;
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity .25s ease, transform .25s ease;
+            pointer-events: none;
+        }
+        .security-toast.show { opacity: 1; transform: translateY(0); }
+        .security-toast.error { border-color: rgba(248, 113, 113, .55); }
+        .security-toast.success { border-color: rgba(52, 211, 153, .55); }
+        .security-toast-icon { flex: 0 0 auto; font-size: 1.1rem; font-weight: 800; }
+        .security-toast.error .security-toast-icon { color: #f87171; }
+        .security-toast.success .security-toast-icon { color: #34d399; }
+        .security-toast-message { overflow-wrap: anywhere; }
+        /* Keep the old modal alert elements for compatibility, but do not display them. */
+        .security-gate-card #passwordModalAlert,
+        .security-gate-card #gateAlert { display: none !important; }
+
         /* MODAL STYLES */
 
         .modal-overlay {
@@ -323,6 +360,22 @@
             pointer-events: auto !important;
         }
 
+        /* Shared footer team-member modal uses the .show class (not .is-open).
+           Support both modal conventions so profile-page styles do not hide it. */
+        .modal-overlay.show {
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            z-index: 100000 !important;
+        }
+
+        .modal-overlay.show .modal-card {
+            transform: scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
         .modal-overlay .modal-card {
             position: relative;
             max-height: calc(100vh - 40px);
@@ -330,41 +383,42 @@
         }
 
 
-        
-.modal-card {
-    background: #0d1b2a;
-    border: 1.5px solid #00aaff;
-    border-radius: 24px;
 
-    width: 100%;
-    max-width: 440px;
-    box-sizing: border-box;
-    padding: 32px;
+        .modal-card {
+            background: #0d1b2a;
+            border: 1.5px solid #00aaff;
+            border-radius: 24px;
 
-    text-align: center;
-    box-shadow: 0 0 40px rgba(0, 170, 255, 0.35);
+            width: 100%;
+            max-width: 520px;
+            box-sizing: border-box;
+            padding: 32px;
 
-    /* Keep the modal size stable */
-    flex-shrink: 0;
-    transform: none;
-    opacity: 1;
-    animation: none;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 170, 255, 0.35);
 
-    max-height: calc(100vh - 40px);
-    overflow-y: auto;
-}
+            /* Keep the modal size stable */
+            flex-shrink: 0;
+            transform: none;
+            opacity: 1;
+            animation: none;
+
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
 
 
         @keyframes modalPop {
-    from {
-        transform: scale(0.9);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
 
         .modal-card h2 {
             margin: 0 0 10px 0;
@@ -436,9 +490,9 @@
         }
 
         .btn-modal-secondary:hover {
-                background: rgba(0, 170, 255, 0.1);
-    border-color: #00aaff;
-    color: #ffffff;
+            background: rgba(0, 170, 255, 0.1);
+            border-color: #00aaff;
+            color: #ffffff;
         }
 
         .btn-modal-secondary {
@@ -450,6 +504,218 @@
             font-weight: 700;
             border-radius: 10px;
             cursor: pointer;
+        }
+
+
+        /* Security verification window — matches account-security.html */
+        .security-gate-overlay {
+            background: rgba(5, 10, 20, 0.92) !important;
+            backdrop-filter: blur(16px);
+            z-index: 99999 !important;
+        }
+
+        .security-gate-card {
+            background: #0d1b2a;
+            border: 1.5px solid #00aaff;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            padding: 36px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0, 170, 255, 0.35);
+            position: relative;
+            flex-shrink: 0;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        /* Back control mirrors the signup page's auth-back-btn. */
+        .security-gate-card .security-back-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 12px;
+            color: #94a3b8;
+            background: rgba(10, 15, 28, 0.5);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            border-radius: 8px;
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .security-gate-card .security-back-btn:hover {
+            color: #00aaff;
+            border-color: #00aaff;
+            background: rgba(0, 170, 255, 0.1);
+            transform: translateX(-3px);
+        }
+
+        .security-gate-card {
+            padding-top: 68px;
+        }
+
+        .security-gate-card h2 {
+            margin: 0 0 8px;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .security-gate-card p {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            margin: 0 0 24px;
+            line-height: 1.5;
+        }
+
+        .security-gate-card .gate-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            margin-top: 15px;
+        }
+
+        .security-gate-card .gate-link-btn {
+            background: none;
+            border: none;
+            color: #00aaff;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0;
+            text-decoration: underline;
+            font: inherit;
+        }
+
+        .security-gate-card .gate-link-btn:hover {
+            color: #fff;
+        }
+
+        .security-gate-card .security-input {
+            width: 100%;
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 12px;
+            padding: 13px 16px;
+            color: #e0e6ed;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            font-family: inherit;
+            margin-bottom: 16px;
+        }
+
+        .security-gate-card .security-input:focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+        }
+
+        /* OTP digit boxes intentionally match signup.html */
+        .security-gate-card .security-otp-grid {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .security-gate-card .otp-box-input {
+            width: 44px;
+            height: 50px;
+            min-width: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            background: rgba(10, 15, 28, 0.8);
+            color: #00aaff;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            caret-color: #00aaff;
+        }
+
+        .security-gate-card .otp-box-input:focus {
+            outline: none;
+            border-color: #00aaff;
+            box-shadow: 0 0 12px rgba(0, 170, 255, 0.3);
+        }
+
+        .security-gate-card .otp-box-input.filled {
+            border-color: rgba(0, 170, 255, 0.65);
+        }
+
+        @media (max-width: 380px) {
+            .security-gate-card .security-otp-grid {
+                gap: 6px;
+            }
+
+            .security-gate-card .otp-box-input {
+                width: 39px;
+                height: 46px;
+            }
+        }
+
+        .security-gate-card .security-label {
+            display: block;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .security-gate-card .security-primary-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
+        }
+
+        .security-gate-card .security-primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 170, 255, 0.5);
+        }
+
+        .security-gate-card .alert-box {
+            text-align: left;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 480px) {
+            .security-gate-card {
+                padding: 64px 20px 26px;
+            }
+
+            .security-gate-card .security-back-btn {
+                top: 18px;
+                left: 20px;
+            }
+
+            .security-gate-card .gate-links {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -578,28 +844,95 @@
     <!-- Unified Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
-    <!-- Password Verification Modal -->
-    <div class="modal-overlay" id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle"
-        aria-hidden="true">
-        <div class="modal-card">
-            <h2 id="passwordModalTitle">Confirm Password</h2>
-            <p>Please enter your current account password to unlock editing.</p>
+
+    <!-- Security Verification Modal -->
+    <div class="modal-overlay security-gate-overlay" id="passwordModal" role="dialog" aria-modal="true"
+        aria-labelledby="gateTitle" aria-hidden="true">
+
+        <div class="security-gate-card">
+            <button type="button" id="securityBackBtn" class="security-back-btn" aria-label="Back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 12H5"></path>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Back</span>
+            </button>
+            <h2 id="gateTitle">Security Verification</h2>
+
+            <p id="gateSubtitle">
+                Please authenticate your session to edit your profile.
+            </p>
 
             <div id="passwordModalAlert" class="alert-box"></div>
 
-            <form id="passwordForm">
-                <div class="profile-form-group" style="text-align: left; margin-bottom: 20px;">
-                    <label for="confirmPasswordInput">CURRENT PASSWORD</label>
-                    <input type="password" id="confirmPasswordInput" class="profile-input" placeholder="••••••••"
-                        autocomplete="current-password" required>
+            <!-- Password verification -->
+            <div id="gatePasswordMode">
+                <label class="security-label" for="gatePasswordInput">
+                    Account Password
+                </label>
+
+                <input type="password" id="gatePasswordInput" class="security-input" placeholder="••••••••"
+                    autocomplete="current-password">
+
+                <button type="button" id="verifyPasswordGateBtn" class="security-primary-btn">
+                    Unlock Profile
+                </button>
+
+                <div class="gate-links">
+                    <button type="button" id="switchToOtpBtn" class="gate-link-btn">
+                        Use Email OTP Instead
+                    </button>
+
+                    <button type="button" id="forgotPasswordGateBtn" class="gate-link-btn">
+                        Forgot Password?
+                    </button>
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-modal-secondary" id="closePasswordModalBtn">Cancel</button>
-                    <button type="submit" class="btn-modal-primary" id="verifyPasswordBtn">Confirm &amp; Unlock</button>
+            </div>
+
+            <!-- Email OTP verification -->
+            <div id="gateOtpMode" style="display:none;">
+                <label class="security-label" for="gateOtpInput">
+                    Enter 6-Digit OTP Code
+                </label>
+
+                <!-- Hidden combined value used by Supabase verification -->
+                <input type="hidden" id="gateOtpInput" value="">
+
+                <!-- Six separate OTP boxes matching signup.html -->
+                <div class="otp-box-grid security-otp-grid" id="gateOtpBoxes" role="group"
+                    aria-label="Enter the 6-digit email verification code">
+                    <input type="text" maxlength="1" class="otp-box-input" aria-label="OTP digit 1"
+                        inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*">
+                    <input type="text" maxlength="1" class="otp-box-input" aria-label="OTP digit 2"
+                        inputmode="numeric" pattern="[0-9]*">
+                    <input type="text" maxlength="1" class="otp-box-input" aria-label="OTP digit 3"
+                        inputmode="numeric" pattern="[0-9]*">
+                    <input type="text" maxlength="1" class="otp-box-input" aria-label="OTP digit 4"
+                        inputmode="numeric" pattern="[0-9]*">
+                    <input type="text" maxlength="1" class="otp-box-input" aria-label="OTP digit 5"
+                        inputmode="numeric" pattern="[0-9]*">
+                    <input type="text" maxlength="1" class="otp-box-input" aria-label="OTP digit 6"
+                        inputmode="numeric" pattern="[0-9]*">
                 </div>
-            </form>
+
+                <button type="button" id="verifyOtpGateBtn" class="security-primary-btn">
+                    Verify OTP Code
+                </button>
+
+                <div class="gate-links">
+                    <button type="button" id="switchToPasswordBtn" class="gate-link-btn">
+                        Use Password Instead
+                    </button>
+
+                    <button type="button" id="resendGateOtpBtn" class="gate-link-btn">
+                        Resend OTP
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <!-- Avatar Selection Modal -->
     <div class="modal-overlay" id="avatarModal" role="dialog" aria-modal="true" aria-labelledby="avatarModalTitle"
@@ -620,243 +953,726 @@
     <script src="/src/js/script.js"></script>
     <script type="module" src="/src/js/components.js"></script>
 
+
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
 
         const $ = (id) => document.getElementById(id);
+
         const DEFAULT_AVATAR = '/src/assets/images/avatars/avatar-1.svg';
+
         let currentAuthUser = null;
         let isEditUnlocked = false;
         let selectedAvatarUrl = DEFAULT_AVATAR;
         let originalProfile = null;
         let lastFocusedElement = null;
 
-        function alertBox(element, message = '', type = 'error') {
-            if (!element) return;
-            element.textContent = message;
-            element.style.display = message ? 'block' : 'none';
-            element.style.background = type === 'error' ? 'rgba(239,68,68,.12)' : 'rgba(16,185,129,.12)';
-            element.style.borderColor = type === 'error' ? 'rgba(239,68,68,.3)' : 'rgba(16,185,129,.3)';
-            element.style.color = type === 'error' ? '#f87171' : '#34d399';
-            element.setAttribute('role', type === 'error' ? 'alert' : 'status');
+        // -----------------------------
+        // Toast notifications
+        // -----------------------------
+        let securityToastTimer = null;
+
+        function showSecurityAlert(message = '', type = 'error') {
+            if (!message) return;
+
+            let toast = $('securityToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'securityToast';
+                toast.className = 'security-toast';
+                toast.setAttribute('role', 'status');
+                toast.setAttribute('aria-live', 'polite');
+                const icon = document.createElement('span');
+                icon.className = 'security-toast-icon';
+                icon.setAttribute('aria-hidden', 'true');
+                const text = document.createElement('span');
+                text.className = 'security-toast-message';
+                toast.append(icon, text);
+                document.body.appendChild(toast);
+            }
+
+            const isSuccess = type === 'success';
+            toast.classList.remove('error', 'success', 'show');
+            toast.classList.add(isSuccess ? 'success' : 'error');
+            toast.querySelector('.security-toast-icon').textContent = isSuccess ? '✓' : '!';
+            toast.querySelector('.security-toast-message').textContent = message;
+            // Reflow so repeated notifications animate reliably.
+            void toast.offsetWidth;
+            toast.classList.add('show');
+
+            if (securityToastTimer) clearTimeout(securityToastTimer);
+            securityToastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3200);
         }
+
+        function clearSecurityAlert() {
+            const toast = $('securityToast');
+            if (toast) toast.classList.remove('show');
+            if (securityToastTimer) {
+                clearTimeout(securityToastTimer);
+                securityToastTimer = null;
+            }
+        }
+
+        // -----------------------------
+        // Modal controls
+        // -----------------------------
         function openModal(modal, focusTarget) {
-    if (!modal) return;
+            if (!modal) return;
 
-    lastFocusedElement = document.activeElement;
+            lastFocusedElement = document.activeElement;
 
-    // Force the modal to become visible.
-    modal.style.setProperty('display', 'flex', 'important');
-    modal.style.setProperty('opacity', '1', 'important');
-    modal.style.setProperty('visibility', 'visible', 'important');
-    modal.style.setProperty('z-index', '99999', 'important');
+            modal.style.setProperty('display', 'flex', 'important');
+            modal.style.setProperty('opacity', '1', 'important');
+            modal.style.setProperty('visibility', 'visible', 'important');
+            modal.style.setProperty('z-index', '99999', 'important');
 
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
 
-    document.body.style.overflow = 'hidden';
-
-    requestAnimationFrame(() => {
-        if (focusTarget) {
-            focusTarget.focus();
+            requestAnimationFrame(() => focusTarget?.focus());
         }
-    });
-}
+
         function closeModal(modal) {
-    if (!modal) return;
+            if (!modal) return;
 
-    // Move focus out before hiding the modal.
-    if (modal.contains(document.activeElement)) {
-        document.activeElement.blur();
-    }
+            if (modal.contains(document.activeElement)) {
+                document.activeElement.blur();
+            }
 
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
 
-    modal.style.removeProperty('opacity');
-    modal.style.removeProperty('visibility');
-    modal.style.removeProperty('z-index');
-    modal.style.setProperty('display', 'none', 'important');
+            modal.style.removeProperty('opacity');
+            modal.style.removeProperty('visibility');
+            modal.style.removeProperty('z-index');
+            modal.style.setProperty('display', 'none', 'important');
 
-    if (
-        !$('passwordModal').classList.contains('is-open') &&
-        !$('avatarModal').classList.contains('is-open')
-    ) {
-        document.body.style.overflow = '';
-    }
+            const passwordModal = $('passwordModal');
+            const avatarModal = $('avatarModal');
 
-    if (
-        lastFocusedElement &&
-        lastFocusedElement.isConnected &&
-        !modal.contains(lastFocusedElement)
-    ) {
-        lastFocusedElement.focus();
-    }
+            if (
+                (!passwordModal || !passwordModal.classList.contains('is-open')) &&
+                (!avatarModal || !avatarModal.classList.contains('is-open'))
+            ) {
+                document.body.style.overflow = '';
+            }
 
-    lastFocusedElement = null;
-}
+            if (
+                lastFocusedElement &&
+                lastFocusedElement.isConnected &&
+                !modal.contains(lastFocusedElement)
+            ) {
+                lastFocusedElement.focus();
+            }
+
+            lastFocusedElement = null;
+        }
+
+        function setSecurityMode(mode) {
+            const passwordMode = $('gatePasswordMode');
+            const otpMode = $('gateOtpMode');
+
+            if (!passwordMode || !otpMode) return;
+
+            passwordMode.style.display = mode === 'password' ? 'block' : 'none';
+            otpMode.style.display = mode === 'otp' ? 'block' : 'none';
+
+            clearSecurityAlert();
+
+            if (mode === 'password') {
+                $('gatePasswordInput')?.focus();
+            } else {
+                $('gateOtpBoxes')?.querySelector('.otp-box-input')?.focus();
+            }
+        }
+
+        // -----------------------------
+        // Profile data
+        // -----------------------------
         function getProfileFromUser(user) {
             const meta = user?.user_metadata || {};
             const email = user?.email || '';
+
             return {
                 firstName: meta.first_name || meta.given_name || '',
                 lastName: meta.last_name || meta.surname || '',
-                username: meta.username || (email.includes('@') ? email.split('@')[0] : 'user'),
+                username: meta.username ||
+                    (email.includes('@') ? email.split('@')[0] : 'user'),
                 email,
                 avatarUrl: meta.avatar_url || meta.picture || DEFAULT_AVATAR
             };
         }
+
         function renderProfile(profile) {
             $('firstNameInput').value = profile.firstName || '';
             $('lastNameInput').value = profile.lastName || '';
             $('usernameInput').value = profile.username || '';
             $('emailInput').value = profile.email || '';
-            $('headerDisplayName').textContent = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || profile.username || 'User Profile';
-            $('headerUserHandle').textContent = `@${(profile.username || 'user').toLowerCase().replace(/\s+/g, '')}`;
-            $('headerUserEmail').textContent = profile.email || 'No email available';
+
+            $('headerDisplayName').textContent =
+                `${profile.firstName || ''} ${profile.lastName || ''}`.trim() ||
+                profile.username ||
+                'User Profile';
+
+            $('headerUserHandle').textContent =
+                `@${(profile.username || 'user').toLowerCase().replace(/\s+/g, '')}`;
+
+            $('headerUserEmail').textContent =
+                profile.email || 'No email available';
+
             selectedAvatarUrl = profile.avatarUrl || DEFAULT_AVATAR;
             $('avatarImage').src = selectedAvatarUrl;
         }
+
         function setEditMode(enabled) {
             isEditUnlocked = enabled;
+
             $('firstNameInput').disabled = !enabled;
             $('lastNameInput').disabled = !enabled;
+
             $('avatarContainer').classList.toggle('editable', enabled);
-            $('requestPasswordModalBtn').style.display = enabled ? 'none' : 'inline-flex';
-            $('unlockedBadge').style.display = enabled ? 'inline-flex' : 'none';
-            $('saveProfileBtn').style.display = enabled ? 'inline-flex' : 'none';
-            $('cancelEditBtn').style.display = enabled ? 'inline-flex' : 'none';
+            $('requestPasswordModalBtn').style.display =
+                enabled ? 'none' : 'inline-flex';
+            $('unlockedBadge').style.display =
+                enabled ? 'inline-flex' : 'none';
+            $('saveProfileBtn').style.display =
+                enabled ? 'inline-flex' : 'none';
+            $('cancelEditBtn').style.display =
+                enabled ? 'inline-flex' : 'none';
         }
+
+        // -----------------------------
+        // Avatar selection
+        // -----------------------------
         function initAvatarGrid() {
             const grid = $('avatarGrid');
             if (!grid) return;
+
             grid.replaceChildren();
+
             for (let i = 1; i <= 16; i++) {
                 const url = `/src/assets/images/avatars/avatar-${i}.svg`;
                 const image = document.createElement('img');
+
                 image.src = url;
                 image.alt = `Avatar ${i}`;
                 image.className = 'avatar-option';
                 image.tabIndex = 0;
                 image.setAttribute('role', 'button');
+
                 image.addEventListener('click', () => {
                     selectedAvatarUrl = url;
                     $('avatarImage').src = url;
                     closeModal($('avatarModal'));
                 });
+
                 image.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); image.click(); }
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        image.click();
+                    }
                 });
+
                 grid.appendChild(image);
             }
         }
+
+        // -----------------------------
+        // Load signed-in user
+        // -----------------------------
         async function loadProfile() {
             try {
                 const { data, error } = await supabase.auth.getSession();
+
                 if (error) throw error;
-                if (!data.session?.user) { window.location.replace('/login'); return; }
+
+                if (!data.session?.user) {
+                    window.location.replace('/login');
+                    return;
+                }
+
                 currentAuthUser = data.session.user;
                 originalProfile = getProfileFromUser(currentAuthUser);
+
                 renderProfile(originalProfile);
+                setEditMode(false);
                 initAvatarGrid();
             } catch (error) {
                 console.error('Failed to load profile:', error);
-                alertBox($('statusAlert'), 'Unable to load your profile. Please refresh the page and try again.');
+
+                alertBox(
+                    $('statusAlert'),
+                    'Unable to load your profile. Please refresh the page and try again.'
+                );
             }
         }
+
+        // -----------------------------
+        // Password verification
+        // -----------------------------
+        async function verifyPassword() {
+            clearSecurityAlert();
+
+            const passwordInput = $('gatePasswordInput');
+            const button = $('verifyPasswordGateBtn');
+            const password = passwordInput?.value || '';
+
+            if (!password) {
+                showSecurityAlert('Please enter your account password.');
+                passwordInput?.focus();
+                return;
+            }
+
+            if (!currentAuthUser?.email) {
+                showSecurityAlert('Your account email is unavailable. Please sign in again.');
+                return;
+            }
+
+            button.disabled = true;
+            const originalText = button.textContent;
+            button.textContent = 'Verifying…';
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: currentAuthUser.email,
+                    password
+                });
+
+                if (error) throw error;
+
+                if (data.user) currentAuthUser = data.user;
+
+                closeModal($('passwordModal'));
+                setEditMode(true);
+
+                alertBox(
+                    $('statusAlert'),
+                    'Password verified. You can now edit your profile.',
+                    'success'
+                );
+
+                $('firstNameInput').focus();
+            } catch (error) {
+                console.error('Password verification failed:', error);
+
+                showSecurityAlert(
+                    'Password verification failed. Check your password and try again. If you use Google sign-in and have not set an account password, try email OTP instead.'
+                );
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText || 'Unlock Settings';
+            }
+        }
+
+        // -----------------------------
+        // Send email OTP
+        // -----------------------------
+        async function sendEmailOtp(isResend = false) {
+            clearSecurityAlert();
+
+            if (!currentAuthUser?.email) {
+                showSecurityAlert('Your account email is unavailable. Please sign in again.');
+                return;
+            }
+
+            const button = isResend
+                ? $('resendGateOtpBtn')
+                : $('switchToOtpBtn');
+
+            const originalText = button?.textContent;
+
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Sending…';
+            }
+
+            try {
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: currentAuthUser.email,
+                    options: {
+                        shouldCreateUser: false
+                    }
+                });
+
+                if (error) throw error;
+
+                setSecurityMode('otp');
+
+                showSecurityAlert(
+                    `A verification code has been requested for ${currentAuthUser.email}. Check your inbox.`,
+                    'success'
+                );
+
+                $('gateOtpBoxes')?.querySelector('.otp-box-input')?.focus();
+            } catch (error) {
+                console.error('Failed to send email OTP:', error);
+
+                showSecurityAlert(
+                    error.message || 'Unable to send the verification code. Please try again.'
+                );
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = originalText ||
+                        (isResend ? 'Resend OTP' : 'Use Email OTP Instead');
+                }
+            }
+        }
+
+        // -----------------------------
+        // Verify email OTP
+        // -----------------------------
+        async function verifyEmailOtp() {
+            clearSecurityAlert();
+
+            const otpInput = $('gateOtpInput');
+            const button = $('verifyOtpGateBtn');
+            const token = (otpInput?.value || '').trim();
+
+            if (!/^\d{6}$/.test(token)) {
+                showSecurityAlert('Enter the valid 6-digit verification code.');
+                $('gateOtpBoxes')?.querySelector('.otp-box-input')?.focus();
+                return;
+            }
+
+            if (!currentAuthUser?.email) {
+                showSecurityAlert('Your account email is unavailable. Please sign in again.');
+                return;
+            }
+
+            button.disabled = true;
+            const originalText = button.textContent;
+            button.textContent = 'Verifying…';
+
+            try {
+                const { data, error } = await supabase.auth.verifyOtp({
+                    email: currentAuthUser.email,
+                    token,
+                    type: 'email'
+                });
+
+                if (error) throw error;
+
+                if (data.user) currentAuthUser = data.user;
+
+                closeModal($('passwordModal'));
+                setEditMode(true);
+
+                alertBox(
+                    $('statusAlert'),
+                    'Email verified. You can now edit your profile.',
+                    'success'
+                );
+
+                $('firstNameInput').focus();
+            } catch (error) {
+                console.error('Email OTP verification failed:', error);
+
+                showSecurityAlert(
+                    'The verification code is invalid or expired. Request a new code and try again.'
+                );
+            } finally {
+                button.disabled = false;
+                button.textContent = originalText || 'Verify OTP Code';
+            }
+        }
+
+        // -----------------------------
+        // Forgot password
+        // -----------------------------
+        async function sendPasswordReset() {
+            clearSecurityAlert();
+
+            if (!currentAuthUser?.email) {
+                showSecurityAlert('Your account email is unavailable. Please sign in again.');
+                return;
+            }
+
+            const button = $('forgotPasswordGateBtn');
+            const originalText = button?.textContent;
+
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Sending…';
+            }
+
+            try {
+                const { error } = await supabase.auth.resetPasswordForEmail(
+                    currentAuthUser.email,
+                    {
+                        redirectTo: `${window.location.origin}/login`
+                    }
+                );
+
+                if (error) throw error;
+
+                showSecurityAlert(
+                    `If password reset is available for this account, instructions will be sent to ${currentAuthUser.email}.`,
+                    'success'
+                );
+            } catch (error) {
+                console.error('Password reset request failed:', error);
+
+                showSecurityAlert(
+                    error.message || 'Unable to request a password reset. Please try again.'
+                );
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = originalText || 'Forgot Password?';
+                }
+            }
+        }
+
+        // -----------------------------
+        // Initialize page and listeners
+        // -----------------------------
         function initProfilePage() {
             const passwordModal = $('passwordModal');
             const avatarModal = $('avatarModal');
-            const passwordInput = $('confirmPasswordInput');
 
-            // Use a ready-state-safe initializer so listeners still attach if this module loads late.
-            $('requestPasswordModalBtn').addEventListener('click', () => {
-                alertBox($('passwordModalAlert'), '');
-                $('confirmPasswordInput').value = '';
-                openModal(passwordModal, passwordInput);
+            $('requestPasswordModalBtn')?.addEventListener('click', () => {
+                clearSecurityAlert();
+
+                if ($('gatePasswordInput')) $('gatePasswordInput').value = '';
+                clearOtpBoxes();
+
+                setSecurityMode('password');
+                openModal(passwordModal, $('gatePasswordInput'));
             });
-            $('closePasswordModalBtn').addEventListener('click', () => closeModal(passwordModal));
-            $('closeAvatarModalBtn').addEventListener('click', () => closeModal(avatarModal));
-            $('avatarOverlayTrigger').addEventListener('click', () => {
-                if (isEditUnlocked) openModal(avatarModal, $('avatarGrid').querySelector('img'));
+
+            $('closePasswordModalBtn')?.addEventListener('click', () => {
+                closeModal(passwordModal);
             });
-            passwordModal.addEventListener('click', (event) => { if (event.target === passwordModal) closeModal(passwordModal); });
-            avatarModal.addEventListener('click', (event) => { if (event.target === avatarModal) closeModal(avatarModal); });
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    if (avatarModal.style.display === 'flex') closeModal(avatarModal);
-                    else if (passwordModal.style.display === 'flex') closeModal(passwordModal);
+
+            // Back behaves like a step-aware navigation control:
+            // OTP mode returns to password mode; password mode closes the gate
+            // and returns the user to the profile page without leaving it.
+            $('securityBackBtn')?.addEventListener('click', () => {
+                if ($('gateOtpMode')?.style.display !== 'none') {
+                    clearOtpBoxes();
+                    setSecurityMode('password');
+                    $('gatePasswordInput')?.focus();
+                    return;
+                }
+
+                clearSecurityAlert();
+                closeModal(passwordModal);
+            });
+
+            $('closeAvatarModalBtn')?.addEventListener('click', () => {
+                closeModal(avatarModal);
+            });
+
+            $('avatarOverlayTrigger')?.addEventListener('click', () => {
+                if (isEditUnlocked) {
+                    openModal(avatarModal, $('avatarGrid')?.querySelector('img'));
                 }
             });
-            $('cancelEditBtn').addEventListener('click', () => {
+
+            passwordModal?.addEventListener('click', (event) => {
+                if (event.target === passwordModal) closeModal(passwordModal);
+            });
+
+            avatarModal?.addEventListener('click', (event) => {
+                if (event.target === avatarModal) closeModal(avatarModal);
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key !== 'Escape') return;
+
+                if (avatarModal?.classList.contains('is-open')) {
+                    closeModal(avatarModal);
+                } else if (passwordModal?.classList.contains('is-open')) {
+                    closeModal(passwordModal);
+                }
+            });
+
+            $('verifyPasswordGateBtn')?.addEventListener('click', verifyPassword);
+
+            $('gatePasswordInput')?.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    verifyPassword();
+                }
+            });
+
+            $('switchToOtpBtn')?.addEventListener('click', () => {
+                sendEmailOtp(false);
+            });
+
+            $('switchToPasswordBtn')?.addEventListener('click', () => {
+                setSecurityMode('password');
+            });
+
+            $('verifyOtpGateBtn')?.addEventListener('click', verifyEmailOtp);
+
+            // Signup-style six-box OTP input: auto-advance, paste, backspace and Enter.
+            const otpBoxes = Array.from(
+                $('gateOtpBoxes')?.querySelectorAll('.otp-box-input') || []
+            );
+
+            function syncOtpValue() {
+                const combined = otpBoxes.map((box) => box.value).join('');
+                const hiddenOtpInput = $('gateOtpInput');
+                if (hiddenOtpInput) hiddenOtpInput.value = combined;
+                otpBoxes.forEach((box) => {
+                    box.classList.toggle('filled', Boolean(box.value));
+                });
+            }
+
+            function clearOtpBoxes() {
+                otpBoxes.forEach((box) => {
+                    box.value = '';
+                    box.classList.remove('filled');
+                });
+                const hiddenOtpInput = $('gateOtpInput');
+                if (hiddenOtpInput) hiddenOtpInput.value = '';
+            }
+
+            otpBoxes.forEach((box, index) => {
+                box.addEventListener('input', (event) => {
+                    const digits = event.target.value.replace(/\D/g, '');
+
+                    // Support pasting the complete six-digit code into any box.
+                    if (digits.length > 1) {
+                        const code = digits.slice(0, 6).split('');
+                        otpBoxes.forEach((otpBox, digitIndex) => {
+                            otpBox.value = code[digitIndex] || '';
+                        });
+                        syncOtpValue();
+                        otpBoxes[Math.min(code.length, otpBoxes.length) - 1]?.focus();
+                        return;
+                    }
+
+                    event.target.value = digits.slice(0, 1);
+                    syncOtpValue();
+
+                    if (event.target.value && index < otpBoxes.length - 1) {
+                        otpBoxes[index + 1].focus();
+                    }
+                });
+
+                box.addEventListener('keydown', (event) => {
+                    if (event.key === 'Backspace' && !box.value && index > 0) {
+                        otpBoxes[index - 1].focus();
+                    } else if (event.key === 'ArrowLeft' && index > 0) {
+                        event.preventDefault();
+                        otpBoxes[index - 1].focus();
+                    } else if (event.key === 'ArrowRight' && index < otpBoxes.length - 1) {
+                        event.preventDefault();
+                        otpBoxes[index + 1].focus();
+                    } else if (event.key === 'Enter') {
+                        event.preventDefault();
+                        verifyEmailOtp();
+                    }
+                });
+
+                box.addEventListener('paste', (event) => {
+                    const pasted = (event.clipboardData?.getData('text') || '')
+                        .replace(/\D/g, '')
+                        .slice(0, 6);
+                    if (!pasted) return;
+                    event.preventDefault();
+                    pasted.split('').forEach((digit, digitIndex) => {
+                        if (otpBoxes[digitIndex]) otpBoxes[digitIndex].value = digit;
+                    });
+                    syncOtpValue();
+                    otpBoxes[Math.min(pasted.length, otpBoxes.length) - 1]?.focus();
+                });
+            });
+
+            $('resendGateOtpBtn')?.addEventListener('click', () => {
+                sendEmailOtp(true);
+            });
+
+            $('forgotPasswordGateBtn')?.addEventListener('click', sendPasswordReset);
+
+            $('cancelEditBtn')?.addEventListener('click', () => {
                 if (originalProfile) renderProfile(originalProfile);
+
                 setEditMode(false);
                 alertBox($('statusAlert'), '');
             });
 
-            $('passwordForm')?.addEventListener('submit', async (event) => {
+            // Save profile changes
+            $('profileForm')?.addEventListener('submit', async (event) => {
                 event.preventDefault();
-                alertBox($('passwordModalAlert'), '');
-                const password = passwordInput.value;
-                if (!password) { alertBox($('passwordModalAlert'), 'Please enter your current password.'); passwordInput.focus(); return; }
-                if (!currentAuthUser?.email) { alertBox($('passwordModalAlert'), 'Your account email is unavailable. Please sign in again.'); return; }
-                const button = $('verifyPasswordBtn');
-                button.disabled = true;
-                button.textContent = 'Verifying…';
-                try {
-                    const { error } = await supabase.auth.signInWithPassword({ email: currentAuthUser.email, password });
-                    if (error) throw error;
-                    closeModal(passwordModal);
-                    setEditMode(true);
-                    alertBox($('statusAlert'), 'Password verified. You can now edit your name and avatar.', 'success');
-                    $('firstNameInput').focus();
-                } catch (error) {
-                    console.error('Password verification failed:', error);
-                    alertBox($('passwordModalAlert'), 'Password verification failed. Check your password and try again. If you use Google sign-in and have not set an account password, this method may not work for your account.');
-                } finally {
-                    button.disabled = false;
-                    button.textContent = 'Confirm & Unlock';
-                }
-            });
 
-            $('profileForm').addEventListener('submit', async (event) => {
-                event.preventDefault();
                 if (!isEditUnlocked || !currentAuthUser) return;
+
                 alertBox($('statusAlert'), '');
+
                 const firstName = $('firstNameInput').value.trim();
                 const lastName = $('lastNameInput').value.trim();
-                if (!firstName) { alertBox($('statusAlert'), 'Please enter your first name.'); $('firstNameInput').focus(); return; }
                 const saveButton = $('saveProfileBtn');
+
+                if (!firstName) {
+                    alertBox($('statusAlert'), 'Please enter your first name.');
+                    $('firstNameInput').focus();
+                    return;
+                }
+
                 saveButton.disabled = true;
+                const originalText = saveButton.textContent;
                 saveButton.textContent = 'Saving…';
+
                 try {
                     const { data, error } = await supabase.auth.updateUser({
                         data: {
-                            first_name: firstName, last_name: lastName, surname: lastName, avatar_url: selectedAvatarUrl
+                            first_name: firstName,
+                            last_name: lastName,
+                            surname: lastName,
+                            avatar_url: selectedAvatarUrl
                         }
                     });
+
                     if (error) throw error;
+
                     currentAuthUser = data.user || currentAuthUser;
                     originalProfile = getProfileFromUser(currentAuthUser);
+
+                    // Keep the values entered in this form as the displayed values.
                     originalProfile.firstName = firstName;
                     originalProfile.lastName = lastName;
                     originalProfile.avatarUrl = selectedAvatarUrl;
+
                     renderProfile(originalProfile);
                     setEditMode(false);
-                    alertBox($('statusAlert'), 'Your profile has been saved successfully.', 'success');
+
+                    alertBox(
+                        $('statusAlert'),
+                        'Your profile has been saved successfully.',
+                        'success'
+                    );
                 } catch (error) {
                     console.error('Failed to save profile:', error);
-                    alertBox($('statusAlert'), 'Could not save your changes. Please try again.');
+
+                    alertBox(
+                        $('statusAlert'),
+                        'Could not save your changes. Please try again.'
+                    );
                 } finally {
                     saveButton.disabled = false;
-                    saveButton.textContent = 'Save Profile Changes';
+                    saveButton.textContent = originalText || 'Save Profile Changes';
                 }
             });
+
             loadProfile();
         }
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initProfilePage, { once: true });
-        else initProfilePage();
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initProfilePage, {
+                once: true
+            });
+        } else {
+            initProfilePage();
+        }
     </script>
+
 </body>
 
 </html>

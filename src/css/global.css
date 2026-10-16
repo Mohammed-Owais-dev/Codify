@@ -709,6 +709,9 @@ html {
     position: fixed;
     bottom: 24px;
     right: 24px;
+    width: 320px; /* Set your fixed width here */
+    max-width: calc(100vw - 48px); /* Ensures safety padding on mobile screens */
+    box-sizing: border-box;
     background: rgba(13, 27, 42, 0.95);
     border: 1px solid rgba(0, 170, 255, 0.4);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -734,6 +737,14 @@ html {
     pointer-events: auto;
 }
 
+/* Add this rule to force the text span to take remaining space and wrap */
+.codify-toast span {
+    flex: 1;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+}
+
 .codify-toast .toast-login-btn {
     background: linear-gradient(90deg, #0077ff, #00aaff);
     color: #fff;
@@ -744,6 +755,8 @@ html {
     font-size: 0.82rem;
     box-shadow: 0 2px 10px rgba(0, 170, 255, 0.3);
     transition: all 0.2s ease;
+    white-space: nowrap; /* Keeps the login button text on a single line */
+    flex-shrink: 0;
 }
 
 .codify-toast .toast-login-btn:hover {
