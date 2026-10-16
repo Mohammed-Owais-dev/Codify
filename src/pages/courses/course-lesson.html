@@ -501,7 +501,11 @@
     .codify-breadcrumb-bar { z-index: 1100 !important; visibility: visible !important; opacity: 1 !important; }
 }
 @media (max-width: 480px) {
-    .codify-breadcrumb-bar { top: 120px !important; height: 40px !important; z-index: 1100 !important; }
+    .codify-breadcrumb-bar {
+        top: 112px !important;
+        height: 40px !important;
+        z-index: 1100 !important;
+    }
 }
 
 
@@ -645,6 +649,26 @@
             .chapter-title { font-size: 0.86rem !important; }
             .tree-leaves li a { font-size: 0.83rem !important; }
         }
+
+    /* Mobile drawer: nearly full-screen with only a small top/bottom gap. */
+    @media (max-width: 900px) {
+        .sidebar-nav {
+            position: fixed !important;
+            top: 8px !important;
+            bottom: 8px !important;
+            height: auto !important;
+            max-height: calc(100dvh - 16px) !important;
+            box-sizing: border-box !important;
+            overflow-y: auto !important;
+            border-radius: 0 15px 15px 0 !important;
+        }
+
+        .sidebar-nav.mobile-active {
+            top: 8px !important;
+            bottom: 8px !important;
+            height: auto !important;
+        }
+    }
 
     /* Mobile curriculum and breadcrumb styles stay inside this style block. */
     </style>
