@@ -619,7 +619,7 @@
                             <span class="html-live-preview-hint">Actual browser rendering · Resize vertically</span>
                         </div>
                         <div class="html-live-preview-resize">
-                            <iframe class="html-live-preview-frame" title="Rendered HTML example" sandbox="allow-scripts allow-forms"></iframe>
+                            <iframe class="html-live-preview-frame" title="Rendered HTML example" sandbox="allow-scripts allow-forms allow-top-navigation-by-user-activation"></iframe>
                         </div>
                     </section>` : `
                     <div class="mac-output-drawer">
@@ -659,7 +659,19 @@
                     runBtn.onclick = () => {
                         if (livePreview && livePreviewFrame) {
                             // Only render HTML when the student presses Run.
-                            livePreviewFrame.srcdoc = rawCode;
+                            // Send clicked links out of the sandboxed preview to the real Codify page.
+                            // Also update the old HTML course-index URL to the current clean route.
+                            let previewHtml = rawCode.replace(
+                                /https?:\\/\\/learn-codify\\.vercel\\.app\\/courses\\/html\\/courses\\.html/gi,
+                                'https://learn-codify.vercel.app/courses/html'
+                            );
+                            const previewBase = '<base target="_top">';
+                            if (/<head\\b[^>]*>/i.test(previewHtml)) {
+                                previewHtml = previewHtml.replace(/<head\\b[^>]*>/i, head => head + '\\n' + previewBase);
+                            } else {
+                                previewHtml = '<!doctype html><html><head>' + previewBase + '</head><body>' + previewHtml + '</body></html>';
+                            }
+                            livePreviewFrame.srcdoc = previewHtml;
                             livePreview.classList.toggle('active');
                             runBtn.setAttribute('aria-expanded', String(livePreview.classList.contains('active')));
                             runBtn.title = livePreview.classList.contains('active') ? 'Hide Preview' : 'Run HTML';
