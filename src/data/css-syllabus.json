@@ -1,0 +1,267 @@
+{
+  "course_id": "css-101",
+  "course_title": "CSS Course Index & Syllabus",
+  "description": "Learn CSS from styling fundamentals to responsive layouts, animations, and practical webpage design through a structured curriculum on Codify.",
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "chapter_title": "1. Introduction to CSS",
+      "topics": [
+        {
+          "title": "1.1 What is CSS?",
+          "file": "chapter-1/1.1-what-is-css.md"
+        },
+        {
+          "title": "1.2 How CSS Works with HTML",
+          "file": "chapter-1/1.2-css-with-html.md"
+        },
+        {
+          "title": "1.3 Ways to Add CSS",
+          "file": "chapter-1/1.3-ways-to-add-css.md"
+        },
+        {
+          "title": "1.4 CSS Syntax, Rules and Comments",
+          "file": "chapter-1/1.4-css-syntax-rules-comments.md"
+        },
+        {
+          "title": "1.5 Setting Up Your CSS Workspace",
+          "file": "chapter-1/1.5-css-workspace.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 2,
+      "chapter_title": "2. Selectors and the Cascade",
+      "topics": [
+        {
+          "title": "2.1 Element, Class and ID Selectors",
+          "file": "chapter-2/2.1-basic-selectors.md"
+        },
+        {
+          "title": "2.2 Grouping and Universal Selectors",
+          "file": "chapter-2/2.2-grouping-universal-selectors.md"
+        },
+        {
+          "title": "2.3 Attribute and Combinator Selectors",
+          "file": "chapter-2/2.3-attribute-combinator-selectors.md"
+        },
+        {
+          "title": "2.4 Pseudo-Classes and Pseudo-Elements",
+          "file": "chapter-2/2.4-pseudo-classes-elements.md"
+        },
+        {
+          "title": "2.5 Cascade, Specificity and Inheritance",
+          "file": "chapter-2/2.5-cascade-specificity-inheritance.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 3,
+      "chapter_title": "3. Colors, Text and Typography",
+      "topics": [
+        {
+          "title": "3.1 CSS Colors and Color Values",
+          "file": "chapter-3/3.1-colors-and-color-values.md"
+        },
+        {
+          "title": "3.2 Font Families and Font Sizes",
+          "file": "chapter-3/3.2-fonts-and-sizes.md"
+        },
+        {
+          "title": "3.3 Text Alignment, Spacing and Decoration",
+          "file": "chapter-3/3.3-text-alignment-spacing-decoration.md"
+        },
+        {
+          "title": "3.4 Google Fonts and Web Typography",
+          "file": "chapter-3/3.4-web-typography.md"
+        },
+        {
+          "title": "3.5 Styling Links and Lists",
+          "file": "chapter-3/3.5-styling-links-and-lists.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 4,
+      "chapter_title": "4. The CSS Box Model",
+      "topics": [
+        {
+          "title": "4.1 Understanding the Box Model",
+          "file": "chapter-4/4.1-box-model.md"
+        },
+        {
+          "title": "4.2 Width, Height and Sizing",
+          "file": "chapter-4/4.2-width-height-sizing.md"
+        },
+        {
+          "title": "4.3 Margin and Padding",
+          "file": "chapter-4/4.3-margin-and-padding.md"
+        },
+        {
+          "title": "4.4 Borders, Outlines and Border Radius",
+          "file": "chapter-4/4.4-borders-outlines-radius.md"
+        },
+        {
+          "title": "4.5 box-sizing and Overflow",
+          "file": "chapter-4/4.5-box-sizing-and-overflow.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 5,
+      "chapter_title": "5. Backgrounds, Borders and Effects",
+      "topics": [
+        {
+          "title": "5.1 Background Colors and Images",
+          "file": "chapter-5/5.1-background-colors-images.md"
+        },
+        {
+          "title": "5.2 Background Size, Position and Repeat",
+          "file": "chapter-5/5.2-background-size-position-repeat.md"
+        },
+        {
+          "title": "5.3 Gradients and Transparency",
+          "file": "chapter-5/5.3-gradients-and-transparency.md"
+        },
+        {
+          "title": "5.4 Box Shadows and Text Shadows",
+          "file": "chapter-5/5.4-shadows.md"
+        },
+        {
+          "title": "5.5 CSS Units: px, %, em, rem and vh",
+          "file": "chapter-5/5.5-css-units.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 6,
+      "chapter_title": "6. Layout with Display and Position",
+      "topics": [
+        {
+          "title": "6.1 The display Property",
+          "file": "chapter-6/6.1-display-property.md"
+        },
+        {
+          "title": "6.2 Normal Flow and Positioning",
+          "file": "chapter-6/6.2-positioning.md"
+        },
+        {
+          "title": "6.3 z-index and Stacking Context",
+          "file": "chapter-6/6.3-z-index-stacking.md"
+        },
+        {
+          "title": "6.4 Float and Clear",
+          "file": "chapter-6/6.4-float-and-clear.md"
+        },
+        {
+          "title": "6.5 Overflow and Visibility",
+          "file": "chapter-6/6.5-overflow-visibility.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 7,
+      "chapter_title": "7. Flexbox and CSS Grid",
+      "topics": [
+        {
+          "title": "7.1 Introduction to Flexbox",
+          "file": "chapter-7/7.1-introduction-to-flexbox.md"
+        },
+        {
+          "title": "7.2 Flex Direction, Alignment and Spacing",
+          "file": "chapter-7/7.2-flex-alignment-spacing.md"
+        },
+        {
+          "title": "7.3 Flex Wrapping, Order and Sizing",
+          "file": "chapter-7/7.3-flex-wrapping-order-sizing.md"
+        },
+        {
+          "title": "7.4 Introduction to CSS Grid",
+          "file": "chapter-7/7.4-introduction-to-grid.md"
+        },
+        {
+          "title": "7.5 Grid Tracks, Gaps and Areas",
+          "file": "chapter-7/7.5-grid-tracks-gaps-areas.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 8,
+      "chapter_title": "8. Responsive Web Design",
+      "topics": [
+        {
+          "title": "8.1 Responsive Design Fundamentals",
+          "file": "chapter-8/8.1-responsive-design-fundamentals.md"
+        },
+        {
+          "title": "8.2 Media Queries and Breakpoints",
+          "file": "chapter-8/8.2-media-queries-breakpoints.md"
+        },
+        {
+          "title": "8.3 Responsive Images and Containers",
+          "file": "chapter-8/8.3-responsive-images-containers.md"
+        },
+        {
+          "title": "8.4 Mobile-First Design",
+          "file": "chapter-8/8.4-mobile-first-design.md"
+        },
+        {
+          "title": "8.5 Responsive Navigation and Layouts",
+          "file": "chapter-8/8.5-responsive-navigation-layouts.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 9,
+      "chapter_title": "9. Transitions, Transforms and Animations",
+      "topics": [
+        {
+          "title": "9.1 CSS Transitions",
+          "file": "chapter-9/9.1-transitions.md"
+        },
+        {
+          "title": "9.2 2D Transforms",
+          "file": "chapter-9/9.2-2d-transforms.md"
+        },
+        {
+          "title": "9.3 Keyframe Animations",
+          "file": "chapter-9/9.3-keyframe-animations.md"
+        },
+        {
+          "title": "9.4 Animation Timing and Control",
+          "file": "chapter-9/9.4-animation-timing-control.md"
+        },
+        {
+          "title": "9.5 Hover, Focus and Motion Preferences",
+          "file": "chapter-9/9.5-hover-focus-motion-preferences.md"
+        }
+      ]
+    },
+    {
+      "chapter_number": 10,
+      "chapter_title": "10. Practical CSS and Best Practices",
+      "topics": [
+        {
+          "title": "10.1 CSS Variables and Custom Properties",
+          "file": "chapter-10/10.1-css-variables.md"
+        },
+        {
+          "title": "10.2 Styling Forms and Buttons",
+          "file": "chapter-10/10.2-styling-forms-buttons.md"
+        },
+        {
+          "title": "10.3 CSS Organization and Reusable Styles",
+          "file": "chapter-10/10.3-css-organization-reusable-styles.md"
+        },
+        {
+          "title": "10.4 Accessibility and Maintainable CSS",
+          "file": "chapter-10/10.4-accessibility-maintainable-css.md"
+        },
+        {
+          "title": "10.5 Final Project: Responsive Webpage",
+          "file": "chapter-10/10.5-final-responsive-project.md"
+        }
+      ]
+    }
+  ]
+}
