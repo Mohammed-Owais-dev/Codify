@@ -624,12 +624,14 @@
                     </section>` : `
                     <div class="mac-output-drawer">
                         <div class="output-header"><span><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="m13 2-3 8h7l-6 12 2-9H6l7-11Z"/></svg>Terminal Output</span></div>
-                        <pre class="output-body">${staticOutputText}</pre>
+                        <pre class="output-body"></pre>
                     </div>`}
                 `;
 
                 const livePreviewFrame = macWindow.querySelector('.html-live-preview-frame');
                 const livePreview = macWindow.querySelector('.html-live-preview');
+                const outputBody = macWindow.querySelector('.output-body');
+                if (outputBody) outputBody.textContent = staticOutputText;
 
                 const copyBtn = macWindow.querySelector('.btn-copy');
                 if (copyBtn) {
@@ -896,8 +898,18 @@
                         ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx + 1])}`
                         : `/courses/${courseParam}`;
 
-                ['prevTopicBtnTop', 'prevTopicBtnBtm'].forEach(id => document.getElementById(id).href = prevHref);
-                ['nextTopicBtnTop', 'nextTopicBtnBtm'].forEach(id => document.getElementById(id).href = nextHref);
+                ['prevTopicBtnTop', 'prevTopicBtnBtm'].forEach(id => {
+                    const btn = document.getElementById(id);
+                    btn.href = prevHref;
+                    btn.style.display = activeIdx > 0 ? 'inline-flex' : 'none';
+                });
+                ['nextTopicBtnTop', 'nextTopicBtnBtm'].forEach(id => {
+                    const btn = document.getElementById(id);
+                    btn.href = nextHref;
+                    btn.style.display = activeIdx >= 0 && activeIdx < flatTopics.length - 1 ? 'inline-flex' : 'none';
+                });
+
+                await initProgress();
 
             } catch (err) {
                 console.error("Lesson load error:", err);
@@ -943,36 +955,73 @@
             document.getElementById('qb-complete').classList.add('active');
         };
 
+        // Login toast shared by the completion action on public lesson pages.
+        let loginToastTimer = null;
+        function showLoginToast() {
+            let toast = document.getElementById('codifyToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'codifyToast';
+                toast.className = 'codify-toast';
+                toast.innerHTML = '<span class="toast-message"></span><a class="toast-login-btn">Log In</a>';
+                document.body.appendChild(toast);
+            }
+            toast.querySelector('.toast-message').textContent = 'Please log in to mark this topic as completed.';
+            toast.querySelector('.toast-login-btn').href = '/src/auth/login.html?redirect=' + encodeURIComponent(window.location.href);
+            toast.classList.add('show');
+            clearTimeout(loginToastTimer);
+            loginToastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
         // Progress Tracking & Completion
         let isCompleted = false;
         async function initProgress() {
+            if (!fileParam) return;
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user || !fileParam) return;
+            if (!user) return;
 
-            const { data } = await supabase.from('user_progress').select('completed').eq('user_id', user.id).eq('course_id', COURSE_ID).eq('lesson_id', fileParam).maybeSingle();
-            if (data?.completed) {
-                isCompleted = true;
-                const btn = document.getElementById('markCompleteBtn');
-                btn.classList.add('is-completed');
-                document.getElementById('completeBtnText').textContent = '✓ Completed';
+            const { data, error } = await supabase.from('user_progress')
+                .select('completed')
+                .eq('user_id', user.id)
+                .eq('course_id', COURSE_ID)
+                .eq('lesson_id', fileParam)
+                .maybeSingle();
+
+            if (error) {
+                console.error('Progress load error:', error);
+                return;
             }
 
-            window.toggleLessonCompletion = async () => {
-                isCompleted = !isCompleted;
-                const btn = document.getElementById('markCompleteBtn');
-                const btnText = document.getElementById('completeBtnText');
-                if (isCompleted) {
-                    btn.classList.add('is-completed');
-                    btnText.textContent = '✓ Completed';
-                    await supabase.from('user_progress').upsert({ user_id: user.id, course_id: COURSE_ID, lesson_id: fileParam, completed: true });
-                } else {
-                    btn.classList.remove('is-completed');
-                    btnText.textContent = 'Mark as Completed';
-                    await supabase.from('user_progress').delete().eq('user_id', user.id).eq('course_id', COURSE_ID).eq('lesson_id', fileParam);
-                }
-            };
+            isCompleted = Boolean(data?.completed);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.classList.toggle('is-completed', isCompleted);
+            document.getElementById('completeBtnText').textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
         }
-        document.addEventListener('DOMContentLoaded', initProgress);
+
+        window.toggleLessonCompletion = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                showLoginToast();
+                return;
+            }
+            if (!fileParam) return;
+
+            const btn = document.getElementById('markCompleteBtn');
+            const btnText = document.getElementById('completeBtnText');
+            const nextState = !isCompleted;
+            const { error } = nextState
+                ? await supabase.from('user_progress').upsert({ user_id: user.id, course_id: COURSE_ID, lesson_id: fileParam, completed: true })
+                : await supabase.from('user_progress').delete().eq('user_id', user.id).eq('course_id', COURSE_ID).eq('lesson_id', fileParam);
+
+            if (error) {
+                console.error('Progress update error:', error);
+                return;
+            }
+
+            isCompleted = nextState;
+            btn.classList.toggle('is-completed', isCompleted);
+            btnText.textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
+        };
     </script>
 </body>
 
