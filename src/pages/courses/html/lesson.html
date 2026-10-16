@@ -665,63 +665,7 @@
     </div>
 
 
-    <script type="module">
-        import { supabase } from '/src/js/config/supabase-client.js';
 
-        const COURSE_ID = 'html-101';
-        const ENROLL_URL = 'html-enroll.html';
-
-        function revealPage() {
-            document.documentElement.classList.remove('auth-checking');
-            const style = document.getElementById('authGuardStyle');
-            if (style) style.remove();
-        }
-
-        async function checkAccess() {
-            const safetyTimer = setTimeout(() => {
-                console.warn("Auth check timed out. Revealing page.");
-                revealPage();
-            }, 4000);
-
-            try {
-                // 1. Check login
-                const { data: { session } } = await supabase.auth.getSession();
-                const user = session?.user;
-
-                if (!user) {
-                    clearTimeout(safetyTimer);
-                    const returnUrl = encodeURIComponent(window.location.href);
-                    window.location.replace(`/src/auth/login.html?redirect=${returnUrl}`);
-                    return;
-                }
-
-                // 2. Check enrollment
-                const { data: enrollment } = await supabase
-                    .from('user_enrollments')
-                    .select('id')
-                    .eq('user_id', user.id)
-                    .eq('course_id', COURSE_ID)
-                    .maybeSingle();
-
-                if (!enrollment) {
-                    clearTimeout(safetyTimer);
-                    window.location.replace(ENROLL_URL);
-                    return;
-                }
-
-                // 3. Allowed
-                clearTimeout(safetyTimer);
-                revealPage();
-
-            } catch (err) {
-                clearTimeout(safetyTimer);
-                console.error("Access guard failed:", err);
-                revealPage();
-            }
-        }
-
-        checkAccess();
-    </script>
 
     <script type="module" src="/src/js/auth/nav-auth.js"></script>
     <script type="module" src="/src/js/config/supabase-client.js"></script>
@@ -869,20 +813,28 @@
 
         // 3. DYNAMIC MARKDOWN QUIZ COMPILER (TRANSLATES - [x] / - [ ] LISTS TO INTERACTIVE ENGINE)
         function compileMarkdownQuiz(markdownText) {
-            const quizMatch = markdownText.match(/(?:##|###)\s*(?:Topic\s+Quiz|Quiz)[\s\S]*$/i);
+            const quizMatch = markdownText.match(/^[ \t]*(?:\*\*[ \t]*)?#{2,3}[ \t]*(?:Topic[ \t]+Quiz|Quiz)\b[^\r\n]*$/im);
             const mount = document.getElementById('dynamicQuizMount');
             if (!quizMatch || !mount) {
                 if (mount) mount.innerHTML = '';
                 return markdownText;
             }
 
-            const quizRawBlock = quizMatch[0];
-            const cleanMarkdown = markdownText.replace(quizRawBlock, '');
+            const quizRawBlock = markdownText.slice(quizMatch.index);
+            const headingLine = quizMatch[0].trim();
+            const quizTitle = headingLine
+                .replace(/^\*\*[ \t]*/, '')
+                .replace(/^#{2,3}[ \t]*/, '')
+                .replace(/\s*\*\*[ \t]*$/, '')
+                .replace(/&#x20;/gi, ' ')
+                .trim();
+            const cleanMarkdown = markdownText.slice(0, quizMatch.index);
 
             const questionBlocks = quizRawBlock.split(/\n(?=\d+\.\s+)/).slice(1);
             if (questionBlocks.length === 0) return cleanMarkdown;
 
-            let quizHTML = `<div class="interactive-quiz-container">`;
+            const renderedQuizTitle = window.marked ? marked.parseInline(quizTitle) : quizTitle;
+            let quizHTML = '<h2 class="quiz-section-title">' + renderedQuizTitle + '</h2><div class="interactive-quiz-container">';
 
             questionBlocks.forEach((qBlock, idx) => {
                 const lines = qBlock.trim().split('\n');
@@ -1029,12 +981,16 @@
 
                 ['prevTopicBtnTop', 'prevTopicBtnBtm'].forEach(id => {
                     const btn = document.getElementById(id);
-                    if (btn) btn.setAttribute('href', prevUrl);
+                    if (!btn) return;
+                    btn.setAttribute('href', prevUrl);
+                    btn.style.display = activeIdx > 0 ? 'inline-flex' : 'none';
                 });
 
                 ['nextTopicBtnTop', 'nextTopicBtnBtm'].forEach(id => {
                     const btn = document.getElementById(id);
-                    if (btn) btn.setAttribute('href', nextUrl);
+                    if (!btn) return;
+                    btn.setAttribute('href', nextUrl);
+                    btn.style.display = activeIdx >= 0 && activeIdx < allLinks.length - 1 ? 'inline-flex' : 'none';
                 });
 
             } catch (err) {
@@ -1139,64 +1095,81 @@
         const COURSE_ID = 'html-101';
         let currentUser = null;
         let isCompleted = false;
+        let currentLessonId = 'chapter-1/1.1-how-the-web-works.md';
+        let loginToastTimer = null;
+
+        function showLoginToast() {
+            let toast = document.getElementById('codifyToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'codifyToast';
+                toast.className = 'codify-toast';
+                toast.innerHTML = '<span class="toast-message"></span><a class="toast-login-btn">Log In</a>';
+                document.body.appendChild(toast);
+            }
+            toast.querySelector('.toast-message').textContent = 'Please log in to mark this topic as completed.';
+            toast.querySelector('.toast-login-btn').href = '/src/auth/login.html?redirect=' + encodeURIComponent(window.location.href);
+            toast.classList.add('show');
+            clearTimeout(loginToastTimer);
+            loginToastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
 
         async function initLesson() {
             initSidebarAccordion();
-            loadMarkdownLesson();
+            await loadMarkdownLesson();
+            currentLessonId = new URLSearchParams(window.location.search).get('file') || currentLessonId;
 
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return;
-            currentUser = user;
+            currentUser = user || null;
+            if (!currentUser) return;
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const lessonId = urlParams.get('file') || '1.1-how-the-web-works';
-
-            const { data } = await supabase
-                .from('user_progress')
+            const { data, error } = await supabase.from('user_progress')
                 .select('completed')
-                .eq('user_id', user.id)
+                .eq('user_id', currentUser.id)
                 .eq('course_id', COURSE_ID)
-                .eq('lesson_id', lessonId)
+                .eq('lesson_id', currentLessonId)
                 .maybeSingle();
 
-            if (data?.completed) {
-                isCompleted = true;
-                const btn = document.getElementById('markCompleteBtn');
-                btn.classList.add('is-completed');
-                document.getElementById('completeBtnText').textContent = '✓ Completed';
+            if (error) {
+                console.error('Progress load error:', error);
+                return;
             }
 
-            window.toggleLessonCompletion = async function () {
-                if (!currentUser) {
-                    alert("Please log in to track your course progress!");
-                    window.location.href = '/src/auth/login.html';
-                    return;
-                }
-
-                isCompleted = !isCompleted;
-                const btn = document.getElementById('markCompleteBtn');
-                const btnText = document.getElementById('completeBtnText');
-
-                if (isCompleted) {
-                    btn.classList.add('is-completed');
-                    btnText.textContent = '✓ Completed';
-                    await supabase.from('user_progress').upsert({
-                        user_id: currentUser.id,
-                        course_id: COURSE_ID,
-                        lesson_id: lessonId,
-                        completed: true
-                    });
-                } else {
-                    btn.classList.remove('is-completed');
-                    btnText.textContent = 'Mark as Completed';
-                    await supabase.from('user_progress')
-                        .delete()
-                        .eq('user_id', currentUser.id)
-                        .eq('course_id', COURSE_ID)
-                        .eq('lesson_id', lessonId);
-                }
-            };
+            isCompleted = Boolean(data?.completed);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.classList.toggle('is-completed', isCompleted);
+            document.getElementById('completeBtnText').textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
         }
+
+        window.toggleLessonCompletion = async function () {
+            const { data: { user } } = await supabase.auth.getUser();
+            currentUser = user || null;
+            if (!currentUser) {
+                showLoginToast();
+                return;
+            }
+
+            const btn = document.getElementById('markCompleteBtn');
+            const btnText = document.getElementById('completeBtnText');
+            const nextState = !isCompleted;
+            const result = nextState
+                ? await supabase.from('user_progress').upsert({
+                    user_id: currentUser.id, course_id: COURSE_ID, lesson_id: currentLessonId, completed: true
+                })
+                : await supabase.from('user_progress').delete()
+                    .eq('user_id', currentUser.id)
+                    .eq('course_id', COURSE_ID)
+                    .eq('lesson_id', currentLessonId);
+
+            if (result.error) {
+                console.error('Progress update error:', result.error);
+                return;
+            }
+
+            isCompleted = nextState;
+            btn.classList.toggle('is-completed', isCompleted);
+            btnText.textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
+        };
 
         document.addEventListener('DOMContentLoaded', initLesson);
 
