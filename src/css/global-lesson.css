@@ -389,19 +389,41 @@ body {
     display: none;
 }
 
+/* Keep every visible Markdown lesson heading on Codify's cyan theme.
+   The !important color prevents global/theme rules from turning headings white. */
+#markdownOutputContainer h2,
+#markdownOutputContainer h3,
+#markdownOutputContainer h4,
+#markdownOutputContainer h5,
+#markdownOutputContainer h6 {
+    color: #00aaff !important;
+    font-weight: 700;
+}
+
 #markdownOutputContainer h2 {
     font-size: 1.75rem;
-    color: #00aaff;
     margin: 2.5rem 0 1.2rem 0;
-    font-weight: 700;
     text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
 }
 
 #markdownOutputContainer h3 {
     font-size: 1.35rem;
-    color: #00aaff;
     margin: 2rem 0 1rem 0;
-    font-weight: 700;
+}
+
+#markdownOutputContainer h4 {
+    font-size: 1.2rem;
+    margin: 1.75rem 0 0.85rem 0;
+}
+
+#markdownOutputContainer h5 {
+    font-size: 1.08rem;
+    margin: 1.5rem 0 0.75rem 0;
+}
+
+#markdownOutputContainer h6 {
+    font-size: 1rem;
+    margin: 1.25rem 0 0.65rem 0;
 }
 
 #markdownOutputContainer p {
