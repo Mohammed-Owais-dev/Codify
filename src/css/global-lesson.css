@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CODIFY GLOBAL LESSON STYLESHEET
+   CODIFY GLOBAL LESSON STYLESHEET (MERGED & OPTIMIZED)
    ========================================================================== */
 
 /* 1. Core Reset & Viewport */
@@ -49,173 +49,7 @@ body {
     }
 }
 
-/* 2. Top Header */
-.codify-main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(10, 15, 28, 0.98);
-    backdrop-filter: blur(12px);
-    z-index: 2000;
-    border-bottom: 1px solid rgba(0, 170, 255, 0.15);
-}
-
-.codify-header-container {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: 10px 32px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.codify-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.5rem;
-    font-weight: 800;
-    text-decoration: none;
-    cursor: pointer;
-    color: #fff;
-}
-
-.logo-icon {
-    width: 32px;
-    height: 32px;
-}
-
-.logo-text {
-    display: block;
-    color: #fff;
-}
-
-.codify-center-nav {
-    display: flex;
-    align-items: center;
-}
-
-.drawer-close-btn {
-    display: none !important;
-}
-
-.codify-nav-links {
-    list-style: none;
-    display: flex;
-    gap: 32px;
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
-}
-
-.codify-nav-links li {
-    position: relative;
-    display: inline-block;
-}
-
-.codify-nav-links li a {
-    text-decoration: none;
-    color: #e0e6ed;
-    font-size: 1.05rem;
-    font-weight: 600;
-    position: relative;
-    transition: color 0.3s ease;
-}
-
-.codify-nav-links li a:hover,
-.codify-nav-links li a.active-link {
-    color: #00aaff;
-}
-
-.codify-right-group {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: relative;
-}
-
-.codify-search-box {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.codify-search-box input {
-    background: rgba(13, 27, 42, 0.6);
-    border: 1px solid rgba(0, 170, 255, 0.2);
-    color: #e0e6ed;
-    padding: 8px 65px 8px 14px;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    width: 220px;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.codify-search-box input:focus {
-    border-color: rgba(0, 170, 255, 0.7);
-    box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
-}
-
-.search-kbd {
-    position: absolute;
-    right: 8px;
-    display: flex;
-    gap: 3px;
-    background: rgba(10, 15, 28, 0.9);
-    border: 1px solid rgba(0, 170, 255, 0.3);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    color: #66ccff;
-    pointer-events: none;
-}
-
-.mobile-search-trigger {
-    background: rgba(0, 170, 255, 0.1);
-    border: 1px solid rgba(0, 170, 255, 0.3);
-    color: #00aaff;
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
-}
-
-.codify-auth-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.codify-btn-outline {
-    text-decoration: none;
-    background: transparent;
-    border: 1px solid rgba(0, 170, 255, 0.4);
-    color: #e0e6ed;
-    font-size: 0.88rem;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.codify-btn-outline:hover {
-    background: rgba(0, 170, 255, 0.12);
-    border-color: #00aaff;
-    box-shadow: 0 0 12px rgba(0, 170, 255, 0.3);
-    color: #fff;
-}
-
-/* 3. Breadcrumb Bar */
+/* 2. Breadcrumb Bar */
 .codify-breadcrumb-bar {
     position: fixed;
     top: 58px;
@@ -286,7 +120,7 @@ body {
     font-weight: 700;
 }
 
-/* 4. Sidebar Layout */
+/* 3. Sidebar Layout & Codify Neon Scrollbar Theme */
 .page-wrapper {
     display: flex !important;
     width: 100% !important;
@@ -315,6 +149,25 @@ body {
         min-width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
         max-width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
         padding 0.35s ease, opacity 0.25s ease !important;
+}
+
+/* Codify Neon Scrollbar Theme for Side Nav Bar */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: rgba(10, 15, 28, 0.5);
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 170, 255, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 170, 255, 0.1);
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 170, 255, 0.6);
 }
 
 .sidebar-nav.collapsed {
@@ -451,7 +304,7 @@ body {
     padding-left: 12px !important;
 }
 
-/* 5. Content Workspace & Typography */
+/* 4. Content Workspace & Typography */
 .content-workspace {
     flex: 1 !important;
     margin-left: 320px !important;
@@ -586,7 +439,7 @@ body {
     color: #00aaff;
 }
 
-/* 6. Alerts & Tables */
+/* 5. Alerts & Tables */
 .cyber-alert {
     display: flex;
     gap: 16px;
@@ -651,7 +504,7 @@ body {
     line-height: 1.5;
 }
 
-/* 7. Code Windows & Terminals */
+/* 6. Code Windows & Terminals */
 .mac-code-window {
     background-color: #0d1117;
     border: 1px solid rgba(0, 170, 255, 0.2);
@@ -810,7 +663,7 @@ body {
     margin: 0;
 }
 
-/* 8. Lightbox & Quizzes */
+/* 7. Lightbox & Quizzes Styling */
 .content-image-wrapper {
     margin: 2.5rem auto;
     text-align: center;
@@ -831,6 +684,7 @@ body {
     border: 1px solid #30363d;
     margin: 0 auto;
     cursor: zoom-in;
+    transition: transform 0.3s ease;
 }
 
 .lightbox-modal {
@@ -860,6 +714,14 @@ body {
     max-height: 90vh !important;
     object-fit: contain !important;
     cursor: grab;
+    transform-origin: center center;
+    transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+    user-select: none;
+}
+
+.lightbox-img.dragging {
+    cursor: grabbing;
+    transition: none;
 }
 
 .lightbox-close {
@@ -870,22 +732,60 @@ body {
     font-size: 2.8rem;
     cursor: pointer;
     z-index: 2502;
+    transition: color 0.2s, transform 0.2s;
 }
 
+.lightbox-close:hover {
+    color: #00aaff;
+    transform: scale(1.1) rotate(90deg);
+}
+
+/* Sequential Interactive Quiz Styling */
 .interactive-quiz-container {
     background: rgba(13, 27, 42, 0.4);
     border: 1px solid rgba(0, 170, 255, 0.3);
     border-radius: 16px;
     padding: 2rem;
     margin: 3.5rem 0 2rem 0;
+    box-shadow: 0 5px 20px rgba(0, 170, 255, 0.05);
 }
 
 .quiz-question-block {
     display: none;
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
 .quiz-question-block.active-question {
     display: block;
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 170, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+.quiz-tracker {
+    color: #00aaff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.quiz-prompt {
+    font-size: 1.2rem;
+    color: #e0e6ed;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .q-option {
@@ -900,6 +800,12 @@ body {
     transition: all 0.2s ease;
 }
 
+.q-option:hover:not(.locked) {
+    background: rgba(0, 170, 255, 0.1);
+    border-color: #00aaff;
+    transform: translateX(5px);
+}
+
 .q-option.correct {
     background: rgba(46, 164, 79, 0.15) !important;
     border-color: #2ea44f !important;
@@ -912,7 +818,40 @@ body {
     color: #ff7b72 !important;
 }
 
-/* 9. Footers & Modals */
+.q-option.locked {
+    cursor: default;
+    pointer-events: none;
+}
+
+.next-question-btn {
+    display: none;
+    margin-top: 1.5rem;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.next-question-btn:hover {
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+}
+
+.quiz-completion {
+    text-align: center;
+    display: none;
+}
+
+.quiz-completion.active {
+    display: block;
+}
+
+/* 8. Completion Card */
 .lesson-complete-card {
     background: rgba(13, 27, 42, 0.6);
     border: 1px solid rgba(0, 170, 255, 0.25);
@@ -939,16 +878,6 @@ body {
     background: #10b981;
     border-color: #10b981;
     color: #ffffff;
-}
-
-.codify-footer {
-    margin-top: auto;
-    border-top: 1px solid rgba(0, 170, 255, 0.15);
-    padding: 24px 20px;
-    text-align: center;
-    color: #94a3b8;
-    font-size: 0.9rem;
-    background: rgba(10, 15, 28, 0.95);
 }
 
 /* ==========================================================================
@@ -1091,73 +1020,4 @@ body {
     background: rgba(148, 163, 184, 0.1);
     color: #94a3b8;
     border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.preview-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(5, 10, 20, 0.88);
-    backdrop-filter: blur(12px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    padding: 20px;
-    box-sizing: border-box;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.preview-modal-overlay.show {
-    display: flex;
-    opacity: 1;
-}
-
-.preview-modal-card {
-    background: #0d1b2a;
-    border: 1.5px solid #00aaff;
-    border-radius: 20px;
-    max-width: 900px;
-    width: 100%;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 0 50px rgba(0, 170, 255, 0.3);
-}
-
-.preview-modal-header {
-    padding: 12px 20px;
-    background: #161b22;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(0, 170, 255, 0.2);
-    color: #00aaff;
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.preview-close-btn {
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-.preview-close-btn:hover {
-    color: #ff5f56;
-}
-
-.preview-frame {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    border: none;
 }

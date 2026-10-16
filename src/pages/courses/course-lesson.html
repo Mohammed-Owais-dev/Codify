@@ -12,18 +12,34 @@
         rel="stylesheet">
 
     <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
-<link rel="stylesheet" href="/src/css/style.css?v=2">
-<link rel="stylesheet" href="/src/css/global-lesson.css?v=2">
-<link rel="stylesheet" href="/src/css/global.css?v=2">
-
+    <link rel="stylesheet" href="/src/css/global-lesson.css">
+    <link rel="stylesheet" href="/src/css/global.css">
     <title>Lesson | Codify</title>
 
     <!-- Locked, stable Marked.js Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
 
-
     <style>
-        /* Live Code Sandbox Preview Modal (Exclusive for HTML / Web interactive previews) */
+        /* Layering & Stacking Fixes */
+        .codify-breadcrumb-bar {
+            z-index: 800 !important; /* Sits below the navbar dropdowns and profile menus */
+        }
+
+        .sidebar-nav {
+            z-index: 500 !important; /* Keeps the sidebar below floating headers and modals */
+        }
+
+        .codify-footer {
+            position: relative !important;
+            z-index: 900 !important; /* Fixes footer scrolling backward behind fixed layout bars */
+        }
+
+        /* Profile Dropdown Menu Fix */
+        .profile-dropdown-menu, .profile-slide-menu {
+            z-index: 3000 !important; /* Ensures the profile dropdown always floats above breadcrumbs */
+        }
+
+        /* Live Code Sandbox Preview Modal */
         .preview-modal-overlay {
             position: fixed;
             top: 0;
@@ -92,13 +108,129 @@
             background: #ffffff;
             border: none;
         }
+
+        /* ==========================================================================
+   INTERACTIVE QUIZ SECTION STYLING
+   ========================================================================== */
+
+.interactive-quiz-container {
+    background: rgba(13, 27, 42, 0.4);
+    border: 1px solid rgba(0, 170, 255, 0.3);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 3.5rem 0 2rem 0;
+    box-shadow: 0 5px 20px rgba(0, 170, 255, 0.05);
+    box-sizing: border-box;
+}
+
+.quiz-question-block {
+    display: none;
+}
+
+.quiz-question-block.active-question {
+    display: block;
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 170, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+.quiz-tracker {
+    color: #00aaff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.quiz-prompt {
+    font-size: 1.2rem;
+    color: #e0e6ed;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.q-option {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: #c9d1d9;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: left;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.q-option:hover:not(.locked) {
+    background: rgba(0, 170, 255, 0.1);
+    border-color: #00aaff;
+    transform: translateX(5px);
+}
+
+.q-option.correct {
+    background: rgba(46, 164, 79, 0.15) !important;
+    border-color: #2ea44f !important;
+    color: #56d364 !important;
+}
+
+.q-option.incorrect {
+    background: rgba(248, 81, 73, 0.15) !important;
+    border-color: #f85149 !important;
+    color: #ff7b72 !important;
+}
+
+.q-option.locked {
+    cursor: default;
+    pointer-events: none;
+}
+
+.next-question-btn {
+    display: none;
+    margin-top: 1.5rem;
+    background: linear-gradient(90deg, #0077ff, #00aaff);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.next-question-btn:hover {
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+}
+
+.quiz-completion {
+    text-align: center;
+    display: none;
+}
+
+.quiz-completion.active {
+    display: block;
+}
     </style>
 </head>
 
 <body>
 
+    <!-- Unified Navbar Placeholder -->
     <div id="navbar-placeholder"></div>
-
 
     <!-- BREADCRUMB BAR -->
     <header class="codify-breadcrumb-bar">
@@ -195,75 +327,8 @@
         </main>
     </div>
 
-    <!-- FOOTER WITH CORE ENGINEERS POPOVER -->
-    <footer class="codify-footer">
-        <div>
-            Built with precision for future developers • Developed by
-            <span class="team-hover-wrapper" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
-                <span class="team-trigger">Codify Team</span>
-
-                <div class="team-popover" role="tooltip">
-                    <div class="popover-header">Core Engineers</div>
-                    <ul class="team-list">
-                        <li class="team-member interactive" onclick="openEngineerModal('owais')" style="font-weight: 700;">
-                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('feroz')">
-                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('basha')">
-                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
-                        </li>
-                        <li class="team-member interactive" onclick="openEngineerModal('prasad')">
-                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
-                        </li>
-                    </ul>
-                </div>
-            </span>
-        </div>
-    </footer>
-
-    <!-- ENGINEER MODAL -->
-    <div class="modal-overlay" id="engineerModal" aria-hidden="true">
-        <div class="modal-card">
-            <button class="modal-close-btn" id="closeEngineerModal" aria-label="Close">✕</button>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div id="engAvatar" class="eng-avatar"></div>
-                <h2 id="engName" class="eng-name">Name</h2>
-                <p id="engId" class="eng-id">ID</p>
-                <span id="engRole" class="eng-role">Role</span>
-            </div>
-            <div class="eng-bio-box">
-                <p id="engBio">Bio goes here...</p>
-            </div>
-            <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">✉️ Email</a>
-                <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">💻 GitHub</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- SEARCH HUD MODAL -->
-    <div class="search-overlay-modal" id="searchOverlayModal" aria-hidden="true">
-        <div class="search-modal-card">
-            <div class="search-modal-header">
-                <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.3-4.3"></path>
-                </svg>
-                <input type="text" id="modalSearchInput" placeholder="Type keywords..." autocomplete="off">
-                <button class="search-modal-close" id="modalSearchClose" aria-label="Close Search">✕</button>
-            </div>
-            <div class="search-results-viewport">
-                <div class="search-results-status" id="searchResultsStatus">Start typing to search your course parameters...</div>
-                <ul class="search-results-list" id="searchResultsList"></ul>
-            </div>
-        </div>
-    </div>
+    <!-- Unified Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
     <!-- PROFESSIONAL LIGHTBOX MODAL WITH ZOOM, PAN & HUD TOAST -->
     <div class="lightbox-modal" id="globalLightbox" role="dialog" aria-hidden="true">
@@ -296,9 +361,9 @@
         </div>
     </div>
 
-    <script src="/src/js/components.js"></script>
-    <script type="module" src="/src/js/auth/nav-auth.js"></script>
-    <script type="module" src="/src/js/config/supabase-client.js"></script>
+    <!-- REQUIRED CENTRALIZED SCRIPT IMPORTS -->
+    <script src="/src/js/script.js"></script>
+    <script type="module" src="/src/js/components.js"></script>
 
     <script type="module">
         import { supabase } from '/src/js/config/supabase-client.js';
@@ -306,19 +371,19 @@
         marked.setOptions({ gfm: true, breaks: true });
 
         const urlParams = new URLSearchParams(window.location.search);
-const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
 
-const courseParam =
-    pathParts[0] === 'courses' && pathParts[1]
-        ? pathParts[1]
-        : (urlParams.get('course') || 'c');
+        const courseParam =
+            pathParts[0] === 'courses' && pathParts[1]
+                ? pathParts[1]
+                : (urlParams.get('course') || 'c');
 
-const lessonParam =
-    pathParts[0] === 'courses' && pathParts[2]
-        ? pathParts[2]
-        : null;
+        const lessonParam =
+            pathParts[0] === 'courses' && pathParts[2]
+                ? pathParts[2]
+                : null;
 
-let fileParam = urlParams.get('file');
+        let fileParam = urlParams.get('file');
 
         const courseConfigMap = {
             'c': { id: 'c-101', indexPage: '/courses/c', jsonPath: '/src/data/c-syllabus.json', baseDir: '/src/pages/courses/c/' },
@@ -432,6 +497,7 @@ let fileParam = urlParams.get('file');
             });
         }
 
+        // Fixed Quiz Parser supporting both stacked and inline markdown checkboxes
         function compileMarkdownQuiz(markdownText) {
             const quizMatch = markdownText.match(/(?:##|###)\s*(?:Topic\s+Quiz|Quiz)[\s\S]*$/i);
             const mount = document.getElementById('dynamicQuizMount');
@@ -447,14 +513,20 @@ let fileParam = urlParams.get('file');
 
             let quizHTML = `<div class="interactive-quiz-container">`;
             questionBlocks.forEach((qBlock, idx) => {
-                const firstOptionIndex = qBlock.search(/\n\s*-\s*\[[ x]\]/i);
+                // Fixed regex bracket syntax to properly match - [ ] and - [x]
+                const firstOptionIndex = qBlock.search(/\n\s*-\s*[[ x]]/i);
                 let rawPrompt = firstOptionIndex !== -1 ? qBlock.substring(0, firstOptionIndex).trim() : qBlock.trim();
-                let rawOptions = firstOptionIndex !== -1 ? qBlock.substring(firstOptionIndex).trim() : '';
+                let rawOptionsStr = firstOptionIndex !== -1 ? qBlock.substring(firstOptionIndex).trim() : '';
 
                 rawPrompt = rawPrompt.replace(/^\d+\.\s+/, '').trim();
                 rawPrompt = rawPrompt.replace(/`([^`]+)`/g, '<code>$1</code>');
 
-                const optionLines = rawOptions.split('\n').filter(line => /-\s*\[[ x]\]/i.test(line));
+                let optionLines = [];
+                if (rawOptionsStr.includes('- [') || rawOptionsStr.includes('- []')) {
+                    optionLines = rawOptionsStr.split(/(?=-\s*\[[ x]\])/i).map(s => s.trim()).filter(Boolean);
+                } else {
+                    optionLines = rawOptionsStr.split('\n').map(s => s.trim()).filter(Boolean);
+                }
 
                 quizHTML += `
                     <div class="quiz-question-block ${idx === 0 ? 'active-question' : ''}" id="qb-${idx + 1}">
@@ -466,16 +538,23 @@ let fileParam = urlParams.get('file');
                 optionLines.forEach(opt => {
                     const isCorrect = /-\s*\[x\]/i.test(opt);
                     let optText = opt.replace(/^-\s*\[[ x]\]\s*/i, '').trim().replace(/`([^`]+)`/g, '<code>$1</code>');
-                    quizHTML += `<button class="q-option" onclick="handleAnswer(this, ${isCorrect}, ${idx + 1})">${optText}</button>`;
+                    if (optText) {
+                        quizHTML += `<button class="q-option" onclick="handleAnswer(this, ${isCorrect}, ${idx + 1})">${optText}</button>`;
+                    }
                 });
 
-                quizHTML += `</div><button class="next-question-btn" id="next-${idx + 1}" onclick="nextQuestion(${idx + 1})">Next Question ➔</button></div>`;
+                const isLastQuestion = idx === questionBlocks.length - 1;
+                const nextAction = isLastQuestion ? `finishQuiz(${questionBlocks.length})` : `nextQuestion(${idx + 1})`;
+                const btnLabel = isLastQuestion ? `Finish Quiz ➔` : `Next Question ➔`;
+
+                quizHTML += `</div><button class="next-question-btn" id="next-${idx + 1}" onclick="${nextAction}">${btnLabel}</button></div>`;
             });
 
-            quizHTML += `<div class="quiz-completion" id="qb-complete"><h3 style="color: #00aaff; font-size: 2rem;">Module Complete! 🎉</h3></div></div>`;
+            quizHTML += `<div class="quiz-completion" id="qb-complete"><h3 style="color: #00aaff; font-size: 2rem; text-align: center;">Module Complete! 🎉</h3></div></div>`;
             mount.innerHTML = quizHTML;
             return cleanMarkdown;
         }
+
 
         function toggleBranch(branch, forceOpen = false) {
             const leaves = branch.querySelector('.tree-leaves');
@@ -513,20 +592,20 @@ let fileParam = urlParams.get('file');
                     `;
                     ch.topics.forEach(top => {
                         flatTopics.push({
-    title: top.title,
-    file: top.file,
-    id: top.id
-});
+                            title: top.title,
+                            file: top.file,
+                            id: top.id
+                        });
                         const lessonId = top.id || top.file.split('/').pop().split('-')[0];
 
-treeHtml += `
-    <li>
-        <a href="/courses/${courseParam}/${lessonId}"
-           data-title="${top.title}">
-            ${top.title}
-        </a>
-    </li>
-`;
+                        treeHtml += `
+                            <li>
+                                <a href="/courses/${courseParam}/${lessonId}"
+                                   data-title="${top.title}">
+                                    ${top.title}
+                                </a>
+                            </li>
+                        `;
                     });
                     treeHtml += `</ul></li>`;
                 });
@@ -542,27 +621,26 @@ treeHtml += `
 
                 let targetFile = fileParam;
 
-if (!targetFile && lessonParam) {
-    const selectedTopic = flatTopics.find(topic => {
-        const lessonId =
-            topic.id ||
-            topic.file.split('/').pop().split('-')[0];
+                if (!targetFile && lessonParam) {
+                    const selectedTopic = flatTopics.find(topic => {
+                        const lessonId =
+                            topic.id ||
+                            topic.file.split('/').pop().split('-')[0];
 
-        return lessonId === lessonParam;
-    });
+                        return lessonId === lessonParam;
+                    });
 
-    if (!selectedTopic) {
-        throw new Error(`Lesson not found: ${lessonParam}`);
-    }
+                    if (!selectedTopic) {
+                        throw new Error(`Lesson not found: ${lessonParam}`);
+                    }
 
-    targetFile = selectedTopic.file;
-}
+                    targetFile = selectedTopic.file;
+                }
 
-const defaultFile = flatTopics.length > 0 ? flatTopics[0].file : '';
-targetFile = targetFile || defaultFile;
+                const defaultFile = flatTopics.length > 0 ? flatTopics[0].file : '';
+                targetFile = targetFile || defaultFile;
 
-// Keep progress tracking compatible with the existing database
-fileParam = targetFile;
+                fileParam = targetFile;
                 const targetUrl = `${window.location.origin}${activeCourse.baseDir}${targetFile}`;
 
                 const mdRes = await fetch(targetUrl);
@@ -588,17 +666,17 @@ fileParam = targetFile;
                 });
 
                 const getLessonId = topic =>
-    topic.id || topic.file.split('/').pop().split('-')[0];
+                    topic.id || topic.file.split('/').pop().split('-')[0];
 
-const prevHref =
-    activeIdx > 0
-        ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx - 1])}`
-        : `/courses/${courseParam}`;
+                const prevHref =
+                    activeIdx > 0
+                        ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx - 1])}`
+                        : `/courses/${courseParam}`;
 
-const nextHref =
-    activeIdx >= 0 && activeIdx < flatTopics.length - 1
-        ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx + 1])}`
-        : `/courses/${courseParam}`;
+                const nextHref =
+                    activeIdx >= 0 && activeIdx < flatTopics.length - 1
+                        ? `/courses/${courseParam}/${getLessonId(flatTopics[activeIdx + 1])}`
+                        : `/courses/${courseParam}`;
 
                 ['prevTopicBtnTop', 'prevTopicBtnBtm'].forEach(id => document.getElementById(id).href = prevHref);
                 ['nextTopicBtnTop', 'nextTopicBtnBtm'].forEach(id => document.getElementById(id).href = nextHref);
@@ -618,7 +696,7 @@ const nextHref =
         if (sidebarToggleMobile && sidebar) {
             sidebarToggleMobile.onclick = () => {
                 sidebar.classList.toggle('mobile-active');
-                backdrop.classList.toggle('active');
+                backdrop?.classList.toggle('active');
             };
         }
         if (backdrop) backdrop.onclick = () => { sidebar.classList.remove('mobile-active'); backdrop.classList.remove('active'); };
