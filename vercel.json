@@ -53,6 +53,10 @@
       "destination": "/src/pages/courses/course-lesson.html"
     },
     {
+      "source": "/css-syllabus.json",
+      "destination": "/src/data/css-syllabus.json"
+    },
+    {
       "source": "/(.*)",
       "destination": "/src/pages/404.html"
     }
