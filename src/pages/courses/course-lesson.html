@@ -29,7 +29,34 @@
         }
 
         .sidebar-nav {
-            z-index: 500 !important; /* Keeps the sidebar below floating headers and modals */
+            z-index: 1500 !important;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar-nav {
+                transform: translateX(-105%);
+                transition: transform 0.25s ease !important;
+                visibility: hidden;
+                pointer-events: none;
+                top: 102px !important;
+                height: calc(100dvh - 102px) !important;
+            }
+
+            .sidebar-nav.mobile-active {
+                transform: translateX(0);
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            .sidebar-nav.collapsed {
+                transform: translateX(-105%);
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            .nav-backdrop {
+                z-index: 1400 !important;
+            }
         }
 
         .codify-footer {
@@ -364,6 +391,8 @@
 
     <!-- Unified Navbar Placeholder -->
     <div id="navbar-placeholder"></div>
+
+    <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 
     <!-- BREADCRUMB BAR -->
     <header class="codify-breadcrumb-bar">
@@ -973,13 +1002,30 @@
         const sidebarToggleMobile = document.getElementById('sidebarToggleMobile');
         const sidebar = document.getElementById('sidebarNav');
         const backdrop = document.getElementById('navBackdrop');
+        const closeMobileSidebar = () => {
+            sidebar?.classList.remove('mobile-active');
+            backdrop?.classList.remove('active');
+            backdrop?.setAttribute('aria-hidden', 'true');
+            sidebarToggleMobile?.setAttribute('aria-expanded', 'false');
+        };
         if (sidebarToggleMobile && sidebar) {
+            sidebarToggleMobile.setAttribute('aria-expanded', 'false');
             sidebarToggleMobile.onclick = () => {
-                sidebar.classList.toggle('mobile-active');
-                backdrop?.classList.toggle('active');
+                const isOpen = sidebar.classList.toggle('mobile-active');
+                backdrop?.classList.toggle('active', isOpen);
+                backdrop?.setAttribute('aria-hidden', String(!isOpen));
+                sidebarToggleMobile.setAttribute('aria-expanded', String(isOpen));
             };
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.matchMedia('(max-width: 900px)').matches) closeMobileSidebar();
+                });
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') closeMobileSidebar();
+            });
         }
-        if (backdrop) backdrop.onclick = () => { sidebar.classList.remove('mobile-active'); backdrop.classList.remove('active'); };
+        if (backdrop && sidebar) backdrop.onclick = closeMobileSidebar;
 
         // Quiz sequential handlers
         window.handleAnswer = (btn, isCorrect, qNum) => {
