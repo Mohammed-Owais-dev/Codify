@@ -204,10 +204,41 @@
         .mac-code-window .mac-body code.hljs * {
             background: #0d1117 !important;
             font-family: Consolas, "Cascadia Code", "SFMono-Regular", Menlo, monospace !important;
-            font-size: 0.92rem !important;
+            font-size: 0.86rem !important;
             line-height: 1.65 !important;
             tab-size: 4;
             font-style: normal !important;
+        }
+
+        /* Keep the code window compact on phones without changing its desktop styling. */
+        @media (max-width: 820px) {
+            .mac-code-window .mac-body pre,
+            .mac-code-window .mac-body pre code,
+            .mac-code-window .mac-body code,
+            .mac-code-window .mac-body code.hljs,
+            .mac-code-window .mac-body code.hljs * {
+                font-size: 0.86rem !important;
+                line-height: 1.5 !important;
+            }
+
+            .mac-code-window .mac-body pre code {
+                padding: 14px 12px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mac-code-window .mac-body pre,
+            .mac-code-window .mac-body pre code,
+            .mac-code-window .mac-body code,
+            .mac-code-window .mac-body code.hljs,
+            .mac-code-window .mac-body code.hljs * {
+                font-size: 0.86rem !important;
+                line-height: 1.45 !important;
+            }
+
+            .mac-code-window .mac-body pre code {
+                padding: 12px 10px !important;
+            }
         }
 
         .mac-code-window .mac-body pre {
