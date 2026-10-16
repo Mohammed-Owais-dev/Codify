@@ -716,6 +716,33 @@
                 justify-content: center;
             }
         }
+    
+        /* Account profile responsive polish */
+        @media (max-width: 640px) {
+            .profile-container { width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box; padding: 18px 12px 40px !important; }
+            .profile-card { width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box; padding: 18px !important; border-radius: 18px !important; }
+            .profile-header { align-items: flex-start !important; flex-wrap: wrap; gap: 14px !important; }
+            .profile-user-info { min-width: 0; flex-wrap: wrap; }
+            .profile-title-group { min-width: 0; }
+            .profile-title-group h1, .profile-title-group h2 { overflow-wrap: anywhere; line-height: 1.3; }
+            .header-actions { width: 100%; display: flex; flex-wrap: wrap; gap: 8px; }
+            .header-actions > * { max-width: 100%; }
+            .stats-grid, .profile-grid { grid-template-columns: minmax(0, 1fr) !important; }
+            .profile-form-group { min-width: 0; }
+            .profile-input, .profile-card input, .profile-card select, .profile-card textarea { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; font-size: 16px !important; }
+            .profile-submit-btn { width: 100%; min-height: 44px; }
+            .avatar-selection-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+            .modal-overlay { padding: 12px !important; box-sizing: border-box; }
+            .modal-card, .security-gate-card { width: 100% !important; max-width: 100% !important; max-height: calc(100dvh - 24px); overflow-y: auto; box-sizing: border-box; padding: 20px !important; }
+            .otp-box-grid, .security-otp-grid { gap: 6px !important; }
+            .security-input { max-width: 100%; box-sizing: border-box; font-size: 16px !important; }
+        }
+        @media (max-width: 380px) {
+            .profile-container { padding-inline: 9px !important; }
+            .profile-card { padding: 14px !important; }
+            .avatar-selection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        }
+
     </style>
 </head>
 
