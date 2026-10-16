@@ -558,9 +558,10 @@
 
                 let staticOutputText = "No sample output provided.";
                 let nextSibling = pre.nextElementSibling;
+                let outputLabelElement = null;
 
                 // Match this code block with the next explicitly marked output block.
-                // Markdown may insert a heading/paragraph such as "Output:" between them.
+                // Hide a standalone "Output" heading when its output is moved into the drawer.
                 // Stop at the next normal code block so output can never leak across examples.
                 while (nextSibling) {
                     if (nextSibling.tagName === 'PRE') {
@@ -570,6 +571,7 @@
                             staticOutputText = (nextCode ? nextCode.textContent : nextSibling.textContent)
                                 .replace(/^\n+|\n+$/g, '');
                             nextSibling.style.display = 'none';
+                            if (outputLabelElement) outputLabelElement.style.display = 'none';
                         }
                         // Whether it is output or source code, do not scan past this code block.
                         break;
@@ -581,8 +583,8 @@
                     const isIgnorableLabel = isOutputLabel ||
                         (nextSibling.tagName === 'P' && /^(?:expected\s+)?output\s*:?$/i.test(siblingText));
 
-                    // Continue through blank nodes and a simple Output label only.
                     if (isEmpty || isIgnorableLabel) {
+                        if (isIgnorableLabel) outputLabelElement = nextSibling;
                         nextSibling = nextSibling.nextElementSibling;
                         continue;
                     }
