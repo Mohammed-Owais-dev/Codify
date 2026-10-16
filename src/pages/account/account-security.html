@@ -382,6 +382,25 @@
 
         /* Legacy inline alerts are no longer displayed. */
         .alert-box { display: none !important; }
+    
+        /* Account security responsive polish */
+        @media (max-width: 520px) {
+            .settings-container { width: 100% !important; max-width: 100% !important; min-width: 0 !important; padding: 18px 12px 40px !important; box-sizing: border-box; }
+            .settings-card { width: 100% !important; max-width: 100% !important; min-width: 0 !important; padding: 18px !important; box-sizing: border-box; border-radius: 18px !important; }
+            .settings-header { align-items: flex-start !important; flex-wrap: wrap; gap: 12px !important; }
+            .settings-header h1, .settings-header h2 { overflow-wrap: anywhere; line-height: 1.3; }
+            .settings-form-group { min-width: 0; }
+            .settings-card input, .settings-card select, .settings-card textarea, .security-input { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; font-size: 16px !important; }
+            .settings-card button { max-width: 100%; min-height: 42px; }
+            .security-gate-overlay { padding: 12px !important; box-sizing: border-box; }
+            .security-gate-card { width: 100% !important; max-width: 100% !important; max-height: calc(100dvh - 24px); overflow-y: auto; box-sizing: border-box; padding: 18px !important; }
+            .security-otp-grid { gap: 5px !important; }
+        }
+        @media (max-width: 360px) {
+            .settings-container { padding-inline: 8px !important; }
+            .settings-card, .security-gate-card { padding: 14px !important; }
+        }
+
     </style>
 </head>
 
