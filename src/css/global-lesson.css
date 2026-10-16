@@ -1179,3 +1179,51 @@ body {
     .content-body { padding: 1rem .7rem !important; }
     .codify-breadcrumbs { max-width: calc(100vw - 66px); }
 }
+
+
+/* Mobile polish: compact, readable breadcrumb and tighter lesson spacing. */
+@media (max-width: 900px) {
+    .codify-breadcrumb-bar {
+        top: 94px;
+        height: 42px;
+        padding: 0 12px;
+        background: rgba(8, 14, 27, 0.97);
+        border-bottom: 1px solid rgba(56, 189, 248, 0.24);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .breadcrumb-sidebar-trigger {
+        width: 34px;
+        height: 34px;
+        justify-content: center;
+        flex-shrink: 0;
+        border: 1px solid rgba(56, 189, 248, 0.22);
+        background: rgba(0, 170, 255, 0.08);
+        border-radius: 10px;
+    }
+    .breadcrumb-vertical-divider { margin: 0 10px; height: 22px; }
+    .codify-breadcrumbs {
+        min-width: 0;
+        max-width: calc(100vw - 76px);
+        gap: 6px;
+        font-size: 0.8rem;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .codify-breadcrumbs::-webkit-scrollbar { display: none; }
+    .codify-breadcrumbs li { flex-shrink: 0; }
+    .codify-breadcrumbs .current-crumb {
+        display: block;
+        max-width: 42vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .page-wrapper { margin-top: 136px !important; }
+    .content-workspace,
+    .page-wrapper.sidebar-is-collapsed .content-workspace {
+        padding: 10px 10px 24px !important;
+    }
+}
+@media (max-width: 600px) {
+    .codify-breadcrumb-bar { top: 94px !important; height: 42px !important; }
+    .page-wrapper { margin-top: 136px !important; }
+}
