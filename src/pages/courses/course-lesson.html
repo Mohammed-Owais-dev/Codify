@@ -559,10 +559,13 @@
                 let staticOutputText = "No sample output provided.";
                 let nextSibling = pre.nextElementSibling;
                 let outputLabelElement = null;
+                let outputContentElement = null;
+                let foundOutputCue = false;
+                let skipInputValues = false;
 
-                // Match this code block with the next explicitly marked output block.
-                // Hide a standalone "Output" heading when its output is moved into the drawer.
-                // Stop at the next normal code block so output can never leak across examples.
+                // Move both fenced output blocks and prose-formatted sample output into
+                // the terminal drawer. This supports Markdown such as:
+                // "The program displays:" followed by a bold output paragraph.
                 while (nextSibling) {
                     if (nextSibling.tagName === 'PRE') {
                         const nextCode = nextSibling.querySelector('code');
@@ -573,23 +576,67 @@
                             nextSibling.style.display = 'none';
                             if (outputLabelElement) outputLabelElement.style.display = 'none';
                         }
-                        // Whether it is output or source code, do not scan past this code block.
-                        break;
+                        break; // Never pair output across another code example.
                     }
 
                     const siblingText = (nextSibling.textContent || '').trim();
-                    const isOutputLabel = /^(?:sample\s+)?output\s*:?$/i.test(siblingText);
-                    const isEmpty = !siblingText;
-                    const isIgnorableLabel = isOutputLabel ||
-                        (nextSibling.tagName === 'P' && /^(?:expected\s+)?output\s*:?$/i.test(siblingText));
+                    const isDisplayCue = /^(?:(?:the|this)\s+)?program\s+displays\s*:?[\s]*$/i.test(siblingText) ||
+                        /^(?:sample\s+)?output\s*:?$/i.test(siblingText);
+                    const isInputCue = /^(?:if\s+the\s+)?user\s+enters\s*:?[\s]*$/i.test(siblingText);
 
-                    if (isEmpty || isIgnorableLabel) {
-                        if (isIgnorableLabel) outputLabelElement = nextSibling;
+                    if (isDisplayCue) {
+                        foundOutputCue = true;
+                        outputLabelElement = nextSibling;
                         nextSibling = nextSibling.nextElementSibling;
                         continue;
                     }
 
-                    // Stop at explanatory text/headings; they belong to the next section.
+                    if (isInputCue) {
+                        // Sample input is explanatory material, not terminal output.
+                        skipInputValues = true;
+                        nextSibling = nextSibling.nextElementSibling;
+                        continue;
+                    }
+
+                    if (skipInputValues) {
+                        skipInputValues = false;
+                        nextSibling = nextSibling.nextElementSibling;
+                        continue;
+                    }
+
+                    if (foundOutputCue) {
+                        if (/^H[1-6]$/.test(nextSibling.tagName)) break;
+                        if (!siblingText) {
+                            nextSibling = nextSibling.nextElementSibling;
+                            continue;
+                        }
+
+                        // Preserve Markdown line breaks but render emphasis (e.g. **Hello, Java!**)
+                        // as plain terminal text. Hide the original content so it appears only once.
+                        const outputHTML = (nextSibling.innerHTML || '').replace(/<br\s*\/?\s*>/gi, '\n');
+                        const outputTextNode = document.createElement('div');
+                        outputTextNode.innerHTML = outputHTML;
+                        staticOutputText = (outputTextNode.textContent || '').replace(/^\n+|\n+$/g, '');
+                        outputContentElement = nextSibling;
+                        outputContentElement.style.display = 'none';
+                        if (outputLabelElement) outputLabelElement.style.display = 'none';
+                        break;
+                    }
+
+                    const isEmpty = !siblingText;
+                    if (isEmpty) {
+                        nextSibling = nextSibling.nextElementSibling;
+                        continue;
+                    }
+
+                    // Allow a sample-input paragraph to be skipped before its display cue.
+                    if (skipInputValues) {
+                        skipInputValues = false;
+                        nextSibling = nextSibling.nextElementSibling;
+                        continue;
+                    }
+
+                    // Ordinary explanatory text belongs to the lesson, not the terminal.
                     break;
                 }
 
