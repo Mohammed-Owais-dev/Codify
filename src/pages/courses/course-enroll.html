@@ -292,6 +292,41 @@
             padding: 4px 8px;
             border-radius: 6px;
         }
+    
+        @media (max-width: 820px) {
+            main { margin-top:104px !important; padding:18px 16px 48px !important; }
+            .enroll-hero-card { padding:28px !important; border-radius:20px !important; gap:18px; }
+            .enroll-title { font-size:clamp(1.9rem, 6vw, 2.35rem); overflow-wrap:anywhere; }
+            .enroll-description { font-size:1rem; }
+            .course-highlights { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; }
+            .highlight-item { padding:12px; }
+            .enroll-action-bar { align-items:stretch; }
+            .btn-enroll-action { min-height:46px; }
+            .curriculum-preview-card { padding:24px !important; }
+            .curriculum-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 560px) {
+            main { margin-top:112px !important; padding:12px 12px 36px !important; }
+            .back-nav-container { margin-bottom:16px; }
+            .enroll-hero-card { padding:20px !important; border-radius:17px !important; gap:16px; margin-bottom:22px !important; }
+            .enroll-top-row { gap:12px; }
+            .enroll-course-logo { width:48px; height:48px; }
+            .course-badge-row { flex-wrap:wrap; gap:8px; }
+            .course-badge { font-size:.72rem; }
+            .enroll-title { font-size:1.8rem; line-height:1.22; }
+            .enroll-description { font-size:.96rem; line-height:1.65; }
+            .course-highlights { grid-template-columns:minmax(0, 1fr); gap:10px; }
+            .highlight-item { padding:12px 14px; }
+            .enroll-action-bar { flex-direction:column; align-items:stretch; padding-top:18px; gap:14px; }
+            .pricing-box { flex-wrap:wrap; }
+            .price-label { font-size:1.6rem; }
+            .btn-enroll-action { width:100%; padding:12px 18px; }
+            .curriculum-preview-card { padding:18px !important; border-radius:16px !important; }
+            .curriculum-preview-card h3 { font-size:1.15rem; margin-bottom:16px; }
+            .curriculum-grid { grid-template-columns:minmax(0, 1fr); gap:10px; }
+            .module-summary-pill { padding:12px 14px; font-size:.9rem; }
+        }
+
     </style>
 </head>
 
