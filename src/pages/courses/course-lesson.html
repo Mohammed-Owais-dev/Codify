@@ -18,6 +18,9 @@
 
     <!-- Locked, stable Marked.js Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+    <!-- GitHub Dark syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
     <style>
         /* Layering & Stacking Fixes */
@@ -107,6 +110,28 @@
             height: 100%;
             background: #ffffff;
             border: none;
+        }
+
+        /* VS Code / GitHub Dark editor palette for Mac-style code windows */
+        .mac-code-window .mac-body {
+            background: #0d1117;
+        }
+
+        .mac-code-window .mac-body pre,
+        .mac-code-window .mac-body pre code,
+        .mac-code-window .mac-body code.hljs {
+            background: #0d1117 !important;
+            color: #e6edf3;
+            font-family: Consolas, "Cascadia Code", "SFMono-Regular", Menlo, monospace;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            tab-size: 4;
+        }
+
+        .mac-code-window .mac-body pre {
+            margin: 0;
+            padding: 18px 20px;
+            overflow-x: auto;
         }
 
         /* ==========================================================================
@@ -458,7 +483,7 @@
                             ` : ''}
                         </div>
                     </div>
-                    <div class="mac-body"><pre><code>${codeElem ? codeElem.innerHTML : rawCode}</code></pre></div>
+                    <div class="mac-body"><pre><code class="language-${lang}">${codeElem ? codeElem.innerHTML : rawCode}</code></pre></div>
                     <div class="mac-output-drawer">
                         <div class="output-header"><span><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="m13 2-3 8h7l-6 12 2-9H6l7-11Z"/></svg>Terminal Output</span></div>
                         <pre class="output-body">${staticOutputText}</pre>
@@ -494,6 +519,12 @@
                 }
 
                 pre.parentNode.replaceChild(macWindow, pre);
+
+                // Apply GitHub Dark token colors to the displayed source code.
+                const displayedCode = macWindow.querySelector('.mac-body code');
+                if (displayedCode && window.hljs) {
+                    window.hljs.highlightElement(displayedCode);
+                }
             });
         }
 
