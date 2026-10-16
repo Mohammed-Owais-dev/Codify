@@ -1226,11 +1226,15 @@ button, a, input, select, textarea {
     }
 }
 
-/* Mobile-only fix: reserve space for the fixed two-row header/search bar.
-   Desktop layout is intentionally unchanged. */
+/* Mobile-only header spacing: keep content clear without excessive blank space.
+   Lesson pages already position their workspace below the fixed breadcrumb bar. */
 @media (max-width: 820px) {
     body {
-        padding-top: 124px !important;
+        padding-top: 94px !important;
+    }
+
+    body:has(.page-wrapper) {
+        padding-top: 0 !important;
     }
 
     /* Keep the team-member details dialog fully usable on short phone screens. */
@@ -1287,7 +1291,11 @@ button, a, input, select, textarea {
 
 @media (max-width: 480px) {
     body {
-        padding-top: 124px !important;
+        padding-top: 94px !important;
+    }
+
+    body:has(.page-wrapper) {
+        padding-top: 0 !important;
     }
 
     .modal-overlay {
@@ -1331,4 +1339,3 @@ button, a, input, select, textarea {
         min-height: 42px;
     }
 }
-
