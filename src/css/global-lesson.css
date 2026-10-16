@@ -630,6 +630,24 @@ body {
     stroke-linejoin: round;
 }
 
+
+/* Match terminal output text to the Mac code window font size on mobile. */
+@media (max-width: 820px) {
+    .mac-code-window .mac-output-drawer .output-body,
+    .quiz-mac-window .mac-output-drawer .output-body {
+        font-size: 0.70rem !important;
+        line-height: 1.5 !important;
+        font-family: Consolas, "Cascadia Code", "SFMono-Regular", Menlo, monospace !important;
+    }
+}
+@media (max-width: 480px) {
+    .mac-code-window .mac-output-drawer .output-body,
+    .quiz-mac-window .mac-output-drawer .output-body {
+        font-size: 0.70rem !important;
+        line-height: 1.45 !important;
+    }
+}
+
 /* Compact Mac-style code window header on mobile screens. */
 @media (max-width: 820px) {
     .mac-code-window .mac-header,
