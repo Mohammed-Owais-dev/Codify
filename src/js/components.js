@@ -185,19 +185,19 @@ document.getElementById('footer-placeholder').innerHTML = `
                     <div class="popover-header">Core Engineers</div>
                     <ul class="team-list">
                         <li class="team-member interactive" onclick="openEngineerModal('owais')" style="font-weight: 700;">
-                            <span class="member-dot"></span>Mohammed Owais <span class="student-id">(24030-CM-193)</span>
+                            <span class="member-dot"></span><span class="member-name">Mohammed Owais</span> <span class="student-id">(24030-CM-193)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span>M. Dhanush <span class="student-id">(24030-CM-189)</span>
+                            <span class="member-dot"></span><span class="member-name">M. Dhanush</span> <span class="student-id">(24030-CM-189)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('feroz')">
-                            <span class="member-dot"></span>MD. Feroz Basha <span class="student-id">(24030-CM-190)</span>
+                            <span class="member-dot"></span><span class="member-name">MD. Feroz Basha</span> <span class="student-id">(24030-CM-190)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('basha')">
-                            <span class="member-dot"></span>M. Basha <span class="student-id">(24030-CM-189)</span>
+                            <span class="member-dot"></span><span class="member-name">M. Basha</span> <span class="student-id">(24030-CM-189)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('prasad')">
-                            <span class="member-dot"></span>M. Prasad <span class="student-id">(24030-CM-196)</span>
+                            <span class="member-dot"></span><span class="member-name">M. Prasad</span> <span class="student-id">(24030-CM-196)</span>
                         </li>
                     </ul>
                 </div>
