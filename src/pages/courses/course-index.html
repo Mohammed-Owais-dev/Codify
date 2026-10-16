@@ -18,8 +18,8 @@
 
     <style>
         body {
-            min-width: 1280px !important;
-            overflow-x: auto !important;
+            min-width: 0 !important;
+            overflow-x: hidden !important;
             font-family: 'Nunito', sans-serif;
             background-color: #0a0f1c;
             color: #e0e6ed;
@@ -207,6 +207,27 @@
             color: #ffffff;
             transform: translateY(-2px);
         }
+    
+        @media (max-width: 900px) {
+            main { margin-top: 104px !important; padding: 16px 16px 48px !important; }
+            .index-title { font-size: clamp(1.8rem, 5.5vw, 2.2rem); line-height: 1.25; }
+            .progress-card { padding: 20px; }
+            .topic-item { padding: 14px 16px; }
+        }
+        @media (max-width: 560px) {
+            main { margin-top: 112px !important; padding: 12px 12px 36px !important; }
+            .back-courses-btn { min-height: 44px; margin-bottom: 16px; }
+            .index-title { font-size: 1.65rem; margin: 8px 0 18px; }
+            .progress-card { padding: 16px; border-radius: 16px !important; margin-bottom: 20px !important; }
+            .progress-top { align-items: flex-start; gap: 12px; flex-direction: column; }
+            .progress-metrics { flex-wrap: wrap; gap: 8px !important; }
+            .chapter-card { border-radius: 16px !important; margin-bottom: 16px !important; }
+            .chapter-header { padding: 15px 16px; font-size: 1rem; line-height: 1.4; }
+            .topic-item { align-items: flex-start !important; flex-direction: column; gap: 8px; padding: 14px 16px; }
+            .topic-link { font-size: .96rem; line-height: 1.5; overflow-wrap: anywhere; }
+            .status-pill { align-self: flex-start; }
+        }
+
     </style>
 </head>
 
