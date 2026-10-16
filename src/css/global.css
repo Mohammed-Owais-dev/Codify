@@ -912,6 +912,12 @@ button, a, input, select, textarea {
         display: block;
         order: 4;
         width: 100%;
+        position: relative !important;
+        z-index: 100000 !important;
+    }
+    .codify-main-header {
+        position: fixed !important;
+        z-index: 99999 !important;
     }
     .codify-nav-links {
         display: none;
