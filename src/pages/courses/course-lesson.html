@@ -516,7 +516,7 @@
                         const nextLang = nextCode ? nextCode.className.toLowerCase() : '';
                         if (nextLang.includes('output') || nextLang.includes('console')) {
                             staticOutputText = (nextCode ? nextCode.textContent : nextSibling.textContent)
-                                .replace(/^\\n+|\\n+$/g, '');
+                                .replace(/^\n+|\n+$/g, '');
                             nextSibling.style.display = 'none';
                         }
                         // Whether it is output or source code, do not scan past this code block.
