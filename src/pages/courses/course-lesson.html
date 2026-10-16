@@ -704,7 +704,7 @@
 
         // Parse both Codify checkbox bullet styles: * [x] and - [x].
         function compileMarkdownQuiz(markdownText) {
-            const quizMatch = markdownText.match(/(?:##|###)\\s*(?:Topic\\s+Quiz|Quiz)[\\s\\S]*$/i);
+            const quizMatch = markdownText.match(/(?:##|###)\s*(?:Topic\s+Quiz|Quiz)[\s\S]*$/i);
             const mount = document.getElementById('dynamicQuizMount');
             if (!quizMatch || !mount) {
                 if (mount) mount.innerHTML = '';
@@ -713,91 +713,48 @@
 
             const quizRawBlock = quizMatch[0];
             const cleanMarkdown = markdownText.replace(quizRawBlock, '');
-            const questionBlocks = quizRawBlock.split(/\\r?\\n(?=\\d+\\.\\s+)/).slice(1);
+            const questionBlocks = quizRawBlock.split(/\r?\n(?=\d+\.\s+)/).slice(1);
             if (!questionBlocks.length) {
                 mount.innerHTML = '';
                 return cleanMarkdown;
             }
 
-            // Convert Markdown/HTML option content to rendered inline HTML, then
-            // inspect its visible text so tag-only or entity-only choices are skipped.
-            const parseVisibleOption = rawText => {
-                const source = rawText
-                    .replace(/<!--[\\s\\S]*?-->/g, '')
-                    .replace(/\\x60([^\\x60]+)\\x60/g, '<code>$1</code>')
-                    .trim();
-                if (!source) return null;
-
-                const rendered = window.marked
-                    ? marked.parseInline(source)
-                    : source;
-                const probe = document.createElement('span');
-                probe.innerHTML = rendered;
-                const visibleText = (probe.textContent || '')
-                    .replace(/\\u00a0/g, ' ')
-                    .replace(/[\\u200B-\\u200D\\uFEFF]/g, '')
-                    .replace(/\\s+/g, ' ')
-                    .trim();
-
-                // Ignore choices that contain only markup, whitespace, or separators.
-                if (!visibleText || !/[\\p{L}\\p{N}]/u.test(visibleText)) return null;
-                return { html: rendered, text: visibleText };
-            };
-
-            const validQuestions = [];
-            questionBlocks.forEach(qBlock => {
-                const firstOptionIndex = qBlock.search(/\\r?\\n\\s*[*-]\\s*\\[[ x]\\]/i);
-                const promptSource = firstOptionIndex >= 0
-                    ? qBlock.substring(0, firstOptionIndex)
-                    : qBlock;
-                const promptText = promptSource
-                    .replace(/^\\d+\\.\\s*/, '')
-                    .replace(/<!--[\\s\\S]*?-->/g, '')
-                    .trim();
-
-                const promptProbe = document.createElement('span');
-                promptProbe.innerHTML = window.marked ? marked.parseInline(promptText) : promptText;
-                const promptVisibleText = (promptProbe.textContent || '').replace(/\\s+/g, ' ').trim();
-                if (!promptVisibleText) return;
-
-                const rawOptionsStr = firstOptionIndex >= 0 ? qBlock.substring(firstOptionIndex).trim() : '';
-                const optionLines = rawOptionsStr.split(/\\r?\\n/)
-                    .map(line => line.trim())
-                    .filter(line => /^[*-]\\s*\\[[ x]\\]\\s*/i.test(line));
-
-                const options = optionLines.map(line => {
-                    const isCorrect = /^[*-]\\s*\\[x\\]/i.test(line);
-                    const rawText = line.replace(/^[*-]\\s*\\[[ x]\\]\\s*/i, '').trim();
-                    const parsed = parseVisibleOption(rawText);
-                    return parsed ? { isCorrect, ...parsed } : null;
-                }).filter(Boolean);
-
-                // A question with fewer than two real choices is malformed; don't show it.
-                if (options.length < 2) return;
-                validQuestions.push({ promptText, options });
-            });
-
-            if (!validQuestions.length) {
-                mount.innerHTML = '';
-                return cleanMarkdown;
-            }
-
             let quizHTML = '<div class="interactive-quiz-container">';
-            validQuestions.forEach((question, idx) => {
-                const promptHtml = window.marked
-                    ? marked.parseInline(question.promptText.replace(/\\x60([^\\x60]+)\\x60/g, '<code>$1</code>'))
-                    : question.promptText;
+            questionBlocks.forEach((qBlock, idx) => {
+                const firstOptionIndex = qBlock.search(/\r?\n\s*[*-]\s*\[[ x]\]/i);
+                const promptSource = firstOptionIndex >= 0 ? qBlock.substring(0, firstOptionIndex) : qBlock;
+                const rawPrompt = promptSource.replace(/^\d+\.\s+/, '').trim()
+                    .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
+                const rawOptionsStr = firstOptionIndex >= 0 ? qBlock.substring(firstOptionIndex).trim() : '';
+                const optionLines = rawOptionsStr.split(/\r?\n/)
+                    .map(line => line.trim())
+                    .filter(line => /^[*-]\s*\[[ x]\]\s*/i.test(line));
 
                 quizHTML += '<div class="quiz-question-block ' + (idx === 0 ? 'active-question' : '') + '" id="qb-' + (idx + 1) + '">' +
-                    '<div class="quiz-header"><span class="quiz-tracker">Question ' + (idx + 1) + ' of ' + validQuestions.length + '</span></div>' +
-                    '<div class="quiz-prompt">' + promptHtml + '</div><div class="quiz-options">';
+                    '<div class="quiz-header"><span class="quiz-tracker">Question ' + (idx + 1) + ' of ' + questionBlocks.length + '</span></div>' +
+                    '<div class="quiz-prompt">' + rawPrompt + '</div><div class="quiz-options">';
 
-                question.options.forEach(option => {
-                    quizHTML += '<button type="button" class="q-option" data-correct="' + option.isCorrect + '" onclick="handleAnswer(this, ' + option.isCorrect + ', ' + (idx + 1) + ')">' + option.html + '</button>';
+                optionLines.forEach(opt => {
+                    const isCorrect = /^[*-]\s*\[x\]/i.test(opt);
+                    const optText = opt.replace(/^[*-]\s*\[[ x]\]\s*/i, '').trim()
+                        .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
+                    if (optText) {
+                        // Keep the original quiz markup and flow, but skip options
+                        // whose HTML/Markdown contains no visible content.
+                        const optionProbe = document.createElement('span');
+                        optionProbe.innerHTML = optText;
+                        const visibleOptionText = (optionProbe.textContent || '')
+                            .replace(/\u00a0/g, ' ')
+                            .replace(/[\u200B-\u200D\uFEFF]/g, '')
+                            .trim();
+                        if (visibleOptionText) {
+                            quizHTML += '<button type="button" class="q-option" data-correct="' + isCorrect + '" onclick="handleAnswer(this, ' + isCorrect + ', ' + (idx + 1) + ')">' + optText + '</button>';
+                        }
+                    }
                 });
 
-                const isLastQuestion = idx === validQuestions.length - 1;
-                const nextAction = isLastQuestion ? 'finishQuiz(' + validQuestions.length + ')' : 'nextQuestion(' + (idx + 1) + ')';
+                const isLastQuestion = idx === questionBlocks.length - 1;
+                const nextAction = isLastQuestion ? 'finishQuiz(' + questionBlocks.length + ')' : 'nextQuestion(' + (idx + 1) + ')';
                 const btnLabel = isLastQuestion ? 'Finish Quiz ➔' : 'Next Question ➔';
                 quizHTML += '</div><p class="quiz-answer-feedback" aria-live="polite" hidden></p>' +
                     '<button type="button" class="next-question-btn" id="next-' + (idx + 1) + '" onclick="' + nextAction + '">' + btnLabel + '</button></div>';
