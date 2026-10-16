@@ -739,17 +739,7 @@
                     const optText = opt.replace(/^[*-]\s*\[[ x]\]\s*/i, '').trim()
                         .replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
                     if (optText) {
-                        // Keep the original quiz markup and flow, but skip options
-                        // whose HTML/Markdown contains no visible content.
-                        const optionProbe = document.createElement('span');
-                        optionProbe.innerHTML = optText;
-                        const visibleOptionText = (optionProbe.textContent || '')
-                            .replace(/\u00a0/g, ' ')
-                            .replace(/[\u200B-\u200D\uFEFF]/g, '')
-                            .trim();
-                        if (visibleOptionText) {
-                            quizHTML += '<button type="button" class="q-option" data-correct="' + isCorrect + '" onclick="handleAnswer(this, ' + isCorrect + ', ' + (idx + 1) + ')">' + optText + '</button>';
-                        }
+                        quizHTML += '<button type="button" class="q-option" data-correct="' + isCorrect + '" onclick="handleAnswer(this, ' + isCorrect + ', ' + (idx + 1) + ')">' + optText + '</button>';
                     }
                 });
 
