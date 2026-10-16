@@ -228,7 +228,16 @@
             .status-pill { align-self: flex-start; }
         }
 
-    </style>
+    
+        /* Mobile spacing polish: move the syllabus up while keeping it clear of the navbar. */
+        @media (max-width: 900px) {
+            main { margin-top: 92px !important; }
+        }
+        @media (max-width: 560px) {
+            main { margin-top: 96px !important; padding: 10px 12px 32px !important; }
+            .index-title { margin-top: 4px !important; }
+        }
+</style>
 </head>
 
 <body>
