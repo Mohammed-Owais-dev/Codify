@@ -662,12 +662,12 @@
                             // Send clicked links out of the sandboxed preview to the real Codify page.
                             // Also update the old HTML course-index URL to the current clean route.
                             let previewHtml = rawCode.replace(
-                                /https?:\\/\\/learn-codify\\.vercel\\.app\\/courses\\/html\\/courses\\.html/gi,
+                                /https?:\/\/learn-codify\.vercel\.app\/courses\/html\/courses\.html/gi,
                                 'https://learn-codify.vercel.app/courses/html'
                             );
                             const previewBase = '<base target="_top">';
-                            if (/<head\\b[^>]*>/i.test(previewHtml)) {
-                                previewHtml = previewHtml.replace(/<head\\b[^>]*>/i, head => head + '\\n' + previewBase);
+                            if (/<head\b[^>]*>/i.test(previewHtml)) {
+                                previewHtml = previewHtml.replace(/<head\b[^>]*>/i, head => head + '\n' + previewBase);
                             } else {
                                 previewHtml = '<!doctype html><html><head>' + previewBase + '</head><body>' + previewHtml + '</body></html>';
                             }
