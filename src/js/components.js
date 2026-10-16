@@ -54,7 +54,9 @@ document.getElementById('navbar-placeholder').innerHTML = `
                 </div>
             </div>
 
-            <nav class="codify-center-nav" aria-label="Main navigation menu">
+            <button class="codify-mobile-menu-toggle" id="codifyMobileMenuToggle" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
+
+            <nav class="codify-center-nav" id="codifyCenterNav" aria-label="Main navigation menu">
                 <ul class="codify-nav-links" id="navLinks">
                     <li><a href="/" class="${currentPath === '/' || currentPath === '/index.html' ? 'active-link' : ''}">Home</a></li>
                     <li><a href="/courses" class="${currentPath.startsWith('/courses') ? 'active-link' : ''}">Courses</a></li>
@@ -99,6 +101,33 @@ document.getElementById('navbar-placeholder').innerHTML = `
         </div>
     </header>
 `;
+
+// Accessible mobile navigation toggle
+const mobileMenuToggle = document.getElementById('codifyMobileMenuToggle');
+const mainHeader = document.querySelector('.codify-main-header');
+if (mobileMenuToggle && mainHeader) {
+    mobileMenuToggle.addEventListener('click', () => {
+        const isOpen = mainHeader.classList.toggle('mobile-nav-open');
+        mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+        mobileMenuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+    });
+
+    document.querySelectorAll('#navLinks a').forEach(link => {
+        link.addEventListener('click', () => {
+            mainHeader.classList.remove('mobile-nav-open');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            mobileMenuToggle.setAttribute('aria-label', 'Open navigation menu');
+        });
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            mainHeader.classList.remove('mobile-nav-open');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            mobileMenuToggle.setAttribute('aria-label', 'Open navigation menu');
+        }
+    });
+}
 
 // Inject custom cyberpunk scrollbar & badge styling dynamically
 const cyberScrollStyle = document.createElement('style');
