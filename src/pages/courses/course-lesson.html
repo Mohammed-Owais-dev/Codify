@@ -118,6 +118,53 @@
             padding: 0;
         }
 
+        .html-live-preview {
+            border-top: 1px solid #30363d;
+            background: #fff;
+        }
+
+        .html-live-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 9px 14px;
+            background: #161b22;
+            color: #c9d1d9;
+            border-bottom: 1px solid #30363d;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .html-live-preview-hint {
+            color: #8b949e;
+            font-size: 0.75rem;
+            font-weight: 400;
+        }
+
+        .html-live-preview-resize {
+            height: 220px;
+            min-height: 140px;
+            max-height: 520px;
+            resize: vertical;
+            overflow: auto;
+            background: #fff;
+        }
+
+        .html-live-preview-frame {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 140px;
+            border: 0;
+            background: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .html-live-preview-resize { height: 190px; }
+            .html-live-preview-hint { display: none; }
+        }
+
         .mac-code-window .mac-body pre,
         .mac-code-window .mac-body pre code,
         .mac-code-window .mac-body code,
@@ -560,11 +607,27 @@
                         </div>
                     </div>
                     <div class="mac-body"><pre><code class="language-${lang}"></code></pre></div>
+                    ${lang === 'html' ? `
+                    <section class="html-live-preview" aria-label="Live HTML output">
+                        <div class="html-live-preview-header">
+                            <span>Live Preview</span>
+                            <span class="html-live-preview-hint">Actual browser rendering · Resize vertically</span>
+                        </div>
+                        <div class="html-live-preview-resize">
+                            <iframe class="html-live-preview-frame" title="Rendered HTML example" sandbox="allow-scripts allow-forms"></iframe>
+                        </div>
+                    </section>` : `
                     <div class="mac-output-drawer">
                         <div class="output-header"><span><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="m13 2-3 8h7l-6 12 2-9H6l7-11Z"/></svg>Terminal Output</span></div>
                         <pre class="output-body">${staticOutputText}</pre>
-                    </div>
+                    </div>`}
                 `;
+
+                const livePreviewFrame = macWindow.querySelector('.html-live-preview-frame');
+                if (livePreviewFrame) {
+                    // srcdoc renders the actual HTML example in an isolated browsing context.
+                    livePreviewFrame.srcdoc = rawCode;
+                }
 
                 const copyBtn = macWindow.querySelector('.btn-copy');
                 if (copyBtn) {
