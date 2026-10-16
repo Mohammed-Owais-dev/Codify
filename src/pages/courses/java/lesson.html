@@ -547,6 +547,7 @@
                 // "Output:" heading/label appears between them. Never cross another code block.
                 let staticOutputText = "No sample output provided.";
                 let nextSibling = pre.nextElementSibling;
+                let outputLabelElement = null;
 
                 while (nextSibling) {
                     if (nextSibling.tagName === 'PRE') {
@@ -556,6 +557,7 @@
                             staticOutputText = (nextCode ? nextCode.textContent : nextSibling.textContent)
                                 .replace(/^\n+|\n+$/g, '');
                             nextSibling.style.display = 'none';
+                            if (outputLabelElement) outputLabelElement.style.display = 'none';
                         }
                         break;
                     }
@@ -563,6 +565,7 @@
                     const siblingText = (nextSibling.textContent || '').trim();
                     const isOutputLabel = /^(?:(?:sample|expected)\s+)?output\s*:?$/i.test(siblingText);
                     if (!siblingText || isOutputLabel) {
+                        if (isOutputLabel) outputLabelElement = nextSibling;
                         nextSibling = nextSibling.nextElementSibling;
                         continue;
                     }
