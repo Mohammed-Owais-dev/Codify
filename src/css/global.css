@@ -1463,13 +1463,13 @@ button, a, input, select, textarea {
 /* Extend the same mobile type scale to code-window chrome and data tables. */
 @media (max-width: 820px) {
     body :is(.mac-header, .mac-title, .mac-code-window, .quiz-mac-window, .quiz-mac-window *, .modern-table th, .modern-table td, .table-container, table, table th, table td) {
-        font-size: .875rem !important;
+        font-size: .86rem !important;
         line-height: 1.5 !important;
     }
 }
 @media (max-width: 480px) {
     body :is(.mac-header, .mac-title, .mac-code-window, .quiz-mac-window, .quiz-mac-window *, .modern-table th, .modern-table td, .table-container, table, table th, table td) {
-        font-size: .82rem !important;
+        font-size: .86rem !important;
         line-height: 1.45 !important;
     }
 }
