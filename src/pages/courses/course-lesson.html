@@ -384,7 +384,60 @@
 .quiz-completion.active {
     display: block;
 }
-    </style>
+    
+        /* Final mobile layout pass: keep the breadcrumb below the two-row navbar
+           and place lesson content immediately after it. */
+        @media (max-width: 900px) {
+            .codify-breadcrumb-bar {
+                top: 94px !important;
+                height: 42px !important;
+                padding: 0 12px !important;
+                background: rgba(8, 14, 27, 0.97) !important;
+                border-bottom: 1px solid rgba(56, 189, 248, 0.24) !important;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+            }
+            .breadcrumb-sidebar-trigger {
+                width: 34px !important;
+                height: 34px !important;
+                justify-content: center !important;
+                flex-shrink: 0 !important;
+                border: 1px solid rgba(56, 189, 248, 0.22) !important;
+                background: rgba(0, 170, 255, 0.08) !important;
+                border-radius: 10px !important;
+            }
+            .breadcrumb-vertical-divider { margin: 0 10px !important; height: 22px !important; }
+            .codify-breadcrumbs {
+                min-width: 0 !important;
+                max-width: calc(100vw - 76px) !important;
+                gap: 6px !important;
+                font-size: 0.8rem !important;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
+            .codify-breadcrumbs::-webkit-scrollbar { display: none; }
+            .codify-breadcrumbs li { flex-shrink: 0; }
+            .codify-breadcrumbs .current-crumb {
+                display: block;
+                max-width: 42vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .page-wrapper { margin-top: 136px !important; }
+            .sidebar-nav {
+                top: 136px !important;
+                height: calc(100dvh - 136px) !important;
+            }
+            .content-workspace,
+            .page-wrapper.sidebar-is-collapsed .content-workspace {
+                padding: 10px 10px 24px !important;
+            }
+        }
+        @media (max-width: 600px) {
+            .codify-breadcrumb-bar { top: 94px !important; height: 42px !important; }
+            .page-wrapper { margin-top: 136px !important; }
+            .sidebar-nav { top: 136px !important; height: calc(100dvh - 136px) !important; }
+        }
+</style>
 </head>
 
 <body>
