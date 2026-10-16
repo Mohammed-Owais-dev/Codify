@@ -120,6 +120,14 @@ if (mobileMenuToggle && mainHeader) {
         });
     });
 
+    document.addEventListener('click', event => {
+        if (mainHeader.classList.contains('mobile-nav-open') && !mainHeader.contains(event.target)) {
+            mainHeader.classList.remove('mobile-nav-open');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            mobileMenuToggle.setAttribute('aria-label', 'Open navigation menu');
+        }
+    });
+
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
             mainHeader.classList.remove('mobile-nav-open');
