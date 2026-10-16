@@ -707,17 +707,6 @@
             btn.classList.add(isCorrect ? 'correct' : 'incorrect');
             if (!isCorrect && correctBtn) correctBtn.classList.add('correct');
 
-            const feedback = questionBlock.querySelector('.quiz-answer-feedback');
-            if (feedback) {
-                feedback.hidden = false;
-                feedback.textContent = isCorrect
-                    ? 'Correct! Well done.'
-                    : 'Incorrect. Correct answer: ' + (correctBtn ? correctBtn.textContent.trim() : 'not found in this question');
-                feedback.style.color = isCorrect ? '#56d364' : '#ff7b72';
-                feedback.style.fontWeight = '700';
-                feedback.style.marginTop = '14px';
-            }
-
             const nextBtn = document.getElementById('next-' + qNum);
             if (nextBtn) nextBtn.style.display = 'block';
         };
