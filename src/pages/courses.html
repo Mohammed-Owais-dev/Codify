@@ -307,7 +307,16 @@
             .btn-course-view, .btn-course-enroll, .btn-continue-learning { min-height: 44px; }
         }
 
-    </style>
+    
+        /* Mobile spacing polish: reduce the blank area beneath the fixed navbar. */
+        @media (max-width: 900px) {
+            main { margin-top: 92px !important; }
+        }
+        @media (max-width: 560px) {
+            main { margin-top: 96px !important; padding: 0 12px !important; }
+            .hero-section { margin-top: 10px !important; }
+        }
+</style>
 </head>
 
 <body>
