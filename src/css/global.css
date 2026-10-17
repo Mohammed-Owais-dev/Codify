@@ -73,6 +73,11 @@ html {
     height: 32px;
 }
 
+.logo-text {
+    font-size: 1.62rem;
+    line-height: 1.1;
+}
+
 
 
 .codify-logo:hover {
@@ -587,12 +592,13 @@ html {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(5, 10, 20, 0.85);
-    backdrop-filter: blur(10px);
+    background: rgba(5, 10, 20, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 100000;
     padding: 20px;
     box-sizing: border-box;
     opacity: 0;
