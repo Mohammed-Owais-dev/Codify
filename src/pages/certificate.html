@@ -6,7 +6,7 @@
 <meta name="description" content="View, verify and download your Codify course certificates.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
 <link rel="stylesheet" href="/src/css/global.css">
 <title>Certificate | Codify</title>
@@ -30,34 +30,46 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 
 /* certificate: designed at 1123x794 (A4 landscape), scaled to fit the screen */
 #fit{width:100%;max-width:1123px;margin:0 auto;overflow:hidden}
-#cert{width:1123px;height:794px;transform-origin:top left;position:relative;overflow:hidden;text-align:center;
-  background:radial-gradient(circle at 50% 0,#12264a 0,#0a0f1c 65%);color:#e0e6ed;border-radius:6px}
-#cert:before{content:"";position:absolute;inset:18px;border:2px solid rgba(0,170,255,.55);border-radius:4px}
-#cert:after{content:"";position:absolute;inset:30px;border:1px solid rgba(0,170,255,.22);border-radius:2px}
-.in{position:absolute;inset:60px 90px;display:flex;flex-direction:column;align-items:center;z-index:1}
-.logo{display:flex;align-items:center;gap:12px;font-size:30px;font-weight:900;color:#fff;margin-top:6px}
-.logo img{width:46px;height:46px}
-.kicker{margin-top:34px;font-size:15px;font-weight:700;letter-spacing:6px;color:#00aaff}
-.title{font-size:60px;font-weight:900;color:#fff;margin:8px 0 0;line-height:1.1}
-.line{color:#94a3b8;font-size:19px;margin-top:30px}
-.name{font-size:62px;font-weight:800;margin:10px 0 6px;padding:0 40px 8px;border-bottom:2px solid rgba(0,170,255,.5);
-  background:linear-gradient(90deg,#4da3ff,#00d0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;max-width:100%;overflow-wrap:anywhere}
-.course{font-size:30px;font-weight:800;color:#fff;margin-top:6px}
-.meta{font-size:18px;color:#94a3b8;margin-top:10px}
-.foot{margin-top:auto;width:100%;display:flex;justify-content:space-between;align-items:flex-end;text-align:left}
-.foot div small{display:block;color:#64748b;font-size:12px;letter-spacing:2px;font-weight:700}
-.foot div b{font-size:18px;color:#e0e6ed}
-.sign{border-top:1px solid #475569;padding-top:6px;min-width:200px}
-.qr{background:#fff;padding:6px;border-radius:8px;line-height:0}
-.qrbox{text-align:center!important}
-.qrbox small{margin-top:6px}
+#cert{width:1123px;height:794px;transform-origin:top left;position:relative;overflow:hidden;text-align:center;color:#0a1a3a;border-radius:2px;
+  background:repeating-linear-gradient(135deg,rgba(0,119,255,.035) 0 2px,transparent 2px 14px),radial-gradient(circle at 50% 45%,#fff 0,#f1f6fd 100%)}
+.bd1{position:absolute;inset:16px;border:10px solid #0a1a3a}
+.bd2{position:absolute;inset:34px;border:2px solid #0077ff}
+.bd3{position:absolute;inset:42px;border:1px solid rgba(10,26,58,.3)}
+.dia{position:absolute;width:26px;height:26px;background:#0077ff;border:4px solid #fff;transform:rotate(45deg)}
+.in{position:absolute;inset:60px 84px 54px;display:flex;flex-direction:column;align-items:center}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Playfair Display',serif;font-weight:800;font-size:26px;letter-spacing:7px}
+.brand img{width:40px;height:40px}
+.h1{font-family:'Playfair Display',serif;font-weight:800;font-size:56px;letter-spacing:11px;margin-top:14px;line-height:1.1}
+.h2{display:flex;align-items:center;gap:18px;font-weight:800;font-size:16px;letter-spacing:8px;color:#0077ff;margin-top:4px}
+.h2:before,.h2:after{content:"";width:90px;height:2px;background:#0077ff}
+.pre{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;color:#475569;margin-top:22px}
+.name{font-family:'Great Vibes',cursive;font-size:78px;line-height:1.15;margin-top:2px;padding:0 50px;min-width:560px;max-width:100%;border-bottom:2px solid #0a1a3a;overflow-wrap:anywhere}
+.ids{display:flex;gap:26px;justify-content:center;font-size:15px;color:#334155;margin-top:12px;flex-wrap:wrap}
+.ids b{color:#0a1a3a}
+.body{font-size:18px;color:#475569;margin-top:20px}
+.course{font-family:'Playfair Display',serif;font-weight:700;font-size:32px;color:#0a1a3a;margin-top:4px}
+.score{font-size:18px;color:#475569;margin-top:6px}.score b{color:#0077ff;font-size:21px}
+.foot{position:absolute;left:0;right:0;bottom:30px;display:grid;grid-template-columns:1fr 150px 1fr;align-items:end}
+.foot small{display:block;color:#64748b;font-size:11px;font-weight:800;letter-spacing:2px;margin-top:6px}
+.qrbox{justify-self:start;text-align:center}
+.qr{display:inline-block;background:#fff;padding:6px;border:1px solid rgba(10,26,58,.25);border-radius:6px;line-height:0}
+.sg{justify-self:end;display:grid;gap:18px;width:250px;text-align:center}
+.sg .ln{border-bottom:1px solid #0a1a3a;padding-bottom:4px;font-weight:800;font-size:17px;min-height:30px}
+.sg .sig{font-family:'Great Vibes',cursive;font-size:38px;font-weight:400;line-height:1}
+.cid{position:absolute;bottom:50px;left:0;right:0;font-size:12px;letter-spacing:1.5px;color:#64748b;text-align:center}
+.cid b{color:#0a1a3a}
 
 .state{max-width:560px;margin:40px auto;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:20px;padding:34px}
+.verify{max-width:620px;margin:0 auto 38px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.25);border-radius:20px;padding:24px;backdrop-filter:blur(16px)}
+.verify h3{margin:0 0 4px;color:#fff;font-size:1.2rem}.verify p{margin:0 0 14px;color:#94a3b8;font-size:.9rem}
+.vrow{display:flex;gap:10px}.vrow input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px}
+.vmsg{margin-top:12px;font-size:.9rem;color:#94a3b8;min-height:1.2em}.vmsg.bad{color:#f87171}
+.sec{font-size:1.3rem;color:#fff;margin:0 0 16px}
 .list{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;text-align:left}
 .card{display:block;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:18px;padding:20px;text-decoration:none;color:inherit;transition:.3s}
 .card:hover{border-color:rgba(0,170,255,.6);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,170,255,.2)}
 .card h3{margin:0 0 6px;color:#fff}.card p{margin:0;color:#94a3b8;font-size:.88rem}
-@media(max-width:600px){main{margin-top:40px!important;padding:0 10px 50px}h1.t{font-size:1.7rem}}
+@media(max-width:600px){.vrow{flex-direction:column}main{margin-top:40px!important;padding:0 10px 50px}h1.t{font-size:1.7rem}}
 </style>
 </head>
 <body>
@@ -85,9 +97,27 @@ const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month
 const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
 const txt = (node, sel, v) => { node.querySelector(sel).textContent = v; };
 
+function verifyBox() {
+  const box = el(`<form class="verify" autocomplete="off"><h3>Verify a certificate</h3>
+    <p>Enter the certificate ID, or scan the QR code printed on the certificate.</p>
+    <div class="vrow"><input type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" aria-label="Certificate ID"><button class="btn" type="submit">Verify</button></div>
+    <div class="vmsg" role="alert"></div></form>`);
+  const msg = box.querySelector('.vmsg'), inp = box.querySelector('input');
+  box.onsubmit = async e => {
+    e.preventDefault(); msg.className = 'vmsg';
+    const m = inp.value.match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i);       // also accepts a pasted certificate link
+    if (!m) { msg.textContent = 'Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.'; msg.classList.add('bad'); return; }
+    const id = m[0].toUpperCase(); msg.textContent = 'Checking…';
+    const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
+    if (error || !data?.length) { msg.textContent = `No certificate found with the ID ${id}.`; msg.classList.add('bad'); return; }
+    location.href = '/certificate?id=' + encodeURIComponent(id);
+  };
+  return box;
+}
+
 async function init() {
   const id = new URLSearchParams(location.search).get('id');
-  id ? await showCertificate(id.trim()) : await showList();
+  id ? await showCertificate(id.trim().toUpperCase()) : await showList();
 }
 
 /* ---- one certificate: anyone with the link can view and verify it ---- */
@@ -98,6 +128,7 @@ async function showCertificate(id) {
     view.replaceChildren(el(`<div><div class="hero-badge bad">Not found</div><h1 class="t">Certificate not found</h1>
       <p class="sub">We couldn't find a certificate with this ID. Check the link or QR code and try again.</p>
       <a class="btn ghost" href="/certificate">My certificates</a></div>`));
+    view.firstChild.append(el('<div style="margin-top:30px"></div>'), verifyBox());
     return;
   }
   const page = el(`<div>
@@ -106,26 +137,34 @@ async function showCertificate(id) {
     <p class="sub">This certificate was issued by Codify and is valid.</p>
     <div class="actions"><button class="btn" id="dl">Download PDF</button><a class="btn ghost" href="/certificate">My certificates</a></div>
     <div id="fit"><div id="cert">
+      <div class="bd1"></div><div class="bd2"></div><div class="bd3"></div>
+      <i class="dia" style="left:3px;top:3px"></i><i class="dia" style="right:3px;top:3px"></i><i class="dia" style="left:3px;bottom:3px"></i><i class="dia" style="right:3px;bottom:3px"></i>
       <div class="in">
-        <div class="logo"><img src="/src/assets/logos/main-logo.svg" alt="">Codify</div>
-        <div class="kicker">CERTIFICATE OF COMPLETION</div>
-        <div class="title">Well Done!</div>
-        <div class="line">This is to certify that</div>
+        <div class="brand"><img src="/src/assets/logos/main-logo.svg" alt="">CODIFY</div>
+        <div class="h1">CERTIFICATE</div>
+        <div class="h2">OF ACHIEVEMENT</div>
+        <div class="pre">This certificate is proudly presented to</div>
         <div class="name" id="cName"></div>
-        <div class="line" style="margin-top:14px">has successfully passed the exam for</div>
+        <div class="ids"><span>Username: <b id="cUser"></b></span><span>Email: <b id="cEmail"></b></span></div>
+        <div class="body">for successfully passing the</div>
         <div class="course" id="cCourse"></div>
-        <div class="meta" id="cMeta"></div>
+        <div class="score" id="cScore"></div>
         <div class="foot">
-          <div><small>ISSUED ON</small><b id="cDate"></b><br><br><small>CERTIFICATE ID</small><b id="cId"></b></div>
-          <div class="sign"><small>ISSUED BY</small><b>Codify</b></div>
           <div class="qrbox"><div class="qr" id="qr"></div><small>SCAN TO VERIFY</small></div>
+          <div><svg width="130" height="130" viewBox="0 0 130 130" style="margin:0 auto 6px"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00aaff"/><stop offset="1" stop-color="#0050c8"/></linearGradient><path id="cp" d="M65,65 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs><circle cx="65" cy="65" r="62" fill="none" stroke="#0a1a3a" stroke-width="5" stroke-dasharray="2 3.2"/><circle cx="65" cy="65" r="57" fill="url(#sg)"/><circle cx="65" cy="65" r="53" fill="none" stroke="#fff" stroke-width="1.3" opacity=".8"/><circle cx="65" cy="65" r="31" fill="none" stroke="#fff" stroke-width="1.3" opacity=".8"/><text font-family="Georgia,serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="1.7"><textPath href="#cp">CODIFY • CERTIFIED • VERIFIED •</textPath></text><path d="M52 66l9 9 17-19" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="sg"><div><div class="ln" id="cDate"></div><small>DATE OF ISSUE</small></div><div><div class="ln sig">Codify</div><small>AUTHORIZED SIGNATURE</small></div></div>
         </div>
+        <div class="cid">CERTIFICATE ID: <b id="cId"></b> &nbsp;·&nbsp; <span id="cUrl"></span></div>
       </div></div></div>
   </div>`);
   view.replaceChildren(page);
-  txt(page, '#cName', c.full_name); txt(page, '#cCourse', courseName(c.course_id));
-  txt(page, '#cMeta', `Score: ${Math.round(c.percentage)}%`); txt(page, '#cDate', fmt(c.issued_at)); txt(page, '#cId', id);
-  new QRCode($('#qr'), { text: `${location.origin}/certificate?id=${encodeURIComponent(id)}`, width: 96, height: 96, correctLevel: QRCode.CorrectLevel.M });
+  const nm = c.full_name || '-';
+  txt(page, '#cName', nm); $('#cName').style.fontSize = nm.length > 28 ? '48px' : nm.length > 20 ? '60px' : '78px';
+  txt(page, '#cUser', c.username ? '@' + c.username : '-'); txt(page, '#cEmail', c.email || '-');
+  txt(page, '#cCourse', courseName(c.course_id) + ' Examination');
+  $('#cScore').innerHTML = `with a score of <b>${Math.round(c.percentage)}%</b>`;
+  txt(page, '#cDate', fmt(c.issued_at)); txt(page, '#cId', id); txt(page, '#cUrl', location.host + '/certificate');
+  new QRCode($('#qr'), { text: `${location.origin}/certificate?id=${encodeURIComponent(id)}`, width: 112, height: 112, colorDark: '#0a1a3a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
   document.title = `${c.full_name} - ${courseName(c.course_id)} Certificate | Codify`;
 
   const fit = () => { const f = $('#fit'), k = Math.min(1, f.clientWidth / 1123); $('#cert').style.transform = `scale(${k})`; f.style.height = 794 * k + 'px'; };
@@ -134,10 +173,11 @@ async function showCertificate(id) {
   $('#dl').onclick = async e => {
     const b = e.target; b.disabled = true; b.textContent = 'Preparing PDF…';
     try {
+      await document.fonts.ready;
       const clone = $('#cert').cloneNode(true);       // capture at full size, not the scaled preview
       clone.style.cssText = 'position:fixed;left:-10000px;top:0;transform:none';
       document.body.appendChild(clone);
-      const canvas = await html2canvas(clone, { scale: 2, backgroundColor: '#0a0f1c', useCORS: true });
+      const canvas = await html2canvas(clone, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
       clone.remove();
       const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1123, 794] });
       pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 1123, 794);
@@ -147,26 +187,31 @@ async function showCertificate(id) {
   };
 }
 
-/* ---- no id: list the logged-in user's certificates ---- */
+/* ---- no id: certificate list (logged in) + public verify box ---- */
 async function showList() {
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.user) return location.replace('/login');
-  const { data } = await supabase.from('certificates').select('id, course_id, percentage, issued_at').order('issued_at', { ascending: false });
-  const wrap = el(`<div><div class="hero-badge">Achievements</div><h1 class="t">My <span>Certificates</span></h1>
-    <p class="sub">Pass a course exam with 50% or more to earn a certificate.</p><div class="list"></div></div>`);
-  const list = wrap.querySelector('.list');
-  if (!data?.length) {
+  const wrap = el(`<div><div class="hero-badge">Achievements</div><h1 class="t">Codify <span>Certificates</span></h1>
+    <p class="sub">Open the certificates you've earned, or verify any Codify certificate by its ID. Pass a course exam with 50% or more to earn one.</p></div>`);
+  wrap.append(verifyBox(), el('<h2 class="sec">My certificates</h2>'));
+  const list = el('<div class="list"></div>');
+  if (!session?.user) {
     list.style.display = 'block';
-    list.append(el(`<div class="state" style="text-align:center">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>`));
+    list.append(el('<div class="state">Log in to see your certificates.<br><br><a class="btn" href="/login">Log in</a></div>'));
+  } else {
+    const { data } = await supabase.from('certificates').select('id, course_id, percentage, issued_at').order('issued_at', { ascending: false });
+    if (!data?.length) {
+      list.style.display = 'block';
+      list.append(el('<div class="state">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
+    }
+    (data || []).forEach(c => {
+      const a = el('<a class="card"><h3></h3><p></p></a>');
+      a.href = '/certificate?id=' + encodeURIComponent(c.id);
+      a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
+      a.querySelector('p').textContent = `Score ${Math.round(c.percentage)}% · ${fmt(c.issued_at)}`;
+      list.append(a);
+    });
   }
-  (data || []).forEach(c => {
-    const a = el(`<a class="card"><h3></h3><p></p></a>`);
-    a.href = '/certificate?id=' + encodeURIComponent(c.id);
-    a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
-    a.querySelector('p').textContent = `Score ${Math.round(c.percentage)}% · ${fmt(c.issued_at)}`;
-    list.append(a);
-  });
-  view.replaceChildren(wrap);
+  wrap.append(list); view.replaceChildren(wrap);
 }
 
 init();
