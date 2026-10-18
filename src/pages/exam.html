@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Test your skills with course exams on Codify.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+    <link rel="stylesheet" href="/src/css/global.css">
+    <title>Exams | Codify</title>
+
+    <style>
+        body {
+            min-width: 0 !important;
+            overflow-x: hidden !important;
+            font-family: 'Nunito', sans-serif;
+            background-color: #0a0f1c;
+            color: #e0e6ed;
+            margin: 0;
+        }
+
+        /* Ensure proper spacing below the fixed navbar so content isn't hidden */
+        main {
+            display: block !important;
+            margin-top: 100px !important;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section {
+            display: block !important;
+            position: relative;
+            text-align: center;
+            max-width: 900px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+            z-index: 2;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 170, 255, 0.12);
+            border: 1px solid rgba(0, 170, 255, 0.35);
+            color: #00aaff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.25;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ==========================================================================
+           COURSE GRID CONFIGURATION (Max 4 Per Row)
+           ========================================================================== */
+        .courses-container {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 24px;
+            max-width: 1300px;
+            margin: 20px auto 80px auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .course-card {
+            background: rgba(13, 27, 42, 0.55) !important;
+            border: 1px solid rgba(0, 170, 255, 0.2) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease !important;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px) scale(1.02) !important;
+            border-color: rgba(0, 170, 255, 0.6) !important;
+            box-shadow: 0 15px 35px rgba(0, 170, 255, 0.25) !important;
+        }
+
+        .card-header {
+            padding: 30px 20px 10px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Removed circle container, added direct shadow around SVG */
+        .card-header img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            background: transparent;
+            border: none;
+            /* Remove box-shadow and use filter: drop-shadow for organic shape outlining */
+            box-shadow: none;
+            filter: drop-shadow(0 6px 12px rgba(0, 170, 255, 0.35));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .course-card:hover .card-header img {
+            transform: scale(1.08);
+            filter: drop-shadow(0 10px 18px rgba(0, 170, 255, 0.6));
+        }
+
+        .card-header h3 {
+            margin-top: 16px;
+            font-size: 1.25rem;
+            color: #e0e6ed;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .card-body {
+            padding: 15px 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .card-body p {
+            font-size: 0.9rem;
+            color: #cfd8dc;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .card-footer {
+            padding: 15px 20px 25px 20px;
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        /* Action Buttons */
+        .btn-course-view,
+        .btn-course-enroll,
+        .btn-continue-learning {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-course-view {
+            background: rgba(10, 15, 28, 0.6);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            color: #00aaff;
+        }
+
+        .btn-course-view:hover {
+            background: rgba(0, 170, 255, 0.1);
+            border-color: #00aaff;
+            color: #ffffff;
+        }
+
+        .btn-course-enroll {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25);
+        }
+
+        .btn-course-enroll:hover {
+            background: linear-gradient(90deg, #00aaff, #0077ff);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-continue-learning {
+            width: 100%;
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-continue-learning:hover {
+            background: linear-gradient(90deg, #00aaff, #0077ff);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Codify Theme Toast Notification */
+        .codify-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(13, 27, 42, 0.95);
+            border: 1px solid rgba(0, 170, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            color: #e0e6ed;
+            padding: 16px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .codify-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .codify-toast .toast-login-btn {
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: all 0.2s ease;
+        }
+
+        .codify-toast .toast-login-btn:hover {
+            background: linear-gradient(90deg, #00aaff, #0077ff);
+        }
+    
+        @media (max-width: 900px) {
+            main { margin-top: 104px !important; padding: 0 16px !important; }
+            .hero-section { margin: 18px auto 28px; padding: 0 12px; }
+            .hero-title { font-size: clamp(2rem, 6vw, 2.8rem); }
+            .hero-subtitle { font-size: 1rem; margin-bottom: 24px; }
+            .courses-container { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 16px; padding: 0 4px; margin-bottom: 48px; }
+            .course-card { min-width: 0; }
+            .card-header { gap: 12px; }
+            .card-footer { padding: 12px 14px 16px; }
+        }
+        @media (max-width: 560px) {
+            main { margin-top: 112px !important; padding: 0 12px !important; }
+            .hero-section { margin: 14px auto 22px; padding: 0 4px; }
+            .hero-badge { font-size: .78rem; padding: 7px 12px; margin-bottom: 16px; }
+            .hero-title { font-size: clamp(1.8rem, 8vw, 2.35rem); line-height: 1.18; margin-bottom: 12px; }
+            .hero-subtitle { font-size: .95rem; line-height: 1.65; margin-bottom: 20px; }
+            .courses-container { grid-template-columns: minmax(0, 1fr) !important; gap: 14px; padding: 0; margin-top: 12px; }
+            .course-card { border-radius: 16px !important; }
+            .card-header { padding: 18px 18px 12px; }
+            .card-body { padding: 0 18px 18px; }
+            .card-footer { gap: 10px; padding: 0 18px 18px; }
+            .btn-course-view, .btn-course-enroll, .btn-continue-learning { min-height: 44px; }
+        }
+
+    
+        /* Mobile spacing polish: reduce the blank area beneath the fixed navbar. */
+        @media (max-width: 900px) {
+            main { margin-top: 92px !important; }
+        }
+        @media (max-width: 560px) {
+            main { margin-top: 96px !important; padding: 0 12px !important; }
+            .hero-section { margin-top: 10px !important; }
+        }
+
+/* Final compact mobile course catalog spacing and readable cards */
+@media (max-width: 820px) { main { margin-top: 30px !important; } }
+@media (max-width: 560px) {
+    main { margin-top: 24px !important; padding: 0 12px 28px !important; }
+    .hero-section { margin: 8px auto 18px !important; }
+    .hero-title { font-size: clamp(1.75rem, 7.5vw, 2.2rem) !important; }
+    .course-card { min-width: 0 !important; }
+}
+
+
+/* Mobile typography scale for the course catalog */
+@media (max-width: 820px) {
+    .hero-title { font-size: clamp(1.55rem, 6.2vw, 1.9rem) !important; }
+    .hero-subtitle { font-size: .9rem !important; line-height: 1.55 !important; }
+    .hero-badge { font-size: .72rem !important; }
+    .course-card h3 { font-size: 1.05rem !important; }
+    .course-card p, .course-card .card-description { font-size: .86rem !important; line-height: 1.5 !important; }
+    .course-card button, .course-card a { font-size: .82rem !important; }
+}
+@media (max-width: 480px) {
+    .hero-title { font-size: 1.55rem !important; }
+    .hero-subtitle { font-size: .84rem !important; }
+    .course-card h3 { font-size: 1rem !important; }
+    .course-card p, .course-card .card-description { font-size: .82rem !important; }
+}
+
+
+        /* ---- Exams page additions ---- */
+        body.auth-pending main { visibility: hidden; }
+        .exam-meta {
+            display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+        }
+        .exam-tag {
+            font-size: .75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, .3); color: #94a3b8;
+        }
+        .exam-tag.enrolled {
+            color: #10b981; border-color: rgba(16, 185, 129, .45); background: rgba(16, 185, 129, .1);
+        }
+        .btn-start-exam {
+            width: 100%; padding: 10px 14px; border-radius: 12px; font-size: .9rem; font-weight: bold;
+            cursor: pointer; font-family: inherit; border: none; color: #fff;
+            background: linear-gradient(90deg, #0077ff, #00aaff);
+            box-shadow: 0 4px 15px rgba(0, 170, 255, .25); transition: all .25s ease;
+        }
+        .btn-start-exam:hover {
+            background: linear-gradient(90deg, #00aaff, #0077ff);
+            box-shadow: 0 6px 20px rgba(0, 170, 255, .4); transform: translateY(-1px);
+        }
+        .btn-start-exam.locked {
+            background: rgba(10, 15, 28, .6); border: 1px solid rgba(0, 170, 255, .3);
+            color: #00aaff; box-shadow: none;
+        }
+        .btn-start-exam.locked:hover { background: rgba(0, 170, 255, .1); color: #fff; }
+        .btn-start-exam:focus-visible, .codify-toast a:focus-visible { outline: 2px solid #00aaff; outline-offset: 2px; }
+        .codify-toast.error { border-color: rgba(255, 99, 99, .5); }
+    </style>
+
+<body class="auth-pending">
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <section class="hero-section" aria-labelledby="heroHeading">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 11l3 3L22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+                Certify Your Progress
+            </div>
+            <h1 class="hero-title" id="heroHeading">
+                Take Your <span>Exams</span>
+            </h1>
+            <p class="hero-subtitle">
+                Put your knowledge to the test. Exams unlock for the courses you are enrolled in.
+            </p>
+        </section>
+
+        <section id="exams" class="courses-container" aria-label="Available Exams">
+
+            <div class="course-card" data-course-id="c-101" data-exam="c" data-name="C">
+                <div class="card-header">
+                    <img src="/src/assets/logos/c.svg" alt="C exam">
+                    <h3>C Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Test your command of pointers, memory, arrays, and core C programming logic.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+            <div class="course-card" data-course-id="cpp-101" data-exam="cpp" data-name="C++ &amp; OOPs">
+                <div class="card-header">
+                    <img src="/src/assets/logos/cpp.svg" alt="C++ exam">
+                    <h3>C++ &amp; OOPs Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Prove your skills in classes, inheritance, templates, and the STL.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+            <div class="course-card" data-course-id="html-101" data-exam="html" data-name="HTML">
+                <div class="card-header">
+                    <img src="/src/assets/logos/html.svg" alt="HTML exam">
+                    <h3>HTML Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Check your grasp of document structure, semantic elements, and forms.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+            <div class="course-card" data-course-id="css-101" data-exam="css" data-name="CSS">
+                <div class="card-header">
+                    <img src="/src/assets/logos/css.svg" alt="CSS exam">
+                    <h3>CSS Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Challenge yourself on selectors, Flexbox, Grid, and responsive styling.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+            <div class="course-card" data-course-id="js-101" data-exam="js" data-name="JavaScript">
+                <div class="card-header">
+                    <img src="/src/assets/logos/javascript.svg" alt="JavaScript exam">
+                    <h3>JavaScript Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Test DOM manipulation, ES6+ features, and asynchronous code.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+            <div class="course-card" data-course-id="java-101" data-exam="java" data-name="Java">
+                <div class="card-header">
+                    <img src="/src/assets/logos/java.svg" alt="Java exam">
+                    <h3>Java Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Answer questions on OOP, collections, and exception handling in Java.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+            <div class="course-card" data-course-id="python-101" data-exam="python" data-name="Python">
+                <div class="card-header">
+                    <img src="/src/assets/logos/python.svg" alt="Python exam">
+                    <h3>Python Exam</h3>
+                    <div class="exam-meta"><span class="exam-tag">Checking…</span></div>
+                </div>
+                <div class="card-body">
+                    <p>Measure your knowledge of Python syntax, data structures, and functions.</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn-start-exam">Start Exam</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/src/js/components.js"></script>
+    <script src="/src/js/script.js"></script>
+
+    <script type="module">
+        import { supabase } from '/src/js/config/supabase-client.js';
+
+        let toastTimeout = null;
+
+        function showToast(message, linkHref, linkText) {
+            let toast = document.getElementById('codifyToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'codifyToast';
+                toast.className = 'codify-toast error';
+                toast.setAttribute('role', 'alert');
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span></span>
+                <a href="${linkHref}" class="toast-login-btn">${linkText}</a>`;
+            toast.querySelector('span').textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+            toast.onmouseenter = () => clearTimeout(toastTimeout);
+            toast.onmouseleave = () => { toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000); };
+        }
+
+        async function initExams() {
+            // Only logged-in users may view this page
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session?.user) {
+                window.location.replace('/login');
+                return;
+            }
+            document.body.classList.remove('auth-pending');
+
+            const { data: enrollments } = await supabase
+                .from('user_enrollments')
+                .select('course_id')
+                .eq('user_id', session.user.id);
+
+            const enrolledIds = (enrollments || []).map(e => e.course_id.toLowerCase().trim());
+
+            document.querySelectorAll('.course-card').forEach(card => {
+                const courseId = card.dataset.courseId.toLowerCase().trim();
+                const examSlug = card.dataset.exam;
+                const courseName = card.dataset.name.replace(/&amp;/g, '&');
+                const isEnrolled = enrolledIds.includes(courseId);
+                const tag = card.querySelector('.exam-tag');
+                const btn = card.querySelector('.btn-start-exam');
+
+                tag.textContent = isEnrolled ? 'Enrolled' : 'Not enrolled';
+                tag.classList.toggle('enrolled', isEnrolled);
+                btn.classList.toggle('locked', !isEnrolled);
+
+                btn.onclick = () => {
+                    if (!isEnrolled) {
+                        showToast(`Please enroll in the ${courseName} course first.`,
+                                  `/courses/${examSlug}/enroll`, 'Enroll');
+                        return;
+                    }
+                    window.location.href = `/exam/${examSlug}`;
+                };
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initExams);
+    </script>
+</body>
+
+</html>

@@ -5,8 +5,8 @@
       "destination": "/src/pages/courses.html"
     },
     {
-      "source": "/exams",
-      "destination": "/src/pages/exams.html"
+      "source": "/exam",
+      "destination": "/src/pages/exam.html"
     },
     {
       "source": "/certificate",
@@ -39,6 +39,10 @@
     {
       "source": "/activity",
       "destination": "/src/pages/account/activity.html"
+    },
+    {
+      "source": "/exam/:course",
+      "destination": "/src/pages/exams/exam.html"
     },
     {
       "source": "/courses/:course/enroll",

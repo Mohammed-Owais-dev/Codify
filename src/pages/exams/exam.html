@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+<link rel="stylesheet" href="/src/css/global.css">
+<title>Exam | Codify</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{min-width:0!important;overflow:hidden!important;font-family:'Nunito',sans-serif;background:#0a0f1c;color:#e0e6ed;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input{-webkit-user-select:text;user-select:text}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid #00aaff;outline-offset:2px}
+@media print{html,body{display:none!important}}
+body.shot .screen{visibility:hidden}
+
+.screen{display:none;height:100%}
+.screen.on{display:flex}
+.center{overflow:auto;padding:20px}
+.panel{margin:auto;width:100%;max-width:640px;background:rgba(13,27,42,.75);border:1px solid rgba(0,170,255,.25);
+  border-radius:20px;padding:32px;backdrop-filter:blur(16px);text-align:center}
+.panel h2{margin:0 0 10px;font-size:1.7rem;color:#fff}
+.panel p{color:#94a3b8;line-height:1.6}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:12px;border:none;
+  font-weight:700;font-size:.95rem;color:#fff;text-decoration:none;background:linear-gradient(90deg,#0077ff,#00aaff);
+  box-shadow:0 4px 15px rgba(0,170,255,.25);transition:.25s}
+.btn:hover:not(:disabled){background:linear-gradient(90deg,#00aaff,#0077ff);transform:translateY(-1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.ghost{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.3);color:#00aaff;box-shadow:none}
+.btn.danger{background:linear-gradient(90deg,#dc2626,#ef4444);box-shadow:none}
+.badge{display:inline-flex;gap:8px;align-items:center;background:rgba(0,170,255,.12);border:1px solid rgba(0,170,255,.35);
+  color:#00aaff;padding:6px 16px;border-radius:20px;font-size:.85rem;font-weight:700;margin-bottom:14px}
+.spin{width:42px;height:42px;border:4px solid rgba(0,170,255,.2);border-top-color:#00aaff;border-radius:50%;animation:sp 1s linear infinite;margin:auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* rules */
+.rules{text-align:left;margin:18px 0;padding:0;list-style:none;display:grid;gap:9px}
+.rules li{display:flex;gap:10px;color:#cfd8dc;font-size:.92rem;line-height:1.45}
+.rules li:before{content:"•";color:#00aaff;font-weight:800}
+.agree{display:flex;gap:10px;align-items:center;justify-content:center;margin:18px 0;color:#e0e6ed;font-weight:600;cursor:pointer}
+.agree input{width:18px;height:18px;accent-color:#00aaff}
+
+/* exam layout */
+#sExam{flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 24px;
+  background:rgba(13,27,42,.9);border-bottom:1px solid rgba(0,170,255,.2)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff;min-width:0}
+.brand img{width:28px;height:28px;pointer-events:none}
+.brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.right{display:flex;align-items:center;gap:10px}
+.chip{padding:7px 14px;border-radius:20px;font-weight:800;font-size:.88rem;border:1px solid rgba(0,170,255,.35);
+  background:rgba(0,170,255,.1);color:#00aaff;white-space:nowrap}
+.chip.warn{color:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08)}
+.chip.low{color:#f87171;border-color:rgba(248,113,113,.5);background:rgba(248,113,113,.1)}
+.layout{flex:1;display:grid;grid-template-columns:270px 1fr;min-height:0}
+aside{padding:20px;border-right:1px solid rgba(0,170,255,.15);overflow:auto;background:rgba(13,27,42,.4)}
+aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.stat{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:1.4rem;color:#00aaff}
+.stat small{color:#94a3b8;font-size:.75rem}
+#grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.qn{height:38px;border-radius:10px;font-weight:700;color:#94a3b8;background:rgba(10,15,28,.6);border:1px solid rgba(148,163,184,.25)}
+.qn.done{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.5);color:#34d399}
+.qn.cur{background:linear-gradient(90deg,#0077ff,#00aaff);border-color:transparent;color:#fff}
+.legend{display:flex;gap:12px;margin-top:14px;font-size:.75rem;color:#94a3b8;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+.stage{overflow:auto;padding:28px 24px;display:flex}
+.qcard{margin:auto;width:100%;max-width:800px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);
+  border-radius:20px;padding:30px;backdrop-filter:blur(16px)}
+#qNo{color:#00aaff;font-weight:800;font-size:.9rem}
+#qText{font-size:1.3rem;font-weight:700;color:#fff;line-height:1.5;margin:10px 0 22px;white-space:pre-wrap;word-break:break-word}
+#opts{display:grid;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;padding:14px 16px;border-radius:14px;
+  background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.2);color:#e0e6ed;font-size:1rem;transition:.2s;word-break:break-word}
+.opt:hover{border-color:#00aaff;background:rgba(0,170,255,.08)}
+.opt.sel{border-color:#00aaff;background:rgba(0,170,255,.18)}
+.ltr{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem;
+  background:rgba(0,170,255,.12);color:#00aaff}
+.opt.sel .ltr{background:#00aaff;color:#fff}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:26px}
+.link{background:none;border:none;color:#94a3b8;font-size:.85rem;text-decoration:underline}
+
+/* result */
+.res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.res .stat b{font-size:1.6rem}
+.pass{color:#34d399!important}.fail{color:#f87171!important}
+
+/* modal + guard */
+#modal,#guard{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px}
+#modal{background:rgba(5,8,16,.8);z-index:3000}
+#guard{background:#0a0f1c;z-index:4000}
+#modal.on,#guard.on{display:flex}
+#quitInput{width:100%;margin:6px 0 14px;padding:12px;border-radius:10px;background:#0a0f1c;color:#fff;
+  border:1px solid rgba(0,170,255,.4);font:inherit;font-size:1rem;text-align:center}
+.row{display:flex;gap:10px;justify-content:center}
+#wm{position:fixed;inset:0;pointer-events:none;z-index:2147483000}
+
+@media(max-width:900px){
+  .bar{padding:10px 14px}.brand span{display:none}
+  .layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  aside{border-right:0;border-bottom:1px solid rgba(0,170,255,.15);padding:10px 14px;max-height:34vh}
+  aside h3,.legend{display:none}.stats{margin-bottom:10px}
+  #grid{grid-template-columns:repeat(auto-fill,minmax(40px,1fr))}
+  .qcard{padding:20px}#qText{font-size:1.1rem}.panel{padding:22px}
+}
+</style>
+</head>
+<body>
+
+<section id="sLoad" class="screen center on"><div class="spin"></div></section>
+
+<section id="sBlock" class="screen center"><div class="panel">
+  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exams">Back to Exams</a>
+</div></section>
+
+<section id="sRules" class="screen center"><div class="panel">
+  <div class="badge">Exam Rules</div>
+  <h2 id="rTitle">Exam</h2>
+  <p id="rSub" style="margin:0">Read the rules carefully before you begin.</p>
+  <ul class="rules">
+    <li>30 random questions, 40 minutes. The timer never pauses once you start.</li>
+    <li>The exam runs in full screen. Exiting it, switching tabs or switching windows gives you a warning.</li>
+    <li>You get 2 warnings. The third time, your exam ends and only the questions you attempted are scored.</li>
+    <li>Copy, paste, text selection, right-click, developer tools and printing are disabled.</li>
+    <li>Reloading the page counts as a warning and resumes the same attempt with the same timer.</li>
+    <li>Only one exam tab is allowed at a time.</li>
+    <li>Your name, username and email are watermarked on every screen. Sharing or posting questions online is traceable to you.</li>
+    <li>Quitting ends the exam immediately. You can answer questions in any order and change answers before submitting.</li>
+  </ul>
+  <label class="agree"><input type="checkbox" id="agree"> I have read and accept the exam rules</label>
+  <div class="row"><a class="btn ghost" href="/exams">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
+  <p id="rErr" style="color:#f87171;margin:12px 0 0"></p>
+</div></section>
+
+<section id="sExam" class="screen">
+  <div class="bar">
+    <div class="brand"><img src="/src/assets/logos/main-logo.svg" alt=""><span id="eTitle">Exam</span></div>
+    <div class="right">
+      <span class="chip warn" id="wChip">Warnings 0/2</span>
+      <span class="chip" id="tChip">40:00 left</span>
+      <button class="btn danger" id="quitBtn" style="padding:8px 16px">Quit Exam</button>
+    </div>
+  </div>
+  <div class="layout">
+    <aside>
+      <h3>Questions</h3>
+      <div class="stats">
+        <div class="stat"><b id="nDone">0</b><small>Attempted</small></div>
+        <div class="stat"><b id="nLeft">0</b><small>Left</small></div>
+      </div>
+      <div id="grid"></div>
+      <div class="legend"><span><i style="background:#00aaff"></i>Current</span><span><i style="background:#34d399"></i>Answered</span><span><i style="background:#334155"></i>Not answered</span></div>
+    </aside>
+    <div class="stage"><div class="qcard">
+      <div id="qNo"></div><div id="qText"></div><div id="opts"></div>
+      <div class="foot">
+        <button class="btn ghost" id="prev">Previous</button>
+        <button class="link" id="clear">Clear answer</button>
+        <button class="btn" id="next">Next</button>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section id="sResult" class="screen center"><div class="panel">
+  <div class="badge" id="rBadge">Exam Finished</div>
+  <h2 id="resTitle"></h2><p id="resText"></p>
+  <div class="res">
+    <div class="stat"><b id="rScore"></b><small>Score</small></div>
+    <div class="stat"><b id="rAtt"></b><small>Attempted</small></div>
+    <div class="stat"><b id="rPct"></b><small>Percentage</small></div>
+    <div class="stat"><b id="rRes"></b><small>Result (pass: 50%)</small></div>
+  </div>
+  <a class="btn" href="/exams">Back to Exams</a>
+</div></section>
+
+<div id="modal"><div class="panel">
+  <h2 id="mTitle"></h2><p id="mText"></p>
+  <input id="quitInput" type="text" autocomplete="off" spellcheck="false" placeholder='Type "Quit Exam"'>
+  <div class="row"><button class="btn ghost" id="mNo">Cancel</button><button class="btn danger" id="mYes">Confirm</button></div>
+</div></div>
+
+<div id="guard"><div class="panel">
+  <div class="badge" id="gBadge">Warning</div>
+  <h2 id="gTitle"></h2><p id="gText"></p>
+  <button class="btn" id="gBtn">Return to Exam</button>
+</div></div>
+
+<script type="module">
+import { supabase } from '/src/js/config/supabase-client.js';
+
+const $ = s => document.querySelector(s);
+const DURATION = 40 * 60e3, COUNT = 30, MAXWARN = 2, PASS = 50;
+const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '').toLowerCase();   // /exam/html -> 'html'
+const QUESTIONS_URL = s => `/src/data/exams/${s}-questions.json`;   // change if your JSON lives elsewhere
+let me, a, bank, byId = {}, key, active = false, over = false, timer, devOpen = false, lastV = 0, bc, WMSTYLE = '';
+
+const show = id => { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); };
+const block = msg => { $('#bText').textContent = msg; show('sBlock'); };
+const rnd = n => { const x = new Uint32Array(1); crypto.getRandomValues(x); return x[0] % n; };
+const shuf = arr => { arr = [...arr]; for (let i = arr.length - 1; i > 0; i--) { const j = rnd(i + 1); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; };
+const save = () => { try { localStorage.setItem(key, JSON.stringify(a)); } catch {} };
+const fs = () => document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).catch(() => {});
+
+/* ---------- Boot ---------- */
+async function init() {
+  if (!/^[a-z0-9-]{1,20}$/.test(slug)) return block('This exam link is invalid.');
+  if (!document.documentElement.requestFullscreen) return block('Your browser does not support full screen. Please use desktop Chrome, Edge or Firefox.');
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return location.replace('/login');
+  const u = session.user, m = u.user_metadata || {};
+  me = { id: u.id, email: u.email || '', username: m.username || m.user_name || m.preferred_username || (u.email || 'user').split('@')[0], name: m.full_name || m.name || m.display_name || '-' };
+  mountWM();
+
+  const { data: en } = await supabase.from('user_enrollments').select('course_id').eq('user_id', u.id);
+  if (!(en || []).some(e => e.course_id.toLowerCase().trim() === slug + '-101')) return block('You are not enrolled in this course. Enroll in it first to take the exam.');
+
+  try {
+    const r = await fetch(QUESTIONS_URL(slug), { cache: 'no-store' });
+    bank = await r.json();
+    bank.questions.forEach(q => byId[q.id] = q);
+  } catch { return block('The question bank could not be loaded. Please try again.'); }
+
+  bc = 'BroadcastChannel' in window ? new BroadcastChannel('codify-exam-' + me.id) : null;
+  if (bc) {
+    let busy = false;
+    bc.onmessage = e => { if (e.data === 'ping' && active) bc.postMessage('busy'); if (e.data === 'busy') busy = true; };
+    bc.postMessage('ping');
+    await new Promise(r => setTimeout(r, 450));
+    if (busy) return block('This exam is already open in another tab. Close this tab and continue there.');
+  }
+
+  key = `codify_attempt_${me.id}_${slug}`;
+  try { const s = JSON.parse(localStorage.getItem(key)); if (s && !s.done) a = s; } catch {}
+  $('#rTitle').textContent = $('#eTitle').textContent = (bank.category || slug.toUpperCase()) + ' Exam';
+  if (a && a.end <= Date.now()) { arm(); return finish('time'); }
+  if (a) { $('#rSub').textContent = 'You have an attempt in progress. Resuming counts as one warning.'; $('#startBtn').textContent = 'Resume Exam'; }
+  show('sRules');
+}
+
+$('#agree').onchange = e => $('#startBtn').disabled = !e.target.checked;
+$('#startBtn').onclick = async () => {
+  await fs();
+  if (!document.fullscreenElement) { $('#rErr').textContent = 'Full screen is required. Allow it and try again.'; return; }
+  if (a) { a.warns++; if (a.warns > MAXWARN) { arm(); return finish('violations'); } }
+  else {
+    const qs = shuf(bank.questions).slice(0, COUNT).map(q => ({ id: q.id, perm: shuf(q.options.map((_, i) => i)) }));
+    a = { id: Math.random().toString(36).slice(2, 8).toUpperCase(), qs, ans: {}, idx: 0, end: Date.now() + DURATION, warns: 0, done: false };
+  }
+  save(); mountWM(); arm(); active = true; show('sExam'); render(); tick(); timer = setInterval(tick, 250);
+};
+
+/* ---------- Exam ---------- */
+function render() {
+  const q = a.qs[a.idx], d = byId[q.id], total = a.qs.length;
+  $('#qNo').textContent = `Question ${a.idx + 1} of ${total}`;
+  $('#qText').textContent = d.question;
+  const box = $('#opts'); box.innerHTML = '';
+  q.perm.forEach((oi, i) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'opt' + (a.ans[q.id] === oi ? ' sel' : '');
+    const l = document.createElement('span'); l.className = 'ltr'; l.textContent = 'ABCDEFGH'[i];
+    const t = document.createElement('span'); t.textContent = d.options[oi];
+    b.append(l, t); b.onclick = () => { a.ans[q.id] = oi; save(); render(); };
+    box.append(b);
+  });
+  $('#prev').disabled = a.idx === 0;
+  $('#next').textContent = a.idx === total - 1 ? 'Finish Exam' : 'Next';
+  $('#clear').style.visibility = q.id in a.ans ? 'visible' : 'hidden';
+  const g = $('#grid'); g.innerHTML = '';
+  a.qs.forEach((x, i) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.className = 'qn' + (i === a.idx ? ' cur' : '') + (x.id in a.ans ? ' done' : '');
+    b.textContent = i + 1; b.onclick = () => { a.idx = i; save(); render(); };
+    g.append(b);
+  });
+  const n = Object.keys(a.ans).length;
+  $('#nDone').textContent = n; $('#nLeft').textContent = total - n;
+  $('#wChip').textContent = `Warnings ${a.warns}/${MAXWARN}`;
+}
+$('#prev').onclick = () => { if (a.idx > 0) { a.idx--; save(); render(); } };
+$('#next').onclick = () => {
+  if (a.idx < a.qs.length - 1) { a.idx++; save(); render(); return; }
+  const left = a.qs.length - Object.keys(a.ans).length;
+  ask({ title: 'Submit exam?', text: left ? `You have ${left} unanswered question(s). Submit anyway?` : 'You answered every question. Submit your exam now?', ok: 'Submit', fn: () => finish('submitted') });
+};
+$('#clear').onclick = () => { delete a.ans[a.qs[a.idx].id]; save(); render(); };
+$('#quitBtn').onclick = () => ask({ title: 'Quit exam?', text: 'Your exam ends now and only the questions you attempted are scored. Type Quit Exam to confirm.', typed: 'Quit Exam', ok: 'Quit Exam', fn: () => finish('quit') });
+
+function tick() {
+  const ms = a.end - Date.now();
+  if (ms <= 0) return finish('time');
+  const s = Math.ceil(ms / 1000);
+  const c = $('#tChip');
+  c.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')} left`;
+  c.classList.toggle('low', s <= 300);
+}
+
+function finish(reason) {
+  if (over) return; over = true; active = false; clearInterval(timer);
+  a.done = true; save(); $('#modal').classList.remove('on'); $('#guard').classList.remove('on');
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  const total = a.qs.length, att = Object.keys(a.ans).length;
+  const score = a.qs.filter(q => a.ans[q.id] === byId[q.id].correct_answer).length;
+  const pct = Math.round(score / total * 100), ok = pct >= PASS;
+  const why = { submitted: ['Exam Submitted', 'Your answers have been submitted.'], quit: ['Exam Quit', 'You quit the exam. Attempted questions were scored.'],
+    time: ['Time is Up', 'Your 40 minutes ended and your attempted answers were scored.'], violations: ['Exam Ended', 'The exam ended because you left the exam screen too many times. Attempted questions were scored.'] }[reason];
+  $('#resTitle').textContent = why[0]; $('#resText').textContent = why[1];
+  $('#rScore').textContent = `${score}/${total}`; $('#rAtt').textContent = `${att}/${total}`; $('#rPct').textContent = pct + '%';
+  const r = $('#rRes'); r.textContent = ok ? 'Passed' : 'Failed'; r.className = ok ? 'pass' : 'fail';
+  show('sResult');
+}
+
+/* ---------- Dialogs ---------- */
+function ask({ title, text, typed, ok, fn }) {
+  $('#mTitle').textContent = title; $('#mText').textContent = text; $('#mYes').textContent = ok;
+  const inp = $('#quitInput'); inp.value = ''; inp.style.display = typed ? '' : 'none';
+  const yes = $('#mYes'); yes.disabled = !!typed;
+  inp.oninput = () => yes.disabled = inp.value !== typed;
+  $('#mNo').onclick = () => $('#modal').classList.remove('on');
+  yes.onclick = () => { if (!yes.disabled) fn(); };
+  $('#modal').classList.add('on'); if (typed) inp.focus();
+}
+function guard(badge, title, text) {
+  $('#gBadge').textContent = badge; $('#gTitle').textContent = title; $('#gText').textContent = text; $('#guard').classList.add('on');
+}
+$('#gBtn').onclick = async () => {
+  if (devOpen) return $('#gText').textContent = 'Close developer tools first, then continue.';
+  await fs();
+  if (document.fullscreenElement) $('#guard').classList.remove('on');
+  else $('#gText').textContent = 'Full screen is required. Click the button again.';
+};
+
+/* ---------- Security ---------- */
+function violation(why) {
+  if (!active || $('#guard').classList.contains('on')) return;
+  const now = Date.now(); if (now - lastV < 1500) return; lastV = now;
+  a.warns++; save(); render();
+  if (a.warns > MAXWARN) return finish('violations');
+  const left = MAXWARN - a.warns + 1;
+  guard(`Warning ${a.warns} of ${MAXWARN}`, why, a.warns < MAXWARN ? `You have ${MAXWARN - a.warns} warning left. The next time, your exam will end.` : 'This was your last warning. If it happens again, your exam ends immediately.');
+}
+
+function arm() {
+  ['contextmenu', 'copy', 'cut', 'paste', 'dragstart', 'drop', 'selectstart'].forEach(t => document.addEventListener(t, e => {
+    if (t === 'selectstart' && e.target.tagName === 'INPUT') return;
+    if (e.clipboardData) e.clipboardData.setData('text/plain', 'Disabled during exam');
+    e.preventDefault();
+  }, true));
+  document.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase(), c = e.ctrlKey || e.metaKey;
+    if (e.key === 'F12' || e.key === 'F11' || e.key === 'PrintScreen' || e.key === 'ContextMenu' ||
+        (c && ['c', 'v', 'x', 'a', 's', 'p', 'u', 'f', 'g', 'o', 'e', 'd'].includes(k)) ||
+        (c && e.shiftKey && ['i', 'j', 'c', 'k', 'm', 's'].includes(k)) || (e.altKey && (k === 'arrowleft' || k === 'arrowright'))) {
+      e.preventDefault(); if (e.key === 'PrintScreen') blank();
+    }
+    if (!active || $('#modal').classList.contains('on') || $('#guard').classList.contains('on')) return;
+    if (e.key === 'ArrowRight' && a.idx < a.qs.length - 1) { a.idx++; save(); render(); }
+    if (e.key === 'ArrowLeft' && a.idx > 0) { a.idx--; save(); render(); }
+    if (/^[1-8]$/.test(e.key)) $('#opts').children[+e.key - 1]?.click();
+  }, true);
+  document.addEventListener('keyup', e => { if (e.key === 'PrintScreen') blank(); });
+  window.addEventListener('beforeunload', e => { if (active) { e.preventDefault(); e.returnValue = ''; } });
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', () => history.pushState(null, '', location.href));
+  window.open = () => null;
+  document.addEventListener('visibilitychange', () => document.hidden && violation('You left the exam tab'));
+  window.addEventListener('blur', () => violation('The exam window lost focus'));
+  document.addEventListener('fullscreenchange', () => { if (active && !document.fullscreenElement) violation('You exited full screen'); });
+  setInterval(() => {
+    if (!active) return;
+    const t = performance.now(); (function () {}).constructor('debugger')();
+    const open = performance.now() - t > 120 || window.outerWidth - window.innerWidth > 160 ||
+      (document.fullscreenElement && window.outerHeight - window.innerHeight > 160);
+    if (open && !devOpen) { devOpen = true; violation('Developer tools were detected'); }
+    if (!open) devOpen = false;
+  }, 1000);
+}
+function blank() {
+  navigator.clipboard?.writeText('Screenshots are disabled during the exam').catch(() => {});
+  document.body.classList.add('shot'); setTimeout(() => document.body.classList.remove('shot'), 1800);
+}
+
+/* ---------- Watermark (re-created if removed or edited) ---------- */
+function mountWM() {
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const lines = [me.name, '@' + me.username, me.email, `ID ${a?.id || 'PRE'} · ${new Date().toLocaleDateString()}`].map(esc);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="380" height="230"><g transform="rotate(-24 190 115)" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="rgba(120,200,255,.17)" text-anchor="middle">${lines.map((t, i) => `<text x="190" y="${82 + i * 22}">${t}</text>`).join('')}</g></svg>`;
+  const img = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+  let w = document.getElementById('wm');
+  if (!w) { w = document.createElement('div'); w.id = 'wm'; document.body.appendChild(w); }
+  w.style.cssText = `background-image:${img},${img};background-position:0 0,190px 115px;opacity:1;display:block;visibility:visible`;
+  WMSTYLE = w.style.cssText;
+}
+new MutationObserver(() => {
+  if (!me) return;
+  const w = document.getElementById('wm');
+  if (!w || w.style.cssText !== WMSTYLE || getComputedStyle(w).display === 'none') mountWM();
+}).observe(document.documentElement, { childList: true, subtree: true, attributes: true });
+
+init();
+</script>
+</body>
+</html>
