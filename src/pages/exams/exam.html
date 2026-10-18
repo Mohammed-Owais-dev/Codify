@@ -118,7 +118,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
 <section id="sLoad" class="screen center on"><div class="spin"></div></section>
 
 <section id="sBlock" class="screen center"><div class="panel">
-  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exams">Back to Exams</a>
+  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exam">Back to Exams</a>
 </div></section>
 
 <section id="sRules" class="screen center"><div class="panel">
@@ -136,7 +136,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
     <li>Quitting ends the exam immediately. You can answer questions in any order and change answers before submitting.</li>
   </ul>
   <label class="agree"><input type="checkbox" id="agree"> I have read and accept the exam rules</label>
-  <div class="row"><a class="btn ghost" href="/exams">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
+  <div class="row"><a class="btn ghost" href="/exam">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
   <p id="rErr" style="color:#f87171;margin:12px 0 0"></p>
 </div></section>
 
@@ -179,7 +179,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
     <div class="stat"><b id="rPct"></b><small>Percentage</small></div>
     <div class="stat"><b id="rRes"></b><small>Result (pass: 50%)</small></div>
   </div>
-  <a class="btn" href="/exams">Back to Exams</a>
+  <a class="btn" href="/exam">Back to Exams</a>
 </div></section>
 
 <div id="modal"><div class="panel">
@@ -200,7 +200,7 @@ import { supabase } from '/src/js/config/supabase-client.js';
 const $ = s => document.querySelector(s);
 const DURATION = 40 * 60e3, COUNT = 30, MAXWARN = 2, PASS = 50;
 const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '').toLowerCase();   // /exam/html -> 'html'
-const QUESTIONS_URL = s => `/src/data/exams/${s}-questions.json`;   // change if your JSON lives elsewhere
+const QUESTIONS_URL = s => `/src/pages/exams/${s}-questions.json`;   // change if your JSON lives elsewhere
 let me, a, bank, byId = {}, key, active = false, over = false, timer, devOpen = false, lastV = 0, bc, WMSTYLE = '';
 
 const show = id => { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); };
