@@ -68,6 +68,12 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .list{max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:18px;text-align:left}
 .list .card{width:290px}
 .head{margin-bottom:36px}
+.codify-toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,42,.95);border:1px solid rgba(0,170,255,.4);box-shadow:0 10px 30px rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);color:#e0e6ed;padding:16px 20px;border-radius:14px;display:flex;align-items:center;gap:12px;z-index:9999;font-size:.9rem;
+  opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s;pointer-events:none}
+.codify-toast.show{opacity:1;transform:none;pointer-events:auto}
+.codify-toast a{background:linear-gradient(90deg,#0077ff,#00aaff);color:#fff;padding:6px 14px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.82rem}
+@media(max-width:600px){.codify-toast{left:12px;right:12px;bottom:12px}}
 .modal{position:fixed;inset:0;background:rgba(5,8,16,.78);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9000}
 .modal.on{display:flex}
 .mp{position:relative;width:100%;max-width:460px;background:rgba(13,27,42,.97);border:1px solid rgba(0,170,255,.35);border-radius:20px;padding:30px 26px 26px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
@@ -137,6 +143,15 @@ const courseName = id => NAMES[(id || '').split('-')[0]] || id;
 const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
 const txt = (node, sel, v) => { node.querySelector(sel).textContent = v; };
+
+let toastT;
+function showToast(msg, href, label) {
+  let t = $('#codifyToast');
+  if (!t) { t = document.createElement('div'); t.id = 'codifyToast'; t.className = 'codify-toast'; t.setAttribute('role', 'alert'); document.body.appendChild(t); }
+  t.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span><a></a>';
+  t.querySelector('span').textContent = msg; const a = t.querySelector('a'); a.href = href; a.textContent = label;
+  t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4500);
+}
 
 /* ---- verify window: type an ID, scan with the camera, or upload a QR image ---- */
 const vModal = $('#vModal'), vVideo = $('#vVideo'), vMsg = $('#vMsg');
@@ -290,10 +305,14 @@ async function showList() {
   wrap.querySelector('#openVerify').onclick = openVerify;
   const list = el('<div class="list"></div>');
   if (!session?.user) {
-    list.append(el('<div class="state" style="width:100%">Log in to see your certificates.<br><br><a class="btn" href="/login">Log in</a></div>'));
+    list.append(el('<div class="state" style="width:100%">Log in to see the certificates you have earned.<br><br><button class="btn" id="takeExam" type="button">Take an exam</button></div>'));
+    list.querySelector('#takeExam').onclick = () => showToast('Please log in to take an exam.', '/login', 'Log In');
   } else {
-    const { data } = await supabase.from('certificates').select('id, course_id, percentage, issued_at').order('issued_at', { ascending: false });
-    if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
+    let { data, error } = await supabase.rpc('my_certificates');
+    if (error) ({ data, error } = await supabase.from('certificates').select('id, course_id, percentage, issued_at')
+      .eq('user_id', session.user.id).order('issued_at', { ascending: false }));
+    if (error) list.append(el('<div class="state" style="width:100%"></div>')), list.firstChild.textContent = `We couldn't load your certificates (${error.message}). Please refresh and try again.`;
+    else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
     (data || []).forEach(c => {
       const a = el('<a class="card"><h3></h3><p></p></a>');
       a.href = '/certificate?id=' + encodeURIComponent(c.id);
