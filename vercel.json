@@ -5,8 +5,8 @@
       "destination": "/src/pages/courses.html"
     },
     {
-      "source": "/exam",
-      "destination": "/src/pages/exam.html"
+      "source": "/exams",
+      "destination": "/src/pages/exams.html"
     },
     {
       "source": "/certificate",
