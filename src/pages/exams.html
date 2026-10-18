@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exams | Codify</title>
+<!-- If your other pages share a stylesheet/navbar, link it here and delete the matching blocks below -->
+<!-- <link rel="stylesheet" href="style.css"> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== Codify theme tokens: change these to match your style.css ===== */
+  :root{
+    --bg:#0b1020; --surface:#131a30; --surface-2:#1a2340; --border:#26315a;
+    --text:#e8ecf8; --muted:#8e9ac0;
+    --primary:#6c5ce7; --primary-2:#00cec9; --danger:#ff6b6b; --ok:#2ecc71;
+    --radius:14px; --font:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--primary-2);outline-offset:2px}
+
+  /* Navbar (replace with your shared navbar markup if you have one) */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 5%;
+    background:rgba(19,26,48,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:50}
+  .logo{font-weight:700;font-size:1.3rem;letter-spacing:.3px}
+  .logo span{color:var(--primary-2)}
+  .nav-links{display:flex;gap:22px;align-items:center;font-size:.95rem}
+  .nav-links a{color:var(--muted);transition:color .2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--text)}
+  .user-chip{display:flex;align-items:center;gap:8px;background:var(--surface-2);
+    border:1px solid var(--border);padding:6px 12px;border-radius:999px;font-size:.85rem}
+  .user-chip i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));font-style:normal;font-weight:700;font-size:.75rem}
+  .btn-logout{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 12px;
+    border-radius:8px;cursor:pointer;font:inherit;font-size:.85rem}
+  .btn-logout:hover{color:var(--danger);border-color:var(--danger)}
+
+  /* Header */
+  .hero{padding:56px 5% 20px;max-width:1200px;margin:0 auto}
+  .hero h1{font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.15}
+  .hero h1 span{background:linear-gradient(90deg,var(--primary),var(--primary-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);margin-top:10px;max-width:60ch}
+
+  .toolbar{max-width:1200px;margin:22px auto 0;padding:0 5%;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .search{flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);color:var(--text);
+    padding:11px 14px;border-radius:10px;font:inherit}
+  .search::placeholder{color:var(--muted)}
+  .filters{display:flex;gap:8px}
+  .chip{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:9px 14px;
+    border-radius:999px;cursor:pointer;font:inherit;font-size:.85rem}
+  .chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
+
+  /* Grid */
+  .grid{max-width:1200px;margin:24px auto 70px;padding:0 5%;display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s,transform .2s}
+  .card:hover{border-color:var(--primary);transform:translateY(-3px)}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .icon{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;
+    font-weight:700;font-size:1.05rem;color:#fff}
+  .badge{font-size:.72rem;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}
+  .badge.enrolled{color:var(--ok);border-color:rgba(46,204,113,.45);background:rgba(46,204,113,.08)}
+  .card h3{font-size:1.15rem}
+  .card p{color:var(--muted);font-size:.9rem;flex:1}
+  .meta{display:flex;gap:16px;font-size:.8rem;color:var(--muted)}
+  .btn{border:0;cursor:pointer;font:inherit;font-weight:600;padding:12px;border-radius:10px;
+    background:linear-gradient(90deg,var(--primary),#8574ff);color:#fff;transition:filter .2s,transform .1s}
+  .btn:hover{filter:brightness(1.12)}
+  .btn:active{transform:scale(.98)}
+  .btn.locked{background:var(--surface-2);color:var(--muted);border:1px dashed var(--border)}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0}
+
+  /* Toast */
+  #toasts{position:fixed;top:78px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:100}
+  .toast{min-width:260px;max-width:340px;background:var(--surface-2);border:1px solid var(--border);
+    border-left:4px solid var(--primary);padding:13px 16px;border-radius:10px;font-size:.9rem;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);animation:in .25s ease}
+  .toast.error{border-left-color:var(--danger)}
+  .toast.success{border-left-color:var(--ok)}
+  .toast a{color:var(--primary-2);text-decoration:underline;font-weight:600}
+  @keyframes in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:640px){.nav-links a:not(.active){display:none}#toasts{left:20px;right:20px}.toast{max-width:none}}
+
+  /* Hidden until auth check passes (prevents flash of protected content) */
+  body.pending{visibility:hidden}
+</style>
+</head>
+<body class="pending">
+
+<nav class="nav">
+  <a href="index.html" class="logo">Code<span>ify</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="exams.html" class="active">Exams</a>
+    <div class="user-chip"><i id="avatar">U</i><span id="uname">User</span></div>
+    <button class="btn-logout" id="logout">Logout</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>Test your skills with <span>Codify Exams</span></h1>
+  <p>Pick a course you’re enrolled in and take its exam. Not enrolled yet? Head to Courses first.</p>
+</header>
+
+<div class="toolbar">
+  <input class="search" id="search" type="search" placeholder="Search exams (e.g. python)" aria-label="Search exams">
+  <div class="filters">
+    <button class="chip on" data-f="all">All</button>
+    <button class="chip" data-f="enrolled">Enrolled</button>
+  </div>
+</div>
+
+<main class="grid" id="grid" aria-live="polite"></main>
+<div id="toasts"></div>
+
+<script>
+/* =====================================================================
+   CONFIG: adapt these to your project
+   ===================================================================== */
+const CONFIG = {
+  loginPage: '/login',
+  coursesPage: '/courses',
+  examPage: 'exams/exam.html',        // result: exams/exam.html?exam=html-exam.json
+  examFile: id => `${id}-exam.json`,  // result: html-exam.json, c-exam.json ...
+  // localStorage keys where YOUR login/enroll code stores data (adjust names):
+  userKeys: ['codify_user', 'user', 'currentUser', 'loggedInUser'],
+  enrollKeys: ['codify_enrollments', 'enrolledCourses', 'enrollments']
+};
+
+/* Course catalogue: id must match your exam file prefix (html-exam.json etc.) */
+const COURSES = [
+  {id:'html',       name:'HTML',       color:'#e34f26', desc:'Structure, semantics, forms and accessibility basics.', q:20, min:25},
+  {id:'css',        name:'CSS',        color:'#2965f1', desc:'Selectors, flexbox, grid, animations and responsive design.', q:20, min:25},
+  {id:'javascript', name:'JavaScript', color:'#d4a800', desc:'Core language, DOM, ES6+ and async programming.', q:25, min:30},
+  {id:'python',     name:'Python',     color:'#3776ab', desc:'Syntax, data structures, functions and OOP.', q:25, min:30},
+  {id:'c',          name:'C',          color:'#5c6bc0', desc:'Pointers, memory, arrays, structs and file handling.', q:25, min:35},
+  {id:'cpp',        name:'C++',        color:'#00599c', desc:'OOP, STL, templates and memory management.', q:25, min:35},
+  {id:'java',       name:'Java',       color:'#e76f00', desc:'OOP, collections, exceptions and multithreading.', q:25, min:35}
+];
+
+/* =====================================================================
+   AUTH + ENROLLMENT (the only two functions you may need to rewrite)
+   If you use Firebase/Supabase/your own API, return the same shapes.
+   ===================================================================== */
+function readJSON(key){
+  try{ return JSON.parse(localStorage.getItem(key) || sessionStorage.getItem(key)); }
+  catch{ return localStorage.getItem(key) || sessionStorage.getItem(key); }
+}
+
+function getCurrentUser(){            // → {name,email,...} or null
+  for(const k of CONFIG.userKeys){
+    const v = readJSON(k);
+    if(v) return typeof v === 'object' ? v : {name:String(v)};
+  }
+  return null;
+}
+
+function getEnrolledCourses(user){    // → array of lowercase course ids
+  const norm = c => String(typeof c === 'object' ? (c.id || c.courseId || c.name) : c)
+    .toLowerCase().replace(/\+\+/g,'pp').replace(/\s+/g,'');
+  let list = user && (user.enrolledCourses || user.enrollments || user.courses);
+  if(!list){
+    for(const k of CONFIG.enrollKeys){ const v = readJSON(k); if(v){ list = v; break; } }
+  }
+  if(list && !Array.isArray(list)) list = Object.keys(list).filter(k => list[k]);
+  return (list || []).map(norm);
+}
+
+/* =====================================================================
+   PAGE LOGIC
+   ===================================================================== */
+const user = getCurrentUser();
+if(!user){
+  // Not logged in → send to login, remember where to come back
+  sessionStorage.setItem('redirectAfterLogin', location.pathname.split('/').pop());
+  location.replace(CONFIG.loginPage);
+} else {
+  document.body.classList.remove('pending');
+  init();
+}
+
+function init(){
+  const name = user.name || user.username || user.displayName || (user.email||'User').split('@')[0];
+  document.getElementById('uname').textContent = name;
+  document.getElementById('avatar').textContent = name.charAt(0).toUpperCase();
+
+  document.getElementById('logout').onclick = () => {
+    [...CONFIG.userKeys].forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
+    location.href = CONFIG.loginPage;
+  };
+
+  let filter = 'all', query = '';
+  const enrolled = new Set(getEnrolledCourses(user));
+  const grid = document.getElementById('grid');
+
+  function render(){
+    const items = COURSES.filter(c =>
+      (filter === 'all' || enrolled.has(c.id)) &&
+      c.name.toLowerCase().includes(query));
+    grid.innerHTML = items.length ? '' : '<p class="empty">No exams found.</p>';
+    items.forEach(c => {
+      const isIn = enrolled.has(c.id);
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        <div class="card-top">
+          <div class="icon" style="background:${c.color}">${c.name.slice(0,3)}</div>
+          <span class="badge ${isIn ? 'enrolled' : ''}">${isIn ? 'Enrolled' : 'Not enrolled'}</span>
+        </div>
+        <h3>${c.name} Exam</h3>
+        <p>${c.desc}</p>
+        <div class="meta"><span>${c.q} questions</span><span>${c.min} min</span></div>
+        <button class="btn ${isIn ? '' : 'locked'}" data-id="${c.id}">${isIn ? 'Start Exam' : 'Start Exam'}</button>`;
+      el.querySelector('button').onclick = () => startExam(c);
+      grid.appendChild(el);
+    });
+  }
+
+  function startExam(c){
+    if(!enrolled.has(c.id)){
+      toast(`Please enroll in the ${c.name} course first. <a href="${CONFIG.coursesPage}">Go to Courses</a>`, 'error');
+      return;
+    }
+    toast(`Starting ${c.name} exam…`, 'success');
+    setTimeout(() => {
+      location.href = `${CONFIG.examPage}?exam=${encodeURIComponent(CONFIG.examFile(c.id))}`;
+    }, 500);
+  }
+
+  document.getElementById('search').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); render(); });
+  document.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); filter = b.dataset.f; render();
+  });
+  render();
+}
+
+function toast(html, type = ''){
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.setAttribute('role', 'alert');
+  t.innerHTML = html;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+</script>
+</body>
+</html>
