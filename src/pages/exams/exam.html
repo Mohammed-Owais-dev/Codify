@@ -118,7 +118,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
 <section id="sLoad" class="screen center on"><div class="spin"></div></section>
 
 <section id="sBlock" class="screen center"><div class="panel">
-  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exam">Back to Exams</a>
+  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exams">Back to Exams</a>
 </div></section>
 
 <section id="sRules" class="screen center"><div class="panel">
@@ -136,7 +136,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
     <li>Quitting ends the exam immediately. You can answer questions in any order and change answers before submitting.</li>
   </ul>
   <label class="agree"><input type="checkbox" id="agree"> I have read and accept the exam rules</label>
-  <div class="row"><a class="btn ghost" href="/exam">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
+  <div class="row"><a class="btn ghost" href="/exams">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
   <p id="rErr" style="color:#f87171;margin:12px 0 0"></p>
 </div></section>
 
@@ -179,7 +179,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
     <div class="stat"><b id="rPct"></b><small>Percentage</small></div>
     <div class="stat"><b id="rRes"></b><small>Result (pass: 50%)</small></div>
   </div>
-  <a class="btn" href="/exam">Back to Exams</a>
+  <div class="row"><a class="btn" id="certBtn" href="#" style="display:none">View Certificate</a><button class="btn" id="retryBtn" style="display:none">Retry</button><a class="btn ghost" href="/exams">Back to Exams</a></div>
 </div></section>
 
 <div id="modal"><div class="panel">
@@ -198,9 +198,10 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
 import { supabase } from '/src/js/config/supabase-client.js';
 
 const $ = s => document.querySelector(s);
-const DURATION = 40 * 60e3, COUNT = 30, MAXWARN = 2, PASS = 50;
+const MAXWARN = 2;
 const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '').toLowerCase();   // /exam/html -> 'html'
-const QUESTIONS_URL = s => `/src/pages/exams/${s}-questions.json`;   // change if your JSON lives elsewhere
+const COURSE = slug + '-101';
+const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
 let me, a, bank, byId = {}, key, active = false, over = false, timer, devOpen = false, lastV = 0, bc, WMSTYLE = '';
 
 const show = id => { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); };
@@ -217,17 +218,13 @@ async function init() {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session?.user) return location.replace('/login');
   const u = session.user, m = u.user_metadata || {};
-  me = { id: u.id, email: u.email || '', username: m.username || m.user_name || m.preferred_username || (u.email || 'user').split('@')[0], name: m.full_name || m.name || m.display_name || '-' };
+  me = { id: u.id, email: u.email || '', username: m.username || (u.email || 'user').split('@')[0], name: [m.first_name, m.last_name].filter(Boolean).join(' ') || m.full_name || m.name || '-' };
   mountWM();
 
   const { data: en } = await supabase.from('user_enrollments').select('course_id').eq('user_id', u.id);
   if (!(en || []).some(e => e.course_id.toLowerCase().trim() === slug + '-101')) return block('You are not enrolled in this course. Enroll in it first to take the exam.');
 
-  try {
-    const r = await fetch(QUESTIONS_URL(slug), { cache: 'no-store' });
-    bank = await r.json();
-    bank.questions.forEach(q => byId[q.id] = q);
-  } catch { return block('The question bank could not be loaded. Please try again.'); }
+  if (!NAMES[slug]) return block('This exam does not exist.');
 
   bc = 'BroadcastChannel' in window ? new BroadcastChannel('codify-exam-' + me.id) : null;
   if (bc) {
@@ -240,7 +237,7 @@ async function init() {
 
   key = `codify_attempt_${me.id}_${slug}`;
   try { const s = JSON.parse(localStorage.getItem(key)); if (s && !s.done) a = s; } catch {}
-  $('#rTitle').textContent = $('#eTitle').textContent = (bank.category || slug.toUpperCase()) + ' Exam';
+  $('#rTitle').textContent = $('#eTitle').textContent = NAMES[slug] + ' Exam';
   if (a && a.end <= Date.now()) { arm(); return finish('time'); }
   if (a) { $('#rSub').textContent = 'You have an attempt in progress. Resuming counts as one warning.'; $('#startBtn').textContent = 'Resume Exam'; }
   show('sRules');
@@ -250,11 +247,14 @@ $('#agree').onchange = e => $('#startBtn').disabled = !e.target.checked;
 $('#startBtn').onclick = async () => {
   await fs();
   if (!document.fullscreenElement) { $('#rErr').textContent = 'Full screen is required. Allow it and try again.'; return; }
-  if (a) { a.warns++; if (a.warns > MAXWARN) { arm(); return finish('violations'); } }
-  else {
-    const qs = shuf(bank.questions).slice(0, COUNT).map(q => ({ id: q.id, perm: shuf(q.options.map((_, i) => i)) }));
-    a = { id: Math.random().toString(36).slice(2, 8).toUpperCase(), qs, ans: {}, idx: 0, end: Date.now() + DURATION, warns: 0, done: false };
-  }
+  $('#startBtn').disabled = true;
+  const { data: r, error } = await supabase.rpc('start_exam', { p_course: COURSE });
+  $('#startBtn').disabled = false;
+  if (error || !r) { $('#rErr').textContent = 'Could not start the exam: ' + (error?.message || 'please try again.'); return; }
+  r.questions.forEach(q => byId[q.id] = q);
+  const end = Date.now() + r.seconds_left * 1000;
+  if (a && a.id === r.attempt_id) { a.end = end; a.warns++; if (a.warns > MAXWARN) { arm(); return finish('violations'); } }
+  else a = { id: r.attempt_id, qs: r.questions.map(q => ({ id: q.id, perm: shuf(q.options.map((_, i) => i)) })), ans: {}, idx: 0, end, warns: 0, done: false };
   save(); mountWM(); arm(); active = true; show('sExam'); render(); tick(); timer = setInterval(tick, 250);
 };
 
@@ -304,19 +304,27 @@ function tick() {
   c.classList.toggle('low', s <= 300);
 }
 
-function finish(reason) {
+async function finish(reason) {
   if (over) return; over = true; active = false; clearInterval(timer);
-  a.done = true; save(); $('#modal').classList.remove('on'); $('#guard').classList.remove('on');
+  $('#modal').classList.remove('on'); $('#guard').classList.remove('on');
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-  const total = a.qs.length, att = Object.keys(a.ans).length;
-  const score = a.qs.filter(q => a.ans[q.id] === byId[q.id].correct_answer).length;
-  const pct = Math.round(score / total * 100), ok = pct >= PASS;
   const why = { submitted: ['Exam Submitted', 'Your answers have been submitted.'], quit: ['Exam Quit', 'You quit the exam. Attempted questions were scored.'],
     time: ['Time is Up', 'Your 40 minutes ended and your attempted answers were scored.'], violations: ['Exam Ended', 'The exam ended because you left the exam screen too many times. Attempted questions were scored.'] }[reason];
-  $('#resTitle').textContent = why[0]; $('#resText').textContent = why[1];
-  $('#rScore').textContent = `${score}/${total}`; $('#rAtt').textContent = `${att}/${total}`; $('#rPct').textContent = pct + '%';
-  const r = $('#rRes'); r.textContent = ok ? 'Passed' : 'Failed'; r.className = ok ? 'pass' : 'fail';
+  ['#retryBtn', '#certBtn'].forEach(i => $(i).style.display = 'none');
+  $('#resTitle').textContent = 'Submitting…'; $('#resText').textContent = 'Please wait while your exam is scored.';
+  $('#rScore').textContent = $('#rAtt').textContent = $('#rPct').textContent = $('#rRes').textContent = '-';
   show('sResult');
+  const { data: r, error } = await supabase.rpc('submit_exam', { p_attempt: a.id, p_answers: a.ans, p_reason: reason, p_warnings: a.warns });
+  if (error || !r) {
+    over = false; $('#resTitle').textContent = 'Submission failed';
+    $('#resText').textContent = 'Check your connection, then press Retry. Your answers are saved on this device.';
+    const b = $('#retryBtn'); b.style.display = ''; b.onclick = () => finish(reason); return;
+  }
+  a.done = true; save();
+  $('#resTitle').textContent = why[0]; $('#resText').textContent = why[1];
+  $('#rScore').textContent = `${r.score}/${r.total}`; $('#rAtt').textContent = `${r.attempted}/${r.total}`; $('#rPct').textContent = Math.round(r.percentage) + '%';
+  const x = $('#rRes'); x.textContent = r.passed ? 'Passed' : 'Failed'; x.className = r.passed ? 'pass' : 'fail';
+  if (r.certificate_id) { const c = $('#certBtn'); c.href = '/certificate?id=' + encodeURIComponent(r.certificate_id); c.style.display = ''; }
 }
 
 /* ---------- Dialogs ---------- */
@@ -392,7 +400,7 @@ function blank() {
 /* ---------- Watermark (re-created if removed or edited) ---------- */
 function mountWM() {
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const lines = [me.name, '@' + me.username, me.email, `ID ${a?.id || 'PRE'} · ${new Date().toLocaleDateString()}`].map(esc);
+  const lines = [me.name, '@' + me.username, me.email, `ID ${a ? a.id.slice(0, 8).toUpperCase() : 'PRE'} · ${new Date().toLocaleDateString()}`].map(esc);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="380" height="230"><g transform="rotate(-24 190 115)" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="rgba(120,200,255,.17)" text-anchor="middle">${lines.map((t, i) => `<text x="190" y="${82 + i * 22}">${t}</text>`).join('')}</g></svg>`;
   const img = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
   let w = document.getElementById('wm');
