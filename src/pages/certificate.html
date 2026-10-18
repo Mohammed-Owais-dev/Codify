@@ -49,14 +49,14 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .body{font-size:18px;color:#475569;margin-top:20px}
 .course{font-family:'Playfair Display',serif;font-weight:700;font-size:32px;color:#0a1a3a;margin-top:4px}
 .score{font-size:18px;color:#475569;margin-top:6px}.score b{color:#0077ff;font-size:21px}
-.foot{position:absolute;left:0;right:0;bottom:30px;display:grid;grid-template-columns:1fr 150px 1fr;align-items:end}
+.foot{position:absolute;left:0;right:0;bottom:44px;display:grid;grid-template-columns:1fr 150px 1fr;align-items:end}
 .foot small{display:block;color:#64748b;font-size:11px;font-weight:800;letter-spacing:2px;margin-top:6px}
 .qrbox{justify-self:start;text-align:center}
 .qr{display:inline-block;background:#fff;padding:6px;border:1px solid rgba(10,26,58,.25);border-radius:6px;line-height:0}
 .sg{justify-self:end;display:grid;gap:18px;width:250px;text-align:center}
 .sg .ln{border-bottom:1px solid #0a1a3a;padding-bottom:4px;font-weight:800;font-size:17px;min-height:30px}
 .sg .sig{font-family:'Great Vibes',cursive;font-size:38px;font-weight:400;line-height:1}
-.cid{position:absolute;bottom:50px;left:0;right:0;font-size:12px;letter-spacing:1.5px;color:#64748b;text-align:center}
+.cid{position:absolute;bottom:2px;left:0;right:0;font-size:12px;letter-spacing:1.5px;color:#64748b;text-align:center}
 .cid b{color:#0a1a3a}
 
 .state{max-width:560px;margin:40px auto;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:20px;padding:34px}
@@ -65,7 +65,23 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .vrow{display:flex;gap:10px}.vrow input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px}
 .vmsg{margin-top:12px;font-size:.9rem;color:#94a3b8;min-height:1.2em}.vmsg.bad{color:#f87171}
 .sec{font-size:1.3rem;color:#fff;margin:0 0 16px}
-.list{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;text-align:left}
+.list{max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:18px;text-align:left}
+.list .card{width:290px}
+.head{margin-bottom:36px}
+.modal{position:fixed;inset:0;background:rgba(5,8,16,.78);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9000}
+.modal.on{display:flex}
+.mp{position:relative;width:100%;max-width:460px;background:rgba(13,27,42,.97);border:1px solid rgba(0,170,255,.35);border-radius:20px;padding:30px 26px 26px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mp h3{margin:0 0 6px;color:#fff;font-size:1.4rem}.mp p{color:#94a3b8;font-size:.9rem;margin:0 0 16px;line-height:1.5}
+.x{position:absolute;top:10px;right:14px;background:none;border:none;color:#94a3b8;font-size:1.8rem;cursor:pointer;line-height:1}
+.x:hover{color:#fff}
+.field{position:relative}
+.field input{width:100%;padding:14px 56px 14px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px;box-sizing:border-box}
+.scanbtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:10px;border:1px solid rgba(0,170,255,.4);background:rgba(0,170,255,.12);color:#00aaff;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.scanbtn:hover{background:rgba(0,170,255,.25);color:#fff}
+.cam{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:1/1;max-height:46vh;margin:0 auto 14px}
+.cam video{width:100%;height:100%;object-fit:cover}
+.frame{position:absolute;inset:16%;border:3px solid #00aaff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
+.mrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .card{display:block;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:18px;padding:20px;text-decoration:none;color:inherit;transition:.3s}
 .card:hover{border-color:rgba(0,170,255,.6);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,170,255,.2)}
 .card h3{margin:0 0 6px;color:#fff}.card p{margin:0;color:#94a3b8;font-size:.88rem}
@@ -81,9 +97,34 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 
 <div id="footer-placeholder"></div>
 
+<div id="vModal" class="modal">
+  <div class="mp" role="dialog" aria-modal="true" aria-labelledby="vTitle">
+    <button class="x" id="vClose" type="button" aria-label="Close">&times;</button>
+    <h3 id="vTitle">Verify a certificate</h3>
+    <div id="vInputView">
+      <p>Enter the certificate ID, or tap the scanner icon to scan its QR code.</p>
+      <div class="field">
+        <input id="vInput" type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" autocomplete="off" aria-label="Certificate ID">
+        <button class="scanbtn" id="vScan" type="button" aria-label="Scan QR code" title="Scan QR code">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
+        </button>
+      </div>
+      <button class="btn" id="vGo" type="button" style="width:100%;margin-top:14px">Verify</button>
+    </div>
+    <div id="vScanView" hidden>
+      <p>Point your camera at the QR code on the certificate.</p>
+      <div class="cam"><video id="vVideo" playsinline muted></video><div class="frame"></div></div>
+      <div class="mrow"><button class="btn ghost" id="vUpload" type="button">Upload QR image</button><button class="btn ghost" id="vBack" type="button">Enter ID instead</button></div>
+      <input id="vFile" type="file" accept="image/*" hidden>
+    </div>
+    <div class="vmsg" id="vMsg" role="alert"></div>
+  </div>
+</div>
+
 <script type="module" src="/src/js/components.js"></script>
 <script src="/src/js/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -97,23 +138,73 @@ const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month
 const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
 const txt = (node, sel, v) => { node.querySelector(sel).textContent = v; };
 
-function verifyBox() {
-  const box = el(`<form class="verify" autocomplete="off"><h3>Verify a certificate</h3>
-    <p>Enter the certificate ID, or scan the QR code printed on the certificate.</p>
-    <div class="vrow"><input type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" aria-label="Certificate ID"><button class="btn" type="submit">Verify</button></div>
-    <div class="vmsg" role="alert"></div></form>`);
-  const msg = box.querySelector('.vmsg'), inp = box.querySelector('input');
-  box.onsubmit = async e => {
-    e.preventDefault(); msg.className = 'vmsg';
-    const m = inp.value.match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i);       // also accepts a pasted certificate link
-    if (!m) { msg.textContent = 'Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.'; msg.classList.add('bad'); return; }
-    const id = m[0].toUpperCase(); msg.textContent = 'Checking…';
-    const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
-    if (error || !data?.length) { msg.textContent = `No certificate found with the ID ${id}.`; msg.classList.add('bad'); return; }
-    location.href = '/certificate?id=' + encodeURIComponent(id);
-  };
-  return box;
+/* ---- verify window: type an ID, scan with the camera, or upload a QR image ---- */
+const vModal = $('#vModal'), vVideo = $('#vVideo'), vMsg = $('#vMsg');
+let stream = null, raf = 0;
+const setMsg = (t = '', bad = false) => { vMsg.textContent = t; vMsg.className = 'vmsg' + (bad ? ' bad' : ''); };
+const extractId = t => ((String(t).match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i) || [])[0] || '').toUpperCase();
+
+function stopCam() { cancelAnimationFrame(raf); stream?.getTracks().forEach(t => t.stop()); stream = null; vVideo.srcObject = null; }
+function showInputView() { stopCam(); $('#vInputView').hidden = false; $('#vScanView').hidden = true; }
+function openVerify() { vModal.classList.add('on'); showInputView(); $('#vInput').value = ''; setMsg(); $('#vInput').focus(); }
+function closeVerify() { stopCam(); vModal.classList.remove('on'); }
+
+async function checkId(id) {
+  setMsg('Checking…');
+  const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
+  if (error || !data?.length) { showInputView(); $('#vInput').value = id; setMsg(`No certificate found with the ID ${id}.`, true); return; }
+  location.href = '/certificate?id=' + encodeURIComponent(id);
 }
+function decodeAndCheck(imageData, w, h) {
+  const r = window.jsQR && jsQR(imageData, w, h);
+  if (!r?.data) return false;
+  const id = extractId(r.data);
+  if (!id) { stopCam(); showInputView(); setMsg('That QR code is not a Codify certificate.', true); return true; }
+  stopCam(); checkId(id); return true;
+}
+async function startCam() {
+  $('#vInputView').hidden = true; $('#vScanView').hidden = false; setMsg();
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    vVideo.srcObject = stream; await vVideo.play();
+  } catch { setMsg('Camera is not available. Allow camera access, or upload a QR image instead.', true); return; }
+  const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true });
+  const tick = () => {
+    if (!stream) return;
+    if (vVideo.readyState >= 2 && vVideo.videoWidth) {
+      const k = Math.min(1, 640 / vVideo.videoWidth); c.width = vVideo.videoWidth * k; c.height = vVideo.videoHeight * k;
+      x.drawImage(vVideo, 0, 0, c.width, c.height);
+      if (decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) return;
+    }
+    raf = requestAnimationFrame(tick);
+  };
+  tick();
+}
+function scanFile(file) {
+  if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    const k = Math.min(1, 1200 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+    c.width = img.width * k; c.height = img.height * k;
+    const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(img.src);
+    if (!decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) setMsg('No QR code was found in that image. Try a clearer picture.', true);
+  };
+  img.onerror = () => setMsg('That file could not be read as an image.', true);
+  img.src = URL.createObjectURL(file);
+}
+$('#vClose').onclick = closeVerify;
+vModal.addEventListener('click', e => { if (e.target === vModal) closeVerify(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeVerify(); if (e.key === 'Enter' && vModal.classList.contains('on') && !$('#vInputView').hidden) $('#vGo').click(); });
+$('#vScan').onclick = startCam;
+$('#vBack').onclick = () => { showInputView(); setMsg(); };
+$('#vUpload').onclick = () => $('#vFile').click();
+$('#vFile').onchange = e => { scanFile(e.target.files[0]); e.target.value = ''; };
+$('#vGo').onclick = () => {
+  const id = extractId($('#vInput').value);              // also accepts a pasted certificate link
+  if (!id) return setMsg('Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.', true);
+  checkId(id);
+};
 
 async function init() {
   const id = new URLSearchParams(location.search).get('id');
@@ -128,7 +219,7 @@ async function showCertificate(id) {
     view.replaceChildren(el(`<div><div class="hero-badge bad">Not found</div><h1 class="t">Certificate not found</h1>
       <p class="sub">We couldn't find a certificate with this ID. Check the link or QR code and try again.</p>
       <a class="btn ghost" href="/certificate">My certificates</a></div>`));
-    view.firstChild.append(el('<div style="margin-top:30px"></div>'), verifyBox());
+    const vb = el('<button class="btn" style="margin-left:10px">Verify another certificate</button>'); vb.onclick = openVerify; view.firstChild.querySelector('a').after(vb);
     return;
   }
   const page = el(`<div>
@@ -165,6 +256,7 @@ async function showCertificate(id) {
   $('#cScore').innerHTML = `with a score of <b>${Math.round(c.percentage)}%</b>`;
   txt(page, '#cDate', fmt(c.issued_at)); txt(page, '#cId', id); txt(page, '#cUrl', location.host + '/certificate');
   new QRCode($('#qr'), { text: `${location.origin}/certificate?id=${encodeURIComponent(id)}`, width: 112, height: 112, colorDark: '#0a1a3a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  const cv = $('#qr canvas'); if (cv) $('#qr').innerHTML = `<img src="${cv.toDataURL('image/png')}" width="112" height="112" alt="QR code" style="display:block">`;
   document.title = `${c.full_name} - ${courseName(c.course_id)} Certificate | Codify`;
 
   const fit = () => { const f = $('#fit'), k = Math.min(1, f.clientWidth / 1123); $('#cert').style.transform = `scale(${k})`; f.style.height = 794 * k + 'px'; };
@@ -187,22 +279,21 @@ async function showCertificate(id) {
   };
 }
 
-/* ---- no id: certificate list (logged in) + public verify box ---- */
+/* ---- no id: header with Verify button, then the account's certificates ---- */
 async function showList() {
   const { data: { session } } = await supabase.auth.getSession();
-  const wrap = el(`<div><div class="hero-badge">Achievements</div><h1 class="t">Codify <span>Certificates</span></h1>
-    <p class="sub">Open the certificates you've earned, or verify any Codify certificate by its ID. Pass a course exam with 50% or more to earn one.</p></div>`);
-  wrap.append(verifyBox(), el('<h2 class="sec">My certificates</h2>'));
+  const wrap = el(`<div><div class="head"><div class="hero-badge">Achievements</div>
+    <h1 class="t">Codify <span>Certificates</span></h1>
+    <p class="sub">Pass a course exam with 50% or more to earn a certificate. Anyone can check that a certificate is genuine.</p>
+    <button class="btn" id="openVerify" type="button">Verify Certificate</button></div>
+    <h2 class="sec">My certificates</h2></div>`);
+  wrap.querySelector('#openVerify').onclick = openVerify;
   const list = el('<div class="list"></div>');
   if (!session?.user) {
-    list.style.display = 'block';
-    list.append(el('<div class="state">Log in to see your certificates.<br><br><a class="btn" href="/login">Log in</a></div>'));
+    list.append(el('<div class="state" style="width:100%">Log in to see your certificates.<br><br><a class="btn" href="/login">Log in</a></div>'));
   } else {
     const { data } = await supabase.from('certificates').select('id, course_id, percentage, issued_at').order('issued_at', { ascending: false });
-    if (!data?.length) {
-      list.style.display = 'block';
-      list.append(el('<div class="state">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
-    }
+    if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
     (data || []).forEach(c => {
       const a = el('<a class="card"><h3></h3><p></p></a>');
       a.href = '/certificate?id=' + encodeURIComponent(c.id);
