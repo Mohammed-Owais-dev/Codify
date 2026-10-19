@@ -42,7 +42,7 @@
     },
     {
       "source": "/admin",
-      "destination": "/src/pages/account/admin.html"
+      "destination": "/src/pages/admin.html"
     },
     {
       "source": "/exam/:course",
