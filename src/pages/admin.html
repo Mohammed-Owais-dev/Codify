@@ -39,6 +39,7 @@ td small{display:block;color:#94a3b8}
 .pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:.75rem;font-weight:800;border:1px solid}
 .pill.v{color:#34d399;border-color:rgba(16,185,129,.45);background:rgba(16,185,129,.1)}
 .pill.r{color:#f87171;border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.1)}
+.bar{height:6px;border-radius:4px;background:linear-gradient(90deg,#0077ff,#00aaff);margin-top:4px;min-width:2px}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .empty{color:#94a3b8;padding:20px;text-align:center}
 .modal{position:fixed;inset:0;background:rgba(5,8,16,.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9000}
@@ -67,8 +68,25 @@ td small{display:block;color:#94a3b8}
 
   <section class="panel">
     <div class="ph"><h2>Certificates</h2>
-      <form class="search" id="sf"><input id="q" type="search" placeholder="Search ID, name, username or email" aria-label="Search certificates"><button class="btn" type="submit">Search</button></form></div>
+      <form class="search" id="sf"><input id="q" type="search" placeholder="Search ID, name, username or email" aria-label="Search certificates"><button class="btn" type="submit">Search</button></form><button class="btn ghost" id="exp" type="button">Export CSV</button></div>
     <div class="tw"><table><thead><tr><th>CERTIFICATE</th><th>HOLDER</th><th>COURSE</th><th>SCORE</th><th>ISSUED</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Course analytics</h2></div>
+    <div class="tw"><table><thead><tr><th>COURSE</th><th>ENROLLED</th><th>EXAMS TAKEN</th><th>PASS RATE</th><th>AVG SCORE</th><th>CERTIFICATES</th></tr></thead><tbody id="courses"></tbody></table></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Suspicious attempts</h2></div>
+    <p class="sub" style="margin:0 0 12px">Two or more warnings, or a pass in under a quarter of the allowed time.</p>
+    <div class="tw"><table><thead><tr><th>USER</th><th>COURSE</th><th>SCORE</th><th>WARNINGS</th><th>TIME USED</th><th>ENDED BY</th><th></th></tr></thead><tbody id="susp"></tbody></table></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Users</h2>
+      <form class="search" id="uf"><input id="uq" type="search" placeholder="Search email or name" aria-label="Search users"><button class="btn" type="submit">Search</button></form></div>
+    <div class="tw"><table><thead><tr><th>USER</th><th>JOINED</th><th>LAST LOGIN</th><th>ENROLLED</th><th>LESSONS DONE</th><th>EXAMS</th><th>CERTIFICATES</th><th></th></tr></thead><tbody id="users"></tbody></table></div>
   </section>
 
   <section class="panel">
@@ -158,6 +176,34 @@ async function search() {
 }
 const refresh = () => Promise.all([search(), loadStats(), loadLog()]);
 
+/* ---- analytics, suspicious attempts, users, CSV ---- */
+const fill = (sel, rows, cols, empty) => { const tb = $(sel); tb.replaceChildren(); if (!rows) return;
+  if (!rows.length) return tb.append(h('tr', {}, h('td', { colspan: cols.length, class: 'empty' }, empty)));
+  rows.forEach(r => tb.append(h('tr', {}, cols.map(f => h('td', {}, f(r)))))); };
+const findCert = q => h('button', { class: 'btn ghost sm', type: 'button', onclick: () => { $('#q').value = q; search(); $('#sf').scrollIntoView({ behavior: 'smooth' }); } }, 'Certificates');
+async function loadCourses() {
+  fill('#courses', await rpc('admin_course_stats'), [r => course(r.course), r => r.enrolled, r => r.taken,
+    r => { const p = r.taken ? Math.round(100 * r.passed / r.taken) : 0; return [r.taken ? p + '%' : '-', h('div', { class: 'bar', style: `width:${p}%` })]; },
+    r => r.taken ? r.avg_pct + '%' : '-', r => r.certs], 'No data yet.');
+}
+async function loadSusp() {
+  fill('#susp', await rpc('admin_suspicious'), [a => [a.email, h('small', {}, fmt(a.started_at, 1))], a => course(a.course_id),
+    a => a.score == null ? '-' : `${a.score}/${a.total}`, a => a.warnings ?? 0,
+    a => a.minutes_taken == null ? '-' : `${a.minutes_taken} / ${a.minutes_allowed} min`, a => a.end_reason || '-', a => findCert(a.email)], 'Nothing suspicious found.');
+}
+async function loadUsers() {
+  fill('#users', await rpc('admin_users', { p_q: $('#uq').value }), [u => [u.full_name || '-', h('small', {}, u.email)], u => fmt(u.created_at), u => fmt(u.last_sign_in, 1),
+    u => u.enrolled, u => u.lessons, u => u.exams, u => u.certs, u => findCert(u.email)], 'No users found.');
+}
+$('#uf').onsubmit = e => { e.preventDefault(); loadUsers(); };
+$('#exp').onclick = async () => {
+  const r = await rpc('admin_export_certificates'); if (!r) return;
+  const cols = ['id', 'full_name', 'username', 'email', 'course_id', 'percentage', 'issued_at', 'status', 'revoked_reason'];
+  const esc = v => '"' + String(v ?? '').replace(/^[=+\-@]/, "'$&").replace(/"/g, '""') + '"';   // quote cells, defuse spreadsheet formulas
+  const csv = [cols.join(','), ...r.map(x => cols.map(k => esc(x[k])).join(','))].join('\n');
+  const a = h('a', { href: URL.createObjectURL(new Blob([csv], { type: 'text/csv' })), download: 'codify-certificates.csv' }); a.click(); toast('CSV downloaded.');
+};
+
 function revoke(c) {
   modal({ title: 'Revoke certificate?', text: `${c.id} (${c.full_name}, ${course(c.course_id)}). It will show as REVOKED to anyone who verifies it.`, reason: true, yes: 'Revoke',
     onYes: async reason => { if (await rpc('admin_set_revoked', { p_id: c.id, p_revoke: true, p_reason: reason }) !== null) { closeModal(); toast('Certificate revoked.'); refresh(); } } });
@@ -183,7 +229,7 @@ $('#sf').onsubmit = e => { e.preventDefault(); search(); };
   const { data: ok, error } = await supabase.rpc('admin_check');
   if (error || ok !== true) return notFound();
   document.body.classList.remove('pending');
-  refresh();
+  refresh(); loadCourses(); loadSusp(); loadUsers();
 })();
 </script>
 </body>
