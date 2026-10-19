@@ -127,7 +127,6 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 <script type="module" src="/src/js/components.js"></script>
 <script src="/src/js/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script type="module">
@@ -167,43 +166,64 @@ async function checkId(id) {
   if (error || !data?.length) { showInputView(); $('#vInput').value = id; setMsg(`No certificate found with the ID ${id}.`, true); return; }
   location.href = '/certificate?id=' + encodeURIComponent(id);
 }
-function decodeAndCheck(imageData, w, h) {
-  const r = window.jsQR && jsQR(imageData, w, h);
-  if (!r?.data) return false;
-  const id = extractId(r.data);
-  if (!id) { stopCam(); showInputView(); setMsg('That QR code is not a Codify certificate.', true); return true; }
-  stopCam(); checkId(id); return true;
+// QR reading: the browser's built-in BarcodeDetector when available, otherwise the jsQR library (loaded on demand, with a backup source)
+const QR_LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js', 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js'];
+const loadJsQR = () => QR_LIBS.reduce((p, src) => p.then(ok => ok || new Promise(res => {
+  const sc = document.createElement('script'); sc.src = src; sc.onload = () => res(!!window.jsQR); sc.onerror = () => res(false); document.head.appendChild(sc);
+})), Promise.resolve(!!window.jsQR));
+
+async function decodeCanvas(c) {
+  if ('BarcodeDetector' in window) {
+    try { const r = await new BarcodeDetector({ formats: ['qr_code'] }).detect(c); if (r[0]?.rawValue) return r[0].rawValue; } catch {}
+  }
+  if (!(await loadJsQR())) throw new Error('scanner-unavailable');
+  const d = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height);
+  return jsQR(d.data, d.width, d.height, { inversionAttempts: 'attemptBoth' })?.data || null;
 }
+const scannerFailed = () => { stopCam(); showInputView(); setMsg('The QR scanner could not load. Please type the certificate ID instead.', true); };
+
+async function handleDecoded(text) {
+  const id = extractId(text);
+  if (!id) { showInputView(); setMsg('That QR code is not a Codify certificate.', true); return; }
+  stopCam(); await checkId(id);
+}
+
 async function startCam() {
   $('#vInputView').hidden = true; $('#vScanView').hidden = false; setMsg();
   try {
     stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
     vVideo.srcObject = stream; await vVideo.play();
   } catch { setMsg('Camera is not available. Allow camera access, or upload a QR image instead.', true); return; }
-  const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true });
-  const tick = () => {
+  setMsg('Scanning… hold the QR code inside the frame.');
+  const c = document.createElement('canvas'); let busy = false, last = 0;
+  const tick = async t => {
     if (!stream) return;
-    if (vVideo.readyState >= 2 && vVideo.videoWidth) {
-      const k = Math.min(1, 640 / vVideo.videoWidth); c.width = vVideo.videoWidth * k; c.height = vVideo.videoHeight * k;
-      x.drawImage(vVideo, 0, 0, c.width, c.height);
-      if (decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) return;
+    if (!busy && t - last > 150 && vVideo.readyState >= 2 && vVideo.videoWidth) {
+      busy = true; last = t;
+      const k = Math.min(1, 800 / vVideo.videoWidth); c.width = vVideo.videoWidth * k; c.height = vVideo.videoHeight * k;
+      c.getContext('2d', { willReadFrequently: true }).drawImage(vVideo, 0, 0, c.width, c.height);
+      try { const text = await decodeCanvas(c); if (text) return handleDecoded(text); }
+      catch { return scannerFailed(); }
+      busy = false;
     }
     raf = requestAnimationFrame(tick);
   };
-  tick();
+  raf = requestAnimationFrame(tick);
 }
-function scanFile(file) {
+
+async function scanFile(file) {
   if (!file) return;
-  const img = new Image();
-  img.onload = () => {
-    const k = Math.min(1, 1200 / Math.max(img.width, img.height)), c = document.createElement('canvas');
-    c.width = img.width * k; c.height = img.height * k;
-    const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0, c.width, c.height);
-    URL.revokeObjectURL(img.src);
-    if (!decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) setMsg('No QR code was found in that image. Try a clearer picture.', true);
-  };
-  img.onerror = () => setMsg('That file could not be read as an image.', true);
-  img.src = URL.createObjectURL(file);
+  setMsg('Reading image…');
+  const url = URL.createObjectURL(file), img = await loadImg(url); URL.revokeObjectURL(url);
+  if (!img) return setMsg('That file could not be read as an image.', true);
+  // a tight screenshot has no white margin, which QR readers need, so also try with one added
+  for (const [max, pad] of [[1200, 0], [1200, .15], [700, .15]]) {
+    const k = Math.min(1, max / Math.max(img.width, img.height)), w = Math.round(img.width * k), h = Math.round(img.height * k), p = Math.round(Math.max(w, h) * pad);
+    const c = document.createElement('canvas'); c.width = w + 2 * p; c.height = h + 2 * p;
+    const x = c.getContext('2d', { willReadFrequently: true }); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, p, p, w, h);
+    try { const text = await decodeCanvas(c); if (text) return handleDecoded(text); } catch { return setMsg('The QR scanner could not load. Please type the certificate ID instead.', true); }
+  }
+  setMsg('No QR code was found in that image. Try a clearer or larger picture.', true);
 }
 $('#vClose').onclick = closeVerify;
 vModal.addEventListener('click', e => { if (e.target === vModal) closeVerify(); });
