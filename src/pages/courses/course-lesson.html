@@ -705,7 +705,14 @@
     }
 
     /* Mobile curriculum and breadcrumb styles stay inside this style block. */
-    </style>
+    
+        /* Keep the lesson header and its profile dropdown above the breadcrumb.
+           The dropdown's z-index is limited by its navbar stacking context. */
+        .codify-breadcrumb-bar {
+            z-index: 800 !important;
+        }
+
+</style>
 </head>
 
 <body>
