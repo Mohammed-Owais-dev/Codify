@@ -19,7 +19,14 @@ main{display:block!important;margin-top:100px!important;position:relative;z-inde
 h1.t{font-size:2.4rem;font-weight:800;color:#fff;margin:0 0 8px}
 h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .sub{color:#94a3b8;margin:0 auto 26px;max-width:600px;line-height:1.6}
-.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.toolbar{max-width:1123px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.back{color:#94a3b8;text-decoration:none;font-weight:700;font-size:.95rem;transition:.2s}.back:hover{color:#00aaff}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.info{max-width:1123px;margin:22px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;text-align:left}
+.tile{background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:14px;padding:14px 16px;min-width:0}
+.tile small{display:block;color:#64748b;font-size:.7rem;font-weight:800;letter-spacing:1.5px;margin-bottom:4px}
+.tile b{color:#fff;font-size:1rem;overflow-wrap:anywhere}
+@media(max-width:800px){.info{grid-template-columns:1fr 1fr}.toolbar{justify-content:center}}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 24px;border-radius:12px;border:none;font:inherit;font-weight:700;
   font-size:.95rem;color:#fff;text-decoration:none;cursor:pointer;background:linear-gradient(90deg,#0077ff,#00aaff);
   box-shadow:0 4px 15px rgba(0,170,255,.25);transition:.25s}
@@ -66,7 +73,7 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .vmsg{margin-top:12px;font-size:.9rem;color:#94a3b8;min-height:1.2em}.vmsg.bad{color:#f87171}
 .sec{font-size:1.3rem;color:#fff;margin:0 0 16px}
 .list{max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:18px;text-align:left}
-.list .card{width:290px}
+.list .card{width:290px;box-sizing:border-box}
 .head{margin-bottom:36px}
 .codify-toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,42,.95);border:1px solid rgba(0,170,255,.4);box-shadow:0 10px 30px rgba(0,0,0,.6);
   backdrop-filter:blur(12px);color:#e0e6ed;padding:16px 20px;border-radius:14px;display:flex;align-items:center;gap:12px;z-index:9999;font-size:.9rem;
@@ -88,9 +95,18 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .cam video{width:100%;height:100%;object-fit:cover}
 .frame{position:absolute;inset:16%;border:3px solid #00aaff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
 .mrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.card{display:block;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:18px;padding:20px;text-decoration:none;color:inherit;transition:.3s}
-.card:hover{border-color:rgba(0,170,255,.6);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,170,255,.2)}
-.card h3{margin:0 0 6px;color:#fff}.card p{margin:0;color:#94a3b8;font-size:.88rem}
+.card{display:flex;flex-direction:column;gap:12px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:18px;padding:20px;text-decoration:none;color:inherit;transition:.3s}
+.card:hover{border-color:rgba(0,170,255,.65);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,170,255,.2)}
+.ch{display:flex;align-items:center;justify-content:space-between}
+.ch img{width:44px;height:44px;object-fit:contain;background:rgba(255,255,255,.05);border-radius:12px;padding:6px}
+.pill{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.45);color:#34d399;font-size:.78rem;font-weight:800;padding:4px 12px;border-radius:20px}
+.card h3{margin:0;color:#fff;font-size:1.1rem}
+.card .cid2{margin:0;color:#64748b;font-size:.78rem;letter-spacing:.5px;word-break:break-all}
+.cm{display:flex;justify-content:space-between;align-items:center;color:#94a3b8;font-size:.85rem;border-top:1px solid rgba(0,170,255,.15);padding-top:12px}
+.go{color:#00aaff;font-weight:800}
+.count{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 18px}
+.count span:empty{display:none}
+.count h2{margin:0}.count span{background:rgba(0,170,255,.15);color:#00aaff;font-weight:800;border-radius:20px;padding:2px 12px;font-size:.9rem}
 @media(max-width:600px){.vrow{flex-direction:column}main{margin-top:40px!important;padding:0 10px 50px}h1.t{font-size:1.7rem}}
 </style>
 </head>
@@ -139,6 +155,7 @@ import { supabase } from '/src/js/config/supabase-client.js';
 
 const $ = s => document.querySelector(s), view = $('#view');
 const NAMES = { c: 'C Programming', cpp: 'C++ & OOPs', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
+const LOGOS = { js: 'javascript' };
 const courseName = id => NAMES[(id || '').split('-')[0]] || id;
 const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
@@ -149,7 +166,7 @@ function showToast(msg, href, label) {
   let t = $('#codifyToast');
   if (!t) { t = document.createElement('div'); t.id = 'codifyToast'; t.className = 'codify-toast'; t.setAttribute('role', 'alert'); document.body.appendChild(t); }
   t.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span><a></a>';
-  t.querySelector('span').textContent = msg; const a = t.querySelector('a'); a.href = href; a.textContent = label;
+  t.querySelector('span').textContent = msg; const a = t.querySelector('a'); a.style.display = href ? '' : 'none'; if (href) { a.href = href; a.textContent = label; }
   t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4500);
 }
 
@@ -241,7 +258,7 @@ async function showCertificate(id) {
     <div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
     <h1 class="t">Certificate <span>of Completion</span></h1>
     <p class="sub">This certificate was issued by Codify and is valid.</p>
-    <div class="actions"><button class="btn" id="dl">Download PDF</button><a class="btn ghost" href="/certificate">My certificates</a></div>
+    <div class="toolbar"><a class="back" href="/certificate">&larr; All certificates</a><div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div></div>
     <div id="fit"><div id="cert">
       <div class="bd1"></div><div class="bd2"></div><div class="bd3"></div>
       <i class="dia" style="left:3px;top:3px"></i><i class="dia" style="right:3px;top:3px"></i><i class="dia" style="left:3px;bottom:3px"></i><i class="dia" style="right:3px;bottom:3px"></i>
@@ -262,6 +279,8 @@ async function showCertificate(id) {
         </div>
         <div class="cid">CERTIFICATE ID: <b id="cId"></b> &nbsp;·&nbsp; <span id="cUrl"></span></div>
       </div></div></div>
+    <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
+      <div class="tile"><small>ISSUED ON</small><b id="iDate"></b></div><div class="tile"><small>CERTIFICATE ID</small><b id="iId"></b></div></div>
   </div>`);
   view.replaceChildren(page);
   const nm = c.full_name || '-';
@@ -270,8 +289,15 @@ async function showCertificate(id) {
   txt(page, '#cCourse', courseName(c.course_id) + ' Examination');
   $('#cScore').innerHTML = `with a score of <b>${Math.round(c.percentage)}%</b>`;
   txt(page, '#cDate', fmt(c.issued_at)); txt(page, '#cId', id); txt(page, '#cUrl', location.host + '/certificate');
-  new QRCode($('#qr'), { text: `${location.origin}/certificate?id=${encodeURIComponent(id)}`, width: 112, height: 112, colorDark: '#0a1a3a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
-  const cv = $('#qr canvas'); if (cv) $('#qr').innerHTML = `<img src="${cv.toDataURL('image/png')}" width="112" height="112" alt="QR code" style="display:block">`;
+  const tmp = document.createElement('div');   // drawn at 2x, shown at 112px (crisper in the PDF)
+  new QRCode(tmp, { text: `${location.origin}/certificate?id=${encodeURIComponent(id)}`, width: 224, height: 224, colorDark: '#0a1a3a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  const qrData = tmp.querySelector('canvas')?.toDataURL('image/png') || tmp.querySelector('img')?.src;
+  if (qrData) $('#qr').innerHTML = `<img src="${qrData}" width="112" height="112" alt="QR code" style="display:block">`;
+  txt(page, '#iCourse', courseName(c.course_id)); txt(page, '#iScore', Math.round(c.percentage) + '%'); txt(page, '#iDate', fmt(c.issued_at)); txt(page, '#iId', id);
+  $('#cp').onclick = async () => {
+    const url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
+    try { await navigator.clipboard.writeText(url); showToast('Verification link copied.'); } catch { showToast(url); }
+  };
   document.title = `${c.full_name} - ${courseName(c.course_id)} Certificate | Codify`;
 
   const fit = () => { const f = $('#fit'), k = Math.min(1, f.clientWidth / 1123); $('#cert').style.transform = `scale(${k})`; f.style.height = 794 * k + 'px'; };
@@ -284,8 +310,14 @@ async function showCertificate(id) {
       const clone = $('#cert').cloneNode(true);       // capture at full size, not the scaled preview
       clone.style.cssText = 'position:fixed;left:-10000px;top:0;transform:none';
       document.body.appendChild(clone);
+      const qi = clone.querySelector('#qr img'), cr = clone.getBoundingClientRect(), qr = qi?.getBoundingClientRect();
+      if (qi) qi.style.visibility = 'hidden';          // html2canvas drops generated QR images, so it is stamped on below
       const canvas = await html2canvas(clone, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
       clone.remove();
+      if (qr && qrData) {
+        const img = new Image(); img.src = qrData; await img.decode();
+        canvas.getContext('2d').drawImage(img, (qr.left - cr.left) * 2, (qr.top - cr.top) * 2, qr.width * 2, qr.height * 2);
+      }
       const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1123, 794] });
       pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 1123, 794);
       pdf.save(`Codify-${courseName(c.course_id).replace(/\W+/g, '-')}-Certificate.pdf`);
@@ -301,7 +333,8 @@ async function showList() {
     <h1 class="t">Codify <span>Certificates</span></h1>
     <p class="sub">Pass a course exam with 50% or more to earn a certificate. Anyone can check that a certificate is genuine.</p>
     <button class="btn" id="openVerify" type="button">Verify Certificate</button></div>
-    <h2 class="sec">My certificates</h2></div>`);
+    <div class="count"><h2 class="sec">My certificates</h2><span></span></div></div>`);
+  const count = wrap.querySelector('.count');
   wrap.querySelector('#openVerify').onclick = openVerify;
   const list = el('<div class="list"></div>');
   if (!session?.user) {
@@ -314,12 +347,18 @@ async function showList() {
     if (error) list.append(el('<div class="state" style="width:100%"></div>')), list.firstChild.textContent = `We couldn't load your certificates (${error.message}). Please refresh and try again.`;
     else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
     (data || []).forEach(c => {
-      const a = el('<a class="card"><h3></h3><p></p></a>');
+      const slug = (c.course_id || '').split('-')[0];
+      const a = el('<a class="card"><div class="ch"><img alt=""><span class="pill"></span></div><h3></h3><p class="cid2"></p><div class="cm"><span class="d"></span><span class="go">View &rarr;</span></div></a>');
       a.href = '/certificate?id=' + encodeURIComponent(c.id);
+      a.querySelector('img').src = `/src/assets/logos/${LOGOS[slug] || slug}.svg`;
+      a.querySelector('.pill').textContent = Math.round(c.percentage) + '%';
       a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
-      a.querySelector('p').textContent = `Score ${Math.round(c.percentage)}% · ${fmt(c.issued_at)}`;
+      a.querySelector('.cid2').textContent = c.id;
+      a.querySelector('.d').textContent = fmt(c.issued_at);
       list.append(a);
     });
+    if (data?.length) count.querySelector('span').textContent = data.length;
+    else count.querySelector('span').remove();
   }
   wrap.append(list); view.replaceChildren(wrap);
 }
