@@ -236,6 +236,13 @@ document.getElementById('footer-placeholder').innerHTML = `
     </div>
 `;
 
+// Keep the engineer dialog outside footer stacking contexts so its backdrop
+// blurs every page layer, including the fixed top navigation on the home page.
+const engineerModalElement = document.getElementById('engineerModal');
+if (engineerModalElement && engineerModalElement.parentElement !== document.body) {
+    document.body.appendChild(engineerModalElement);
+}
+
 const teamDatabase = {
     'owais': { 
         name: 'Mohammed Owais', 
