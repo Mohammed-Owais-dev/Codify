@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+<link rel="stylesheet" href="/src/css/global.css">
+<title>Admin | Codify</title>
+<style>
+body{min-width:0!important;overflow-x:hidden!important;font-family:'Nunito',sans-serif;background:#0a0f1c;color:#e0e6ed;margin:0}
+body.pending{visibility:hidden}
+main{display:block!important;margin-top:100px!important;position:relative;z-index:2;padding:0 20px 70px;max-width:1150px;margin-left:auto!important;margin-right:auto!important}
+h1{font-size:2rem;font-weight:800;color:#fff;margin:0 0 4px}h1 span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:#94a3b8;margin:0 0 24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.tile,.panel{background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:16px;backdrop-filter:blur(12px)}
+.tile{padding:16px 18px}.tile small{display:block;color:#64748b;font-size:.7rem;font-weight:800;letter-spacing:1.5px}.tile b{font-size:1.8rem;color:#00aaff}
+.panel{padding:20px;margin-bottom:24px}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.ph h2{margin:0;font-size:1.2rem;color:#fff}
+.search{display:flex;gap:10px;flex:1;max-width:520px}
+.search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border-radius:10px;border:none;font:inherit;font-weight:700;font-size:.88rem;color:#fff;cursor:pointer;background:linear-gradient(90deg,#0077ff,#00aaff);transition:.2s}
+.btn:hover{filter:brightness(1.12)}.btn:disabled{opacity:.5;cursor:wait}
+.btn.ghost{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.3);color:#00aaff}
+.btn.danger{background:linear-gradient(90deg,#dc2626,#ef4444)}.btn.ok{background:linear-gradient(90deg,#059669,#10b981)}
+.btn.sm{padding:6px 12px;font-size:.8rem}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:760px}
+th{text-align:left;color:#64748b;font-size:.7rem;letter-spacing:1.5px;font-weight:800;padding:8px 10px;border-bottom:1px solid rgba(0,170,255,.2)}
+td{padding:11px 10px;border-bottom:1px solid rgba(0,170,255,.1);vertical-align:middle}
+td small{display:block;color:#94a3b8}
+.id{font-family:ui-monospace,Consolas,monospace;font-size:.82rem;color:#e0e6ed}
+.pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:.75rem;font-weight:800;border:1px solid}
+.pill.v{color:#34d399;border-color:rgba(16,185,129,.45);background:rgba(16,185,129,.1)}
+.pill.r{color:#f87171;border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.1)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.empty{color:#94a3b8;padding:20px;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(5,8,16,.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9000}
+.modal.on{display:flex}
+.mp{width:100%;max-width:560px;max-height:88vh;overflow:auto;background:rgba(13,27,42,.98);border:1px solid rgba(0,170,255,.35);border-radius:18px;padding:24px}
+.mp h3{margin:0 0 6px;color:#fff}.mp p{color:#94a3b8;font-size:.9rem;margin:0 0 14px}
+.mp textarea{width:100%;box-sizing:border-box;min-height:90px;padding:12px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;resize:vertical}
+.mrow{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,42,.96);border:1px solid rgba(0,170,255,.4);padding:14px 18px;border-radius:12px;z-index:9999;opacity:0;transform:translateY(16px);transition:.3s;pointer-events:none}
+.toast.show{opacity:1;transform:none}.toast.bad{border-color:rgba(248,113,113,.6)}
+@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}main{margin-top:40px!important}}
+</style>
+</head>
+<body class="pending">
+<div id="navbar-placeholder"></div>
+<main>
+  <h1>Admin <span>Dashboard</span></h1>
+  <p class="sub">Search certificates, revoke or restore them, and review exam attempts.</p>
+
+  <div class="stats">
+    <div class="tile"><small>CERTIFICATES</small><b id="sCert">-</b></div>
+    <div class="tile"><small>REVOKED</small><b id="sRev">-</b></div>
+    <div class="tile"><small>EXAMS SUBMITTED</small><b id="sAtt">-</b></div>
+    <div class="tile"><small>STARTED (7 DAYS)</small><b id="sWeek">-</b></div>
+  </div>
+
+  <section class="panel">
+    <div class="ph"><h2>Certificates</h2>
+      <form class="search" id="sf"><input id="q" type="search" placeholder="Search ID, name, username or email" aria-label="Search certificates"><button class="btn" type="submit">Search</button></form></div>
+    <div class="tw"><table><thead><tr><th>CERTIFICATE</th><th>HOLDER</th><th>COURSE</th><th>SCORE</th><th>ISSUED</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><h2>Recent admin activity</h2></div>
+    <div class="tw"><table><thead><tr><th>WHEN</th><th>ADMIN</th><th>ACTION</th><th>CERTIFICATE</th><th>REASON</th></tr></thead><tbody id="log"></tbody></table></div>
+  </section>
+</main>
+<div id="footer-placeholder"></div>
+
+<div class="modal" id="m"><div class="mp">
+  <h3 id="mT"></h3><p id="mP"></p>
+  <textarea id="mR" placeholder="Reason (kept private, saved in the activity log)"></textarea>
+  <div id="mBody"></div>
+  <div class="mrow"><button class="btn ghost" id="mNo" type="button">Close</button><button class="btn danger" id="mYes" type="button">Confirm</button></div>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script type="module" src="/src/js/components.js"></script>
+<script type="module">
+import { supabase } from '/src/js/config/supabase-client.js';
+
+const $ = s => document.querySelector(s);
+const h = (tag, attrs = {}, ...kids) => {                     // builds DOM with textContent only, so user data can never inject HTML
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === 'class' ? e.className = v : k === 'onclick' ? e.onclick = v : e.setAttribute(k, v);
+  kids.flat().forEach(c => e.append(c instanceof Node ? c : document.createTextNode(c ?? '')));
+  return e;
+};
+const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
+const course = id => NAMES[(id || '').split('-')[0]] || id;
+const fmt = (d, t) => d ? new Date(d).toLocaleString('en-GB', t ? { dateStyle: 'medium', timeStyle: 'short' } : { dateStyle: 'medium' }) : '-';
+let tt;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3500); }
+const notFound = () => location.replace('/not-found');         // non-admins just see your normal 404 page
+
+/* ---- modal ---- */
+function modal({ title, text, reason, body, yes, yesClass = 'danger', onYes }) {
+  $('#mT').textContent = title; $('#mP').textContent = text || '';
+  $('#mR').style.display = reason ? '' : 'none'; $('#mR').value = '';
+  const b = $('#mBody'); b.replaceChildren(); if (body) b.append(body);
+  const y = $('#mYes'); y.style.display = onYes ? '' : 'none'; y.textContent = yes || 'Confirm'; y.className = 'btn ' + yesClass; y.disabled = false;
+  y.onclick = async () => {
+    if (reason && !$('#mR').value.trim()) return toast('Please enter a reason.', true);
+    y.disabled = true; await onYes($('#mR').value.trim()); y.disabled = false;
+  };
+  $('#m').classList.add('on');
+}
+const closeModal = () => $('#m').classList.remove('on');
+$('#mNo').onclick = closeModal;
+$('#m').addEventListener('click', e => { if (e.target === $('#m')) closeModal(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ---- data ---- */
+async function rpc(name, args) {
+  const { data, error } = await supabase.rpc(name, args);
+  if (error) { toast(error.message, true); return null; }
+  return data;
+}
+async function loadStats() {
+  const s = await rpc('admin_stats'); if (!s) return;
+  $('#sCert').textContent = s.certificates; $('#sRev').textContent = s.revoked; $('#sAtt').textContent = s.attempts; $('#sWeek').textContent = s.attempts_7d;
+}
+async function loadLog() {
+  const rows = await rpc('admin_log_recent'); const tb = $('#log'); tb.replaceChildren();
+  if (!rows?.length) return tb.append(h('tr', {}, h('td', { colspan: 5, class: 'empty' }, 'No admin actions yet.')));
+  rows.forEach(r => tb.append(h('tr', {}, h('td', {}, fmt(r.created_at, 1)), h('td', {}, r.admin_email || '-'),
+    h('td', {}, h('span', { class: 'pill ' + (r.action === 'revoke' ? 'r' : 'v') }, r.action)), h('td', { class: 'id' }, r.target || '-'), h('td', {}, r.detail || '-'))));
+}
+async function search() {
+  const rows = await rpc('admin_search_certificates', { p_q: $('#q').value }); const tb = $('#rows'); tb.replaceChildren();
+  if (!rows) return;
+  if (!rows.length) return tb.append(h('tr', {}, h('td', { colspan: 7, class: 'empty' }, 'No certificates found.')));
+  rows.forEach(c => {
+    const acts = h('div', { class: 'acts' },
+      h('a', { class: 'btn ghost sm', href: '/certificate?id=' + encodeURIComponent(c.id), target: '_blank', rel: 'noopener' }, 'Open'),
+      h('button', { class: 'btn ghost sm', type: 'button', onclick: () => showAttempts(c) }, 'Attempts'),
+      c.revoked
+        ? h('button', { class: 'btn ok sm', type: 'button', onclick: () => restore(c) }, 'Restore')
+        : h('button', { class: 'btn danger sm', type: 'button', onclick: () => revoke(c) }, 'Revoke'));
+    tb.append(h('tr', {},
+      h('td', { class: 'id' }, c.id),
+      h('td', {}, c.full_name, h('small', {}, (c.username ? '@' + c.username + ' · ' : '') + (c.email || ''))),
+      h('td', {}, course(c.course_id)), h('td', {}, Math.round(c.percentage) + '%'), h('td', {}, fmt(c.issued_at)),
+      h('td', {}, h('span', { class: 'pill ' + (c.revoked ? 'r' : 'v') }, c.revoked ? 'Revoked' : 'Valid'), c.revoked && c.revoked_reason ? h('small', {}, c.revoked_reason) : ''),
+      h('td', {}, acts)));
+  });
+}
+const refresh = () => Promise.all([search(), loadStats(), loadLog()]);
+
+function revoke(c) {
+  modal({ title: 'Revoke certificate?', text: `${c.id} (${c.full_name}, ${course(c.course_id)}). It will show as REVOKED to anyone who verifies it.`, reason: true, yes: 'Revoke',
+    onYes: async reason => { if (await rpc('admin_set_revoked', { p_id: c.id, p_revoke: true, p_reason: reason }) !== null) { closeModal(); toast('Certificate revoked.'); refresh(); } } });
+}
+function restore(c) {
+  modal({ title: 'Restore certificate?', text: `${c.id} (${c.full_name}) will become valid again.`, yes: 'Restore', yesClass: 'ok',
+    onYes: async () => { if (await rpc('admin_set_revoked', { p_id: c.id, p_revoke: false }) !== null) { closeModal(); toast('Certificate restored.'); refresh(); } } });
+}
+async function showAttempts(c) {
+  const rows = await rpc('admin_attempts', { p_user: c.user_id }); if (!rows) return;
+  const t = h('table', { style: 'min-width:0' }, h('thead', {}, h('tr', {}, ['COURSE', 'SCORE', 'WARNINGS', 'ENDED BY', 'STARTED'].map(x => h('th', {}, x)))),
+    h('tbody', {}, rows.length ? rows.map(a => h('tr', {}, h('td', {}, course(a.course_id)), h('td', {}, a.score == null ? '-' : `${a.score}/${a.total}`),
+      h('td', {}, a.warnings ?? 0), h('td', {}, a.end_reason || 'in progress'), h('td', {}, fmt(a.started_at, 1)))) : h('tr', {}, h('td', { colspan: 5, class: 'empty' }, 'No attempts.'))));
+  modal({ title: `Exam attempts: ${c.full_name}`, text: 'Most recent first. Many warnings or a very quick pass can be signs of cheating.', body: h('div', { class: 'tw' }, t) });
+}
+
+$('#sf').onsubmit = e => { e.preventDefault(); search(); };
+
+/* ---- boot: only admins ever see this page ---- */
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return notFound();
+  const { data: ok, error } = await supabase.rpc('admin_check');
+  if (error || ok !== true) return notFound();
+  document.body.classList.remove('pending');
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -41,6 +41,10 @@
       "destination": "/src/pages/account/activity.html"
     },
     {
+      "source": "/admin",
+      "destination": "/src/pages/account/admin.html"
+    },
+    {
       "source": "/exam/:course",
       "destination": "/src/pages/exams/exam.html"
     },

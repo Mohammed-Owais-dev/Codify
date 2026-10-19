@@ -82,6 +82,7 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .card .cid2{margin:0;color:#64748b;font-size:.8rem;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pill{flex:none;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.45);color:#34d399;font-size:.8rem;font-weight:800;padding:4px 14px;border-radius:20px}
 .card .d{flex:none;color:#94a3b8;font-size:.88rem;min-width:130px;text-align:right}
+.pill.bad{color:#f87171;border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.1)}
 .go{flex:none;color:#00aaff;font-weight:800;font-size:.9rem}
 .lhead{max-width:900px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 @media(max-width:640px){.card{flex-wrap:wrap;gap:10px 14px}.card .d{text-align:left;min-width:0;order:5}.go{order:6;margin-left:auto}}
@@ -330,7 +331,14 @@ function drawCertificate(cv, d, qr, logo, sig) {
   g.fillStyle = NAVY; g.fillRect(789, 678, 250, 1);
   run(g, [['MOHAMMED OWAIS', `800 13px ${NU}`, NAVY]], 914, 697, 1.5);
   run(g, [['FOUNDER, CODIFY', `800 10px ${NU}`, '#64748b']], 914, 712, 2);
-  run(g, [['CERTIFICATE ID: ', `400 12px ${NU}`, '#64748b'], [d.id, `800 12px ${NU}`, NAVY], ['  ·  ' + d.url, `400 12px ${NU}`, '#64748b']], W / 2, 738, 1.5);
+  run(g, [['This certificate confirms completion of a Codify online course exam. It is not a professional licence or accredited qualification.', `italic 400 10.5px ${NU}`, '#64748b']], W / 2, 729);
+  run(g, [['CERTIFICATE ID: ', `400 12px ${NU}`, '#64748b'], [d.id, `800 12px ${NU}`, NAVY], ['  ·  ' + d.url, `400 12px ${NU}`, '#64748b']], W / 2, 744, 1.5);
+  if (d.revoked) {                                   // red diagonal stamp across revoked certificates
+    g.save(); g.translate(W / 2, H / 2); g.rotate(-0.38); g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = `800 150px ${NU}`; const tw = g.measureText('REVOKED').width;
+    g.strokeStyle = 'rgba(220,38,38,.55)'; g.lineWidth = 10; g.strokeRect(-tw / 2 - 30, -95, tw + 60, 190);
+    g.fillStyle = 'rgba(220,38,38,.5)'; g.fillText('REVOKED', 0, 6); g.restore();
+  }
 }
 
 /* ---- one certificate: anyone with the link can view and verify it ---- */
@@ -357,7 +365,7 @@ async function showCertificate(id) {
     <div class="frame2"><canvas id="certCanvas" role="img"></canvas></div>
     <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
       <div class="tile"><small>ISSUED ON</small><b id="iDate"></b></div><div class="tile"><small>CERTIFICATE ID</small><b id="iId"></b></div></div>
-    <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code, or by entering its ID under "Verify Certificate".</p>
+    <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code, or by entering its ID under "Verify Certificate". It confirms completion of an online course exam and is not a professional licence or accredited qualification.</p>
   </div>`);
   view.replaceChildren(page);
   txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${c.full_name || '-'}`);
@@ -372,9 +380,15 @@ async function showCertificate(id) {
   const [qr, logo, sig] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg'), loadImg('/src/assets/signature.png')]);
   const cv = $('#certCanvas');
   drawCertificate(cv, { name: c.full_name || '-', user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
-                        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate' }, qr, logo, sig);
+                        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate', revoked: !!c.revoked }, qr, logo, sig);
   cv.setAttribute('aria-label', `Certificate of achievement for ${c.full_name}, ${course} exam, score ${pct}%`);
 
+  if (c.revoked) {
+    const bd = page.querySelector('.hero-badge'); bd.classList.add('bad');
+    bd.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>Certificate revoked';
+    $('#dl').remove();
+    txt(page, '.note', 'This certificate has been revoked by Codify and is no longer valid.');
+  }
   $('#cp').onclick = async () => {
     try { await navigator.clipboard.writeText(url); showToast('Verification link copied.'); } catch { showToast(url); }
   };
@@ -405,7 +419,7 @@ async function showList() {
     list.querySelector('#takeExam').onclick = () => showToast('Please log in to take an exam.', '/login', 'Log In');
   } else {
     let { data, error } = await supabase.rpc('my_certificates');
-    if (error) ({ data, error } = await supabase.from('certificates').select('id, course_id, percentage, issued_at')
+    if (error) ({ data, error } = await supabase.from('certificates').select('id, course_id, percentage, issued_at, revoked_at')
       .eq('user_id', session.user.id).order('issued_at', { ascending: false }));
     if (error) list.append(el('<div class="state" style="width:100%"></div>')), list.firstChild.textContent = `We couldn't load your certificates (${error.message}). Please refresh and try again.`;
     else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
@@ -414,7 +428,8 @@ async function showList() {
       const a = el('<a class="card"><img alt=""><div class="mid"><h3></h3><p class="cid2"></p></div><span class="pill"></span><span class="d"></span><span class="go">View &rarr;</span></a>');
       a.href = '/certificate?id=' + encodeURIComponent(c.id);
       a.querySelector('img').src = `/src/assets/logos/${LOGOS[slug] || slug}.svg`;
-      a.querySelector('.pill').textContent = Math.round(c.percentage) + '%';
+      const rv = c.revoked || !!c.revoked_at, pl = a.querySelector('.pill');
+      pl.textContent = rv ? 'Revoked' : Math.round(c.percentage) + '%'; if (rv) pl.classList.add('bad');
       a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
       a.querySelector('.cid2').textContent = c.id;
       a.querySelector('.d').textContent = fmt(c.issued_at);
