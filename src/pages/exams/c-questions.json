@@ -1,0 +1,1502 @@
+{
+  "category": "C Programming",
+  "total_questions": 136,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the output of `printf(\"%d\", 7 / 2);` in C?",
+      "options": [
+        "3.5",
+        "3",
+        "4",
+        "Compilation error"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 2,
+      "question": "What is the output of `printf(\"%d\", -7 / 2);` on a conforming modern C implementation?",
+      "options": [
+        "-4",
+        "-3",
+        "3",
+        "Undefined behavior"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 3,
+      "question": "Which statement about `sizeof(char)` is always true?",
+      "options": [
+        "It is always 8 bits",
+        "It is always 1 byte",
+        "It is always 2 bytes",
+        "It depends on the compiler and may be 0"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 4,
+      "question": "What is the value of `x` after `int x = 5; x += 3 * 2;`?",
+      "options": [
+        "16",
+        "11",
+        "13",
+        "10"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 5,
+      "question": "Which operator has higher precedence?",
+      "options": [
+        "`+`",
+        "`&&`",
+        "`==`",
+        "`*`"
+      ],
+      "correct_answer": 3
+    },
+    {
+      "id": 6,
+      "question": "What does `5 % 2` evaluate to?",
+      "options": [
+        "2",
+        "1",
+        "2.5",
+        "0"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 7,
+      "question": "What is the output of `int x=2; printf(\"%d\", x++ + 2);`?",
+      "options": [
+        "4",
+        "5",
+        "3",
+        "Undefined behavior"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 8,
+      "question": "Which expression checks whether `n` is even?",
+      "options": [
+        "`n / 2 == 0`",
+        "`n % 2 == 0`",
+        "`n % 2 == 1`",
+        "`n & 2 == 0`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 9,
+      "question": "What happens if a non-void function reaches its closing brace without returning a value and its result is used?",
+      "options": [
+        "It always returns 0",
+        "It is guaranteed to return the last local variable",
+        "The behavior is undefined",
+        "It causes a syntax error"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 10,
+      "question": "Which is the correct declaration of a pointer to an integer?",
+      "options": [
+        "`int p*;`",
+        "`pointer int p;`",
+        "`int *p;`",
+        "`int &p;`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 11,
+      "question": "What does `*p` mean when `p` is a valid `int *`?",
+      "options": [
+        "Address stored in p",
+        "Value at the address stored in p",
+        "Size of p",
+        "A multiplication that must use two operands"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 12,
+      "question": "What is the output of `int a[]={4,8,12}; printf(\"%d\", *(a+1));`?",
+      "options": [
+        "4",
+        "8",
+        "12",
+        "Address of a[1]"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 13,
+      "question": "For `int a[6];`, what is the last valid index?",
+      "options": [
+        "6",
+        "5",
+        "4",
+        "-1"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 14,
+      "question": "What is the value of `sizeof(a) / sizeof(a[0])` when `a` is an array of 10 integers in the same scope where it is declared?",
+      "options": [
+        "10",
+        "Size of one integer",
+        "40 on every platform",
+        "It is always 1"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 15,
+      "question": "When an array is passed to a function as a parameter, what does the parameter typically receive?",
+      "options": [
+        "A complete copy of the array",
+        "A pointer to its first element",
+        "The array's length automatically",
+        "A reference object"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 16,
+      "question": "What is the output of `char s[]=\"CODE\"; printf(\"%zu\", sizeof(s));`?",
+      "options": [
+        "4",
+        "5",
+        "Depends on string length at runtime",
+        "1"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 17,
+      "question": "Which character marks the end of a C string?",
+      "options": [
+        "`\\n`",
+        "`\\0`",
+        "`EOF`",
+        "`\\t`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 18,
+      "question": "What does `strlen(\"hello\")` return?",
+      "options": [
+        "6",
+        "5",
+        "4",
+        "Size of the pointer"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 19,
+      "question": "Which standard function compares two C strings lexicographically?",
+      "options": [
+        "`strcopy()`",
+        "`strcmp()`",
+        "`strcat()`",
+        "`strlen()`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 20,
+      "question": "What is a major risk of using `strcpy(dest, src)`?",
+      "options": [
+        "It always converts lowercase to uppercase",
+        "It may overflow dest if dest is too small",
+        "It automatically allocates dest",
+        "It compares the strings instead of copying"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 21,
+      "question": "What does `const int *p` mean?",
+      "options": [
+        "p cannot point anywhere else",
+        "The integer accessed through p cannot be modified through p",
+        "The integer is automatically stored in ROM",
+        "p is a constant integer, not a pointer"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 22,
+      "question": "What does `int *const p = &x;` mean?",
+      "options": [
+        "The pointer p cannot be reassigned to another address",
+        "The value of x cannot be changed through any expression",
+        "p points only to dynamically allocated memory",
+        "p is a function pointer"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 23,
+      "question": "What is a NULL pointer intended to represent?",
+      "options": [
+        "A pointer to the first element of every array",
+        "A pointer that does not designate a valid object or function",
+        "An integer pointer with value 1",
+        "A pointer that always causes a syntax error"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 24,
+      "question": "What can happen if a program dereferences a NULL pointer?",
+      "options": [
+        "It is guaranteed to read zero",
+        "It has undefined behavior",
+        "It always returns NULL",
+        "The compiler automatically allocates memory"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 25,
+      "question": "Which function allocates memory and leaves its contents uninitialized?",
+      "options": [
+        "`calloc()`",
+        "`malloc()`",
+        "`realloc()`",
+        "`free()`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 26,
+      "question": "Which statement about `calloc(n, size)` is correct?",
+      "options": [
+        "It allocates memory and initializes all bytes to zero",
+        "It frees n blocks",
+        "It can only allocate characters",
+        "It returns an integer"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 27,
+      "question": "After memory allocated with `malloc` is no longer needed, which function releases it?",
+      "options": [
+        "`delete()`",
+        "`remove()`",
+        "`free()`",
+        "`clear()`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 28,
+      "question": "What is a memory leak?",
+      "options": [
+        "Reading a variable before initialization",
+        "Allocated memory that is no longer reachable and has not been freed",
+        "Using too many comments",
+        "A compiler warning about an unused include"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 29,
+      "question": "What should be checked after calling `malloc`?",
+      "options": [
+        "Whether the returned pointer is NULL",
+        "Whether the pointer is negative",
+        "Whether malloc changed the source code",
+        "Whether the allocation has a filename"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 30,
+      "question": "Which header declares `malloc`, `calloc`, `realloc`, and `free`?",
+      "options": [
+        "`<string.h>`",
+        "`<stdio.h>`",
+        "`<stdlib.h>`",
+        "`<memory.h>`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 31,
+      "question": "What is recursion?",
+      "options": [
+        "A loop that can never stop",
+        "A function calling itself directly or indirectly",
+        "A function with no parameters",
+        "A pointer storing another pointer"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 32,
+      "question": "What is essential for a recursive function to terminate for valid input?",
+      "options": [
+        "A base case that stops further recursive calls",
+        "At least three global variables",
+        "A `goto` statement",
+        "A dynamically allocated array"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 33,
+      "question": "What is the output of `int f(int n){ if(n==0)return 0; return n+f(n-1); }` when `f(3)` is called?",
+      "options": [
+        "3",
+        "5",
+        "6",
+        "7"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 34,
+      "question": "What does a `static` local variable retain between calls?",
+      "options": [
+        "Its value between function calls",
+        "A new value initialized on every call",
+        "The address of the function's source file",
+        "No value after a function returns"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 35,
+      "question": "What is the scope of a variable declared inside a block?",
+      "options": [
+        "The entire program",
+        "From its declaration to the end of that block",
+        "Every file linked into the program",
+        "Only the line where it is declared"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 36,
+      "question": "What does `break` do inside a loop?",
+      "options": [
+        "Skips only the current iteration",
+        "Exits the nearest enclosing loop or switch",
+        "Restarts the program",
+        "Exits every nested function"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 37,
+      "question": "What does `continue` do in a `for` loop?",
+      "options": [
+        "Terminates the entire loop",
+        "Skips to the loop's update expression, then checks the condition",
+        "Exits the function",
+        "Repeats the current statement forever"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 38,
+      "question": "How many times does `for(int i=0; i<5; i++)` execute its body if it is not interrupted?",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "Infinite times"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 39,
+      "question": "What is the output of `int i=0; while(i<3){ printf(\"%d\",i); i++; }`?",
+      "options": [
+        "123",
+        "012",
+        "0123",
+        "321"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 40,
+      "question": "What is the value of `x` after `int x=1; if (x=0) x=5; else x=7;`?",
+      "options": [
+        "1",
+        "0",
+        "5",
+        "7"
+      ],
+      "correct_answer": 3
+    },
+    {
+      "id": 41,
+      "question": "Which is the safest correction for testing whether `x` equals 10?",
+      "options": [
+        "`if (x = 10)`",
+        "`if (x == 10)`",
+        "`if (x := 10)`",
+        "`if (x equals 10)`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 42,
+      "question": "What is the result of `!0` in C?",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "Undefined behavior"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 43,
+      "question": "In a condition, what does a nonzero integer represent?",
+      "options": [
+        "False",
+        "True",
+        "A syntax error",
+        "A null pointer"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 44,
+      "question": "What is the output of `printf(\"%d\", (3 < 5) + (2 == 4));`?",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "8"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 45,
+      "question": "What is the output of `int a=4; printf(\"%d\", a << 1);` assuming the operation is representable?",
+      "options": [
+        "2",
+        "4",
+        "8",
+        "16"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 46,
+      "question": "What does `x & 1` commonly test for when x is a nonnegative integer?",
+      "options": [
+        "Whether x is odd",
+        "Whether x is negative",
+        "Whether x is prime",
+        "Whether x equals zero only"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 47,
+      "question": "What is the result of `10 ^ 3` in C?",
+      "options": [
+        "1000",
+        "9",
+        "13",
+        "30"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 48,
+      "question": "Which operator performs bitwise XOR in C?",
+      "options": [
+        "`&&`",
+        "`||`",
+        "`^`",
+        "`~`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 49,
+      "question": "Which format specifier is appropriate for printing a `size_t` value with `printf`?",
+      "options": [
+        "`%d`",
+        "`%u`",
+        "`%zu`",
+        "`%f`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 50,
+      "question": "Which format specifier is used to print a `double` with `printf`?",
+      "options": [
+        "`%d`",
+        "`%f`",
+        "`%c`",
+        "`%s`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 51,
+      "question": "What is a likely problem with `scanf(\"%d\", x);` when x is an int variable?",
+      "options": [
+        "It should usually pass `&x`, not x",
+        "`%d` only works for strings",
+        "scanf cannot read integers",
+        "It must use `*x` for all integers"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 52,
+      "question": "Which statement about `scanf(\"%s\", buffer)` is correct?",
+      "options": [
+        "It reads spaces as part of the same word by default",
+        "It stops at whitespace and can overflow the buffer without a width limit",
+        "It automatically allocates enough memory",
+        "It always reads the entire line safely"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 53,
+      "question": "Why can `fgets(buffer, sizeof buffer, stdin)` be preferable to `gets`?",
+      "options": [
+        "`gets` does not limit input length and was removed from the C standard",
+        "fgets only reads numbers",
+        "fgets never stores a null terminator",
+        "gets is required for secure input"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 54,
+      "question": "What does `EOF` commonly indicate when returned by input functions?",
+      "options": [
+        "The end of input or an input error",
+        "An empty string",
+        "A null character in every string",
+        "A successful memory allocation"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 55,
+      "question": "What does `typedef` do?",
+      "options": [
+        "Creates a new variable at runtime",
+        "Defines an alias for a type name",
+        "Allocates memory for a structure",
+        "Calls a function automatically"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 56,
+      "question": "How do you access a structure member through a structure variable `s`?",
+      "options": [
+        "`s->member`",
+        "`s.member`",
+        "`s::member`",
+        "`s/member`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 57,
+      "question": "How do you access a structure member through a pointer `p` to that structure?",
+      "options": [
+        "`p.member` only",
+        "`p->member`",
+        "`p::member`",
+        "`*p.member`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 58,
+      "question": "What is the main purpose of a `union`?",
+      "options": [
+        "Every member has a separate independent memory area",
+        "Its members share the same memory storage",
+        "It can contain only integers",
+        "It automatically sorts its members"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 59,
+      "question": "What does `enum` define in C?",
+      "options": [
+        "A set of named integer constants",
+        "A dynamically growing array",
+        "A file handle",
+        "A function pointer only"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 60,
+      "question": "What is the result of `int a=5, b=2; printf(\"%d\", a/b);`?",
+      "options": [
+        "2.5",
+        "2",
+        "3",
+        "Compilation error"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 61,
+      "question": "How can integer division produce a fractional result in an expression?",
+      "options": [
+        "Cast at least one operand to a floating-point type before division",
+        "Use `%` instead of `/`",
+        "Store the result in an int",
+        "Add parentheses only"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 62,
+      "question": "What does `int *p, q;` declare?",
+      "options": [
+        "Two integer pointers",
+        "p as a pointer to int and q as an int",
+        "p as int and q as a pointer",
+        "Two ordinary integers"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 63,
+      "question": "What does `extern` commonly indicate for a variable declaration?",
+      "options": [
+        "The variable must be allocated on the stack",
+        "The variable is defined elsewhere or has external linkage",
+        "The variable can never change",
+        "The variable is local to a loop"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 64,
+      "question": "What is the purpose of an include guard in a header file?",
+      "options": [
+        "To prevent repeated inclusion from causing duplicate declarations or definitions",
+        "To encrypt the header",
+        "To speed up every loop",
+        "To hide compiler warnings"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 65,
+      "question": "Which preprocessor directive conditionally compiles code when a macro is defined?",
+      "options": [
+        "`#include`",
+        "`#define`",
+        "`#ifdef`",
+        "`#error`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 66,
+      "question": "What does `#define SQUARE(x) ((x) * (x))` help avoid compared with `#define SQUARE(x) x * x`?",
+      "options": [
+        "All function calls",
+        "Operator-precedence errors caused by missing parentheses",
+        "All runtime errors",
+        "The need for an argument"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 67,
+      "question": "What is a possible problem with calling `SQUARE(i++)` for the macro `#define SQUARE(x) ((x) * (x))`?",
+      "options": [
+        "i is guaranteed to increment once",
+        "i may be modified more than once in an unsequenced way, causing undefined behavior",
+        "It always returns zero",
+        "Macros cannot accept expressions"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 68,
+      "question": "What is the purpose of `qsort()` from the C standard library?",
+      "options": [
+        "Searches only sorted arrays",
+        "Sorts an array using a supplied comparison function",
+        "Allocates a two-dimensional array",
+        "Removes duplicate strings automatically"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 69,
+      "question": "What should a `qsort` comparison function return when the first item should be ordered before the second?",
+      "options": [
+        "A negative value",
+        "Exactly 1 only",
+        "Always zero",
+        "A positive value"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 70,
+      "question": "Which is a correct way to determine the number of elements in a local array `int a[12]`?",
+      "options": [
+        "`sizeof(a)`",
+        "`sizeof(a) / sizeof(a[0])`",
+        "`strlen(a)`",
+        "`sizeof(a[0]) / sizeof(a)`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 71,
+      "question": "What is the main issue with using `sizeof` on an array parameter inside a function?",
+      "options": [
+        "It always returns the number of elements",
+        "The parameter is adjusted to a pointer, so sizeof gives pointer size",
+        "It returns the array's maximum index",
+        "It is illegal in all functions"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 72,
+      "question": "What does `void *` represent in C?",
+      "options": [
+        "A pointer type that can hold an object pointer without specifying its pointed-to type",
+        "A pointer that can never be assigned",
+        "A function that returns an array",
+        "A guaranteed null pointer"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 73,
+      "question": "Before dereferencing a `void *` as an integer pointer, what is needed?",
+      "options": [
+        "A suitable conversion to `int *` and a valid, properly aligned target object",
+        "Nothing; void pointers can be dereferenced directly",
+        "A call to `free`",
+        "A cast to `char`"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 74,
+      "question": "What is the value of `*(&x)` for a valid variable `x`?",
+      "options": [
+        "The address of x squared",
+        "The value stored in x",
+        "The size of x",
+        "A pointer to a pointer"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 75,
+      "question": "What is a dangling pointer?",
+      "options": [
+        "A pointer to a live local variable in its valid scope",
+        "A pointer that refers to an object whose lifetime has ended",
+        "A pointer initialized to NULL",
+        "A pointer to a constant"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 76,
+      "question": "What is undefined behavior?",
+      "options": [
+        "Behavior fully specified by the C standard",
+        "Behavior for which the C standard imposes no requirements",
+        "A warning that always stops compilation",
+        "Behavior that always returns zero"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 77,
+      "question": "What is the value of `sizeof(\"abc\")`?",
+      "options": [
+        "3",
+        "4",
+        "Depends on the pointer size",
+        "0"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 78,
+      "question": "What does `char *p = \"hello\";` imply about modifying `p[0]`?",
+      "options": [
+        "It is always safe",
+        "Attempting to modify the string literal has undefined behavior",
+        "It changes only the pointer address",
+        "It automatically copies the literal to a writable array"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 79,
+      "question": "Which declaration creates a modifiable array initialized with a copy of the string literal?",
+      "options": [
+        "`char *s = \"hello\";`",
+        "`char s[] = \"hello\";`",
+        "`const char s;`",
+        "`int s[] = \"hello\";`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 80,
+      "question": "What does `&a[i]` equal for a valid array element?",
+      "options": [
+        "`a + i`",
+        "`*a + i`",
+        "`a[i] + i`",
+        "`&a + i` in all cases"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 81,
+      "question": "For `int a[3][4];`, how many integer elements are stored in the array?",
+      "options": [
+        "7",
+        "12",
+        "16",
+        "24"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 82,
+      "question": "How is a two-dimensional array `int a[3][4]` stored in C?",
+      "options": [
+        "Column-major order",
+        "Row-major order",
+        "Random order",
+        "As a linked list"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 83,
+      "question": "Which function is standard for converting a numeric string to a long integer with error checking options?",
+      "options": [
+        "`atoi()` only",
+        "`strtol()`",
+        "`strlen()`",
+        "`sprintf()`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 84,
+      "question": "Why is `strtol()` often preferred to `atoi()` for robust conversion?",
+      "options": [
+        "It supports detecting conversion errors and where parsing stopped",
+        "It only accepts decimal strings but never errors",
+        "It automatically sorts the input",
+        "It returns a floating-point value"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 85,
+      "question": "What is the purpose of `fopen()`?",
+      "options": [
+        "To open a file stream",
+        "To delete a file",
+        "To rename a variable",
+        "To print formatted text only"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 86,
+      "question": "What should a program generally do after finishing with a successfully opened file stream?",
+      "options": [
+        "Call `free(file)`",
+        "Call `fclose(file)`",
+        "Call `remove(file)`",
+        "Set every byte in the file to zero"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 87,
+      "question": "Which file mode opens a file for reading text and fails if the file cannot be read?",
+      "options": [
+        "`\"w\"`",
+        "`\"a\"`",
+        "`\"r\"`",
+        "`\"x\"`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 88,
+      "question": "What does `volatile` tell the compiler?",
+      "options": [
+        "The object can never change",
+        "The object's value may change in ways the compiler cannot assume away, so accesses must respect volatile semantics",
+        "The object is thread-safe",
+        "The object is stored permanently on disk"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 89,
+      "question": "What does `static` at file scope generally do to a function or object name?",
+      "options": [
+        "Gives it internal linkage, limiting its name visibility to that translation unit",
+        "Makes it visible from every source file",
+        "Places it automatically on the heap",
+        "Makes the function recursive"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 90,
+      "question": "What is the purpose of a function prototype such as `int add(int, int);`?",
+      "options": [
+        "It defines the function's full implementation",
+        "It declares the function's return type and parameter types before use",
+        "It runs the function once",
+        "It allocates memory for its parameters"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 91,
+      "question": "What does C pass to an ordinary function call for scalar arguments?",
+      "options": [
+        "Arguments by reference automatically",
+        "Copies of argument values",
+        "The names of the caller's variables",
+        "Only memory addresses"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 92,
+      "question": "How can a function modify an integer variable owned by its caller?",
+      "options": [
+        "Pass the integer by ordinary value only",
+        "Pass a pointer to the integer and modify the pointed-to object",
+        "Declare the parameter with `extern`",
+        "Return void without using a pointer"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 93,
+      "question": "What is the output of `int x=3; int *p=&x; *p=9; printf(\"%d\",x);`?",
+      "options": [
+        "3",
+        "9",
+        "The address of x",
+        "Undefined behavior"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 94,
+      "question": "What is the key risk of returning the address of a non-static local variable from a function?",
+      "options": [
+        "The local variable may no longer exist after the function returns",
+        "The pointer always becomes NULL",
+        "The compiler always extends its lifetime",
+        "The address becomes a valid heap allocation"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 95,
+      "question": "Which declaration is a pointer to a function taking two ints and returning int?",
+      "options": [
+        "`int *f(int, int);`",
+        "`int (*f)(int, int);`",
+        "`int f*(int, int);`",
+        "`function int f(int, int);`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 96,
+      "question": "What does `register` mean in modern C practice?",
+      "options": [
+        "It guarantees the variable will be stored in a CPU register",
+        "It is a storage-class specifier suggesting fast access; compilers may ignore the hint",
+        "It allocates memory on the heap",
+        "It makes a variable global"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 97,
+      "question": "Which statement about signed integer overflow is correct in C?",
+      "options": [
+        "It always wraps around",
+        "It has undefined behavior",
+        "It always produces zero",
+        "It is guaranteed to throw an exception"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 98,
+      "question": "What does `&&` do differently from bitwise `&`?",
+      "options": [
+        "`&&` performs logical AND with short-circuiting; `&` performs bitwise AND on integers",
+        "They are identical in every context",
+        "`&` short-circuits but `&&` does not",
+        "`&&` only works with pointers"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 99,
+      "question": "In `if (p != NULL && *p > 0)`, why is the order important?",
+      "options": [
+        "C guarantees `&&` evaluates left to right and skips the second operand if the first is false",
+        "The compiler always evaluates the second operand first",
+        "NULL pointers can be compared only after dereferencing",
+        "The expression is invalid C"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 100,
+      "question": "What is the result of `int x=0; printf(\"%d\", x++);`?",
+      "options": [
+        "1",
+        "0",
+        "Undefined behavior",
+        "No output"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 101,
+      "question": "What is the output of `int x=0; printf(\"%d\", ++x);`?",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "Undefined behavior"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 102,
+      "question": "What is the purpose of `memmove()` compared with `memcpy()`?",
+      "options": [
+        "memmove handles overlapping source and destination regions",
+        "memmove only copies strings",
+        "memmove allocates the destination",
+        "memcpy handles overlap but memmove does not"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 103,
+      "question": "Which header declares `memcpy`, `memmove`, and `memcmp`?",
+      "options": [
+        "`<stdlib.h>`",
+        "`<stdio.h>`",
+        "`<string.h>`",
+        "`<ctype.h>`"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 104,
+      "question": "What does `isdigit(c)` from `<ctype.h>` require for defined behavior?",
+      "options": [
+        "Any signed char value, including negative values",
+        "EOF or a value representable as unsigned char",
+        "Only values between 0 and 9",
+        "A pointer to a character"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 105,
+      "question": "What is the correct way to avoid passing a negative plain `char` directly to `toupper`?",
+      "options": [
+        "Cast the argument to `unsigned char` before calling `toupper`, except EOF",
+        "Cast it to `float`",
+        "Call `free` first",
+        "Use `%s` instead"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 106,
+      "question": "What does `int a = (int)3.9;` store?",
+      "options": [
+        "4",
+        "3",
+        "3.9",
+        "Compilation error"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 107,
+      "question": "Which statement about local automatic variables without an initializer is correct?",
+      "options": [
+        "They are always initialized to zero",
+        "They have an indeterminate value",
+        "They inherit the previous function's return value",
+        "They are always NULL"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 108,
+      "question": "What is the purpose of `assert(condition)` from `<assert.h>` during development?",
+      "options": [
+        "It checks a condition and can terminate the program if the assertion fails",
+        "It converts a condition to a string",
+        "It guarantees a condition is true in production regardless of NDEBUG",
+        "It catches every memory error"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 109,
+      "question": "What does `NDEBUG` do when defined before including `<assert.h>`?",
+      "options": [
+        "Enables every assertion in all builds",
+        "Disables assert macro checks",
+        "Enables debug symbols automatically",
+        "Changes int to long"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 110,
+      "question": "What is a common benefit of declaring a function parameter `const char *s` when the function only reads the string?",
+      "options": [
+        "It documents and enforces that the function cannot modify characters through s",
+        "It guarantees s is never NULL",
+        "It allocates a new string",
+        "It makes the string immutable everywhere in the program"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 111,
+      "question": "Which statement about `realloc(ptr, new_size)` is safest when increasing a dynamic allocation?",
+      "options": [
+        "Assign directly to ptr without checking the result",
+        "Store the result in a temporary pointer and check for NULL before replacing ptr",
+        "Call free(ptr) before every realloc call",
+        "Assume the old memory is always moved"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 112,
+      "question": "Which is a valid reason for a segmentation fault, although not the only possible reason?",
+      "options": [
+        "Accessing memory through an invalid pointer",
+        "Using comments in source code",
+        "Declaring a function prototype",
+        "Using a switch statement"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 113,
+      "question": "What is the purpose of `switch` in C?",
+      "options": [
+        "Selects a branch based on an integral or enum expression",
+        "Loops over every array element automatically",
+        "Compares strings directly",
+        "Allocates memory dynamically"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 114,
+      "question": "What happens if a `case` branch in a switch has no `break` and execution reaches it?",
+      "options": [
+        "The switch ends immediately in all cases",
+        "Execution can fall through into subsequent case statements",
+        "The program will not compile",
+        "The case is skipped"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 115,
+      "question": "Which loop guarantees its body executes at least once if control enters the loop normally?",
+      "options": [
+        "`while`",
+        "`for`",
+        "`do ... while`",
+        "None of them"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 116,
+      "question": "What is the output of `int a=1; for(int i=0;i<3;i++) a*=2; printf(\"%d\",a);`?",
+      "options": [
+        "3",
+        "6",
+        "8",
+        "16"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 117,
+      "question": "Which algorithmic approach can find the maximum element of an unsorted array in O(n) time and O(1) extra space?",
+      "options": [
+        "Compare each element with the current maximum in one pass",
+        "Sort the array first using merge sort",
+        "Use nested loops to compare every pair",
+        "Create a second array containing every possible integer"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 118,
+      "question": "What is the time complexity of binary search on a sorted array?",
+      "options": [
+        "O(n)",
+        "O(log n)",
+        "O(n log n)",
+        "O(1) in every case"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 119,
+      "question": "Why must binary search normally be applied to sorted data?",
+      "options": [
+        "It uses ordering to discard half of the remaining search range each step",
+        "It sorts the array automatically",
+        "It checks every possible pair",
+        "It works only with strings"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 120,
+      "question": "What is the time complexity of two nested loops each running n times, with constant work in the inner body?",
+      "options": [
+        "O(n)",
+        "O(log n)",
+        "O(n^2)",
+        "O(2n)"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 121,
+      "question": "What is the auxiliary space complexity of an iterative array-sum algorithm that uses only a fixed number of variables?",
+      "options": [
+        "O(n)",
+        "O(log n)",
+        "O(1)",
+        "O(n^2)"
+      ],
+      "correct_answer": 2
+    },
+    {
+      "id": 122,
+      "question": "Which function is standard for reading a line of text from a file into a buffer with a specified maximum size?",
+      "options": [
+        "`fgets()`",
+        "`puts()`",
+        "`fclose()`",
+        "`fseek()`"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 123,
+      "question": "What is the purpose of `fseek()`?",
+      "options": [
+        "Moves the file position indicator to a specified location",
+        "Changes a variable's scope",
+        "Reads a whole file into memory automatically",
+        "Closes a file stream"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 124,
+      "question": "What is the correct type for the return value of `sizeof`?",
+      "options": [
+        "`int`",
+        "`size_t`",
+        "`float`",
+        "`char *`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 125,
+      "question": "What is the result of `sizeof` applied to a type, such as `sizeof(double)`?",
+      "options": [
+        "The size in bytes of an object of that type",
+        "The number of decimal digits",
+        "The memory address of the type",
+        "The size in bits only"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 126,
+      "question": "Which declaration represents an array of 5 pointers to int?",
+      "options": [
+        "`int (*p)[5];`",
+        "`int *p[5];`",
+        "`int p*[5];`",
+        "`int p(5)*;`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 127,
+      "question": "Which declaration represents a pointer to an array of 5 integers?",
+      "options": [
+        "`int *p[5];`",
+        "`int (*p)[5];`",
+        "`int p[5]*;`",
+        "`int **p[5];`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 128,
+      "question": "What does `int **p` declare?",
+      "options": [
+        "A pointer to a pointer to int",
+        "An array of two ints",
+        "A pointer to an int array of fixed length two",
+        "A double integer"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 129,
+      "question": "Why should `free(ptr)` generally not be called twice on the same allocation without reassigning ptr?",
+      "options": [
+        "A double free causes undefined behavior",
+        "It always frees exactly two allocations safely",
+        "The second call resets the allocation",
+        "It is required to release memory"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 130,
+      "question": "Which statement about `free(NULL)` is correct?",
+      "options": [
+        "It has undefined behavior",
+        "It is defined to do nothing",
+        "It frees all allocations",
+        "It causes a compile-time error"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 131,
+      "question": "What is the purpose of a `break` statement inside a `switch` case?",
+      "options": [
+        "Prevents execution from falling through to the next case",
+        "Restarts the switch at the first case",
+        "Exits the whole program",
+        "Returns from the current function"
+      ],
+      "correct_answer": 0
+    },
+    {
+      "id": 132,
+      "question": "What does `default` do in a `switch` statement?",
+      "options": [
+        "Runs only when every case matches",
+        "Provides a branch when no case label matches the expression",
+        "Always runs before case labels",
+        "Defines the default value for all variables"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 133,
+      "question": "What is the output of `int x=10; printf(\"%d\", x > 5 ? x : 5);`?",
+      "options": [
+        "5",
+        "10",
+        "1",
+        "0"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 134,
+      "question": "Which operator accesses the value stored at a pointer address?",
+      "options": [
+        "`&`",
+        "`*` when used as unary indirection",
+        "`->` for every pointer type",
+        "`sizeof`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 135,
+      "question": "Which operator obtains the address of an object?",
+      "options": [
+        "`*`",
+        "`&`",
+        "`%`",
+        "`!`"
+      ],
+      "correct_answer": 1
+    },
+    {
+      "id": 136,
+      "question": "What does `return 0;` from `main` conventionally communicate to the host environment?",
+      "options": [
+        "Successful program termination",
+        "A request to repeat main",
+        "That the program printed zero bytes",
+        "That every pointer was freed"
+      ],
+      "correct_answer": 0
+    }
+  ]
+}
