@@ -354,13 +354,14 @@ async function showCertificate(id) {
   }
   const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
   const page = el(`<div class="cv">
-    <div class="topbar">
-      <a class="back" href="/certificate">&larr; All certificates</a>
-      <div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div>
-    </div>
+    
     <div class="phead">
       <div><div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
         <h1 class="t2"></h1><p class="sub2"></p></div>
+    </div>
+    <div class="topbar">
+      <a class="back" href="/certificate">&larr; All certificates</a>
+      <div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div>
     </div>
     <div class="frame2"><canvas id="certCanvas" role="img"></canvas></div>
     <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
