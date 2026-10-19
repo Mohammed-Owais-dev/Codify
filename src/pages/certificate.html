@@ -37,8 +37,8 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 
 /* certificate detail page */
 .cv{max-width:1123px;margin:0 auto;text-align:left}
-.cv .back{display:inline-block;margin-bottom:18px}
-.phead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.phead{text-align:center;margin-bottom:24px}
 .phead .hero-badge{margin-bottom:12px}
 .t2{font-size:2rem;font-weight:800;color:#fff;margin:0 0 4px;line-height:1.2}
 .sub2{color:#94a3b8;margin:0}
@@ -52,8 +52,7 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .vrow{display:flex;gap:10px}.vrow input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px}
 .vmsg{margin-top:12px;font-size:.9rem;color:#94a3b8;min-height:1.2em}.vmsg.bad{color:#f87171}
 .sec{font-size:1.3rem;color:#fff;margin:0 0 16px}
-.list{max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:18px;text-align:left}
-.list .card{width:290px;box-sizing:border-box}
+.list{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left}
 .head{margin-bottom:36px}
 .codify-toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,42,.95);border:1px solid rgba(0,170,255,.4);box-shadow:0 10px 30px rgba(0,0,0,.6);
   backdrop-filter:blur(12px);color:#e0e6ed;padding:16px 20px;border-radius:14px;display:flex;align-items:center;gap:12px;z-index:9999;font-size:.9rem;
@@ -75,16 +74,18 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .cam video{width:100%;height:100%;object-fit:cover}
 .frame{position:absolute;inset:16%;border:3px solid #00aaff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
 .mrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.card{display:flex;flex-direction:column;gap:12px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:18px;padding:20px;text-decoration:none;color:inherit;transition:.3s}
-.card:hover{border-color:rgba(0,170,255,.65);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,170,255,.2)}
-.ch{display:flex;align-items:center;justify-content:space-between}
-.ch img{width:44px;height:44px;object-fit:contain;background:rgba(255,255,255,.05);border-radius:12px;padding:6px}
-.pill{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.45);color:#34d399;font-size:.78rem;font-weight:800;padding:4px 12px;border-radius:20px}
-.card h3{margin:0;color:#fff;font-size:1.1rem}
-.card .cid2{margin:0;color:#64748b;font-size:.78rem;letter-spacing:.5px;word-break:break-all}
-.cm{display:flex;justify-content:space-between;align-items:center;color:#94a3b8;font-size:.85rem;border-top:1px solid rgba(0,170,255,.15);padding-top:12px}
-.go{color:#00aaff;font-weight:800}
-.count{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 18px}
+.card{display:flex;align-items:center;gap:18px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:16px;padding:16px 20px;text-decoration:none;color:inherit;transition:.3s;box-sizing:border-box;width:100%}
+.card:hover{border-color:rgba(0,170,255,.65);transform:translateX(4px);box-shadow:0 10px 28px rgba(0,170,255,.18)}
+.card img{width:48px;height:48px;object-fit:contain;background:rgba(255,255,255,.05);border-radius:12px;padding:7px;flex:none}
+.mid{flex:1;min-width:0}
+.card h3{margin:0 0 2px;color:#fff;font-size:1.1rem}
+.card .cid2{margin:0;color:#64748b;font-size:.8rem;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{flex:none;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.45);color:#34d399;font-size:.8rem;font-weight:800;padding:4px 14px;border-radius:20px}
+.card .d{flex:none;color:#94a3b8;font-size:.88rem;min-width:130px;text-align:right}
+.go{flex:none;color:#00aaff;font-weight:800;font-size:.9rem}
+.lhead{max-width:900px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.card{flex-wrap:wrap;gap:10px 14px}.card .d{text-align:left;min-width:0;order:5}.go{order:6;margin-left:auto}}
+.count{display:flex;align-items:center;gap:12px}
 .count span:empty{display:none}
 .count h2{margin:0}.count span{background:rgba(0,170,255,.15);color:#00aaff;font-weight:800;border-radius:20px;padding:2px 12px;font-size:.9rem}
 @media(max-width:600px){.vrow{flex-direction:column}main{margin-top:40px!important;padding:0 10px 50px}h1.t{font-size:1.7rem}}
@@ -322,11 +323,13 @@ async function showCertificate(id) {
   }
   const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
   const page = el(`<div class="cv">
-    <a class="back" href="/certificate">&larr; All certificates</a>
+    <div class="topbar">
+      <a class="back" href="/certificate">&larr; All certificates</a>
+      <div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div>
+    </div>
     <div class="phead">
       <div><div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
         <h1 class="t2"></h1><p class="sub2"></p></div>
-      <div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div>
     </div>
     <div class="frame2"><canvas id="certCanvas" role="img"></canvas></div>
     <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
@@ -368,9 +371,9 @@ async function showList() {
   const { data: { session } } = await supabase.auth.getSession();
   const wrap = el(`<div><div class="head"><div class="hero-badge">Achievements</div>
     <h1 class="t">Codify <span>Certificates</span></h1>
-    <p class="sub">Pass a course exam with 50% or more to earn a certificate. Anyone can check that a certificate is genuine.</p>
-    <button class="btn" id="openVerify" type="button">Verify Certificate</button></div>
-    <div class="count"><h2 class="sec">My certificates</h2><span></span></div></div>`);
+    <p class="sub">Pass a course exam with 50% or more to earn a certificate. Anyone can check that a certificate is genuine.</p></div>
+    <div class="lhead"><div class="count"><h2 class="sec" style="margin:0">My certificates</h2><span></span></div>
+    <button class="btn" id="openVerify" type="button">Verify Certificate</button></div></div>`);
   const count = wrap.querySelector('.count');
   wrap.querySelector('#openVerify').onclick = openVerify;
   const list = el('<div class="list"></div>');
@@ -385,7 +388,7 @@ async function showList() {
     else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
     (data || []).forEach(c => {
       const slug = (c.course_id || '').split('-')[0];
-      const a = el('<a class="card"><div class="ch"><img alt=""><span class="pill"></span></div><h3></h3><p class="cid2"></p><div class="cm"><span class="d"></span><span class="go">View &rarr;</span></div></a>');
+      const a = el('<a class="card"><img alt=""><div class="mid"><h3></h3><p class="cid2"></p></div><span class="pill"></span><span class="d"></span><span class="go">View &rarr;</span></a>');
       a.href = '/certificate?id=' + encodeURIComponent(c.id);
       a.querySelector('img').src = `/src/assets/logos/${LOGOS[slug] || slug}.svg`;
       a.querySelector('.pill').textContent = Math.round(c.percentage) + '%';
