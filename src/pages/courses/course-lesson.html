@@ -1374,22 +1374,54 @@
             document.getElementById('qb-complete').classList.add('active');
         };
 
-        // Login toast shared by the completion action on public lesson pages.
-        let loginToastTimer = null;
-        function showLoginToast() {
+        // Shared access toast for login and course-enrollment requirements.
+        let accessToastTimer = null;
+        function showAccessToast(message, actionLabel, actionHref) {
             let toast = document.getElementById('codifyToast');
             if (!toast) {
                 toast = document.createElement('div');
                 toast.id = 'codifyToast';
                 toast.className = 'codify-toast';
-                toast.innerHTML = '<span class="toast-message"></span><a class="toast-login-btn">Log In</a>';
+                toast.innerHTML = '<span class="toast-message"></span><a class="toast-login-btn"></a>';
                 document.body.appendChild(toast);
             }
-            toast.querySelector('.toast-message').textContent = 'Please log in to mark this topic as completed.';
-            toast.querySelector('.toast-login-btn').href = '/src/auth/login.html?redirect=' + encodeURIComponent(window.location.href);
+            toast.querySelector('.toast-message').textContent = message;
+            const action = toast.querySelector('.toast-login-btn');
+            action.textContent = actionLabel;
+            action.href = actionHref;
             toast.classList.add('show');
-            clearTimeout(loginToastTimer);
-            loginToastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+            clearTimeout(accessToastTimer);
+            accessToastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        function showLoginToast() {
+            showAccessToast(
+                'Please log in to mark this topic as completed.',
+                'Log In',
+                '/src/auth/login.html?redirect=' + encodeURIComponent(window.location.href)
+            );
+        }
+
+        function showEnrollmentToast() {
+            showAccessToast(
+                'Please enroll in this course before marking this topic as completed.',
+                'Enroll',
+                activeCourse.indexPage + '/enroll'
+            );
+        }
+
+        async function checkCourseEnrollment(userId) {
+            const { data, error } = await supabase.from('user_enrollments')
+                .select('id')
+                .eq('user_id', userId)
+                .eq('course_id', COURSE_ID)
+                .maybeSingle();
+
+            if (error) {
+                console.error('Course enrollment check error:', error);
+                return false;
+            }
+            return Boolean(data);
         }
 
         // Progress Tracking & Completion
@@ -1398,6 +1430,9 @@
             if (!fileParam) return;
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;
+
+            const enrolled = await checkCourseEnrollment(user.id);
+            if (!enrolled) return;
 
             const { data, error } = await supabase.from('user_progress')
                 .select('completed')
@@ -1424,6 +1459,12 @@
                 return;
             }
             if (!fileParam) return;
+
+            const enrolled = await checkCourseEnrollment(user.id);
+            if (!enrolled) {
+                showEnrollmentToast();
+                return;
+            }
 
             const btn = document.getElementById('markCompleteBtn');
             const btnText = document.getElementById('completeBtnText');
