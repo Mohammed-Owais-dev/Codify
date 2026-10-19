@@ -143,7 +143,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 async function rpc(name, args) {
   const { data, error } = await supabase.rpc(name, args);
   if (error) { toast(error.message, true); return null; }
-  return data;
+  return data ?? true;   // void functions (revoke/restore) return null on success
 }
 async function loadStats() {
   const s = await rpc('admin_stats'); if (!s) return;
