@@ -35,37 +35,17 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .btn.ghost{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.3);color:#00aaff;box-shadow:none}
 :focus-visible{outline:2px solid #00aaff;outline-offset:2px}
 
-/* certificate: designed at 1123x794 (A4 landscape), scaled to fit the screen */
-#fit{width:100%;max-width:1123px;margin:0 auto;overflow:hidden}
-#cert{width:1123px;height:794px;transform-origin:top left;position:relative;overflow:hidden;text-align:center;color:#0a1a3a;border-radius:2px;
-  background:repeating-linear-gradient(135deg,rgba(0,119,255,.035) 0 2px,transparent 2px 14px),radial-gradient(circle at 50% 45%,#fff 0,#f1f6fd 100%)}
-.bd1{position:absolute;inset:16px;border:10px solid #0a1a3a}
-.bd2{position:absolute;inset:34px;border:2px solid #0077ff}
-.bd3{position:absolute;inset:42px;border:1px solid rgba(10,26,58,.3)}
-.dia{position:absolute;width:26px;height:26px;background:#0077ff;border:4px solid #fff;transform:rotate(45deg)}
-.in{position:absolute;inset:60px 84px 54px;display:flex;flex-direction:column;align-items:center}
-.brand{display:flex;align-items:center;gap:12px;font-family:'Playfair Display',serif;font-weight:800;font-size:26px;letter-spacing:7px}
-.brand img{width:40px;height:40px}
-.h1{font-family:'Playfair Display',serif;font-weight:800;font-size:56px;letter-spacing:11px;margin-top:14px;line-height:1.1}
-.h2{display:flex;align-items:center;gap:18px;font-weight:800;font-size:16px;letter-spacing:8px;color:#0077ff;margin-top:4px}
-.h2:before,.h2:after{content:"";width:90px;height:2px;background:#0077ff}
-.pre{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;color:#475569;margin-top:22px}
-.name{font-family:'Great Vibes',cursive;font-size:78px;line-height:1.15;margin-top:2px;padding:0 50px;min-width:560px;max-width:100%;border-bottom:2px solid #0a1a3a;overflow-wrap:anywhere}
-.ids{display:flex;gap:26px;justify-content:center;font-size:15px;color:#334155;margin-top:12px;flex-wrap:wrap}
-.ids b{color:#0a1a3a}
-.body{font-size:18px;color:#475569;margin-top:20px}
-.course{font-family:'Playfair Display',serif;font-weight:700;font-size:32px;color:#0a1a3a;margin-top:4px}
-.score{font-size:18px;color:#475569;margin-top:6px}.score b{color:#0077ff;font-size:21px}
-.foot{position:absolute;left:0;right:0;bottom:44px;display:grid;grid-template-columns:1fr 150px 1fr;align-items:end}
-.foot small{display:block;color:#64748b;font-size:11px;font-weight:800;letter-spacing:2px;margin-top:6px}
-.qrbox{justify-self:start;text-align:center}
-.qr{display:inline-block;background:#fff;padding:6px;border:1px solid rgba(10,26,58,.25);border-radius:6px;line-height:0}
-.sg{justify-self:end;display:grid;gap:18px;width:250px;text-align:center}
-.sg .ln{border-bottom:1px solid #0a1a3a;padding-bottom:4px;font-weight:800;font-size:17px;min-height:30px}
-.sg .sig{font-family:'Great Vibes',cursive;font-size:38px;font-weight:400;line-height:1}
-.cid{position:absolute;bottom:2px;left:0;right:0;font-size:12px;letter-spacing:1.5px;color:#64748b;text-align:center}
-.cid b{color:#0a1a3a}
-
+/* certificate detail page */
+.cv{max-width:1123px;margin:0 auto;text-align:left}
+.cv .back{display:inline-block;margin-bottom:18px}
+.phead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.phead .hero-badge{margin-bottom:12px}
+.t2{font-size:2rem;font-weight:800;color:#fff;margin:0 0 4px;line-height:1.2}
+.sub2{color:#94a3b8;margin:0}
+.frame2{border-radius:12px;overflow:hidden;background:#fff;line-height:0;box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px rgba(0,170,255,.25)}
+.frame2 canvas{display:block;width:100%;height:auto}
+.note{color:#64748b;font-size:.85rem;text-align:center;margin:22px 0 0;line-height:1.6}
+@media(max-width:600px){.t2{font-size:1.5rem}}
 .state{max-width:560px;margin:40px auto;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:20px;padding:34px}
 .verify{max-width:620px;margin:0 auto 38px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.25);border-radius:20px;padding:24px;backdrop-filter:blur(16px)}
 .verify h3{margin:0 0 4px;color:#fff;font-size:1.2rem}.verify p{margin:0 0 14px;color:#94a3b8;font-size:.9rem}
@@ -147,7 +127,6 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 <script src="/src/js/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script type="module">
@@ -243,6 +222,93 @@ async function init() {
   id ? await showCertificate(id.trim().toUpperCase()) : await showList();
 }
 
+/* ---- certificate drawing: ONE canvas is shown on the page AND saved to the PDF, so they always match ---- */
+const W = 1123, H = 794, S = 2, NAVY = '#0a1a3a', BLUE = '#0077ff';
+const PF = '"Playfair Display",Georgia,serif', NU = 'Nunito,Arial,sans-serif', GV = '"Great Vibes","Brush Script MT",cursive';
+const loadImg = src => new Promise(r => { if (!src) return r(null); const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
+const loadFonts = () => Promise.all(['800 56px "Playfair Display"', '700 32px "Playfair Display"', 'italic 500 19px "Playfair Display"',
+  '78px "Great Vibes"', '400 16px Nunito', '800 16px Nunito'].map(f => document.fonts.load(f, 'AaBb 0123').catch(() => {})));
+
+// draw coloured text pieces centred on cx; sp = letter spacing in px
+function run(g, segs, cx, y, sp = 0) {
+  const parts = segs.map(([t, font, color]) => {
+    g.font = font; const chars = sp ? [...t] : [t], ws = chars.map(c => g.measureText(c).width + sp);
+    return { chars, ws, font, color, w: ws.reduce((a, b) => a + b, 0) };
+  });
+  const total = parts.reduce((a, p) => a + p.w, 0) - sp; let x = cx - total / 2;
+  g.textAlign = 'left';
+  parts.forEach(p => { g.font = p.font; g.fillStyle = p.color; p.chars.forEach((c, i) => { g.fillText(c, x, y); x += p.ws[i]; }); });
+  return { left: cx - total / 2, right: cx + total / 2 };
+}
+function roundRect(g, x, y, w, h, r) {
+  g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
+  g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
+}
+function drawSeal(g, cx, cy) {
+  g.save(); g.translate(cx, cy);
+  g.beginPath(); g.arc(0, 0, 62, 0, Math.PI * 2); g.strokeStyle = NAVY; g.lineWidth = 5; g.setLineDash([2, 3.2]); g.stroke(); g.setLineDash([]);
+  const gr = g.createLinearGradient(-57, -57, 57, 57); gr.addColorStop(0, '#00aaff'); gr.addColorStop(1, '#0050c8');
+  g.beginPath(); g.arc(0, 0, 57, 0, Math.PI * 2); g.fillStyle = gr; g.fill();
+  g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1.3;
+  [53, 31].forEach(r => { g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.stroke(); });
+  const txt = [...'CODIFY • CERTIFIED • VERIFIED •'], r = 42;       // ring text, spread evenly round the circle
+  g.font = `700 10px Georgia,serif`; g.fillStyle = '#fff'; g.textAlign = 'center';
+  const ws = txt.map(c => g.measureText(c).width), gap = (2 * Math.PI * r - ws.reduce((a, b) => a + b, 0)) / txt.length;
+  let pos = 0;
+  txt.forEach((c, i) => {
+    const a = Math.PI + (pos + ws[i] / 2) / r;
+    g.save(); g.translate(r * Math.cos(a), r * Math.sin(a)); g.rotate(a + Math.PI / 2); g.fillText(c, 0, 0); g.restore(); pos += ws[i] + gap;
+  });
+  g.beginPath(); g.moveTo(-13, 1); g.lineTo(-4, 10); g.lineTo(13, -9);
+  g.strokeStyle = '#fff'; g.lineWidth = 6; g.lineCap = 'round'; g.lineJoin = 'round'; g.stroke();
+  g.restore();
+}
+function drawCertificate(cv, d, qr, logo) {
+  cv.width = W * S; cv.height = H * S;
+  const g = cv.getContext('2d'); g.scale(S, S); g.textBaseline = 'alphabetic';
+  // paper
+  const bg = g.createRadialGradient(W / 2, H * .45, 0, W / 2, H * .45, 700); bg.addColorStop(0, '#ffffff'); bg.addColorStop(1, '#eef4fc');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  g.save(); g.strokeStyle = 'rgba(0,119,255,.035)'; g.lineWidth = 2;
+  for (let x = -H; x < W; x += 14) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x + H, H); g.stroke(); } g.restore();
+  // borders + corner diamonds
+  g.strokeStyle = NAVY; g.lineWidth = 10; g.strokeRect(21, 21, W - 42, H - 42);
+  g.strokeStyle = BLUE; g.lineWidth = 2; g.strokeRect(35, 35, W - 70, H - 70);
+  g.strokeStyle = 'rgba(10,26,58,.3)'; g.lineWidth = 1; g.strokeRect(42.5, 42.5, W - 85, H - 85);
+  [[16, 16], [W - 16, 16], [16, H - 16], [W - 16, H - 16]].forEach(([x, y]) => {
+    g.save(); g.translate(x, y); g.rotate(Math.PI / 4); g.fillStyle = BLUE; g.fillRect(-13, -13, 26, 26);
+    g.strokeStyle = '#fff'; g.lineWidth = 4; g.strokeRect(-11, -11, 22, 22); g.restore();
+  });
+  // header
+  g.font = `800 26px ${PF}`; const bw = [...'CODIFY'].reduce((a, c) => a + g.measureText(c).width + 7, -7), gx = W / 2 - (52 + bw) / 2;
+  if (logo) g.drawImage(logo, gx, 60, 40, 40);
+  run(g, [['CODIFY', `800 26px ${PF}`, NAVY]], gx + 52 + bw / 2, 90, 7);
+  run(g, [['CERTIFICATE', `800 56px ${PF}`, NAVY]], W / 2, 162, 11);
+  const ex = run(g, [['OF ACHIEVEMENT', `800 16px ${NU}`, BLUE]], W / 2, 196, 8);
+  g.fillStyle = BLUE; g.fillRect(ex.left - 108, 189, 90, 2); g.fillRect(ex.right + 18, 189, 90, 2);
+  run(g, [['This certificate is proudly presented to', `italic 500 19px ${PF}`, '#475569']], W / 2, 250);
+  // name (shrinks to fit)
+  let fs = 78; do { g.font = `${fs}px ${GV}`; fs -= 2; } while (g.measureText(d.name).width > 800 && fs > 36);
+  g.fillStyle = NAVY; g.textAlign = 'center'; g.fillText(d.name, W / 2, 336);
+  const nw = Math.min(W - 180, Math.max(560, g.measureText(d.name).width + 100)); g.fillRect(W / 2 - nw / 2, 348, nw, 2);
+  const L = `400 15px ${NU}`, B = `800 15px ${NU}`;
+  run(g, [['Username: ', L, '#334155'], [d.user, B, NAVY], ['        ', L, '#334155'], ['Email: ', L, '#334155'], [d.email, B, NAVY]], W / 2, 382);
+  run(g, [['for successfully passing the', `400 18px ${NU}`, '#475569']], W / 2, 428);
+  run(g, [[d.course, `700 32px ${PF}`, NAVY]], W / 2, 470);
+  run(g, [['with a score of ', `400 18px ${NU}`, '#475569'], [d.pct + '%', `800 21px ${NU}`, BLUE]], W / 2, 504);
+  // footer: QR | seal | date + signature
+  g.fillStyle = '#fff'; roundRect(g, 84, 548, 124, 124, 6); g.fill(); g.strokeStyle = 'rgba(10,26,58,.25)'; g.lineWidth = 1; g.stroke();
+  if (qr) g.drawImage(qr, 90, 554, 112, 112);
+  run(g, [['SCAN TO VERIFY', `800 11px ${NU}`, '#64748b']], 146, 696, 2);
+  drawSeal(g, W / 2, 612);
+  g.fillStyle = NAVY;
+  run(g, [[d.date, `800 17px ${NU}`, NAVY]], 914, 598); g.fillRect(789, 608, 250, 1);
+  run(g, [['DATE OF ISSUE', `800 11px ${NU}`, '#64748b']], 914, 626, 2);
+  run(g, [['Codify', `38px ${GV}`, NAVY]], 914, 668); g.fillStyle = NAVY; g.fillRect(789, 678, 250, 1);
+  run(g, [['AUTHORIZED SIGNATURE', `800 11px ${NU}`, '#64748b']], 914, 696, 2);
+  run(g, [['CERTIFICATE ID: ', `400 12px ${NU}`, '#64748b'], [d.id, `800 12px ${NU}`, NAVY], ['  ·  ' + d.url, `400 12px ${NU}`, '#64748b']], W / 2, 738, 1.5);
+}
+
 /* ---- one certificate: anyone with the link can view and verify it ---- */
 async function showCertificate(id) {
   const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
@@ -254,74 +320,45 @@ async function showCertificate(id) {
     const vb = el('<button class="btn" style="margin-left:10px">Verify another certificate</button>'); vb.onclick = openVerify; view.firstChild.querySelector('a').after(vb);
     return;
   }
-  const page = el(`<div>
-    <div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
-    <h1 class="t">Certificate <span>of Completion</span></h1>
-    <p class="sub">This certificate was issued by Codify and is valid.</p>
-    <div class="toolbar"><a class="back" href="/certificate">&larr; All certificates</a><div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div></div>
-    <div id="fit"><div id="cert">
-      <div class="bd1"></div><div class="bd2"></div><div class="bd3"></div>
-      <i class="dia" style="left:3px;top:3px"></i><i class="dia" style="right:3px;top:3px"></i><i class="dia" style="left:3px;bottom:3px"></i><i class="dia" style="right:3px;bottom:3px"></i>
-      <div class="in">
-        <div class="brand"><img src="/src/assets/logos/main-logo.svg" alt="">CODIFY</div>
-        <div class="h1">CERTIFICATE</div>
-        <div class="h2">OF ACHIEVEMENT</div>
-        <div class="pre">This certificate is proudly presented to</div>
-        <div class="name" id="cName"></div>
-        <div class="ids"><span>Username: <b id="cUser"></b></span><span>Email: <b id="cEmail"></b></span></div>
-        <div class="body">for successfully passing the</div>
-        <div class="course" id="cCourse"></div>
-        <div class="score" id="cScore"></div>
-        <div class="foot">
-          <div class="qrbox"><div class="qr" id="qr"></div><small>SCAN TO VERIFY</small></div>
-          <div><svg width="130" height="130" viewBox="0 0 130 130" style="margin:0 auto 6px"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00aaff"/><stop offset="1" stop-color="#0050c8"/></linearGradient><path id="cp" d="M65,65 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/></defs><circle cx="65" cy="65" r="62" fill="none" stroke="#0a1a3a" stroke-width="5" stroke-dasharray="2 3.2"/><circle cx="65" cy="65" r="57" fill="url(#sg)"/><circle cx="65" cy="65" r="53" fill="none" stroke="#fff" stroke-width="1.3" opacity=".8"/><circle cx="65" cy="65" r="31" fill="none" stroke="#fff" stroke-width="1.3" opacity=".8"/><text font-family="Georgia,serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="1.7"><textPath href="#cp">CODIFY • CERTIFIED • VERIFIED •</textPath></text><path d="M52 66l9 9 17-19" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="sg"><div><div class="ln" id="cDate"></div><small>DATE OF ISSUE</small></div><div><div class="ln sig">Codify</div><small>AUTHORIZED SIGNATURE</small></div></div>
-        </div>
-        <div class="cid">CERTIFICATE ID: <b id="cId"></b> &nbsp;·&nbsp; <span id="cUrl"></span></div>
-      </div></div></div>
+  const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
+  const page = el(`<div class="cv">
+    <a class="back" href="/certificate">&larr; All certificates</a>
+    <div class="phead">
+      <div><div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
+        <h1 class="t2"></h1><p class="sub2"></p></div>
+      <div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div>
+    </div>
+    <div class="frame2"><canvas id="certCanvas" role="img"></canvas></div>
     <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
       <div class="tile"><small>ISSUED ON</small><b id="iDate"></b></div><div class="tile"><small>CERTIFICATE ID</small><b id="iId"></b></div></div>
+    <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code, or by entering its ID under "Verify Certificate".</p>
   </div>`);
   view.replaceChildren(page);
-  const nm = c.full_name || '-';
-  txt(page, '#cName', nm); $('#cName').style.fontSize = nm.length > 28 ? '48px' : nm.length > 20 ? '60px' : '78px';
-  txt(page, '#cUser', c.username ? '@' + c.username : '-'); txt(page, '#cEmail', c.email || '-');
-  txt(page, '#cCourse', courseName(c.course_id) + ' Examination');
-  $('#cScore').innerHTML = `with a score of <b>${Math.round(c.percentage)}%</b>`;
-  txt(page, '#cDate', fmt(c.issued_at)); txt(page, '#cId', id); txt(page, '#cUrl', location.host + '/certificate');
-  const tmp = document.createElement('div');   // drawn at 2x, shown at 112px (crisper in the PDF)
-  new QRCode(tmp, { text: `${location.origin}/certificate?id=${encodeURIComponent(id)}`, width: 224, height: 224, colorDark: '#0a1a3a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${c.full_name || '-'}`);
+  txt(page, '#iCourse', course); txt(page, '#iScore', pct + '%'); txt(page, '#iDate', fmt(c.issued_at)); txt(page, '#iId', id);
+  document.title = `${c.full_name} - ${course} Certificate | Codify`;
+
+  // QR (drawn at 2x so it stays sharp), then the certificate itself
+  const tmp = document.createElement('div');
+  new QRCode(tmp, { text: url, width: 224, height: 224, colorDark: NAVY, colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
   const qrData = tmp.querySelector('canvas')?.toDataURL('image/png') || tmp.querySelector('img')?.src;
-  if (qrData) $('#qr').innerHTML = `<img src="${qrData}" width="112" height="112" alt="QR code" style="display:block">`;
-  txt(page, '#iCourse', courseName(c.course_id)); txt(page, '#iScore', Math.round(c.percentage) + '%'); txt(page, '#iDate', fmt(c.issued_at)); txt(page, '#iId', id);
+  await loadFonts();
+  const [qr, logo] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg')]);
+  const cv = $('#certCanvas');
+  drawCertificate(cv, { name: c.full_name || '-', user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
+                        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate' }, qr, logo);
+  cv.setAttribute('aria-label', `Certificate of achievement for ${c.full_name}, ${course} exam, score ${pct}%`);
+
   $('#cp').onclick = async () => {
-    const url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
     try { await navigator.clipboard.writeText(url); showToast('Verification link copied.'); } catch { showToast(url); }
   };
-  document.title = `${c.full_name} - ${courseName(c.course_id)} Certificate | Codify`;
-
-  const fit = () => { const f = $('#fit'), k = Math.min(1, f.clientWidth / 1123); $('#cert').style.transform = `scale(${k})`; f.style.height = 794 * k + 'px'; };
-  fit(); addEventListener('resize', fit);
-
-  $('#dl').onclick = async e => {
-    const b = e.target; b.disabled = true; b.textContent = 'Preparing PDF…';
+  $('#dl').onclick = e => {
+    const b = e.currentTarget; b.disabled = true; b.textContent = 'Preparing PDF…';
     try {
-      await document.fonts.ready;
-      const clone = $('#cert').cloneNode(true);       // capture at full size, not the scaled preview
-      clone.style.cssText = 'position:fixed;left:-10000px;top:0;transform:none';
-      document.body.appendChild(clone);
-      const qi = clone.querySelector('#qr img'), cr = clone.getBoundingClientRect(), qr = qi?.getBoundingClientRect();
-      if (qi) qi.style.visibility = 'hidden';          // html2canvas drops generated QR images, so it is stamped on below
-      const canvas = await html2canvas(clone, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
-      clone.remove();
-      if (qr && qrData) {
-        const img = new Image(); img.src = qrData; await img.decode();
-        canvas.getContext('2d').drawImage(img, (qr.left - cr.left) * 2, (qr.top - cr.top) * 2, qr.width * 2, qr.height * 2);
-      }
-      const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1123, 794] });
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 1123, 794);
-      pdf.save(`Codify-${courseName(c.course_id).replace(/\W+/g, '-')}-Certificate.pdf`);
-    } catch { alert('Could not create the PDF. Please try again.'); }
+      const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [W, H] });
+      pdf.addImage(cv.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      pdf.save(`Codify-${course.replace(/\W+/g, '-')}-Certificate.pdf`);
+    } catch { showToast('Could not create the PDF. Please try again.'); }
     b.disabled = false; b.textContent = 'Download PDF';
   };
 }
