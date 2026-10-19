@@ -1,978 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="View, verify and download your Codify course certificates.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,500&family=Great+Vibes&display=swap"
-    rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
-  <link rel="stylesheet" href="/src/css/global.css">
-  <title>Certificate | Codify</title>
-  <style>
-    body {
-      min-width: 0 !important;
-      overflow-x: hidden !important;
-      font-family: 'Nunito', sans-serif;
-      background: #0a0f1c;
-      color: #e0e6ed;
-      margin: 0
-    }
-
-    main {
-      display: block !important;
-      margin-top: 100px !important;
-      position: relative;
-      z-index: 2;
-      padding: 0 20px 70px;
-      text-align: center
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      background: rgba(0, 170, 255, .12);
-      border: 1px solid rgba(0, 170, 255, .35);
-      color: #00aaff;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: .9rem;
-      font-weight: 700;
-      margin-bottom: 18px
-    }
-
-    .hero-badge.bad {
-      color: #f87171;
-      background: rgba(248, 113, 113, .1);
-      border-color: rgba(248, 113, 113, .4)
-    }
-
-    h1.t {
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: #fff;
-      margin: 0 0 8px
-    }
-
-    h1.t span {
-      background: linear-gradient(90deg, #0077ff, #00aaff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent
-    }
-
-    .sub {
-      color: #94a3b8;
-      margin: 0 auto 26px;
-      max-width: 600px;
-      line-height: 1.6
-    }
-
-    .toolbar {
-      max-width: 1123px;
-      margin: 0 auto 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap
-    }
-
-    .back {
-      color: #94a3b8;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: .95rem;
-      transition: .2s
-    }
-
-    .back:hover {
-      color: #00aaff
-    }
-
-    .acts {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap
-    }
-
-    .info {
-      max-width: 1123px;
-      margin: 22px auto 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      text-align: left
-    }
-
-    .tile {
-      background: rgba(13, 27, 42, .55);
-      border: 1px solid rgba(0, 170, 255, .2);
-      border-radius: 14px;
-      padding: 14px 16px;
-      min-width: 0
-    }
-
-    .tile small {
-      display: block;
-      color: #64748b;
-      font-size: .7rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      margin-bottom: 4px
-    }
-
-    .tile b {
-      color: #fff;
-      font-size: 1rem;
-      overflow-wrap: anywhere
-    }
-
-    @media(max-width:800px) {
-      .info {
-        grid-template-columns: 1fr 1fr
-      }
-
-      .toolbar {
-        justify-content: center
-      }
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 11px 24px;
-      border-radius: 12px;
-      border: none;
-      font: inherit;
-      font-weight: 700;
-      font-size: .95rem;
-      color: #fff;
-      text-decoration: none;
-      cursor: pointer;
-      background: linear-gradient(90deg, #0077ff, #00aaff);
-      box-shadow: 0 4px 15px rgba(0, 170, 255, .25);
-      transition: .25s
-    }
-
-    .btn:hover {
-      background: linear-gradient(90deg, #00aaff, #0077ff);
-      transform: translateY(-1px)
-    }
-
-    .btn:disabled {
-      opacity: .5;
-      cursor: wait
-    }
-
-    .btn.ghost {
-      background: rgba(10, 15, 28, .6);
-      border: 1px solid rgba(0, 170, 255, .3);
-      color: #00aaff;
-      box-shadow: none
-    }
-
-    :focus-visible {
-      outline: 2px solid #00aaff;
-      outline-offset: 2px
-    }
-
-    /* certificate detail page */
-    .cv {
-      max-width: 1123px;
-      margin: 0 auto;
-      text-align: left
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 22px
-    }
-
-    .phead {
-      text-align: center;
-      margin-bottom: 24px
-    }
-
-    .phead .hero-badge {
-      margin-bottom: 20px
-    }
-
-    .t2 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #fff;
-      margin: 0 0 4px;
-      line-height: 1.2
-    }
-
-    .sub2 {
-      color: #94a3b8;
-      margin: 0
-    }
-
-    .frame2 {
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
-      line-height: 0;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, .5), 0 0 0 1px rgba(0, 170, 255, .25)
-    }
-
-    .frame2 canvas {
-      display: block;
-      width: 100%;
-      height: auto
-    }
-
-    .note {
-      color: #64748b;
-      font-size: .85rem;
-      text-align: center;
-      margin: 22px 0 0;
-      line-height: 1.6
-    }
-
-    @media(max-width:600px) {
-      .t2 {
-        font-size: 1.5rem
-      }
-    }
-
-    .state {
-      max-width: 560px;
-      margin: 40px auto;
-      background: rgba(13, 27, 42, .55);
-      border: 1px solid rgba(0, 170, 255, .2);
-      border-radius: 20px;
-      padding: 34px
-    }
-
-    .verify {
-      max-width: 620px;
-      margin: 0 auto 38px;
-      background: rgba(13, 27, 42, .55);
-      border: 1px solid rgba(0, 170, 255, .25);
-      border-radius: 20px;
-      padding: 24px;
-      backdrop-filter: blur(16px)
-    }
-
-    .verify h3 {
-      margin: 0 0 4px;
-      color: #fff;
-      font-size: 1.2rem
-    }
-
-    .verify p {
-      margin: 0 0 14px;
-      color: #94a3b8;
-      font-size: .9rem
-    }
-
-    .vrow {
-      display: flex;
-      gap: 10px
-    }
-
-    .vrow input {
-      flex: 1;
-      min-width: 0;
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: #0a0f1c;
-      color: #fff;
-      border: 1px solid rgba(0, 170, 255, .35);
-      font: inherit;
-      text-transform: uppercase;
-      letter-spacing: .5px
-    }
-
-    .vmsg {
-      margin-top: 12px;
-      font-size: .9rem;
-      color: #94a3b8;
-      min-height: 1.2em
-    }
-
-    .vmsg.bad {
-      color: #f87171
-    }
-
-    .sec {
-      font-size: 1.3rem;
-      color: #fff;
-      margin: 0 0 16px
-    }
-
-    .list {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      text-align: left
-    }
-
-    .head {
-      margin-bottom: 36px
-    }
-
-    .codify-toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: rgba(13, 27, 42, .95);
-      border: 1px solid rgba(0, 170, 255, .4);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, .6);
-      backdrop-filter: blur(12px);
-      color: #e0e6ed;
-      padding: 16px 20px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      z-index: 9999;
-      font-size: .9rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity .3s, transform .3s;
-      pointer-events: none
-    }
-
-    .codify-toast.show {
-      opacity: 1;
-      transform: none;
-      pointer-events: auto
-    }
-
-    .codify-toast a {
-      background: linear-gradient(90deg, #0077ff, #00aaff);
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: .82rem
-    }
-
-    @media(max-width:600px) {
-      .codify-toast {
-        left: 12px;
-        right: 12px;
-        bottom: 12px
-      }
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 8, 16, .78);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 9000
-    }
-
-    .modal.on {
-      display: flex
-    }
-
-    .mp {
-      position: relative;
-      width: 100%;
-      max-width: 460px;
-      background: rgba(13, 27, 42, .97);
-      border: 1px solid rgba(0, 170, 255, .35);
-      border-radius: 20px;
-      padding: 30px 26px 26px;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .6)
-    }
-
-    .mp h3 {
-      margin: 0 0 6px;
-      color: #fff;
-      font-size: 1.4rem
-    }
-
-    .mp p {
-      color: #94a3b8;
-      font-size: .9rem;
-      margin: 0 0 16px;
-      line-height: 1.5
-    }
-
-    .x {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      background: none;
-      border: none;
-      color: #94a3b8;
-      font-size: 1.8rem;
-      cursor: pointer;
-      line-height: 1
-    }
-
-    .x:hover {
-      color: #fff
-    }
-
-    .field {
-      position: relative
-    }
-
-    .field input {
-      width: 100%;
-      padding: 14px 56px 14px 14px;
-      border-radius: 12px;
-      background: #0a0f1c;
-      color: #fff;
-      border: 1px solid rgba(0, 170, 255, .35);
-      font: inherit;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      box-sizing: border-box
-    }
-
-    .scanbtn {
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 170, 255, .4);
-      background: rgba(0, 170, 255, .12);
-      color: #00aaff;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      transition: .2s
-    }
-
-    .scanbtn:hover {
-      background: rgba(0, 170, 255, .25);
-      color: #fff
-    }
-
-    .cam {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #000;
-      aspect-ratio: 1/1;
-      max-height: 46vh;
-      margin: 0 auto 14px
-    }
-
-    .cam video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover
-    }
-
-    .frame {
-      position: absolute;
-      inset: 16%;
-      border: 3px solid #00aaff;
-      border-radius: 16px;
-      box-shadow: 0 0 0 999px rgba(0, 0, 0, .45)
-    }
-
-    .mrow {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap
-    }
-
-    .card {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      background: rgba(13, 27, 42, .55);
-      border: 1px solid rgba(0, 170, 255, .2);
-      border-radius: 16px;
-      padding: 16px 20px;
-      text-decoration: none;
-      color: inherit;
-      transition: .3s;
-      box-sizing: border-box;
-      width: 100%
-    }
-
-    .card:hover {
-      border-color: rgba(0, 170, 255, .65);
-      transform: translateX(4px);
-      box-shadow: 0 10px 28px rgba(0, 170, 255, .18)
-    }
-
-    .card img {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-      background: rgba(255, 255, 255, .05);
-      border-radius: 12px;
-      padding: 7px;
-      flex: none
-    }
-
-    .mid {
-      flex: 1;
-      min-width: 0
-    }
-
-    .card h3 {
-      margin: 0 0 2px;
-      color: #fff;
-      font-size: 1.1rem
-    }
-
-    .card .cid2 {
-      margin: 0;
-      color: #64748b;
-      font-size: .8rem;
-      letter-spacing: .5px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap
-    }
-
-    .pill {
-      flex: none;
-      background: rgba(16, 185, 129, .12);
-      border: 1px solid rgba(16, 185, 129, .45);
-      color: #34d399;
-      font-size: .8rem;
-      font-weight: 800;
-      padding: 4px 14px;
-      border-radius: 20px
-    }
-
-    .card .d {
-      flex: none;
-      color: #94a3b8;
-      font-size: .88rem;
-      min-width: 130px;
-      text-align: right
-    }
-
-    .go {
-      flex: none;
-      color: #00aaff;
-      font-weight: 800;
-      font-size: .9rem
-    }
-
-    .lhead {
-      max-width: 900px;
-      margin: 0 auto 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap
-    }
-
-    @media(max-width:640px) {
-      .card {
-        flex-wrap: wrap;
-        gap: 10px 14px
-      }
-
-      .card .d {
-        text-align: left;
-        min-width: 0;
-        order: 5
-      }
-
-      .go {
-        order: 6;
-        margin-left: auto
-      }
-    }
-
-    .count {
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
-
-    .count span:empty {
-      display: none
-    }
-
-    .count h2 {
-      margin: 0
-    }
-
-    .count span {
-      background: rgba(0, 170, 255, .15);
-      color: #00aaff;
-      font-weight: 800;
-      border-radius: 20px;
-      padding: 2px 12px;
-      font-size: .9rem
-    }
-
-    @media(max-width:600px) {
-      .vrow {
-        flex-direction: column
-      }
-
-      main {
-        margin-top: 40px !important;
-        padding: 0 10px 50px
-      }
-
-      h1.t {
-        font-size: 1.7rem
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="View, verify and download your Codify course certificates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
+<link rel="stylesheet" href="/src/css/global.css">
+<title>Certificate | Codify</title>
+<style>
+body{min-width:0!important;overflow-x:hidden!important;font-family:'Nunito',sans-serif;background:#0a0f1c;color:#e0e6ed;margin:0}
+main{display:block!important;margin-top:100px!important;position:relative;z-index:2;padding:0 20px 70px;text-align:center}
+.hero-badge{display:inline-flex;gap:8px;align-items:center;background:rgba(0,170,255,.12);border:1px solid rgba(0,170,255,.35);
+  color:#00aaff;padding:8px 18px;border-radius:20px;font-size:.9rem;font-weight:700;margin-bottom:18px}
+.hero-badge.bad{color:#f87171;background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.4)}
+h1.t{font-size:2.4rem;font-weight:800;color:#fff;margin:0 0 8px}
+h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:#94a3b8;margin:0 auto 26px;max-width:600px;line-height:1.6}
+.toolbar{max-width:1123px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.back{color:#94a3b8;text-decoration:none;font-weight:700;font-size:.95rem;transition:.2s}.back:hover{color:#00aaff}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.info{max-width:1123px;margin:22px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;text-align:left}
+.tile{background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:14px;padding:14px 16px;min-width:0}
+.tile small{display:block;color:#64748b;font-size:.7rem;font-weight:800;letter-spacing:1.5px;margin-bottom:4px}
+.tile b{color:#fff;font-size:1rem;overflow-wrap:anywhere}
+@media(max-width:800px){.info{grid-template-columns:1fr 1fr}.toolbar{justify-content:center}}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 24px;border-radius:12px;border:none;font:inherit;font-weight:700;
+  font-size:.95rem;color:#fff;text-decoration:none;cursor:pointer;background:linear-gradient(90deg,#0077ff,#00aaff);
+  box-shadow:0 4px 15px rgba(0,170,255,.25);transition:.25s}
+.btn:hover{background:linear-gradient(90deg,#00aaff,#0077ff);transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn.ghost{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.3);color:#00aaff;box-shadow:none}
+:focus-visible{outline:2px solid #00aaff;outline-offset:2px}
+
+/* certificate detail page */
+.cv{max-width:1123px;margin:0 auto;text-align:left}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.phead{text-align:center;margin-bottom:24px}
+.phead .hero-badge{margin-bottom:12px}
+.t2{font-size:2rem;font-weight:800;color:#fff;margin:0 0 4px;line-height:1.2}
+.sub2{color:#94a3b8;margin:0}
+.frame2{border-radius:12px;overflow:hidden;background:#fff;line-height:0;box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px rgba(0,170,255,.25)}
+.frame2 canvas{display:block;width:100%;height:auto}
+.note{color:#64748b;font-size:.85rem;text-align:center;margin:22px 0 0;line-height:1.6}
+@media(max-width:600px){.t2{font-size:1.5rem}}
+.state{max-width:560px;margin:40px auto;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:20px;padding:34px}
+.verify{max-width:620px;margin:0 auto 38px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.25);border-radius:20px;padding:24px;backdrop-filter:blur(16px)}
+.verify h3{margin:0 0 4px;color:#fff;font-size:1.2rem}.verify p{margin:0 0 14px;color:#94a3b8;font-size:.9rem}
+.vrow{display:flex;gap:10px}.vrow input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px}
+.vmsg{margin-top:12px;font-size:.9rem;color:#94a3b8;min-height:1.2em}.vmsg.bad{color:#f87171}
+.sec{font-size:1.3rem;color:#fff;margin:0 0 16px}
+.list{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left}
+.head{margin-bottom:36px}
+.codify-toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,42,.95);border:1px solid rgba(0,170,255,.4);box-shadow:0 10px 30px rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);color:#e0e6ed;padding:16px 20px;border-radius:14px;display:flex;align-items:center;gap:12px;z-index:9999;font-size:.9rem;
+  opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s;pointer-events:none}
+.codify-toast.show{opacity:1;transform:none;pointer-events:auto}
+.codify-toast a{background:linear-gradient(90deg,#0077ff,#00aaff);color:#fff;padding:6px 14px;border-radius:8px;font-weight:700;text-decoration:none;font-size:.82rem}
+@media(max-width:600px){.codify-toast{left:12px;right:12px;bottom:12px}}
+.modal{position:fixed;inset:0;background:rgba(5,8,16,.78);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9000}
+.modal.on{display:flex}
+.mp{position:relative;width:100%;max-width:460px;background:rgba(13,27,42,.97);border:1px solid rgba(0,170,255,.35);border-radius:20px;padding:30px 26px 26px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mp h3{margin:0 0 6px;color:#fff;font-size:1.4rem}.mp p{color:#94a3b8;font-size:.9rem;margin:0 0 16px;line-height:1.5}
+.x{position:absolute;top:10px;right:14px;background:none;border:none;color:#94a3b8;font-size:1.8rem;cursor:pointer;line-height:1}
+.x:hover{color:#fff}
+.field{position:relative}
+.field input{width:100%;padding:14px 56px 14px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px;box-sizing:border-box}
+.scanbtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:10px;border:1px solid rgba(0,170,255,.4);background:rgba(0,170,255,.12);color:#00aaff;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.scanbtn:hover{background:rgba(0,170,255,.25);color:#fff}
+.cam{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:1/1;max-height:46vh;margin:0 auto 14px}
+.cam video{width:100%;height:100%;object-fit:cover}
+.frame{position:absolute;inset:16%;border:3px solid #00aaff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
+.mrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.card{display:flex;align-items:center;gap:18px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:16px;padding:16px 20px;text-decoration:none;color:inherit;transition:.3s;box-sizing:border-box;width:100%}
+.card:hover{border-color:rgba(0,170,255,.65);transform:translateX(4px);box-shadow:0 10px 28px rgba(0,170,255,.18)}
+.card img{width:48px;height:48px;object-fit:contain;background:rgba(255,255,255,.05);border-radius:12px;padding:7px;flex:none}
+.mid{flex:1;min-width:0}
+.card h3{margin:0 0 2px;color:#fff;font-size:1.1rem}
+.card .cid2{margin:0;color:#64748b;font-size:.8rem;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{flex:none;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.45);color:#34d399;font-size:.8rem;font-weight:800;padding:4px 14px;border-radius:20px}
+.card .d{flex:none;color:#94a3b8;font-size:.88rem;min-width:130px;text-align:right}
+.go{flex:none;color:#00aaff;font-weight:800;font-size:.9rem}
+.lhead{max-width:900px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.card{flex-wrap:wrap;gap:10px 14px}.card .d{text-align:left;min-width:0;order:5}.go{order:6;margin-left:auto}}
+.count{display:flex;align-items:center;gap:12px}
+.count span:empty{display:none}
+.count h2{margin:0}.count span{background:rgba(0,170,255,.15);color:#00aaff;font-weight:800;border-radius:20px;padding:2px 12px;font-size:.9rem}
+@media(max-width:600px){.vrow{flex-direction:column}main{margin-top:40px!important;padding:0 10px 50px}h1.t{font-size:1.7rem}}
+</style>
 </head>
-
 <body>
-  <div id="navbar-placeholder"></div>
+<div id="navbar-placeholder"></div>
 
-  <main>
-    <div id="view">
-      <div class="state">Loading…</div>
-    </div>
-  </main>
+<main>
+  <div id="view"><div class="state">Loading…</div></div>
+</main>
 
-  <div id="footer-placeholder"></div>
+<div id="footer-placeholder"></div>
 
-  <div id="vModal" class="modal">
-    <div class="mp" role="dialog" aria-modal="true" aria-labelledby="vTitle">
-      <button class="x" id="vClose" type="button" aria-label="Close">&times;</button>
-      <h3 id="vTitle">Verify a certificate</h3>
-      <div id="vInputView">
-        <p>Enter the certificate ID, or tap the scanner icon to scan its QR code.</p>
-        <div class="field">
-          <input id="vInput" type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" autocomplete="off"
-            aria-label="Certificate ID">
-          <button class="scanbtn" id="vScan" type="button" aria-label="Scan QR code" title="Scan QR code">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10" />
-            </svg>
-          </button>
-        </div>
-        <button class="btn" id="vGo" type="button" style="width:100%;margin-top:14px">Verify</button>
+<div id="vModal" class="modal">
+  <div class="mp" role="dialog" aria-modal="true" aria-labelledby="vTitle">
+    <button class="x" id="vClose" type="button" aria-label="Close">&times;</button>
+    <h3 id="vTitle">Verify a certificate</h3>
+    <div id="vInputView">
+      <p>Enter the certificate ID, or tap the scanner icon to scan its QR code.</p>
+      <div class="field">
+        <input id="vInput" type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" autocomplete="off" aria-label="Certificate ID">
+        <button class="scanbtn" id="vScan" type="button" aria-label="Scan QR code" title="Scan QR code">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
+        </button>
       </div>
-      <div id="vScanView" hidden>
-        <p>Point your camera at the QR code on the certificate.</p>
-        <div class="cam"><video id="vVideo" playsinline muted></video>
-          <div class="frame"></div>
-        </div>
-        <div class="mrow"><button class="btn ghost" id="vUpload" type="button">Upload QR image</button><button
-            class="btn ghost" id="vBack" type="button">Enter ID instead</button></div>
-        <input id="vFile" type="file" accept="image/*" hidden>
-      </div>
-      <div class="vmsg" id="vMsg" role="alert"></div>
+      <button class="btn" id="vGo" type="button" style="width:100%;margin-top:14px">Verify</button>
     </div>
+    <div id="vScanView" hidden>
+      <p>Point your camera at the QR code on the certificate.</p>
+      <div class="cam"><video id="vVideo" playsinline muted></video><div class="frame"></div></div>
+      <div class="mrow"><button class="btn ghost" id="vUpload" type="button">Upload QR image</button><button class="btn ghost" id="vBack" type="button">Enter ID instead</button></div>
+      <input id="vFile" type="file" accept="image/*" hidden>
+    </div>
+    <div class="vmsg" id="vMsg" role="alert"></div>
   </div>
+</div>
 
-  <script type="module" src="/src/js/components.js"></script>
-  <script src="/src/js/script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module" src="/src/js/components.js"></script>
+<script src="/src/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <script type="module">
-    import { supabase } from '/src/js/config/supabase-client.js';
+<script type="module">
+import { supabase } from '/src/js/config/supabase-client.js';
 
-    const $ = s => document.querySelector(s), view = $('#view');
-    const NAMES = { c: 'C Programming', cpp: 'C++ & OOPs', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
-    const LOGOS = { js: 'javascript' };
-    const courseName = id => NAMES[(id || '').split('-')[0]] || id;
-    const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-    const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
-    const txt = (node, sel, v) => { node.querySelector(sel).textContent = v; };
+const $ = s => document.querySelector(s), view = $('#view');
+const NAMES = { c: 'C Programming', cpp: 'C++ & OOPs', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
+const LOGOS = { js: 'javascript' };
+const courseName = id => NAMES[(id || '').split('-')[0]] || id;
+const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
+const txt = (node, sel, v) => { node.querySelector(sel).textContent = v; };
 
-    let toastT;
-    function showToast(msg, href, label) {
-      let t = $('#codifyToast');
-      if (!t) { t = document.createElement('div'); t.id = 'codifyToast'; t.className = 'codify-toast'; t.setAttribute('role', 'alert'); document.body.appendChild(t); }
-      t.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span><a></a>';
-      t.querySelector('span').textContent = msg; const a = t.querySelector('a'); a.style.display = href ? '' : 'none'; if (href) { a.href = href; a.textContent = label; }
-      t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4500);
+let toastT;
+function showToast(msg, href, label) {
+  let t = $('#codifyToast');
+  if (!t) { t = document.createElement('div'); t.id = 'codifyToast'; t.className = 'codify-toast'; t.setAttribute('role', 'alert'); document.body.appendChild(t); }
+  t.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span><a></a>';
+  t.querySelector('span').textContent = msg; const a = t.querySelector('a'); a.style.display = href ? '' : 'none'; if (href) { a.href = href; a.textContent = label; }
+  t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+/* ---- verify window: type an ID, scan with the camera, or upload a QR image ---- */
+const vModal = $('#vModal'), vVideo = $('#vVideo'), vMsg = $('#vMsg');
+let stream = null, raf = 0;
+const setMsg = (t = '', bad = false) => { vMsg.textContent = t; vMsg.className = 'vmsg' + (bad ? ' bad' : ''); };
+const extractId = t => ((String(t).match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i) || [])[0] || '').toUpperCase();
+
+function stopCam() { cancelAnimationFrame(raf); stream?.getTracks().forEach(t => t.stop()); stream = null; vVideo.srcObject = null; }
+function showInputView() { stopCam(); $('#vInputView').hidden = false; $('#vScanView').hidden = true; }
+function openVerify() { vModal.classList.add('on'); showInputView(); $('#vInput').value = ''; setMsg(); $('#vInput').focus(); }
+function closeVerify() { stopCam(); vModal.classList.remove('on'); }
+
+async function checkId(id) {
+  setMsg('Checking…');
+  const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
+  if (error || !data?.length) { showInputView(); $('#vInput').value = id; setMsg(`No certificate found with the ID ${id}.`, true); return; }
+  location.href = '/certificate?id=' + encodeURIComponent(id);
+}
+function decodeAndCheck(imageData, w, h) {
+  const r = window.jsQR && jsQR(imageData, w, h);
+  if (!r?.data) return false;
+  const id = extractId(r.data);
+  if (!id) { stopCam(); showInputView(); setMsg('That QR code is not a Codify certificate.', true); return true; }
+  stopCam(); checkId(id); return true;
+}
+async function startCam() {
+  $('#vInputView').hidden = true; $('#vScanView').hidden = false; setMsg();
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    vVideo.srcObject = stream; await vVideo.play();
+  } catch { setMsg('Camera is not available. Allow camera access, or upload a QR image instead.', true); return; }
+  const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true });
+  const tick = () => {
+    if (!stream) return;
+    if (vVideo.readyState >= 2 && vVideo.videoWidth) {
+      const k = Math.min(1, 640 / vVideo.videoWidth); c.width = vVideo.videoWidth * k; c.height = vVideo.videoHeight * k;
+      x.drawImage(vVideo, 0, 0, c.width, c.height);
+      if (decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) return;
     }
+    raf = requestAnimationFrame(tick);
+  };
+  tick();
+}
+function scanFile(file) {
+  if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    const k = Math.min(1, 1200 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+    c.width = img.width * k; c.height = img.height * k;
+    const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(img.src);
+    if (!decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) setMsg('No QR code was found in that image. Try a clearer picture.', true);
+  };
+  img.onerror = () => setMsg('That file could not be read as an image.', true);
+  img.src = URL.createObjectURL(file);
+}
+$('#vClose').onclick = closeVerify;
+vModal.addEventListener('click', e => { if (e.target === vModal) closeVerify(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeVerify(); if (e.key === 'Enter' && vModal.classList.contains('on') && !$('#vInputView').hidden) $('#vGo').click(); });
+$('#vScan').onclick = startCam;
+$('#vBack').onclick = () => { showInputView(); setMsg(); };
+$('#vUpload').onclick = () => $('#vFile').click();
+$('#vFile').onchange = e => { scanFile(e.target.files[0]); e.target.value = ''; };
+$('#vGo').onclick = () => {
+  const id = extractId($('#vInput').value);              // also accepts a pasted certificate link
+  if (!id) return setMsg('Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.', true);
+  checkId(id);
+};
 
-    /* ---- verify window: type an ID, scan with the camera, or upload a QR image ---- */
-    const vModal = $('#vModal'), vVideo = $('#vVideo'), vMsg = $('#vMsg');
-    let stream = null, raf = 0;
-    const setMsg = (t = '', bad = false) => { vMsg.textContent = t; vMsg.className = 'vmsg' + (bad ? ' bad' : ''); };
-    const extractId = t => ((String(t).match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i) || [])[0] || '').toUpperCase();
+async function init() {
+  const id = new URLSearchParams(location.search).get('id');
+  id ? await showCertificate(id.trim().toUpperCase()) : await showList();
+}
 
-    function stopCam() { cancelAnimationFrame(raf); stream?.getTracks().forEach(t => t.stop()); stream = null; vVideo.srcObject = null; }
-    function showInputView() { stopCam(); $('#vInputView').hidden = false; $('#vScanView').hidden = true; }
-    function openVerify() { vModal.classList.add('on'); showInputView(); $('#vInput').value = ''; setMsg(); $('#vInput').focus(); }
-    function closeVerify() { stopCam(); vModal.classList.remove('on'); }
+/* ---- certificate drawing: ONE canvas is shown on the page AND saved to the PDF, so they always match ---- */
+const W = 1123, H = 794, S = 2, NAVY = '#0a1a3a', BLUE = '#0077ff';
+const PF = '"Playfair Display",Georgia,serif', NU = 'Nunito,Arial,sans-serif', GV = '"Great Vibes","Brush Script MT",cursive';
+const loadImg = src => new Promise(r => { if (!src) return r(null); const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
+const loadFonts = () => Promise.all(['800 56px "Playfair Display"', '700 32px "Playfair Display"', 'italic 500 19px "Playfair Display"',
+  '78px "Great Vibes"', '400 16px Nunito', '800 16px Nunito'].map(f => document.fonts.load(f, 'AaBb 0123').catch(() => {})));
 
-    async function checkId(id) {
-      setMsg('Checking…');
-      const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
-      if (error || !data?.length) { showInputView(); $('#vInput').value = id; setMsg(`No certificate found with the ID ${id}.`, true); return; }
-      location.href = '/certificate?id=' + encodeURIComponent(id);
-    }
-    function decodeAndCheck(imageData, w, h) {
-      const r = window.jsQR && jsQR(imageData, w, h);
-      if (!r?.data) return false;
-      const id = extractId(r.data);
-      if (!id) { stopCam(); showInputView(); setMsg('That QR code is not a Codify certificate.', true); return true; }
-      stopCam(); checkId(id); return true;
-    }
-    async function startCam() {
-      $('#vInputView').hidden = true; $('#vScanView').hidden = false; setMsg();
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-        vVideo.srcObject = stream; await vVideo.play();
-      } catch { setMsg('Camera is not available. Allow camera access, or upload a QR image instead.', true); return; }
-      const c = document.createElement('canvas'), x = c.getContext('2d', { willReadFrequently: true });
-      const tick = () => {
-        if (!stream) return;
-        if (vVideo.readyState >= 2 && vVideo.videoWidth) {
-          const k = Math.min(1, 640 / vVideo.videoWidth); c.width = vVideo.videoWidth * k; c.height = vVideo.videoHeight * k;
-          x.drawImage(vVideo, 0, 0, c.width, c.height);
-          if (decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) return;
-        }
-        raf = requestAnimationFrame(tick);
-      };
-      tick();
-    }
-    function scanFile(file) {
-      if (!file) return;
-      const img = new Image();
-      img.onload = () => {
-        const k = Math.min(1, 1200 / Math.max(img.width, img.height)), c = document.createElement('canvas');
-        c.width = img.width * k; c.height = img.height * k;
-        const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(img.src);
-        if (!decodeAndCheck(x.getImageData(0, 0, c.width, c.height).data, c.width, c.height)) setMsg('No QR code was found in that image. Try a clearer picture.', true);
-      };
-      img.onerror = () => setMsg('That file could not be read as an image.', true);
-      img.src = URL.createObjectURL(file);
-    }
-    $('#vClose').onclick = closeVerify;
-    vModal.addEventListener('click', e => { if (e.target === vModal) closeVerify(); });
-    addEventListener('keydown', e => { if (e.key === 'Escape') closeVerify(); if (e.key === 'Enter' && vModal.classList.contains('on') && !$('#vInputView').hidden) $('#vGo').click(); });
-    $('#vScan').onclick = startCam;
-    $('#vBack').onclick = () => { showInputView(); setMsg(); };
-    $('#vUpload').onclick = () => $('#vFile').click();
-    $('#vFile').onchange = e => { scanFile(e.target.files[0]); e.target.value = ''; };
-    $('#vGo').onclick = () => {
-      const id = extractId($('#vInput').value);              // also accepts a pasted certificate link
-      if (!id) return setMsg('Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.', true);
-      checkId(id);
-    };
+// draw coloured text pieces centred on cx; sp = letter spacing in px
+function run(g, segs, cx, y, sp = 0) {
+  const parts = segs.map(([t, font, color]) => {
+    g.font = font; const chars = sp ? [...t] : [t], ws = chars.map(c => g.measureText(c).width + sp);
+    return { chars, ws, font, color, w: ws.reduce((a, b) => a + b, 0) };
+  });
+  const total = parts.reduce((a, p) => a + p.w, 0) - sp; let x = cx - total / 2;
+  g.textAlign = 'left';
+  parts.forEach(p => { g.font = p.font; g.fillStyle = p.color; p.chars.forEach((c, i) => { g.fillText(c, x, y); x += p.ws[i]; }); });
+  return { left: cx - total / 2, right: cx + total / 2 };
+}
+function roundRect(g, x, y, w, h, r) {
+  g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
+  g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
+}
+function drawSeal(g, cx, cy) {
+  g.save(); g.translate(cx, cy);
+  g.beginPath(); g.arc(0, 0, 62, 0, Math.PI * 2); g.strokeStyle = NAVY; g.lineWidth = 5; g.setLineDash([2, 3.2]); g.stroke(); g.setLineDash([]);
+  const gr = g.createLinearGradient(-57, -57, 57, 57); gr.addColorStop(0, '#00aaff'); gr.addColorStop(1, '#0050c8');
+  g.beginPath(); g.arc(0, 0, 57, 0, Math.PI * 2); g.fillStyle = gr; g.fill();
+  g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1.3;
+  [53, 31].forEach(r => { g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.stroke(); });
+  const txt = [...'CODIFY • CERTIFIED • VERIFIED •'], r = 42;       // ring text, spread evenly round the circle
+  g.font = `700 10px Georgia,serif`; g.fillStyle = '#fff'; g.textAlign = 'center';
+  const ws = txt.map(c => g.measureText(c).width), gap = (2 * Math.PI * r - ws.reduce((a, b) => a + b, 0)) / txt.length;
+  let pos = 0;
+  txt.forEach((c, i) => {
+    const a = Math.PI + (pos + ws[i] / 2) / r;
+    g.save(); g.translate(r * Math.cos(a), r * Math.sin(a)); g.rotate(a + Math.PI / 2); g.fillText(c, 0, 0); g.restore(); pos += ws[i] + gap;
+  });
+  g.beginPath(); g.moveTo(-13, 1); g.lineTo(-4, 10); g.lineTo(13, -9);
+  g.strokeStyle = '#fff'; g.lineWidth = 6; g.lineCap = 'round'; g.lineJoin = 'round'; g.stroke();
+  g.restore();
+}
+function drawCertificate(cv, d, qr, logo, sig) {
+  cv.width = W * S; cv.height = H * S;
+  const g = cv.getContext('2d'); g.scale(S, S); g.textBaseline = 'alphabetic';
+  // paper
+  const bg = g.createRadialGradient(W / 2, H * .45, 0, W / 2, H * .45, 700); bg.addColorStop(0, '#ffffff'); bg.addColorStop(1, '#eef4fc');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  g.save(); g.strokeStyle = 'rgba(0,119,255,.035)'; g.lineWidth = 2;
+  for (let x = -H; x < W; x += 14) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x + H, H); g.stroke(); } g.restore();
+  // borders + corner diamonds
+  g.strokeStyle = NAVY; g.lineWidth = 10; g.strokeRect(21, 21, W - 42, H - 42);
+  g.strokeStyle = BLUE; g.lineWidth = 2; g.strokeRect(35, 35, W - 70, H - 70);
+  g.strokeStyle = 'rgba(10,26,58,.3)'; g.lineWidth = 1; g.strokeRect(42.5, 42.5, W - 85, H - 85);
+  [[16, 16], [W - 16, 16], [16, H - 16], [W - 16, H - 16]].forEach(([x, y]) => {
+    g.save(); g.translate(x, y); g.rotate(Math.PI / 4); g.fillStyle = BLUE; g.fillRect(-13, -13, 26, 26);
+    g.strokeStyle = '#fff'; g.lineWidth = 4; g.strokeRect(-11, -11, 22, 22); g.restore();
+  });
+  // header
+  g.font = `800 26px ${PF}`; const bw = [...'CODIFY'].reduce((a, c) => a + g.measureText(c).width + 7, -7), gx = W / 2 - (52 + bw) / 2;
+  if (logo) g.drawImage(logo, gx, 60, 40, 40);
+  run(g, [['CODIFY', `800 26px ${PF}`, NAVY]], gx + 52 + bw / 2, 90, 7);
+  run(g, [['CERTIFICATE', `800 56px ${PF}`, NAVY]], W / 2, 162, 11);
+  const ex = run(g, [['OF ACHIEVEMENT', `800 16px ${NU}`, BLUE]], W / 2, 196, 8);
+  g.fillStyle = BLUE; g.fillRect(ex.left - 108, 189, 90, 2); g.fillRect(ex.right + 18, 189, 90, 2);
+  run(g, [['This certificate is proudly presented to', `italic 500 19px ${PF}`, '#475569']], W / 2, 250);
+  // name (shrinks to fit)
+  let fs = 78; do { g.font = `${fs}px ${GV}`; fs -= 2; } while (g.measureText(d.name).width > 800 && fs > 36);
+  g.fillStyle = NAVY; g.textAlign = 'center'; g.fillText(d.name, W / 2, 336);
+  const nw = Math.min(W - 180, Math.max(560, g.measureText(d.name).width + 100)); g.fillRect(W / 2 - nw / 2, 348, nw, 2);
+  const L = `400 15px ${NU}`, B = `800 15px ${NU}`;
+  run(g, [['Username: ', L, '#334155'], [d.user, B, NAVY], ['        ', L, '#334155'], ['Email: ', L, '#334155'], [d.email, B, NAVY]], W / 2, 382);
+  run(g, [['for successfully passing the', `400 18px ${NU}`, '#475569']], W / 2, 428);
+  run(g, [[d.course, `700 32px ${PF}`, NAVY]], W / 2, 470);
+  run(g, [['with a score of ', `400 18px ${NU}`, '#475569'], [d.pct + '%', `800 21px ${NU}`, BLUE]], W / 2, 504);
+  // footer: QR | seal | date + signature
+  g.fillStyle = '#fff'; roundRect(g, 84, 548, 124, 124, 6); g.fill(); g.strokeStyle = 'rgba(10,26,58,.25)'; g.lineWidth = 1; g.stroke();
+  if (qr) g.drawImage(qr, 90, 554, 112, 112);
+  run(g, [['SCAN TO VERIFY', `800 11px ${NU}`, '#64748b']], 146, 696, 2);
+  drawSeal(g, W / 2, 612);
+  g.fillStyle = NAVY;
+  run(g, [[d.date, `800 17px ${NU}`, NAVY]], 914, 582); g.fillRect(789, 592, 250, 1);
+  run(g, [['DATE OF ISSUE', `800 11px ${NU}`, '#64748b']], 914, 610, 2);
+  if (sig) { const h = 56, w = Math.min(230, h * sig.width / sig.height); g.drawImage(sig, 914 - w / 2, 620, w, w * sig.height / sig.width); }
+  else run(g, [['Mohammed Owais', `38px ${GV}`, NAVY]], 914, 668);
+  g.fillStyle = NAVY; g.fillRect(789, 678, 250, 1);
+  run(g, [['MOHAMMED OWAIS', `800 13px ${NU}`, NAVY]], 914, 697, 1.5);
+  run(g, [['FOUNDER, CODIFY', `800 10px ${NU}`, '#64748b']], 914, 712, 2);
+  run(g, [['CERTIFICATE ID: ', `400 12px ${NU}`, '#64748b'], [d.id, `800 12px ${NU}`, NAVY], ['  ·  ' + d.url, `400 12px ${NU}`, '#64748b']], W / 2, 738, 1.5);
+}
 
-    async function init() {
-      const id = new URLSearchParams(location.search).get('id');
-      id ? await showCertificate(id.trim().toUpperCase()) : await showList();
-    }
-
-    /* ---- certificate drawing: ONE canvas is shown on the page AND saved to the PDF, so they always match ---- */
-    const W = 1123, H = 794, S = 2, NAVY = '#0a1a3a', BLUE = '#0077ff';
-    const PF = '"Playfair Display",Georgia,serif', NU = 'Nunito,Arial,sans-serif', GV = '"Great Vibes","Brush Script MT",cursive';
-    const loadImg = src => new Promise(r => { if (!src) return r(null); const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
-    const loadFonts = () => Promise.all(['800 56px "Playfair Display"', '700 32px "Playfair Display"', 'italic 500 19px "Playfair Display"',
-      '78px "Great Vibes"', '400 16px Nunito', '800 16px Nunito'].map(f => document.fonts.load(f, 'AaBb 0123').catch(() => { })));
-
-    // draw coloured text pieces centred on cx; sp = letter spacing in px
-    function run(g, segs, cx, y, sp = 0) {
-      const parts = segs.map(([t, font, color]) => {
-        g.font = font; const chars = sp ? [...t] : [t], ws = chars.map(c => g.measureText(c).width + sp);
-        return { chars, ws, font, color, w: ws.reduce((a, b) => a + b, 0) };
-      });
-      const total = parts.reduce((a, p) => a + p.w, 0) - sp; let x = cx - total / 2;
-      g.textAlign = 'left';
-      parts.forEach(p => { g.font = p.font; g.fillStyle = p.color; p.chars.forEach((c, i) => { g.fillText(c, x, y); x += p.ws[i]; }); });
-      return { left: cx - total / 2, right: cx + total / 2 };
-    }
-    function roundRect(g, x, y, w, h, r) {
-      g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
-      g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
-    }
-    function drawSeal(g, cx, cy) {
-      g.save(); g.translate(cx, cy);
-      g.beginPath(); g.arc(0, 0, 62, 0, Math.PI * 2); g.strokeStyle = NAVY; g.lineWidth = 5; g.setLineDash([2, 3.2]); g.stroke(); g.setLineDash([]);
-      const gr = g.createLinearGradient(-57, -57, 57, 57); gr.addColorStop(0, '#00aaff'); gr.addColorStop(1, '#0050c8');
-      g.beginPath(); g.arc(0, 0, 57, 0, Math.PI * 2); g.fillStyle = gr; g.fill();
-      g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1.3;
-      [53, 31].forEach(r => { g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.stroke(); });
-      const txt = [...'CODIFY • CERTIFIED • VERIFIED •'], r = 42;       // ring text, spread evenly round the circle
-      g.font = `700 10px Georgia,serif`; g.fillStyle = '#fff'; g.textAlign = 'center';
-      const ws = txt.map(c => g.measureText(c).width), gap = (2 * Math.PI * r - ws.reduce((a, b) => a + b, 0)) / txt.length;
-      let pos = 0;
-      txt.forEach((c, i) => {
-        const a = Math.PI + (pos + ws[i] / 2) / r;
-        g.save(); g.translate(r * Math.cos(a), r * Math.sin(a)); g.rotate(a + Math.PI / 2); g.fillText(c, 0, 0); g.restore(); pos += ws[i] + gap;
-      });
-      g.beginPath(); g.moveTo(-13, 1); g.lineTo(-4, 10); g.lineTo(13, -9);
-      g.strokeStyle = '#fff'; g.lineWidth = 6; g.lineCap = 'round'; g.lineJoin = 'round'; g.stroke();
-      g.restore();
-    }
-    function drawCertificate(cv, d, qr, logo) {
-      cv.width = W * S; cv.height = H * S;
-      const g = cv.getContext('2d'); g.scale(S, S); g.textBaseline = 'alphabetic';
-      // paper
-      const bg = g.createRadialGradient(W / 2, H * .45, 0, W / 2, H * .45, 700); bg.addColorStop(0, '#ffffff'); bg.addColorStop(1, '#eef4fc');
-      g.fillStyle = bg; g.fillRect(0, 0, W, H);
-      g.save(); g.strokeStyle = 'rgba(0,119,255,.035)'; g.lineWidth = 2;
-      for (let x = -H; x < W; x += 14) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x + H, H); g.stroke(); } g.restore();
-      // borders + corner diamonds
-      g.strokeStyle = NAVY; g.lineWidth = 10; g.strokeRect(21, 21, W - 42, H - 42);
-      g.strokeStyle = BLUE; g.lineWidth = 2; g.strokeRect(35, 35, W - 70, H - 70);
-      g.strokeStyle = 'rgba(10,26,58,.3)'; g.lineWidth = 1; g.strokeRect(42.5, 42.5, W - 85, H - 85);
-      [[16, 16], [W - 16, 16], [16, H - 16], [W - 16, H - 16]].forEach(([x, y]) => {
-        g.save(); g.translate(x, y); g.rotate(Math.PI / 4); g.fillStyle = BLUE; g.fillRect(-13, -13, 26, 26);
-        g.strokeStyle = '#fff'; g.lineWidth = 4; g.strokeRect(-11, -11, 22, 22); g.restore();
-      });
-      // header
-      g.font = `800 26px ${PF}`; const bw = [...'CODIFY'].reduce((a, c) => a + g.measureText(c).width + 7, -7), gx = W / 2 - (52 + bw) / 2;
-      if (logo) g.drawImage(logo, gx, 60, 40, 40);
-      run(g, [['CODIFY', `800 26px ${PF}`, NAVY]], gx + 52 + bw / 2, 90, 7);
-      run(g, [['CERTIFICATE', `800 56px ${PF}`, NAVY]], W / 2, 162, 11);
-      const ex = run(g, [['OF ACHIEVEMENT', `800 16px ${NU}`, BLUE]], W / 2, 196, 8);
-      g.fillStyle = BLUE; g.fillRect(ex.left - 108, 189, 90, 2); g.fillRect(ex.right + 18, 189, 90, 2);
-      run(g, [['This certificate is proudly presented to', `italic 500 19px ${PF}`, '#475569']], W / 2, 250);
-      // name (shrinks to fit)
-      let fs = 78; do { g.font = `${fs}px ${GV}`; fs -= 2; } while (g.measureText(d.name).width > 800 && fs > 36);
-      g.fillStyle = NAVY; g.textAlign = 'center'; g.fillText(d.name, W / 2, 336);
-      const nw = Math.min(W - 180, Math.max(560, g.measureText(d.name).width + 100)); g.fillRect(W / 2 - nw / 2, 348, nw, 2);
-      const L = `400 15px ${NU}`, B = `800 15px ${NU}`;
-      run(g, [['Username: ', L, '#334155'], [d.user, B, NAVY], ['        ', L, '#334155'], ['Email: ', L, '#334155'], [d.email, B, NAVY]], W / 2, 382);
-      run(g, [['for successfully passing the', `400 18px ${NU}`, '#475569']], W / 2, 428);
-      run(g, [[d.course, `700 32px ${PF}`, NAVY]], W / 2, 470);
-      run(g, [['with a score of ', `400 18px ${NU}`, '#475569'], [d.pct + '%', `800 21px ${NU}`, BLUE]], W / 2, 504);
-      // footer: QR | seal | date + signature
-      g.fillStyle = '#fff'; roundRect(g, 84, 548, 124, 124, 6); g.fill(); g.strokeStyle = 'rgba(10,26,58,.25)'; g.lineWidth = 1; g.stroke();
-      if (qr) g.drawImage(qr, 90, 554, 112, 112);
-      run(g, [['SCAN TO VERIFY', `800 11px ${NU}`, '#64748b']], 146, 696, 2);
-      drawSeal(g, W / 2, 612);
-      g.fillStyle = NAVY;
-      run(g, [[d.date, `800 17px ${NU}`, NAVY]], 914, 598); g.fillRect(789, 608, 250, 1);
-      run(g, [['DATE OF ISSUE', `800 11px ${NU}`, '#64748b']], 914, 626, 2);
-      run(g, [['Codify', `38px ${GV}`, NAVY]], 914, 668); g.fillStyle = NAVY; g.fillRect(789, 678, 250, 1);
-      run(g, [['AUTHORIZED SIGNATURE', `800 11px ${NU}`, '#64748b']], 914, 696, 2);
-      run(g, [['CERTIFICATE ID: ', `400 12px ${NU}`, '#64748b'], [d.id, `800 12px ${NU}`, NAVY], ['  ·  ' + d.url, `400 12px ${NU}`, '#64748b']], W / 2, 738, 1.5);
-    }
-
-    /* ---- one certificate: anyone with the link can view and verify it ---- */
-    async function showCertificate(id) {
-      const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
-      const c = data?.[0];
-      if (error || !c) {
-        view.replaceChildren(el(`<div><div class="hero-badge bad">Not found</div><h1 class="t">Certificate not found</h1>
+/* ---- one certificate: anyone with the link can view and verify it ---- */
+async function showCertificate(id) {
+  const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
+  const c = data?.[0];
+  if (error || !c) {
+    view.replaceChildren(el(`<div><div class="hero-badge bad">Not found</div><h1 class="t">Certificate not found</h1>
       <p class="sub">We couldn't find a certificate with this ID. Check the link or QR code and try again.</p>
       <a class="btn ghost" href="/certificate">My certificates</a></div>`));
-        const vb = el('<button class="btn" style="margin-left:10px">Verify another certificate</button>'); vb.onclick = openVerify; view.firstChild.querySelector('a').after(vb);
-        return;
-      }
-      const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
-      const page = el(`<div class="cv">
-    
-    <div class="phead">
-      <div><div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
-        <h1 class="t2"></h1><p class="sub2"></p></div>
-    </div>
+    const vb = el('<button class="btn" style="margin-left:10px">Verify another certificate</button>'); vb.onclick = openVerify; view.firstChild.querySelector('a').after(vb);
+    return;
+  }
+  const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
+  const page = el(`<div class="cv">
     <div class="topbar">
       <a class="back" href="/certificate">&larr; All certificates</a>
       <div class="acts"><button class="btn ghost" id="cp" type="button">Copy link</button><button class="btn" id="dl" type="button">Download PDF</button></div>
+    </div>
+    <div class="phead">
+      <div><div class="hero-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Verified Codify certificate</div>
+        <h1 class="t2"></h1><p class="sub2"></p></div>
     </div>
     <div class="frame2"><canvas id="certCanvas" role="img"></canvas></div>
     <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
       <div class="tile"><small>ISSUED ON</small><b id="iDate"></b></div><div class="tile"><small>CERTIFICATE ID</small><b id="iId"></b></div></div>
     <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code, or by entering its ID under "Verify Certificate".</p>
   </div>`);
-      view.replaceChildren(page);
-      txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${c.full_name || '-'}`);
-      txt(page, '#iCourse', course); txt(page, '#iScore', pct + '%'); txt(page, '#iDate', fmt(c.issued_at)); txt(page, '#iId', id);
-      document.title = `${c.full_name} - ${course} Certificate | Codify`;
+  view.replaceChildren(page);
+  txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${c.full_name || '-'}`);
+  txt(page, '#iCourse', course); txt(page, '#iScore', pct + '%'); txt(page, '#iDate', fmt(c.issued_at)); txt(page, '#iId', id);
+  document.title = `${c.full_name} - ${course} Certificate | Codify`;
 
-      // QR (drawn at 2x so it stays sharp), then the certificate itself
-      const tmp = document.createElement('div');
-      new QRCode(tmp, { text: url, width: 224, height: 224, colorDark: NAVY, colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
-      const qrData = tmp.querySelector('canvas')?.toDataURL('image/png') || tmp.querySelector('img')?.src;
-      await loadFonts();
-      const [qr, logo] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg')]);
-      const cv = $('#certCanvas');
-      drawCertificate(cv, {
-        name: c.full_name || '-', user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
-        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate'
-      }, qr, logo);
-      cv.setAttribute('aria-label', `Certificate of achievement for ${c.full_name}, ${course} exam, score ${pct}%`);
+  // QR (drawn at 2x so it stays sharp), then the certificate itself
+  const tmp = document.createElement('div');
+  new QRCode(tmp, { text: url, width: 224, height: 224, colorDark: NAVY, colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  const qrData = tmp.querySelector('canvas')?.toDataURL('image/png') || tmp.querySelector('img')?.src;
+  await loadFonts();
+  const [qr, logo, sig] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg'), loadImg('/src/assets/signature.png')]);
+  const cv = $('#certCanvas');
+  drawCertificate(cv, { name: c.full_name || '-', user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
+                        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate' }, qr, logo, sig);
+  cv.setAttribute('aria-label', `Certificate of achievement for ${c.full_name}, ${course} exam, score ${pct}%`);
 
-      $('#cp').onclick = async () => {
-        try { await navigator.clipboard.writeText(url); showToast('Verification link copied.'); } catch { showToast(url); }
-      };
-      $('#dl').onclick = e => {
-        const b = e.currentTarget; b.disabled = true; b.textContent = 'Preparing PDF…';
-        try {
-          const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [W, H] });
-          pdf.addImage(cv.toDataURL('image/png'), 'PNG', 0, 0, W, H);
-          pdf.save(`Codify-${course.replace(/\W+/g, '-')}-Certificate.pdf`);
-        } catch { showToast('Could not create the PDF. Please try again.'); }
-        b.disabled = false; b.textContent = 'Download PDF';
-      };
-    }
+  $('#cp').onclick = async () => {
+    try { await navigator.clipboard.writeText(url); showToast('Verification link copied.'); } catch { showToast(url); }
+  };
+  $('#dl').onclick = e => {
+    const b = e.currentTarget; b.disabled = true; b.textContent = 'Preparing PDF…';
+    try {
+      const pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [W, H] });
+      pdf.addImage(cv.toDataURL('image/png'), 'PNG', 0, 0, W, H);
+      pdf.save(`Codify-${course.replace(/\W+/g, '-')}-Certificate.pdf`);
+    } catch { showToast('Could not create the PDF. Please try again.'); }
+    b.disabled = false; b.textContent = 'Download PDF';
+  };
+}
 
-    /* ---- no id: header with Verify button, then the account's certificates ---- */
-    async function showList() {
-      const { data: { session } } = await supabase.auth.getSession();
-      const wrap = el(`<div><div class="head"><div class="hero-badge">Achievements</div>
+/* ---- no id: header with Verify button, then the account's certificates ---- */
+async function showList() {
+  const { data: { session } } = await supabase.auth.getSession();
+  const wrap = el(`<div><div class="head"><div class="hero-badge">Achievements</div>
     <h1 class="t">Codify <span>Certificates</span></h1>
     <p class="sub">Pass a course exam with 50% or more to earn a certificate. Anyone can check that a certificate is genuine.</p></div>
     <div class="lhead"><div class="count"><h2 class="sec" style="margin:0">My certificates</h2><span></span></div>
     <button class="btn" id="openVerify" type="button">Verify Certificate</button></div></div>`);
-      const count = wrap.querySelector('.count');
-      wrap.querySelector('#openVerify').onclick = openVerify;
-      const list = el('<div class="list"></div>');
-      if (!session?.user) {
-        list.append(el('<div class="state" style="width:100%">Log in to see the certificates you have earned.<br><br><button class="btn" id="takeExam" type="button">Take an exam</button></div>'));
-        list.querySelector('#takeExam').onclick = () => showToast('Please log in to take an exam.', '/login', 'Log In');
-      } else {
-        let { data, error } = await supabase.rpc('my_certificates');
-        if (error) ({ data, error } = await supabase.from('certificates').select('id, course_id, percentage, issued_at')
-          .eq('user_id', session.user.id).order('issued_at', { ascending: false }));
-        if (error) list.append(el('<div class="state" style="width:100%"></div>')), list.firstChild.textContent = `We couldn't load your certificates (${error.message}). Please refresh and try again.`;
-        else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
-        (data || []).forEach(c => {
-          const slug = (c.course_id || '').split('-')[0];
-          const a = el('<a class="card"><img alt=""><div class="mid"><h3></h3><p class="cid2"></p></div><span class="pill"></span><span class="d"></span><span class="go">View &rarr;</span></a>');
-          a.href = '/certificate?id=' + encodeURIComponent(c.id);
-          a.querySelector('img').src = `/src/assets/logos/${LOGOS[slug] || slug}.svg`;
-          a.querySelector('.pill').textContent = Math.round(c.percentage) + '%';
-          a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
-          a.querySelector('.cid2').textContent = c.id;
-          a.querySelector('.d').textContent = fmt(c.issued_at);
-          list.append(a);
-        });
-        if (data?.length) count.querySelector('span').textContent = data.length;
-        else count.querySelector('span').remove();
-      }
-      wrap.append(list); view.replaceChildren(wrap);
-    }
+  const count = wrap.querySelector('.count');
+  wrap.querySelector('#openVerify').onclick = openVerify;
+  const list = el('<div class="list"></div>');
+  if (!session?.user) {
+    list.append(el('<div class="state" style="width:100%">Log in to see the certificates you have earned.<br><br><button class="btn" id="takeExam" type="button">Take an exam</button></div>'));
+    list.querySelector('#takeExam').onclick = () => showToast('Please log in to take an exam.', '/login', 'Log In');
+  } else {
+    let { data, error } = await supabase.rpc('my_certificates');
+    if (error) ({ data, error } = await supabase.from('certificates').select('id, course_id, percentage, issued_at')
+      .eq('user_id', session.user.id).order('issued_at', { ascending: false }));
+    if (error) list.append(el('<div class="state" style="width:100%"></div>')), list.firstChild.textContent = `We couldn't load your certificates (${error.message}). Please refresh and try again.`;
+    else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
+    (data || []).forEach(c => {
+      const slug = (c.course_id || '').split('-')[0];
+      const a = el('<a class="card"><img alt=""><div class="mid"><h3></h3><p class="cid2"></p></div><span class="pill"></span><span class="d"></span><span class="go">View &rarr;</span></a>');
+      a.href = '/certificate?id=' + encodeURIComponent(c.id);
+      a.querySelector('img').src = `/src/assets/logos/${LOGOS[slug] || slug}.svg`;
+      a.querySelector('.pill').textContent = Math.round(c.percentage) + '%';
+      a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
+      a.querySelector('.cid2').textContent = c.id;
+      a.querySelector('.d').textContent = fmt(c.issued_at);
+      list.append(a);
+    });
+    if (data?.length) count.querySelector('span').textContent = data.length;
+    else count.querySelector('span').remove();
+  }
+  wrap.append(list); view.replaceChildren(wrap);
+}
 
-    init();
-  </script>
+init();
+</script>
 </body>
-
 </html>
