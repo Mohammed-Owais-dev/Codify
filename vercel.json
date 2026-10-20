@@ -21,6 +21,14 @@
       "destination": "/src/pages/quick-notes.html"
     },
     {
+      "source": "/quick-notes/:language/:chapter",
+      "destination": "/src/pages/quick-notes-lesson.html"
+    },
+    {
+      "source": "/quick-notes/:language",
+      "destination": "/src/pages/quick-notes-index.html"
+    },
+    {
       "source": "/login",
       "destination": "/src/auth/login.html"
     },
