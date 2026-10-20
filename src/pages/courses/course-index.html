@@ -361,7 +361,7 @@
                 syllabusData.chapters.forEach(chapter => {
                     htmlContent += `
                         <section class="chapter-card">
-                            <div class="chapter-header">${chapter.chapter_title}</div>
+                            <div class="chapter-header">${chapter.chapter_number}. ${chapter.chapter_title}</div>
                             <ul class="topic-list">
                     `;
                     chapter.topics.forEach(topic => {
