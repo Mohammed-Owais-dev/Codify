@@ -617,14 +617,7 @@
                 background: rgba(0, 170, 255, 0.14) !important;
                 border-color: rgba(0, 170, 255, 0.38) !important;
             }
-
-            .tree-arrow {
-                width: 17px !important;
-                height: 17px !important;
-                margin: 0 2px 0 0 !important;
-            }
-
-            .chapter-title {
+.chapter-title {
                 font-size: 0.9rem !important;
                 line-height: 1.4 !important;
                 font-weight: 750 !important;
@@ -791,17 +784,6 @@
 
                 <!-- DYNAMIC QUIZ MOUNT CONTAINER -->
                 <div id="dynamicQuizMount"></div>
-
-                <!-- FAST LOADING LESSON COMPLETION CARD -->
-                <div class="lesson-complete-card">
-                    <div class="complete-text">
-                        <h3>Finished this topic?</h3>
-                        <p>Marking this topic as finished updates your course completion matrix.</p>
-                    </div>
-                    <button id="markCompleteBtn" class="mark-btn" onclick="toggleLessonCompletion()">
-                        <span id="completeBtnText">Mark as Completed</span>
-                    </button>
-                </div>
 
                 <!-- FAST LOADING BOTTOM NAVIGATION ROW -->
                 <div class="content-nav-row bottom-nav-row">
@@ -1216,7 +1198,6 @@
                         <a class="tree-node quick-notes-chapter-link ${chapter.number === activeChapter.number ? 'active' : ''}"
                            href="/quick-notes/${encodeURIComponent(courseParam)}/${chapter.number}"
                            data-title="${chapter.title}">
-                            <span class="tree-arrow"><svg width="14" height="14" viewBox="0 0 15 20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"></path></svg></span>
                             <span class="chapter-title">${chapter.title}</span>
                         </a>
                     </li>
@@ -1319,114 +1300,6 @@
             document.getElementById('qb-complete').classList.add('active');
         };
 
-        // Shared access toast for login and course-enrollment requirements.
-        let accessToastTimer = null;
-        function showAccessToast(message, actionLabel, actionHref) {
-            let toast = document.getElementById('codifyToast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'codifyToast';
-                toast.className = 'codify-toast';
-                toast.innerHTML = '<span class="toast-message"></span><a class="toast-login-btn"></a>';
-                document.body.appendChild(toast);
-            }
-            toast.querySelector('.toast-message').textContent = message;
-            const action = toast.querySelector('.toast-login-btn');
-            action.textContent = actionLabel;
-            action.href = actionHref;
-            toast.classList.add('show');
-            clearTimeout(accessToastTimer);
-            accessToastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
-        }
-
-        function showLoginToast() {
-            showAccessToast(
-                'Please log in to mark this topic as completed.',
-                'Log In',
-                '/src/auth/login.html?redirect=' + encodeURIComponent(window.location.href)
-            );
-        }
-
-        function showEnrollmentToast() {
-            showAccessToast(
-                'Please enroll in this course before marking this topic as completed.',
-                'Enroll',
-                activeCourse.indexPage + '/enroll'
-            );
-        }
-
-        async function checkCourseEnrollment(userId) {
-            const { data, error } = await supabase.from('user_enrollments')
-                .select('id')
-                .eq('user_id', userId)
-                .eq('course_id', COURSE_ID)
-                .maybeSingle();
-
-            if (error) {
-                console.error('Course enrollment check error:', error);
-                return false;
-            }
-            return Boolean(data);
-        }
-
-        // Progress Tracking & Completion
-        let isCompleted = false;
-        async function initProgress() {
-            if (!fileParam) return;
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) return;
-
-            const enrolled = await checkCourseEnrollment(user.id);
-            if (!enrolled) return;
-
-            const { data, error } = await supabase.from('user_progress')
-                .select('completed')
-                .eq('user_id', user.id)
-                .eq('course_id', COURSE_ID)
-                .eq('lesson_id', fileParam)
-                .maybeSingle();
-
-            if (error) {
-                console.error('Progress load error:', error);
-                return;
-            }
-
-            isCompleted = Boolean(data?.completed);
-            const btn = document.getElementById('markCompleteBtn');
-            btn.classList.toggle('is-completed', isCompleted);
-            document.getElementById('completeBtnText').textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
-        }
-
-        window.toggleLessonCompletion = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) {
-                showLoginToast();
-                return;
-            }
-            if (!fileParam) return;
-
-            const enrolled = await checkCourseEnrollment(user.id);
-            if (!enrolled) {
-                showEnrollmentToast();
-                return;
-            }
-
-            const btn = document.getElementById('markCompleteBtn');
-            const btnText = document.getElementById('completeBtnText');
-            const nextState = !isCompleted;
-            const { error } = nextState
-                ? await supabase.from('user_progress').upsert({ user_id: user.id, course_id: COURSE_ID, lesson_id: fileParam, completed: true })
-                : await supabase.from('user_progress').delete().eq('user_id', user.id).eq('course_id', COURSE_ID).eq('lesson_id', fileParam);
-
-            if (error) {
-                console.error('Progress update error:', error);
-                return;
-            }
-
-            isCompleted = nextState;
-            btn.classList.toggle('is-completed', isCompleted);
-            btnText.textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
-        };
     </script>
 </body>
 
