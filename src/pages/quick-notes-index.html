@@ -330,10 +330,9 @@
                     const number = Number(chapter.chapter_number);
                     return `
                         <section class="chapter-card">
-                            <div class="chapter-header">${chapter.chapter_title}</div>
                             <ul class="topic-list">
                                 <li class="topic-item">
-                                    <a href="/quick-notes/${encodeURIComponent(language)}/${number}" class="topic-link">Open Chapter Notes</a>
+                                    <a href="/quick-notes/${encodeURIComponent(language)}/${number}" class="topic-link"><strong>${number}. ${chapter.chapter_title.replace(/^Chapter\s*\d+\s*[:.-]?\s*/i, '')}</strong></a>
                                     <span class="status-pill open">Chapter ${number}</span>
                                 </li>
                             </ul>
