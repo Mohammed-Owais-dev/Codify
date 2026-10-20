@@ -201,7 +201,7 @@ const $ = s => document.querySelector(s);
 const MAXWARN = 2;
 const slug = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '').toLowerCase();   // /exam/html -> 'html'
 const COURSE = slug + '-101';
-const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
+const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', javascript: 'JavaScript', java: 'Java', python: 'Python' };
 let me, a, bank, byId = {}, key, active = false, over = false, timer, devOpen = false, lastV = 0, bc, WMSTYLE = '';
 
 const show = id => { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); };
