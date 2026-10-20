@@ -5,7 +5,7 @@
   "chapters": [
     {
       "chapter_number": 1,
-      "chapter_title": "1. Introduction to Web & HTML",
+      "chapter_title": "Introduction to Web & HTML",
       "topics": [
         {
           "title": "1.1 How the Web Works",
@@ -27,7 +27,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "2. Document Anatomy & Structure",
+      "chapter_title": "Document Anatomy & Structure",
       "topics": [
         {
           "title": "2.1 Tags, Elements & Attributes",
@@ -49,7 +49,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "3. Text & Headings Hierarchy",
+      "chapter_title": "Text & Headings Hierarchy",
       "topics": [
         {
           "title": "3.1 Headings Hierarchy",
@@ -71,7 +71,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "4. Hyperlinks & Site Navigation",
+      "chapter_title": "Hyperlinks & Site Navigation",
       "topics": [
         {
           "title": "4.1 The Anchor Element",
@@ -93,7 +93,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "5. Media & Visual Assets",
+      "chapter_title": "Media & Visual Assets",
       "topics": [
         {
           "title": "5.1 Displaying Images",
@@ -115,7 +115,7 @@
     },
     {
       "chapter_number": 6,
-      "chapter_title": "6. Lists & Data Organization",
+      "chapter_title": "Lists & Data Organization",
       "topics": [
         {
           "title": "6.1 Unordered Lists",
@@ -137,7 +137,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "7. HTML Tables & Tabular Data",
+      "chapter_title": "HTML Tables & Tabular Data",
       "topics": [
         {
           "title": "7.1 Table Basics",
@@ -159,7 +159,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "8. Forms & User Input Control",
+      "chapter_title": "Forms & User Input Control",
       "topics": [
         {
           "title": "8.1 The Form Container",
@@ -185,7 +185,7 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "9. Modern Semantic HTML5 Layouts",
+      "chapter_title": "Modern Semantic HTML5 Layouts",
       "topics": [
         {
           "title": "9.1 Why Semantics Matter",
@@ -207,7 +207,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "10. Projects & Next Horizons",
+      "chapter_title": "Projects & Next Horizons",
       "topics": [
         {
           "title": "10.1 Connecting to CSS",

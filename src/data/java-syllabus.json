@@ -5,7 +5,7 @@
   "chapters": [
     {
       "chapter_number": 1,
-      "chapter_title": "Chapter 1: Introduction to Java",
+      "chapter_title": "Introduction to Java",
       "topics": [
         {
           "title": "1.1 What is Java?",
@@ -31,7 +31,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "Chapter 2: Java Basics",
+      "chapter_title": "Java Basics",
       "topics": [
         {
           "title": "2.1 Structure of a Java Program",
@@ -57,7 +57,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "Chapter 3: Operators",
+      "chapter_title": "Operators",
       "topics": [
         {
           "title": "3.1 Arithmetic and Assignment Operators",
@@ -83,7 +83,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "Chapter 4: Conditional Statements",
+      "chapter_title": "Conditional Statements",
       "topics": [
         {
           "title": "4.1 if Statement",
@@ -109,7 +109,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "Chapter 5: Loops",
+      "chapter_title": "Loops",
       "topics": [
         {
           "title": "5.1 Introduction to Loops",
@@ -161,7 +161,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "Chapter 7: Arrays",
+      "chapter_title": "Arrays",
       "topics": [
         {
           "title": "7.1 Introduction to Arrays",
@@ -187,7 +187,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "Chapter 8: Strings",
+      "chapter_title": "Strings",
       "topics": [
         {
           "title": "8.1 Introduction to Strings",
@@ -213,7 +213,7 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "Chapter 9: Java Basics in More Detail",
+      "chapter_title": "Java Basics in More Detail",
       "topics": [
         {
           "title": "9.1 Scope of Variables",
@@ -239,7 +239,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "Chapter 10: Basic Java Concepts",
+      "chapter_title": "Basic Java Concepts",
       "topics": [
         {
           "title": "10.1 Packages and import",

@@ -31,7 +31,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "Chapter 2: Python Basics",
+      "chapter_title": "Python Basics",
       "topics": [
         {
           "title": "2.1 Python Syntax, Indentation & Comments",
@@ -57,7 +57,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "Chapter 3: Conditional Statements & Loops",
+      "chapter_title": "Conditional Statements & Loops",
       "topics": [
         {
           "title": "3.1 Introduction to Decision Making",
@@ -83,7 +83,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "Chapter 4: Strings & Collections",
+      "chapter_title": "Strings & Collections",
       "topics": [
         {
           "title": "4.1 Strings & String Operations",
@@ -109,7 +109,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "Chapter 5: Functions",
+      "chapter_title": "Functions",
       "topics": [
         {
           "title": "5.1 Introduction to Functions",
@@ -135,7 +135,7 @@
     },
     {
       "chapter_number": 6,
-      "chapter_title": "Chapter 6: Files, Exceptions & Modules",
+      "chapter_title": "Files, Exceptions & Modules",
       "topics": [
         {
           "title": "6.1 File Handling",
@@ -161,7 +161,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "Chapter 7: Object-Oriented Programming",
+      "chapter_title": "Object-Oriented Programming",
       "topics": [
         {
           "title": "7.1 Introduction to OOP, Classes & Objects",
@@ -187,7 +187,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "Chapter 8: Advanced Python",
+      "chapter_title": "Advanced Python",
       "topics": [
         {
           "title": "8.1 Iterators & Generators",
@@ -213,7 +213,7 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "Chapter 9: Python Problem Solving",
+      "chapter_title": "Python Problem Solving",
       "topics": [
         {
           "title": "9.1 Number & Mathematical Programs",
@@ -239,7 +239,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "Chapter 10: Python Mini Projects",
+      "chapter_title": "Python Mini Projects",
       "topics": [
         {
           "title": "10.1 Calculator & Number Guessing Game",

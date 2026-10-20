@@ -5,7 +5,7 @@
   "chapters": [
     {
       "chapter_number": 1,
-      "chapter_title": "1. Introduction to JavaScript",
+      "chapter_title": "Introduction to JavaScript",
       "topics": [
         {
           "title": "1.1 What is JavaScript?",
@@ -31,7 +31,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "2. JavaScript Fundamentals",
+      "chapter_title": "JavaScript Fundamentals",
       "topics": [
         {
           "title": "2.1 JavaScript Syntax and Comments",
@@ -57,7 +57,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "3. Operators and Control Flow",
+      "chapter_title": "Operators and Control Flow",
       "topics": [
         {
           "title": "3.1 Arithmetic and Assignment Operators",
@@ -83,7 +83,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "4. Functions and Scope",
+      "chapter_title": "Functions and Scope",
       "topics": [
         {
           "title": "4.1 Defining and Calling Functions",
@@ -109,7 +109,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "5. Arrays and Strings",
+      "chapter_title": "Arrays and Strings",
       "topics": [
         {
           "title": "5.1 Working with Strings",
@@ -135,7 +135,7 @@
     },
     {
       "chapter_number": 6,
-      "chapter_title": "6. Objects and Modern JavaScript",
+      "chapter_title": "Objects and Modern JavaScript",
       "topics": [
         {
           "title": "6.1 Creating and Using Objects",
@@ -161,7 +161,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "7. The Document Object Model (DOM)",
+      "chapter_title": "The Document Object Model (DOM)",
       "topics": [
         {
           "title": "7.1 Understanding the DOM",
@@ -187,7 +187,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "8. Forms, Validation and Browser Storage",
+      "chapter_title": "Forms, Validation and Browser Storage",
       "topics": [
         {
           "title": "8.1 Handling Form Input",
@@ -213,7 +213,7 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "9. Asynchronous JavaScript",
+      "chapter_title": "Asynchronous JavaScript",
       "topics": [
         {
           "title": "9.1 Synchronous vs Asynchronous Code",
@@ -239,7 +239,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "10. Error Handling and Practical Projects",
+      "chapter_title": "Error Handling and Practical Projects",
       "topics": [
         {
           "title": "10.1 Errors and try...catch",

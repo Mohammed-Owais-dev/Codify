@@ -5,7 +5,7 @@
   "chapters": [
     {
       "chapter_number": 1,
-      "chapter_title": "1. Introduction to CSS",
+      "chapter_title": "Introduction to CSS",
       "topics": [
         {
           "title": "1.1 What is CSS?",
@@ -31,7 +31,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "2. Selectors and the Cascade",
+      "chapter_title": "Selectors and the Cascade",
       "topics": [
         {
           "title": "2.1 Element, Class and ID Selectors",
@@ -57,7 +57,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "3. Colors, Text and Typography",
+      "chapter_title": "Colors, Text and Typography",
       "topics": [
         {
           "title": "3.1 CSS Colors and Color Values",
@@ -83,7 +83,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "4. The CSS Box Model",
+      "chapter_title": "The CSS Box Model",
       "topics": [
         {
           "title": "4.1 Understanding the Box Model",
@@ -109,7 +109,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "5. Backgrounds, Borders and Effects",
+      "chapter_title": "Backgrounds, Borders and Effects",
       "topics": [
         {
           "title": "5.1 Background Colors and Images",
@@ -135,7 +135,7 @@
     },
     {
       "chapter_number": 6,
-      "chapter_title": "6. Layout with Display and Position",
+      "chapter_title": "Layout with Display and Position",
       "topics": [
         {
           "title": "6.1 The display Property",
@@ -161,7 +161,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "7. Flexbox and CSS Grid",
+      "chapter_title": "Flexbox and CSS Grid",
       "topics": [
         {
           "title": "7.1 Introduction to Flexbox",
@@ -187,7 +187,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "8. Responsive Web Design",
+      "chapter_title": "Responsive Web Design",
       "topics": [
         {
           "title": "8.1 Responsive Design Fundamentals",
@@ -213,7 +213,7 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "9. Transitions, Transforms and Animations",
+      "chapter_title": "Transitions, Transforms and Animations",
       "topics": [
         {
           "title": "9.1 CSS Transitions",
@@ -239,7 +239,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "10. Practical CSS and Best Practices",
+      "chapter_title": "Practical CSS and Best Practices",
       "topics": [
         {
           "title": "10.1 CSS Variables and Custom Properties",
