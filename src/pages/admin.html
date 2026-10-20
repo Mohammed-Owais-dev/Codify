@@ -115,7 +115,7 @@ const h = (tag, attrs = {}, ...kids) => {                     // builds DOM with
   kids.flat().forEach(c => e.append(c instanceof Node ? c : document.createTextNode(c ?? '')));
   return e;
 };
-const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
+const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', javascript: 'JavaScript', java: 'Java', python: 'Python' };
 const course = id => NAMES[(id || '').split('-')[0]] || id;
 const fmt = (d, t) => d ? new Date(d).toLocaleString('en-GB', t ? { dateStyle: 'medium', timeStyle: 'short' } : { dateStyle: 'medium' }) : '-';
 let tt;

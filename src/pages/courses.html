@@ -593,7 +593,6 @@
                                 return;
                             }
 
-                            // Extracts short name (e.g., 'python' from 'python-101') and routes to courses/python/enroll
                             const courseSlug = courseId.split('-')[0];
                             window.location.href = `/courses/${courseSlug}/enroll`;
                         };
