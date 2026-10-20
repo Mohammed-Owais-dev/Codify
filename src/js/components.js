@@ -154,6 +154,18 @@ cyberScrollStyle.textContent = `
     #globalSearchResults::-webkit-scrollbar-thumb:hover {
         background: rgba(0, 170, 255, 0.7);
     }
+    #engAvatar.has-photo {
+        padding: 0;
+        overflow: hidden;
+    }
+    #engAvatar .eng-avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        border-radius: 50%;
+        display: block;
+    }
     .eng-badge-wrapper {
         margin: 10px;
         display: inline-block;
@@ -248,17 +260,18 @@ const teamDatabase = {
         name: 'Mohammed Owais', 
         badge: 'Project Lead & Architect', 
         initials: 'MO', 
+        photo: '/src/assets/images/mohammed-owais.webp',
         id: '24030-CM-193', 
         role: 'Lead Architect & Full-Stack Developer', 
         bio: 'Bringing the platform to life from scratch, Mohammed single-handedly drives Codify from concept to deployment. He oversees everything from creative ideation and intuitive front-end UI design to rigorous testing, maintenance, robust back-end architecture, APIs, database connectivity, and security protocols.', 
-        email: 'mailto:owais@codify.com', 
-        github: 'https://github.com/mohammedowais' 
+        email: 'mailto:mohdowais.28.01.2009@gmail.com', 
+        github: 'https://github.com/mohammed-owais-dev' 
     },
     'dhanush': { 
         name: 'M. Dhanush', 
         badge: '',
         initials: 'MD', 
-        id: '24030-CM-194', 
+        id: '24030-CM-188', 
         role: 'Lead QA & Systems Testing Engineer', 
         bio: 'Dhanush spearheads quality assurance and rigorous testing protocols across Codify. By meticulously identifying bugs, evaluating interface responsiveness, and validating user workflows, he ensures a seamless, secure, and bulletproof learning experience for every student.', 
         email: 'mailto:dhanush@codify.com', 
@@ -268,7 +281,7 @@ const teamDatabase = {
         name: 'Feroz', 
         badge: '',
         initials: 'FZ', 
-        id: '24030-CM-195', 
+        id: '24030-CM-190', 
         role: 'Lead Curriculum & Technical Notes Writer', 
         bio: 'Feroz leads the creation of comprehensive learning materials and rapid revision notes for Codify. By breaking down complex computer science concepts into clear, structured, and student-friendly chapters, he empowers learners to master technical tracks efficiently.', 
         email: 'mailto:feroz@codify.com', 
@@ -278,7 +291,7 @@ const teamDatabase = {
         name: 'Basha', 
         badge: '',
         initials: 'BS', 
-        id: '24030-CM-196', 
+        id: '24030-CM-189', 
         role: 'Lead Assessment & Exam Content Developer', 
         bio: 'Basha designs and formulates rigorous evaluation materials and exam questions for Codify. By crafting challenging scenario-based quizzes and comprehensive tests, he ensures students can accurately measure their mastery and readiness across every course track.', 
         email: 'mailto:basha@codify.com', 
@@ -288,7 +301,7 @@ const teamDatabase = {
         name: 'Prasad', 
         badge: '',
         initials: 'PR', 
-        id: '24030-CM-197', 
+        id: '24030-CM-196', 
         role: 'Lead Quick Notes & Revision Content Writer', 
         bio: 'Prasad crafts concise, high-impact quick notes and rapid revision cards for Codify. By distilling complex chapters into streamlined, high-yield summary points, he enables students to review critical concepts and master technical tracks swiftly.', 
         email: 'mailto:prasad@codify.com', 
@@ -303,7 +316,26 @@ window.openEngineerModal = function (memberKey) {
     const engineer = teamDatabase[memberKey];
     if (!engineer) return;
 
-    document.getElementById('engAvatar').textContent = engineer.initials;
+    // Avatar: show photo if available, otherwise fall back to initials
+    const avatarEl = document.getElementById('engAvatar');
+    avatarEl.textContent = '';
+    avatarEl.classList.remove('has-photo');
+
+    if (engineer.photo) {
+        const img = document.createElement('img');
+        img.src = engineer.photo;
+        img.alt = engineer.name;
+        img.className = 'eng-avatar-img';
+        img.loading = 'lazy';
+        img.onerror = () => {
+            avatarEl.classList.remove('has-photo');
+            avatarEl.textContent = engineer.initials;
+        };
+        avatarEl.classList.add('has-photo');
+        avatarEl.appendChild(img);
+    } else {
+        avatarEl.textContent = engineer.initials;
+    }
     document.getElementById('engName').textContent = engineer.name;
     
     const badgeContainer = document.getElementById('engBadgeContainer');
