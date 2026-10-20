@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 2 - C++ Basics
 
-> ⏱ **15-minute revision.** Variables store data, each with a **type**. Know the basic types and their sizes, `const`, `cin`/`cout`, implicit and explicit type conversion, and the basic syntax rules.
+> **15-minute revision.** Variables store data, each with a **type**. Know the basic types and their sizes, `const`, `cin`/`cout`, implicit and explicit type conversion, and the basic syntax rules.
 
 ---
 
@@ -333,13 +333,13 @@ Quote: "C++"
 
 ## Last-Minute Checklist
 
-* ✅ I can declare, initialize and print variables.
-* ✅ I know `const` and `auto`.
-* ✅ I know the basic types and can use `sizeof`.
-* ✅ I can read with `cin` and `getline`.
-* ✅ I can format decimals with `fixed` and `setprecision`.
-* ✅ I can cast with `static_cast` and avoid integer division mistakes.
-* ✅ I know the comment styles and syntax rules.
+* I can declare, initialize and print variables.
+* I know `const` and `auto`.
+* I know the basic types and can use `sizeof`.
+* I can read with `cin` and `getline`.
+* I can format decimals with `fixed` and `setprecision`.
+* I can cast with `static_cast` and avoid integer division mistakes.
+* I know the comment styles and syntax rules.
 
 ---
 

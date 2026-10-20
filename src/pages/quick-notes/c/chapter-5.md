@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 5 - Loops
 
-> ⏱ **15-minute revision.** Loops repeat code. Know which loop to choose, the three parts of a `for` loop, and how nested loops build patterns (outer = rows, inner = columns).
+> **15-minute revision.** Loops repeat code. Know which loop to choose, the three parts of a `for` loop, and how nested loops build patterns (outer = rows, inner = columns).
 
 ---
 
@@ -411,13 +411,13 @@ int main(void) {
 
 ## Last-Minute Checklist
 
-* ✅ I can name the three parts of a loop.
-* ✅ I know `while` is entry-controlled and `do-while` is exit-controlled.
-* ✅ I can write each of the three loops from memory.
-* ✅ I know the order of execution of a `for` loop.
-* ✅ I can sum digits, reverse a number and find a factorial.
-* ✅ I can print triangle, pyramid and number patterns.
-* ✅ I know outer loop = rows and inner loop = columns.
+* I can name the three parts of a loop.
+* I know `while` is entry-controlled and `do-while` is exit-controlled.
+* I can write each of the three loops from memory.
+* I know the order of execution of a `for` loop.
+* I can sum digits, reverse a number and find a factorial.
+* I can print triangle, pyramid and number patterns.
+* I know outer loop = rows and inner loop = columns.
 
 ---
 

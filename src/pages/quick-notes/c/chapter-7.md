@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 7 - Arrays
 
-> ⏱ **15-minute revision.** An array stores many values of the **same type** in one block of memory. Indexes start at **0**. Know declaration, traversal, searching, min and max, bubble sort, reversing and 2D arrays.
+> **15-minute revision.** An array stores many values of the **same type** in one block of memory. Indexes start at **0**. Know declaration, traversal, searching, min and max, bubble sort, reversing and 2D arrays.
 
 ---
 
@@ -418,13 +418,13 @@ int main(void) {
 
 ## Last-Minute Checklist
 
-* ✅ I know array indexes start at `0` and end at `size - 1`.
-* ✅ I can find the number of elements with `sizeof`.
-* ✅ I can traverse, sum and average an array.
-* ✅ I can write linear search and explain binary search.
-* ✅ I can write bubble sort and reverse an array.
-* ✅ I can print, add and transpose a 2D array.
-* ✅ I know arrays are passed to functions by address.
+* I know array indexes start at `0` and end at `size - 1`.
+* I can find the number of elements with `sizeof`.
+* I can traverse, sum and average an array.
+* I can write linear search and explain binary search.
+* I can write bubble sort and reverse an array.
+* I can print, add and transpose a 2D array.
+* I know arrays are passed to functions by address.
 
 ---
 

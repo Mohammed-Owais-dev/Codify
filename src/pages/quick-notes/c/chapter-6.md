@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 6 - Functions
 
-> ⏱ **15-minute revision.** A function is a named, reusable block of code. Know the three parts (declaration, definition, call), that C passes arguments **by value**, the four function types, and the two ingredients of recursion.
+> **15-minute revision.** A function is a named, reusable block of code. Know the three parts (declaration, definition, call), that C passes arguments **by value**, the four function types, and the two ingredients of recursion.
 
 ---
 
@@ -330,13 +330,13 @@ c = 2
 
 ## Last-Minute Checklist
 
-* ✅ I can write a prototype, a definition and a call.
-* ✅ I know C uses **call by value**.
-* ✅ I can name the four types of functions.
-* ✅ I know `return` ends a function and returns one value.
-* ✅ I can write a recursive function with a base case.
-* ✅ I know the difference between local, global and `static` variables.
-* ✅ I know execution starts at `main()`.
+* I can write a prototype, a definition and a call.
+* I know C uses **call by value**.
+* I can name the four types of functions.
+* I know `return` ends a function and returns one value.
+* I can write a recursive function with a base case.
+* I know the difference between local, global and `static` variables.
+* I know execution starts at `main()`.
 
 ---
 

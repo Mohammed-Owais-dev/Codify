@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 3 - Operators & Expressions
 
-> ⏱ **15-minute revision.** Operators build expressions. Focus on integer division, `&&`/`||` short-circuiting, prefix vs postfix, bitwise operators and the precedence table.
+> **15-minute revision.** Operators build expressions. Focus on integer division, `&&`/`||` short-circuiting, prefix vs postfix, bitwise operators and the precedence table.
 
 ---
 
@@ -326,14 +326,14 @@ int main(void) {
 
 ## Last-Minute Checklist
 
-* ✅ I know integer division drops the decimals.
-* ✅ I can use `%` for even/odd and digits.
-* ✅ I know relational and logical operators return `1` or `0`.
-* ✅ I understand short-circuit evaluation.
-* ✅ I can explain `a++` vs `++a`.
-* ✅ I can compute `&`, `|`, `^`, `~`, `<<`, `>>` for small numbers.
-* ✅ I can use the ternary operator.
-* ✅ I know `* / %` come before `+ -`.
+* I know integer division drops the decimals.
+* I can use `%` for even/odd and digits.
+* I know relational and logical operators return `1` or `0`.
+* I understand short-circuit evaluation.
+* I can explain `a++` vs `++a`.
+* I can compute `&`, `|`, `^`, `~`, `<<`, `>>` for small numbers.
+* I can use the ternary operator.
+* I know `* / %` come before `+ -`.
 
 ---
 

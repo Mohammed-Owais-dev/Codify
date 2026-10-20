@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 9 - Python Problem Solving
 
-> ⏱ **25-minute revision.** This chapter is a **pattern bank**. Learn the standard approach for each problem type: **number programs**, **string tricks**, **collection operations**, **searching and sorting**, and **patterns, recursion and interview questions**.
+> **25-minute revision.** This chapter is a **pattern bank**. Learn the standard approach for each problem type: **number programs**, **string tricks**, **collection operations**, **searching and sorting**, and **patterns, recursion and interview questions**.
 
 ---
 
@@ -470,13 +470,13 @@ Fast Python Learn
 
 ## Last-Minute Checklist
 
-* ✅ I can solve digit, prime, GCD, Fibonacci and Armstrong problems.
-* ✅ I can reverse, compare and count characters in a string.
-* ✅ I can find the second largest, rotate and merge lists.
-* ✅ I can sort and filter a dictionary by value.
-* ✅ I can write linear search, binary search and bubble sort.
-* ✅ I can print a pyramid and a number triangle.
-* ✅ I can solve FizzBuzz, two-sum and balanced brackets.
+* I can solve digit, prime, GCD, Fibonacci and Armstrong problems.
+* I can reverse, compare and count characters in a string.
+* I can find the second largest, rotate and merge lists.
+* I can sort and filter a dictionary by value.
+* I can write linear search, binary search and bubble sort.
+* I can print a pyramid and a number triangle.
+* I can solve FizzBuzz, two-sum and balanced brackets.
 
 ---
 

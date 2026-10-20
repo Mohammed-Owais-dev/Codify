@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 1 - Introduction to C++
 
-> ⏱ **15-minute revision.** C++ is a fast, compiled language that adds **objects, references, templates and the STL** to C. Know its history and features, how it differs from C, how to compile with `g++`, and the anatomy of a first program.
+> **15-minute revision.** C++ is a fast, compiled language that adds **objects, references, templates and the STL** to C. Know its history and features, how it differs from C, how to compile with `g++`, and the anatomy of a first program.
 
 ---
 
@@ -252,12 +252,12 @@ Sum = 8
 
 ## Last-Minute Checklist
 
-* ✅ I know who created C++ and what it adds to C.
-* ✅ I can list five features of C++.
-* ✅ I can compare C and C++ in a table.
-* ✅ I can compile and run a program with `g++`.
-* ✅ I can explain every line of a Hello World program.
-* ✅ I know `<<` is for `cout`.
+* I know who created C++ and what it adds to C.
+* I can list five features of C++.
+* I can compare C and C++ in a table.
+* I can compile and run a program with `g++`.
+* I can explain every line of a Hello World program.
+* I know `<<` is for `cout`.
 
 ---
 

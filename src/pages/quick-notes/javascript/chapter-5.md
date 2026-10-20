@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 5 - Arrays and Strings
 
-> ⏱ **20-minute revision.** Strings and arrays are used in almost every program. Know which methods **change** the original and which **return a new value**.
+> **20-minute revision.** Strings and arrays are used in almost every program. Know which methods **change** the original and which **return a new value**.
 
 ---
 
@@ -404,13 +404,13 @@ a-b-c
 
 ## Last-Minute Checklist
 
-* ✅ I know strings are immutable and arrays are changeable.
-* ✅ I can use `slice`, `trim`, `includes`, `replace` and `split`.
-* ✅ I know which array methods change the original.
-* ✅ I can explain `map`, `filter` and `reduce` in one line each.
-* ✅ I can sort numbers correctly.
-* ✅ I know `find` vs `filter` and `some` vs `every`.
-* ✅ I can copy an array with spread.
+* I know strings are immutable and arrays are changeable.
+* I can use `slice`, `trim`, `includes`, `replace` and `split`.
+* I know which array methods change the original.
+* I can explain `map`, `filter` and `reduce` in one line each.
+* I can sort numbers correctly.
+* I know `find` vs `filter` and `some` vs `every`.
+* I can copy an array with spread.
 
 ---
 

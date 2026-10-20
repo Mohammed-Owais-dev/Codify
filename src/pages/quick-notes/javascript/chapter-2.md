@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 2 - JavaScript Fundamentals
 
-> ⏱ **15-minute revision.** Focus on the tables: `let` vs `const` vs `var`, the data types, and the conversion rules. These are the most tested ideas in the chapter.
+> **15-minute revision.** Focus on the tables: `let` vs `const` vs `var`, the data types, and the conversion rules. These are the most tested ideas in the chapter.
 
 ---
 
@@ -17,6 +17,7 @@
 ---
 
 ## 1. Syntax and Comments (2.1)
+
 
 **Core idea:** Follow a few simple rules and your code stays readable and error-free.
 

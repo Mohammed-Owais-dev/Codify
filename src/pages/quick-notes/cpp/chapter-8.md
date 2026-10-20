@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 8 - Classes & Objects
 
-> ⏱ **15-minute revision.** A **class** is a blueprint; an **object** is a real thing built from it. Know members, **access specifiers**, the three kinds of **constructors**, the **destructor** and the **`this` pointer**.
+> **15-minute revision.** A **class** is a blueprint; an **object** is a real thing built from it. Know members, **access specifiers**, the three kinds of **constructors**, the **destructor** and the **`this` pointer**.
 
 ---
 
@@ -374,12 +374,12 @@ int main() {
 
 ## Last-Minute Checklist
 
-* ✅ I can define a class, create objects and call methods.
-* ✅ I know `public`, `private` and `protected`.
-* ✅ I can write default, parameterized and copy constructors.
-* ✅ I can use an initializer list.
-* ✅ I know when a destructor runs and in what order.
-* ✅ I can use `this` and chain calls with `*this`.
+* I can define a class, create objects and call methods.
+* I know `public`, `private` and `protected`.
+* I can write default, parameterized and copy constructors.
+* I can use an initializer list.
+* I know when a destructor runs and in what order.
+* I can use `this` and chain calls with `*this`.
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 7 - Object-Oriented Programming
 
-> ⏱ **20-minute revision.** OOP organizes code around **objects**. Know the four pillars: **encapsulation** (protect data), **inheritance** (reuse), **polymorphism** (one interface, many forms) and **abstraction** (hide complexity).
+> **20-minute revision.** OOP organizes code around **objects**. Know the four pillars: **encapsulation** (protect data), **inheritance** (reuse), **polymorphism** (one interface, many forms) and **abstraction** (hide complexity).
 
 ---
 
@@ -420,13 +420,13 @@ Beep
 
 ## Last-Minute Checklist
 
-* ✅ I can explain class vs object and the four pillars.
-* ✅ I can write a class with `__init__`, attributes and methods.
-* ✅ I know instance variables, class variables, `@classmethod` and `@staticmethod`.
-* ✅ I can use `@property` with validation.
-* ✅ I can write a child class and call `super().__init__()`.
-* ✅ I can create an abstract class with `abc`.
-* ✅ I can show polymorphism with overriding and duck typing.
+* I can explain class vs object and the four pillars.
+* I can write a class with `__init__`, attributes and methods.
+* I know instance variables, class variables, `@classmethod` and `@staticmethod`.
+* I can use `@property` with validation.
+* I can write a child class and call `super().__init__()`.
+* I can create an abstract class with `abc`.
+* I can show polymorphism with overriding and duck typing.
 
 ---
 

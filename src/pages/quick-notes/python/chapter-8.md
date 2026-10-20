@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 8 - Advanced Python
 
-> ⏱ **20-minute revision.** Write shorter, faster, more expressive Python with **iterators and generators**, **decorators**, the functional built-ins (`map`, `filter`, `reduce`, `zip`, `enumerate`), **regular expressions** and the **date, time, math and random** modules.
+> **20-minute revision.** Write shorter, faster, more expressive Python with **iterators and generators**, **decorators**, the functional built-ins (`map`, `filter`, `reduce`, `zip`, `enumerate`), **regular expressions** and the **date, time, math and random** modules.
 
 ---
 
@@ -429,13 +429,13 @@ True
 
 ## Last-Minute Checklist
 
-* ✅ I can use `iter()`, `next()` and `StopIteration`.
-* ✅ I can write a generator with `yield` and a generator expression.
-* ✅ I can write a decorator and use `@wraps`.
-* ✅ I can use `map`, `filter`, `reduce`, `zip` and `enumerate`.
-* ✅ I can write simple regex patterns and choose between `match`, `search` and `findall`.
-* ✅ I can format, parse and calculate with dates.
-* ✅ I can use `math` and `random` functions.
+* I can use `iter()`, `next()` and `StopIteration`.
+* I can write a generator with `yield` and a generator expression.
+* I can write a decorator and use `@wraps`.
+* I can use `map`, `filter`, `reduce`, `zip` and `enumerate`.
+* I can write simple regex patterns and choose between `match`, `search` and `findall`.
+* I can format, parse and calculate with dates.
+* I can use `math` and `random` functions.
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 10 - Advanced OOP & C++ Features
 
-> ⏱ **15-minute revision.** Know **operator overloading**, **virtual functions** and the **virtual destructor**, **multiple inheritance** and the diamond problem, **static** members and **friend** functions, and how to combine everything in a mini project.
+> **15-minute revision.** Know **operator overloading**, **virtual functions** and the **virtual destructor**, **multiple inheritance** and the diamond problem, **static** members and **friend** functions, and how to combine everything in a mini project.
 
 ---
 
@@ -506,13 +506,13 @@ Total accounts: 2
 
 ## Last-Minute Checklist
 
-* ✅ I can overload `+`, `==` and `<<` for a class.
-* ✅ I know which operators cannot be overloaded.
-* ✅ I can explain `virtual`, `override` and the virtual destructor.
-* ✅ I can write a class with two bases and resolve ambiguity.
-* ✅ I can explain the diamond problem and virtual inheritance.
-* ✅ I can write static members and a friend function.
-* ✅ I can combine all OOP ideas in a small project.
+* I can overload `+`, `==` and `<<` for a class.
+* I know which operators cannot be overloaded.
+* I can explain `virtual`, `override` and the virtual destructor.
+* I can write a class with two bases and resolve ambiguity.
+* I can explain the diamond problem and virtual inheritance.
+* I can write static members and a friend function.
+* I can combine all OOP ideas in a small project.
 
 ---
 

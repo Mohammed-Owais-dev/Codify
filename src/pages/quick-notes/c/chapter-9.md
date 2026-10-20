@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 9 - Pointers & Dynamic Memory
 
-> ⏱ **15-minute revision.** A **pointer** stores the **address** of another variable. Know `&` (address of) and `*` (value at), pointer arithmetic, the link between pointers and arrays, call by reference, and `malloc`/`calloc`/`realloc`/`free`.
+> **15-minute revision.** A **pointer** stores the **address** of another variable. Know `&` (address of) and `*` (value at), pointer arithmetic, the link between pointers and arrays, call by reference, and `malloc`/`calloc`/`realloc`/`free`.
 
 ---
 
@@ -406,13 +406,13 @@ int main(void) {
 
 ## Last-Minute Checklist
 
-* ✅ I know `&` gives an address and `*` gives the value at an address.
-* ✅ I know `p + 1` moves by one element.
-* ✅ I know `a[i]` equals `*(a + i)`.
-* ✅ I can write `swap` with pointers.
-* ✅ I can allocate with `malloc` or `calloc`, resize with `realloc` and release with `free`.
-* ✅ I always check for `NULL` and avoid dangling pointers.
-* ✅ I know the difference between stack and heap.
+* I know `&` gives an address and `*` gives the value at an address.
+* I know `p + 1` moves by one element.
+* I know `a[i]` equals `*(a + i)`.
+* I can write `swap` with pointers.
+* I can allocate with `malloc` or `calloc`, resize with `realloc` and release with `free`.
+* I always check for `NULL` and avoid dangling pointers.
+* I know the difference between stack and heap.
 
 ---
 

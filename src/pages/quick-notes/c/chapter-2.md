@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 2 - C Basics
 
-> ⏱ **15-minute revision.** Learn the building blocks: names, variables, data types, `printf`/`scanf` and type conversion. Memorize the format specifier table.
+> **15-minute revision.** Learn the building blocks: names, variables, data types, `printf`/`scanf` and type conversion. Memorize the format specifier table.
 
 ---
 
@@ -330,12 +330,12 @@ B 66 a
 
 ## Last-Minute Checklist
 
-* ✅ I know the identifier rules and that C has 32 keywords.
-* ✅ I can declare, initialize and print variables.
-* ✅ I know `const` vs `#define`.
-* ✅ I can list `char`, `int`, `float`, `double` with sizes and specifiers.
-* ✅ I use `&` with `scanf` for numbers and characters.
-* ✅ I can explain why `7 / 2` is `3` and fix it with a cast.
+* I know the identifier rules and that C has 32 keywords.
+* I can declare, initialize and print variables.
+* I know `const` vs `#define`.
+* I can list `char`, `int`, `float`, `double` with sizes and specifiers.
+* I use `&` with `scanf` for numbers and characters.
+* I can explain why `7 / 2` is `3` and fix it with a cast.
 
 ---
 

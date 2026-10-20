@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 10 - Error Handling and Practical Projects
 
-> ⏱ **20-minute revision.** This chapter makes you a professional: handle errors, debug quickly, organize code, follow best practices, build for everyone and finish with a complete project.
+> **20-minute revision.** This chapter makes you a professional: handle errors, debug quickly, organize code, follow best practices, build for everyone and finish with a complete project.
 
 ---
 
@@ -448,14 +448,14 @@ console.log(remaining() + " tasks left");
 
 ## Last-Minute Checklist
 
-* ✅ I can use `try`, `catch`, `finally` and `throw`.
-* ✅ I can create a custom error class.
-* ✅ I can handle errors in Promises and `async/await`.
-* ✅ I follow the debugging method and know the main DevTools panels.
-* ✅ I can structure a project into modules.
-* ✅ I use `===`, `const`, small functions and named constants.
-* ✅ I can make a page keyboard- and screen-reader-friendly.
-* ✅ I can explain the **event → data → save → render** loop.
+* I can use `try`, `catch`, `finally` and `throw`.
+* I can create a custom error class.
+* I can handle errors in Promises and `async/await`.
+* I follow the debugging method and know the main DevTools panels.
+* I can structure a project into modules.
+* I use `===`, `const`, small functions and named constants.
+* I can make a page keyboard- and screen-reader-friendly.
+* I can explain the **event → data → save → render** loop.
 
 ---
 

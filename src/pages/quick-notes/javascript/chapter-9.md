@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 9 - Asynchronous JavaScript
 
-> ⏱ **20-minute revision.** Async code lets JavaScript start slow work and keep running. Learn the progression: **callbacks → Promises → async/await**, then use `fetch` to talk to servers.
+> **20-minute revision.** Async code lets JavaScript start slow work and keep running. Learn the progression: **callbacks → Promises → async/await**, then use `fetch` to talk to servers.
 
 ---
 
@@ -413,13 +413,13 @@ createPost();
 
 ## Last-Minute Checklist
 
-* ✅ I can explain sync vs async and why blocking is bad.
-* ✅ I know microtasks (Promises) run before timers.
-* ✅ I can write `setTimeout`, `setInterval` and cancel them.
-* ✅ I know the three Promise states and the four combiners.
-* ✅ I can rewrite a `.then()` chain with `async/await`.
-* ✅ I always check `response.ok`.
-* ✅ I can use `JSON.stringify` and `JSON.parse`.
+* I can explain sync vs async and why blocking is bad.
+* I know microtasks (Promises) run before timers.
+* I can write `setTimeout`, `setInterval` and cancel them.
+* I know the three Promise states and the four combiners.
+* I can rewrite a `.then()` chain with `async/await`.
+* I always check `response.ok`.
+* I can use `JSON.stringify` and `JSON.parse`.
 
 ---
 

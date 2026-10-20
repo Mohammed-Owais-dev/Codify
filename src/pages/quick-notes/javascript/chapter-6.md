@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 6 - Objects and Modern JavaScript
 
-> ⏱ **20-minute revision.** Objects store related data together. Focus on destructuring and spread (used everywhere in modern code), then `Set`, `Map` and modules.
+> **20-minute revision.** Objects store related data together. Focus on destructuring and spread (used everywhere in modern code), then `Set`, `Map` and modules.
 
 ---
 
@@ -388,12 +388,12 @@ console.log(add(2, 3), multiply(2, 3), pi, MathUtils.add(1, 1));
 
 ## Last-Minute Checklist
 
-* ✅ I can create, read, change and delete object properties.
-* ✅ I know what `this` points to in a method.
-* ✅ I can destructure objects and arrays with defaults and renaming.
-* ✅ I know spread is a **shallow** copy.
-* ✅ I can remove duplicates with a `Set`.
-* ✅ I know named vs default exports.
+* I can create, read, change and delete object properties.
+* I know what `this` points to in a method.
+* I can destructure objects and arrays with defaults and renaming.
+* I know spread is a **shallow** copy.
+* I can remove duplicates with a `Set`.
+* I know named vs default exports.
 
 ---
 

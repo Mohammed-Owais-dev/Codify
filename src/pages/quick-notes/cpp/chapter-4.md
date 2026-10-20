@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 4 - Control Statements
 
-> ⏱ **15-minute revision.** Control statements let a program **choose** what to run. Know `if`, `if-else`, nested `if`, the `else-if` ladder, `switch` (and why `break` matters), `break`, `continue` and the conditional operator.
+> **15-minute revision.** Control statements let a program **choose** what to run. Know `if`, `if-else`, nested `if`, the `else-if` ladder, `switch` (and why `break` matters), `break`, `continue` and the conditional operator.
 
 ---
 
@@ -334,12 +334,12 @@ First Class
 
 ## Last-Minute Checklist
 
-* ✅ I know any non-zero value is true.
-* ✅ I can write `if`, `if-else`, nested `if` and an `else-if` ladder.
-* ✅ I can write a `switch` with `break` and `default`.
-* ✅ I understand fall-through.
-* ✅ I know the difference between `break` and `continue`.
-* ✅ I can use the conditional operator.
+* I know any non-zero value is true.
+* I can write `if`, `if-else`, nested `if` and an `else-if` ladder.
+* I can write a `switch` with `break` and `default`.
+* I understand fall-through.
+* I know the difference between `break` and `continue`.
+* I can use the conditional operator.
 
 ---
 

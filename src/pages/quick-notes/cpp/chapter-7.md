@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 7 - Arrays, Strings & Pointers
 
-> ⏱ **15-minute revision.** Know arrays and `vector`, the `std::string` operations, pointers (`&`, `*`, `nullptr`), **references** (aliases), and dynamic memory with `new`/`delete` and **smart pointers**.
+> **15-minute revision.** Know arrays and `vector`, the `std::string` operations, pointers (`&`, `*`, `nullptr`), **references** (aliases), and dynamic memory with `new`/`delete` and **smart pointers**.
 
 ---
 
@@ -350,12 +350,12 @@ int main() {
 
 ## Last-Minute Checklist
 
-* ✅ I can declare, initialize and loop through arrays and vectors.
-* ✅ I can use the main `std::string` operations.
-* ✅ I can use `&`, `*` and `nullptr` correctly.
-* ✅ I can explain references and how they differ from pointers.
-* ✅ I can allocate with `new` and release with `delete` or `delete[]`.
-* ✅ I know why smart pointers are safer.
+* I can declare, initialize and loop through arrays and vectors.
+* I can use the main `std::string` operations.
+* I can use `&`, `*` and `nullptr` correctly.
+* I can explain references and how they differ from pointers.
+* I can allocate with `new` and release with `delete` or `delete[]`.
+* I know why smart pointers are safer.
 
 ---
 

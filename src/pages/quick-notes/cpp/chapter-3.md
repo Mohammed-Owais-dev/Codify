@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 3 - Operators
 
-> ⏱ **15-minute revision.** Operators build expressions. Know integer vs floating-point division, `%`, the relational and logical operators (with **short-circuit** evaluation), `++`/`--` (prefix vs postfix), bitwise operators, the ternary operator and the **precedence** order.
+> **15-minute revision.** Operators build expressions. Know integer vs floating-point division, `%`, the relational and logical operators (with **short-circuit** evaluation), `++`/`--` (prefix vs postfix), bitwise operators, the ternary operator and the **precedence** order.
 
 ---
 
@@ -296,12 +296,12 @@ int main() {
 
 ## Last-Minute Checklist
 
-* ✅ I know integer division truncates and `%` gives the remainder.
-* ✅ I know the result of a comparison is `true` or `false`.
-* ✅ I understand short-circuit evaluation.
-* ✅ I can explain `x++` vs `++x`.
-* ✅ I can use `& | ^ ~ << >>` and the ternary operator.
-* ✅ I can evaluate an expression using precedence.
+* I know integer division truncates and `%` gives the remainder.
+* I know the result of a comparison is `true` or `false`.
+* I understand short-circuit evaluation.
+* I can explain `x++` vs `++x`.
+* I can use `& | ^ ~ << >>` and the ternary operator.
+* I can evaluate an expression using precedence.
 
 ---
 

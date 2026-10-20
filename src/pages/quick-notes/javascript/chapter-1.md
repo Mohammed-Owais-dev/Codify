@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 1 - Introduction to JavaScript
 
-> ⏱ **10-minute revision.** Read the Chapter Map first, then scan each section's **Remember** list. Use the Cheat Sheet and Quiz at the end to test yourself.
+> **10-minute revision.** Read the Chapter Map first, then scan each section's **Remember** list. Use the Cheat Sheet and Quiz at the end to test yourself.
 
 ---
 
@@ -21,6 +21,7 @@
 **Core idea:** JavaScript is a lightweight, high-level programming language that makes web pages **interactive**.
 
 * Created in **1995** by **Brendan Eich** at Netscape.
+
 * Standardized as **ECMAScript** (ES6 / ES2015 was the big modern update).
 * Runs in **browsers** (client side) and in **Node.js** (server side).
 * **JavaScript is not Java.** They are different languages.

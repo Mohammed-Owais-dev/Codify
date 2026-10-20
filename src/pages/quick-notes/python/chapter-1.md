@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 1 - Introduction to Python
 
-> ⏱ **10-minute revision.** Python is a **high-level, interpreted, dynamically typed** language known for readable code. Know what it is, where it is used, how it differs from C++, how to install it, and how to run a first program.
+> **10-minute revision.** Python is a **high-level, interpreted, dynamically typed** language known for readable code. Know what it is, where it is used, how it differs from C++, how to install it, and how to run a first program.
 
 ---
 
@@ -269,11 +269,11 @@ Line2
 
 ## Last-Minute Checklist
 
-* ✅ I can say what Python is and who created it.
-* ✅ I can list five features and five applications of Python.
-* ✅ I can compare Python and C++ on typing, speed and syntax.
-* ✅ I can check the installed version and run a `.py` file.
-* ✅ I can use `print()` with `sep` and `end`.
+* I can say what Python is and who created it.
+* I can list five features and five applications of Python.
+* I can compare Python and C++ on typing, speed and syntax.
+* I can check the installed version and run a `.py` file.
+* I can use `print()` with `sep` and `end`.
 
 ---
 

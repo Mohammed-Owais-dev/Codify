@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 10 - Structures, Files & Practice
 
-> ⏱ **15-minute revision.** A **structure** groups different data types under one name. Know the dot `.` and arrow `->` operators, the file functions (`fopen`, `fprintf`, `fscanf`, `fgets`, `fclose`), a simple problem-solving routine and how to debug. Then combine everything in a mini project.
+> **15-minute revision.** A **structure** groups different data types under one name. Know the dot `.` and arrow `->` operators, the file functions (`fopen`, `fprintf`, `fscanf`, `fgets`, `fclose`), a simple problem-solving routine and how to debug. Then combine everything in a mini project.
 
 ---
 
@@ -460,13 +460,13 @@ Loaded from file:
 
 ## Last-Minute Checklist
 
-* ✅ I can define a structure and use `typedef`.
-* ✅ I know `.` is for variables and `->` is for pointers.
-* ✅ I can create and loop through an array of structures.
-* ✅ I can open, write, read, append and close a file safely.
-* ✅ I know the three types of errors.
-* ✅ I can compile with `-Wall -g` and trace a bug with `printf`.
-* ✅ I can combine structures, arrays, functions and files in a small project.
+* I can define a structure and use `typedef`.
+* I know `.` is for variables and `->` is for pointers.
+* I can create and loop through an array of structures.
+* I can open, write, read, append and close a file safely.
+* I know the three types of errors.
+* I can compile with `-Wall -g` and trace a bug with `printf`.
+* I can combine structures, arrays, functions and files in a small project.
 
 ---
 

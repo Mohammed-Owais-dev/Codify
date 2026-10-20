@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 1 - Introduction to C
 
-> ⏱ **10-minute revision.** Know what C is, how a program becomes an executable, the parts of every C program, and how to compile and run your first one.
+> **10-minute revision.** Know what C is, how a program becomes an executable, the parts of every C program, and how to compile and run your first one.
 
 ---
 
@@ -264,12 +264,12 @@ Path: C:\files
 
 ## Last-Minute Checklist
 
-* ✅ I know C was created by Dennis Ritchie in 1972.
-* ✅ I can explain compile, link and run.
-* ✅ I can list 4 features and 4 uses of C.
-* ✅ I can compile a file with `gcc` and run it.
-* ✅ I can write the skeleton: `#include`, `main`, statements, `return 0;`.
-* ✅ I know `\n`, `\t`, `\"` and `\\`.
+* I know C was created by Dennis Ritchie in 1972.
+* I can explain compile, link and run.
+* I can list 4 features and 4 uses of C.
+* I can compile a file with `gcc` and run it.
+* I can write the skeleton: `#include`, `main`, statements, `return 0;`.
+* I know `\n`, `\t`, `\"` and `\\`.
 
 ---
 

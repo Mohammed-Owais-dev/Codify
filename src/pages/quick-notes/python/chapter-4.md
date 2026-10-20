@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 4 - Strings & Collections
 
-> ⏱ **20-minute revision.** Python's built-in collections hold your data: **strings** (text), **lists** (ordered, changeable), **tuples** (ordered, fixed), **sets** (unique values) and **dictionaries** (key-value pairs). Finish with **comprehensions** and common programs.
+> **20-minute revision.** Python's built-in collections hold your data: **strings** (text), **lists** (ordered, changeable), **tuples** (ordered, fixed), **sets** (unique values) and **dictionaries** (key-value pairs). Finish with **comprehensions** and common programs.
 
 ---
 
@@ -405,13 +405,13 @@ True
 
 ## Last-Minute Checklist
 
-* ✅ I can index, slice and reverse a string.
-* ✅ I know the common string methods and that strings are immutable.
-* ✅ I can add, remove, sort and copy a list correctly.
-* ✅ I know the difference between a list, tuple and set.
-* ✅ I can create a dictionary, read it safely and loop over it.
-* ✅ I can write list and dictionary comprehensions.
-* ✅ I can solve duplicates, palindrome, vowel-count and frequency tasks.
+* I can index, slice and reverse a string.
+* I know the common string methods and that strings are immutable.
+* I can add, remove, sort and copy a list correctly.
+* I know the difference between a list, tuple and set.
+* I can create a dictionary, read it safely and loop over it.
+* I can write list and dictionary comprehensions.
+* I can solve duplicates, palindrome, vowel-count and frequency tasks.
 
 ---
 

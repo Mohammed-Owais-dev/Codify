@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 8 - Strings
 
-> ⏱ **15-minute revision.** A C string is a `char` array that ends with the null character `'\0'`. Know how to read and print strings, the `<string.h>` functions (`strlen`, `strcpy`, `strcat`, `strcmp`, `strchr`, `strstr`) and the classic problems: reverse, palindrome and counting.
+> **15-minute revision.** A C string is a `char` array that ends with the null character `'\0'`. Know how to read and print strings, the `<string.h>` functions (`strlen`, `strcpy`, `strcat`, `strcmp`, `strchr`, `strstr`) and the classic problems: reverse, palindrome and counting.
 
 ---
 
@@ -393,13 +393,13 @@ CODIFY
 
 ## Last-Minute Checklist
 
-* ✅ I know a string is a `char` array ending with `'\0'`.
-* ✅ I know `sizeof` counts `'\0'` and `strlen` does not.
-* ✅ I can read a word with `scanf` and a line with `fgets`.
-* ✅ I can copy and join strings with `strcpy` and `strcat`.
-* ✅ I compare strings with `strcmp`, not `==`.
-* ✅ I can reverse a string and check a palindrome.
-* ✅ I can count vowels and change case.
+* I know a string is a `char` array ending with `'\0'`.
+* I know `sizeof` counts `'\0'` and `strlen` does not.
+* I can read a word with `scanf` and a line with `fgets`.
+* I can copy and join strings with `strcpy` and `strcat`.
+* I compare strings with `strcmp`, not `==`.
+* I can reverse a string and check a palindrome.
+* I can count vowels and change case.
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 8 - Forms, Validation and Browser Storage
 
-> ⏱ **20-minute revision.** This chapter turns static pages into real apps: read forms, check the data, handle many elements with one listener, save data in the browser and schedule actions with timers.
+> **20-minute revision.** This chapter turns static pages into real apps: read forms, check the data, handle many elements with one listener, save data in the browser and schedule actions with timers.
 
 ---
 
@@ -470,13 +470,13 @@ Stopped
 
 ## Last-Minute Checklist
 
-* ✅ I can read text, checkbox, select and `FormData` values.
-* ✅ I stop the page reload with `preventDefault()`.
-* ✅ I can validate with HTML attributes and with a regex.
-* ✅ I can explain bubbling and write a delegated listener.
-* ✅ I know `localStorage` vs `sessionStorage`.
-* ✅ I save objects with JSON and handle errors with `try...catch`.
-* ✅ I can start and stop a timer.
+* I can read text, checkbox, select and `FormData` values.
+* I stop the page reload with `preventDefault()`.
+* I can validate with HTML attributes and with a regex.
+* I can explain bubbling and write a delegated listener.
+* I know `localStorage` vs `sessionStorage`.
+* I save objects with JSON and handle errors with `try...catch`.
+* I can start and stop a timer.
 
 ---
 

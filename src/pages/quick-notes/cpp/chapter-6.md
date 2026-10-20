@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 6 - Functions
 
-> ⏱ **15-minute revision.** A function is a named, reusable block of code. Know declaration, definition and call, **pass by value vs by reference**, default arguments, **function overloading**, recursion and variable scope.
+> **15-minute revision.** A function is a named, reusable block of code. Know declaration, definition and call, **pass by value vs by reference**, default arguments, **function overloading**, recursion and variable scope.
 
 ---
 
@@ -323,12 +323,12 @@ c = 2
 
 ## Last-Minute Checklist
 
-* ✅ I can write a prototype, definition and call.
-* ✅ I know by value, by reference and `const &`.
-* ✅ I can use default arguments.
-* ✅ I can overload a function and know what is not allowed.
-* ✅ I can write recursive factorial and Fibonacci.
-* ✅ I know local, global and `static` variables and `::`.
+* I can write a prototype, definition and call.
+* I know by value, by reference and `const &`.
+* I can use default arguments.
+* I can overload a function and know what is not allowed.
+* I can write recursive factorial and Fibonacci.
+* I know local, global and `static` variables and `::`.
 
 ---
 

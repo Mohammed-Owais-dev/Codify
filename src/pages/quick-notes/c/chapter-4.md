@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 4 - Decision Making
 
-> ⏱ **15-minute revision.** Decision statements choose which code runs. Remember: **0 is false, everything else is true**, and `switch` needs `break`.
+> **15-minute revision.** Decision statements choose which code runs. Remember: **0 is false, everything else is true**, and `switch` needs `break`.
 
 ---
 
@@ -335,13 +335,13 @@ Syntax: `condition ? value_if_true : value_if_false`
 
 ## Last-Minute Checklist
 
-* ✅ I know `0` is false and any non-zero value is true.
-* ✅ I can write `if`, `if-else`, nested `if` and an `else-if` ladder.
-* ✅ I know the ladder stops at the first true condition.
-* ✅ I can write a `switch` with `break` and `default`.
-* ✅ I know `switch` works only with `int` and `char`.
-* ✅ I can explain `break` vs `continue`.
-* ✅ I can write a ternary expression.
+* I know `0` is false and any non-zero value is true.
+* I can write `if`, `if-else`, nested `if` and an `else-if` ladder.
+* I know the ladder stops at the first true condition.
+* I can write a `switch` with `break` and `default`.
+* I know `switch` works only with `int` and `char`.
+* I can explain `break` vs `continue`.
+* I can write a ternary expression.
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 9 - Object-Oriented Programming
 
-> ⏱ **15-minute revision.** OOP organizes code around **objects**. Know the four pillars: **encapsulation** (hide data), **inheritance** (reuse), **polymorphism** (one interface, many forms) and **abstraction** (hide complexity).
+> **15-minute revision.** OOP organizes code around **objects**. Know the four pillars: **encapsulation** (hide data), **inheritance** (reuse), **polymorphism** (one interface, many forms) and **abstraction** (hide complexity).
 
 ---
 
@@ -422,12 +422,12 @@ Area = 12.00
 
 ## Last-Minute Checklist
 
-* ✅ I can name and explain the four pillars.
-* ✅ I can write a class with private data and validated public methods.
-* ✅ I can write a derived class and call the base constructor.
-* ✅ I know the order of constructors and destructors in inheritance.
-* ✅ I can use `virtual` and `override` for runtime polymorphism.
-* ✅ I can write an abstract class with a pure virtual function.
+* I can name and explain the four pillars.
+* I can write a class with private data and validated public methods.
+* I can write a derived class and call the base constructor.
+* I know the order of constructors and destructors in inheritance.
+* I can use `virtual` and `override` for runtime polymorphism.
+* I can write an abstract class with a pure virtual function.
 
 ---
 

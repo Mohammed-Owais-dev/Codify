@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 4 - Functions and Scope
 
-> ⏱ **15-minute revision.** Functions are the building blocks of every program. Focus on parameters vs arguments, arrow syntax, the three scopes and how callbacks work.
+> **15-minute revision.** Functions are the building blocks of every program. Focus on parameters vs arguments, arrow syntax, the three scopes and how callbacks work.
 
 ---
 
@@ -370,13 +370,13 @@ Hi
 
 ## Last-Minute Checklist
 
-* ✅ I know parameters vs arguments.
-* ✅ I can write default and rest parameters.
-* ✅ I can convert a normal function to an arrow function.
-* ✅ I know which functions are hoisted.
-* ✅ I can name the three scopes.
-* ✅ I can explain a closure with the counter example.
-* ✅ I can explain what a callback is and why `greet()` is wrong in `setTimeout`.
+* I know parameters vs arguments.
+* I can write default and rest parameters.
+* I can convert a normal function to an arrow function.
+* I know which functions are hoisted.
+* I can name the three scopes.
+* I can explain a closure with the counter example.
+* I can explain what a callback is and why `greet()` is wrong in `setTimeout`.
 
 ---
 

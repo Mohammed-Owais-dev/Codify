@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 2 - Python Basics
 
-> ⏱ **15-minute revision.** Know the building blocks: **indentation and comments**, **variables**, **data types**, **input/output with type conversion**, and **operators**. Almost every later chapter uses these.
+> **15-minute revision.** Know the building blocks: **indentation and comments**, **variables**, **data types**, **input/output with type conversion**, and **operators**. Almost every later chapter uses these.
 
 ---
 
@@ -345,12 +345,12 @@ True False
 
 ## Last-Minute Checklist
 
-* ✅ I can indent blocks correctly and write comments.
-* ✅ I know the variable naming rules and conventions.
-* ✅ I can name the main data types and use `type()`.
-* ✅ I know `input()` returns a string and can convert it.
-* ✅ I can use f-strings with formatting like `:.2f`.
-* ✅ I know `/`, `//`, `%` and `**`, and operator precedence.
+* I can indent blocks correctly and write comments.
+* I know the variable naming rules and conventions.
+* I can name the main data types and use `type()`.
+* I know `input()` returns a string and can convert it.
+* I can use f-strings with formatting like `:.2f`.
+* I know `/`, `//`, `%` and `**`, and operator precedence.
 
 ---
 

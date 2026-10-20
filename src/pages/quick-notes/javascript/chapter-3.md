@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 3 - Operators and Control Flow
 
-> ⏱ **15-minute revision.** Operators build expressions; control flow decides **which** code runs and **how many times**. Master the logical operators and loop keywords first.
+> **15-minute revision.** Operators build expressions; control flow decides **which** code runs and **how many times**. Master the logical operators and loop keywords first.
 
 ---
 
@@ -387,13 +387,13 @@ for (let i = 1; i <= 2; i++) {
 
 ## Last-Minute Checklist
 
-* ✅ I know the difference between `n++` and `++n`.
-* ✅ I can explain `&&`, `||`, `!` and `??`.
-* ✅ I can write a ternary expression.
-* ✅ I know `else if` stops at the first match.
-* ✅ I know why `break` matters in `switch`.
-* ✅ I can choose between `for`, `while` and `do...while`.
-* ✅ I know `break` vs `continue`.
+* I know the difference between `n++` and `++n`.
+* I can explain `&&`, `||`, `!` and `??`.
+* I can write a ternary expression.
+* I know `else if` stops at the first match.
+* I know why `break` matters in `switch`.
+* I can choose between `for`, `while` and `do...while`.
+* I know `break` vs `continue`.
 
 ---
 

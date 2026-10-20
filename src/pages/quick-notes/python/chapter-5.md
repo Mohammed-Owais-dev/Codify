@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 5 - Functions
 
-> ⏱ **15-minute revision.** A **function** is a named, reusable block of code. Know how to **define** and **call** one, pass different kinds of **arguments**, understand **scope**, use **lambda**, and write **recursive** functions.
+> **15-minute revision.** A **function** is a named, reusable block of code. Know how to **define** and **call** one, pass different kinds of **arguments**, understand **scope**, use **lambda**, and write **recursive** functions.
 
 ---
 
@@ -400,13 +400,13 @@ True
 
 ## Last-Minute Checklist
 
-* ✅ I can define, call and document a function.
-* ✅ I know the difference between parameters and arguments.
-* ✅ I can return one value or several values.
-* ✅ I can use default, keyword, `*args` and `**kwargs` arguments.
-* ✅ I know the LEGB rule and when to use `global`.
-* ✅ I can write a lambda and use `map`, `filter` and `sorted(key=...)`.
-* ✅ I can write a recursive function with a base case.
+* I can define, call and document a function.
+* I know the difference between parameters and arguments.
+* I can return one value or several values.
+* I can use default, keyword, `*args` and `**kwargs` arguments.
+* I know the LEGB rule and when to use `global`.
+* I can write a lambda and use `map`, `filter` and `sorted(key=...)`.
+* I can write a recursive function with a base case.
 
 ---
 

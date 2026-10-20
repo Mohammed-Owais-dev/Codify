@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 6 - Files, Exceptions & Modules
 
-> ⏱ **20-minute revision.** Real programs **store data** (files, JSON, CSV), **handle errors** safely (exceptions), and are **split into modules** that use libraries installed with `pip`. Learn the `with open()` pattern, `try / except`, and the `import` styles.
+> **20-minute revision.** Real programs **store data** (files, JSON, CSV), **handle errors** safely (exceptions), and are **split into modules** that use libraries installed with `pip`. Learn the `with open()` pattern, `try / except`, and the `import` styles.
 
 ---
 
@@ -447,13 +447,13 @@ print(arr.mean())
 
 ## Last-Minute Checklist
 
-* ✅ I can read, write and append files with `with open()`.
-* ✅ I know the file modes `r`, `w`, `a` and `x`.
-* ✅ I can convert between Python objects and JSON.
-* ✅ I can read and write CSV rows.
-* ✅ I can use `try / except / else / finally` and `raise`.
-* ✅ I can import modules in three styles and use `__name__`.
-* ✅ I can install a library with `pip` and create a virtual environment.
+* I can read, write and append files with `with open()`.
+* I know the file modes `r`, `w`, `a` and `x`.
+* I can convert between Python objects and JSON.
+* I can read and write CSV rows.
+* I can use `try / except / else / finally` and `raise`.
+* I can import modules in three styles and use `__name__`.
+* I can install a library with `pip` and create a virtual environment.
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 7 - The Document Object Model (DOM)
 
-> ⏱ **20-minute revision.** The DOM is how JavaScript talks to the page. Remember the flow: **select → change → create/remove → listen for events**. Press **Run** on each example to see it work.
+> **20-minute revision.** The DOM is how JavaScript talks to the page. Remember the flow: **select → change → create/remove → listen for events**. Press **Run** on each example to see it work.
 
 ---
 
@@ -338,13 +338,13 @@ element.addEventListener("eventName", callbackFunction);
 
 ## Last-Minute Checklist
 
-* ✅ I can explain the DOM as a tree.
-* ✅ I can select one or many elements with CSS selectors.
-* ✅ I know `textContent` vs `innerHTML`.
-* ✅ I can toggle classes and change attributes.
-* ✅ I can create, append and remove an element.
-* ✅ I can attach a click listener and use `event.target`.
-* ✅ I know when to use `preventDefault()`.
+* I can explain the DOM as a tree.
+* I can select one or many elements with CSS selectors.
+* I know `textContent` vs `innerHTML`.
+* I can toggle classes and change attributes.
+* I can create, append and remove an element.
+* I can attach a click listener and use `event.target`.
+* I know when to use `preventDefault()`.
 
 ---
 

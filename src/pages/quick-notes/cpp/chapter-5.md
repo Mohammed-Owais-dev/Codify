@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 5 - Loops
 
-> ⏱ **15-minute revision.** Loops repeat code. Know which loop to choose, the three parts of a `for` loop, the **range-based `for`**, and how nested loops build patterns (outer = rows, inner = columns).
+> **15-minute revision.** Loops repeat code. Know which loop to choose, the three parts of a `for` loop, the **range-based `for`**, and how nested loops build patterns (outer = rows, inner = columns).
 
 ---
 
@@ -311,12 +311,12 @@ int main() {
 
 ## Last-Minute Checklist
 
-* ✅ I can name the three parts of a loop.
-* ✅ I know `while` is entry-controlled and `do-while` is exit-controlled.
-* ✅ I can write all three loops and the range-based `for`.
-* ✅ I can sum digits, reverse a number and find a factorial.
-* ✅ I can print triangle and pyramid patterns.
-* ✅ I know outer loop = rows and inner loop = columns.
+* I can name the three parts of a loop.
+* I know `while` is entry-controlled and `do-while` is exit-controlled.
+* I can write all three loops and the range-based `for`.
+* I can sum digits, reverse a number and find a factorial.
+* I can print triangle and pyramid patterns.
+* I know outer loop = rows and inner loop = columns.
 
 ---
 

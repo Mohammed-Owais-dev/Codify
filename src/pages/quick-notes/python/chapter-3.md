@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 3 - Conditional Statements & Loops
 
-> ⏱ **15-minute revision.** Control flow decides **which** code runs and **how often**. Know `if / elif / else`, the conditional expression, `for` and `while`, and `break`, `continue`, `pass` with nested loops.
+> **15-minute revision.** Control flow decides **which** code runs and **how often**. Know `if / elif / else`, the conditional expression, `for` and `while`, and `break`, `continue`, `pass` with nested loops.
 
 ---
 
@@ -347,13 +347,13 @@ for i in range(1, 4):
 
 ## Last-Minute Checklist
 
-* ✅ I can write `if`, `elif` and `else` with correct colons and indentation.
-* ✅ I know only the first true branch of an `elif` chain runs.
-* ✅ I can write a conditional expression.
-* ✅ I can use `range` with start, stop and step.
-* ✅ I can choose between `for` and `while`.
-* ✅ I know what `break`, `continue`, `pass` and loop `else` do.
-* ✅ I can print a star pattern with nested loops.
+* I can write `if`, `elif` and `else` with correct colons and indentation.
+* I know only the first true branch of an `elif` chain runs.
+* I can write a conditional expression.
+* I can use `range` with start, stop and step.
+* I can choose between `for` and `while`.
+* I know what `break`, `continue`, `pass` and loop `else` do.
+* I can print a star pattern with nested loops.
 
 ---
 

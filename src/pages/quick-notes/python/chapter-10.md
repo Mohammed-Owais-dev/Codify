@@ -1,6 +1,6 @@
 # Quick Notes: Chapter 10 - Python Mini Projects
 
-> ⏱ **20-minute revision.** Each mini project combines earlier chapters. Revise the **core logic** and the **reusable pattern** of each: calculator, guessing game, quiz, student system, contact book, to-do list and a final project. Examples use sample data so you can follow the output.
+> **20-minute revision.** Each mini project combines earlier chapters. Revise the **core logic** and the **reusable pattern** of each: calculator, guessing game, quiz, student system, contact book, to-do list and a final project. Examples use sample data so you can follow the output.
 
 ---
 
@@ -471,13 +471,13 @@ expense_tracker/
 
 ## Last-Minute Checklist
 
-* ✅ I can build a calculator with functions and error handling.
-* ✅ I can write a guessing game loop with validation.
-* ✅ I can store quiz questions as a list of dictionaries and calculate a score.
-* ✅ I can implement add, search, update and delete for a dictionary.
-* ✅ I can build a to-do list with a done flag.
-* ✅ I can save and load data with `json`.
-* ✅ I can structure a project with a menu loop and `main()`.
+* I can build a calculator with functions and error handling.
+* I can write a guessing game loop with validation.
+* I can store quiz questions as a list of dictionaries and calculate a score.
+* I can implement add, search, update and delete for a dictionary.
+* I can build a to-do list with a done flag.
+* I can save and load data with `json`.
+* I can structure a project with a menu loop and `main()`.
 
 ---
 
