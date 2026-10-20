@@ -31,7 +31,7 @@ body.shot .screen{visibility:hidden}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:12px;border:none;
   font-weight:700;font-size:.95rem;color:#fff;text-decoration:none;background:linear-gradient(90deg,#0077ff,#00aaff);
   box-shadow:0 4px 15px rgba(0,170,255,.25);transition:.25s}
-.btn:hover:not(:disabled){background:linear-gradient(90deg,#00aaff,#0077ff);transform:translateY(-1px)}
+.btn:hover:not(:disabled){color:#fff;background:linear-gradient(90deg,#00aaff,#0077ff);transform:translateY(-1px)}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn.ghost{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.3);color:#00aaff;box-shadow:none}
 .btn.danger{background:linear-gradient(90deg,#dc2626,#ef4444);box-shadow:none}
@@ -118,7 +118,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
 <section id="sLoad" class="screen center on"><div class="spin"></div></section>
 
 <section id="sBlock" class="screen center"><div class="panel">
-  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exams">Back to Exams</a>
+  <h2>Can't open this exam</h2><p id="bText"></p><a class="btn" href="/exam">Back to Exams</a>
 </div></section>
 
 <section id="sRules" class="screen center"><div class="panel">
@@ -136,7 +136,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
     <li>Quitting ends the exam immediately. You can answer questions in any order and change answers before submitting.</li>
   </ul>
   <label class="agree"><input type="checkbox" id="agree"> I have read and accept the exam rules</label>
-  <div class="row"><a class="btn ghost" href="/exams">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
+  <div class="row"><a class="btn ghost" href="/exam">Cancel</a><button class="btn" id="startBtn" disabled>Start Exam</button></div>
   <p id="rErr" style="color:#f87171;margin:12px 0 0"></p>
 </div></section>
 
@@ -179,7 +179,7 @@ aside h3{margin:0 0 12px;font-size:1rem;color:#fff}
     <div class="stat"><b id="rPct"></b><small>Percentage</small></div>
     <div class="stat"><b id="rRes"></b><small>Result (pass: 50%)</small></div>
   </div>
-  <div class="row"><a class="btn" id="certBtn" href="#" style="display:none">View Certificate</a><button class="btn" id="retryBtn" style="display:none">Retry</button><a class="btn ghost" href="/exams">Back to Exams</a></div>
+  <div class="row"><a class="btn" id="certBtn" href="#" style="display:none">View Certificate</a><button class="btn" id="retryBtn" style="display:none">Retry</button><a class="btn ghost" href="/exam">Back to Exams</a></div>
 </div></section>
 
 <div id="modal"><div class="panel">
