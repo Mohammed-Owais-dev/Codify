@@ -5,7 +5,7 @@
   "chapters": [
     {
       "chapter_number": 1,
-      "chapter_title": "Chapter 1 — Introduction to C",
+      "chapter_title": "Chapter 1: Introduction to C",
       "topics": [
         {
           "title": "1.1 What is Programming & C?",
@@ -31,7 +31,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "Chapter 2 — C Basics",
+      "chapter_title": "Chapter 2: C Basics",
       "topics": [
         {
           "title": "2.1 Keywords, Identifiers & Comments",
@@ -57,7 +57,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "Chapter 3 — Operators & Expressions",
+      "chapter_title": "Chapter 3: Operators & Expressions",
       "topics": [
         {
           "title": "3.1 Arithmetic Operators",
@@ -83,7 +83,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "Chapter 4 — Decision Making",
+      "chapter_title": "Chapter 4: Decision Making",
       "topics": [
         {
           "title": "4.1 Introduction to Conditions",
@@ -109,7 +109,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "Chapter 5 — Loops",
+      "chapter_title": "Chapter 5: Loops",
       "topics": [
         {
           "title": "5.1 Introduction to Loops",
@@ -135,7 +135,7 @@
     },
     {
       "chapter_number": 6,
-      "chapter_title": "Chapter 6 — Functions",
+      "chapter_title": "Chapter 6: Functions",
       "topics": [
         {
           "title": "6.1 Introduction to Functions",
@@ -161,7 +161,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "Chapter 7 — Arrays",
+      "chapter_title": "Chapter 7: Arrays",
       "topics": [
         {
           "title": "7.1 Introduction to Arrays",
@@ -187,7 +187,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "Chapter 8 — Strings",
+      "chapter_title": "Chapter 8: Strings",
       "topics": [
         {
           "title": "8.1 Introduction to Strings",
@@ -213,7 +213,7 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "Chapter 9 — Pointers & Dynamic Memory",
+      "chapter_title": "Chapter 9: Pointers & Dynamic Memory",
       "topics": [
         {
           "title": "9.1 Introduction to Pointers",
@@ -239,7 +239,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "Chapter 10 — Structures, Files & Practice",
+      "chapter_title": "Chapter 10: Structures, Files & Practice",
       "topics": [
         {
           "title": "10.1 Introduction to Structures & typedef",
