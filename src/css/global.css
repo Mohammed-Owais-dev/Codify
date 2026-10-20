@@ -645,11 +645,10 @@ html {
 }
 
 .eng-avatar {
-    width: 80px;
-    height: 80px;
+    width: 100px;
     background: rgba(0, 170, 255, 0.15);
     border: 2px solid #00aaff;
-    border-radius: 50%;
+    border-radius: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

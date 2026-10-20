@@ -163,7 +163,6 @@ cyberScrollStyle.textContent = `
         height: 100%;
         object-fit: cover;
         object-position: center top;
-        border-radius: 50%;
         display: block;
     }
     .eng-badge-wrapper {
