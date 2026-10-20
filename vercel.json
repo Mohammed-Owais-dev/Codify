@@ -22,11 +22,11 @@
     },
     {
       "source": "/quick-notes/:language/:chapter",
-      "destination": "/src/pages/quick-notes-lesson.html"
+      "destination": "/src/pages/quick-notes/quick-notes-lesson.html"
     },
     {
       "source": "/quick-notes/:language",
-      "destination": "/src/pages/quick-notes-index.html"
+      "destination": "/src/pages/quick-notes/quick-notes-index.html"
     },
     {
       "source": "/login",
