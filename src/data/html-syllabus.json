@@ -227,5 +227,6 @@
         }
       ]
     }
-  ]
+  ],
+  "quick_notes_path": "/src/pages/quick-notes/html/"
 }
