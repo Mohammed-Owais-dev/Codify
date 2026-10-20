@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Chapter-level quick revision notes on Codify.">
+<title>Quick Notes | Codify</title>
+<link rel="stylesheet" href="/src/css/global-lesson.css"><link rel="stylesheet" href="/src/css/global.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<style>
+body{min-width:0!important;overflow-x:hidden!important;background:#0a0f1c;color:#e0e6ed;font-family:Nunito,sans-serif}
+.codify-breadcrumb-bar{z-index:1100!important}.sidebar-nav{z-index:1500!important}
+.quick-notes-chapter-link{display:block;padding:12px 14px;margin:4px 10px;border-radius:10px;color:#aab8ca;text-decoration:none;font-size:.94rem;line-height:1.45;border:1px solid transparent;transition:all .2s}
+.quick-notes-chapter-link:hover,.quick-notes-chapter-link.active{color:#fff;background:rgba(0,170,255,.12);border-color:rgba(0,170,255,.35)}
+.tree-root{list-style:none;padding-left:0}.tree-root .tree-branch{list-style:none}
+#markdownOutputContainer{line-height:1.75;overflow-wrap:anywhere}#markdownOutputContainer h2,#markdownOutputContainer h3{color:#00aaff;margin-top:1.7em}
+#markdownOutputContainer pre{overflow:auto;background:#0d1728;border:1px solid #24364d;border-radius:12px;padding:16px}
+#markdownOutputContainer code{font-family:Consolas,Monaco,monospace}
+@media(max-width:900px){.sidebar-nav{transform:translateX(-105%);transition:transform .25s ease!important;visibility:hidden;pointer-events:none;top:102px!important;height:calc(100dvh - 102px)!important}.sidebar-nav.mobile-active{transform:translateX(0);visibility:visible;pointer-events:auto;top:111px!important;bottom:8px!important;height:auto!important}.sidebar-nav.collapsed{transform:translateX(-105%);visibility:hidden;pointer-events:none}.nav-backdrop{z-index:1400!important}}
+</style>
+</head>
+<body>
+<div id="navbar-placeholder"></div><div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+<header class="codify-breadcrumb-bar">
+<button class="breadcrumb-sidebar-trigger" id="sidebarToggleMobile" type="button" aria-label="Toggle Chapter Navigation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg></button><div class="breadcrumb-vertical-divider"></div>
+<nav aria-label="breadcrumb"><ol class="codify-breadcrumbs"><li><a href="/quick-notes">Quick Notes</a></li><li class="breadcrumb-chevron">›</li><li><a href="#" id="breadcrumbCourseLink">Language Notes</a></li><li class="breadcrumb-chevron">›</li><li><span class="current-crumb" id="breadcrumbCurrent">Loading Chapter…</span></li></ol></nav>
+</header>
+<div class="page-wrapper">
+<aside class="sidebar-nav" id="sidebarNav"><div class="sidebar-header"><h2 class="sidebar-title" id="sidebarCourseTitle">Quick Notes Chapters</h2></div><ul class="tree-root" id="sidebarTreeRoot"></ul></aside>
+<main class="content-workspace"><article class="content-body"><header class="content-header-group"><h1 class="topic-title" id="pageMainHeading">Loading Chapter…</h1><div class="content-nav-row top-nav-row"><a href="#" class="codify-btn-outline nav-btn" id="prevTop">← Previous Chapter</a><a href="#" class="codify-btn-outline nav-btn" id="nextTop">Next Chapter →</a></div></header>
+<div id="markdownOutputContainer"><p style="color:#00aaff;text-align:center">Loading chapter notes…</p></div>
+<div class="content-nav-row bottom-nav-row"><a href="#" class="codify-btn-outline nav-btn" id="prevBottom">← Previous Chapter</a><a href="#" class="codify-btn-outline nav-btn" id="nextBottom">Next Chapter →</a></div>
+</article></main></div><div id="footer-placeholder"></div>
+<script type="module" src="/src/js/components.js"></script><script src="/src/js/script.js"></script>
+<script>
+const syllabusPaths={c:"/src/data/c-syllabus.json",cpp:"/src/data/cpp-syllabus.json",css:"/src/data/css-syllabus.json",html:"/src/data/html-syllabus.json",java:"/src/data/java-syllabus.json",javascript:"/src/data/javascript-syllabus.json",python:"/src/data/python-syllabus.json"};
+const parts=location.pathname.split("/").filter(Boolean),language=(parts[1]||"c").toLowerCase(),chapterParam=parts[2]||new URLSearchParams(location.search).get("chapter");
+const safe=value=>String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+document.addEventListener("DOMContentLoaded",async()=>{
+ const output=document.getElementById("markdownOutputContainer");
+ if(!syllabusPaths[language]){location.replace("/quick-notes");return;}
+ try{
+  const response=await fetch(syllabusPaths[language]);if(!response.ok)throw new Error("Syllabus request failed");
+  const syllabus=await response.json(),chapters=syllabus.chapters||[],name=(syllabus.course_title||language).split(" ")[0];
+  if(!chapters.length)throw new Error("No chapters configured");
+  let activeIndex=chapters.findIndex(ch=>Number(ch.chapter_number)===Number(chapterParam));if(activeIndex<0)activeIndex=0;
+  const active=chapters[activeIndex],number=Number(active.chapter_number);
+  document.getElementById("sidebarCourseTitle").textContent=name+" Quick Notes";
+  const crumb=document.getElementById("breadcrumbCourseLink");crumb.textContent=name+" Notes";crumb.href="/quick-notes/"+language;
+  document.getElementById("breadcrumbCurrent").textContent=active.chapter_title;document.getElementById("pageMainHeading").textContent=active.chapter_title;
+  document.title=active.chapter_title+" | Quick Notes | Codify";
+  document.getElementById("sidebarTreeRoot").innerHTML=chapters.map(ch=>'<li class="tree-branch"><a class="quick-notes-chapter-link'+(Number(ch.chapter_number)===number?' active':'')+'" href="/quick-notes/'+encodeURIComponent(language)+'/'+Number(ch.chapter_number)+'">'+safe(ch.chapter_title)+'</a></li>').join("");
+  const noteDir=syllabus.quick_notes_path||("/src/pages/quick-notes/"+language+"/");
+  const base=noteDir.endsWith("/")?noteDir:noteDir+"/";
+  const mdResponse=await fetch(base+"chapter-"+number+".md");
+  let markdown;
+  if(mdResponse.ok)markdown=await mdResponse.text();
+  else{const topics=(active.topics||[]).map(t=>"- **"+String(t.title||"Key concept").replace(/[*_]/g,"")+"**").join("\n");markdown="# "+active.chapter_title+"\n\n## Quick revision\n\nUse this chapter page as a concise revision checklist for the "+name+" syllabus.\n\n## Key concepts\n\n"+(topics||"- Review the main ideas introduced in this chapter.")+"\n\n## Revision tip\n\nExplain each concept in your own words and practise it with a small example.";}
+  output.innerHTML=marked.parse(markdown);if(window.hljs)output.querySelectorAll("pre code").forEach(block=>hljs.highlightElement(block));
+  const nav=(id,target,label)=>{const el=document.getElementById(id);el.style.display=target?"inline-flex":"none";if(target){el.href="/quick-notes/"+encodeURIComponent(language)+"/"+Number(target.chapter_number);el.setAttribute("aria-label",label+": "+target.chapter_title);}};
+  nav("prevTop",chapters[activeIndex-1],"Previous chapter");nav("prevBottom",chapters[activeIndex-1],"Previous chapter");nav("nextTop",chapters[activeIndex+1],"Next chapter");nav("nextBottom",chapters[activeIndex+1],"Next chapter");
+ }catch(error){console.error(error);output.innerHTML='<h2 style="color:#ff5252">Quick Notes could not be loaded</h2><p>Please check the syllabus configuration and chapter file path, then try again.</p>';}
+});
+const sidebar=document.getElementById("sidebarNav"),toggle=document.getElementById("sidebarToggleMobile"),backdrop=document.getElementById("navBackdrop");
+function closeSidebar(){sidebar.classList.remove("mobile-active");backdrop.classList.remove("active");backdrop.setAttribute("aria-hidden","true");toggle.setAttribute("aria-expanded","false");}
+toggle.setAttribute("aria-expanded","false");toggle.addEventListener("click",()=>{const open=sidebar.classList.toggle("mobile-active");backdrop.classList.toggle("active",open);backdrop.setAttribute("aria-hidden",String(!open));toggle.setAttribute("aria-expanded",String(open));});
+sidebar.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{if(window.matchMedia("(max-width:900px)").matches)closeSidebar();}));
+document.addEventListener("keydown",event=>{if(event.key==="Escape")closeSidebar();});backdrop.addEventListener("click",closeSidebar);
+</script>
+</body></html>
