@@ -1198,13 +1198,13 @@
                         <a class="tree-node quick-notes-chapter-link ${chapter.number === activeChapter.number ? 'active' : ''}"
                            href="/quick-notes/${encodeURIComponent(courseParam)}/${chapter.number}"
                            data-title="${chapter.title}">
-                            <span class="chapter-title">${chapter.title}</span>
+                            <span class="chapter-title">${chapter.number}. ${chapter.title}</span>
                         </a>
                     </li>
                 `).join('');
 
-                document.getElementById('breadcrumbCurrent').textContent = activeChapter.title;
-                document.getElementById('pageMainHeading').textContent = activeChapter.title;
+                document.getElementById('breadcrumbCurrent').textContent = activeChapter.number + '. ' + activeChapter.title;
+                document.getElementById('pageMainHeading').textContent = activeChapter.number + '. ' + activeChapter.title;
                 document.title = activeChapter.title + ' | Quick Notes | Codify';
 
                 const chapterFile = 'chapter-' + activeChapter.number + '.md';

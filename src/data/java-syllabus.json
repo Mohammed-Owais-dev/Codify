@@ -5,7 +5,7 @@
   "chapters": [
     {
       "chapter_number": 1,
-      "chapter_title": "Chapter 1 — Introduction to Java",
+      "chapter_title": "Chapter 1: Introduction to Java",
       "topics": [
         {
           "title": "1.1 What is Java?",
@@ -31,7 +31,7 @@
     },
     {
       "chapter_number": 2,
-      "chapter_title": "Chapter 2 — Java Basics",
+      "chapter_title": "Chapter 2: Java Basics",
       "topics": [
         {
           "title": "2.1 Structure of a Java Program",
@@ -57,7 +57,7 @@
     },
     {
       "chapter_number": 3,
-      "chapter_title": "Chapter 3 — Operators",
+      "chapter_title": "Chapter 3: Operators",
       "topics": [
         {
           "title": "3.1 Arithmetic and Assignment Operators",
@@ -83,7 +83,7 @@
     },
     {
       "chapter_number": 4,
-      "chapter_title": "Chapter 4 — Conditional Statements",
+      "chapter_title": "Chapter 4: Conditional Statements",
       "topics": [
         {
           "title": "4.1 if Statement",
@@ -109,7 +109,7 @@
     },
     {
       "chapter_number": 5,
-      "chapter_title": "Chapter 5 — Loops",
+      "chapter_title": "Chapter 5: Loops",
       "topics": [
         {
           "title": "5.1 Introduction to Loops",
@@ -135,7 +135,7 @@
     },
     {
       "chapter_number": 6,
-      "chapter_title": "Chapter 6 — Methods",
+      "chapter_title": "Methods",
       "topics": [
         {
           "title": "6.1 What are Methods?",
@@ -161,7 +161,7 @@
     },
     {
       "chapter_number": 7,
-      "chapter_title": "Chapter 7 — Arrays",
+      "chapter_title": "Chapter 7: Arrays",
       "topics": [
         {
           "title": "7.1 Introduction to Arrays",
@@ -187,7 +187,7 @@
     },
     {
       "chapter_number": 8,
-      "chapter_title": "Chapter 8 — Strings",
+      "chapter_title": "Chapter 8: Strings",
       "topics": [
         {
           "title": "8.1 Introduction to Strings",
@@ -213,14 +213,14 @@
     },
     {
       "chapter_number": 9,
-      "chapter_title": "Chapter 9 — Java Basics in More Detail",
+      "chapter_title": "Chapter 9: Java Basics in More Detail",
       "topics": [
         {
           "title": "9.1 Scope of Variables",
           "file": "chapter-9/9.1-scope-of-variables.md"
         },
         {
-          "title": "9.2 Local, Instance and Static Variables — Basic Introduction",
+          "title": "9.2 Local, Instance and Static Variables: Basic Introduction",
           "file": "chapter-9/9.2-local-instance-static-variables.md"
         },
         {
@@ -228,7 +228,7 @@
           "file": "chapter-9/9.3-final-keyword.md"
         },
         {
-          "title": "9.4 Wrapper Classes — Basic Introduction",
+          "title": "9.4 Wrapper Classes: Basic Introduction",
           "file": "chapter-9/9.4-wrapper-classes.md"
         },
         {
@@ -239,7 +239,7 @@
     },
     {
       "chapter_number": 10,
-      "chapter_title": "Chapter 10 — Basic Java Concepts",
+      "chapter_title": "Chapter 10: Basic Java Concepts",
       "topics": [
         {
           "title": "10.1 Packages and import",
@@ -254,7 +254,7 @@
           "file": "chapter-10/10.3-command-line-arguments.md"
         },
         {
-          "title": "10.4 Recursion — Basic Introduction",
+          "title": "10.4 Recursion: Basic Introduction",
           "file": "chapter-10/10.4-recursion-basic-intro.md"
         },
         {
