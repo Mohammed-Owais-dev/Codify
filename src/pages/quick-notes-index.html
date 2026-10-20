@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quick Notes Index | Codify</title>
+<link rel="stylesheet" href="/src/css/global.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0a0f1c;color:#e0e6ed;font-family:Nunito,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+main{width:min(100% - 32px,1050px);margin:100px auto 56px;flex:1}
+.back{color:#9aaec5;text-decoration:none;font-weight:700}.title{font-size:clamp(2rem,5vw,2.7rem);color:#fff;margin:22px 0}.title span{background:linear-gradient(90deg,#0077ff,#00aaff);background-clip:text;-webkit-text-fill-color:transparent}
+.summary{border:1px solid #17415d;background:rgba(13,27,42,.72);border-radius:16px;padding:18px 22px;margin-bottom:22px;color:#a9bbcf}
+.chapters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.chapter{border:1px solid rgba(0,170,255,.24);background:rgba(13,27,42,.7);border-radius:15px;padding:18px;transition:transform .2s,border-color .2s}.chapter:hover{transform:translateY(-3px);border-color:#00aaff}.chapter h2{font-size:1.05rem;line-height:1.5;margin:0 0 15px;color:#fff}.chapter a{display:inline-flex;color:#8bdcff;text-decoration:none;font-weight:800}.chapter a:hover{color:#fff}
+@media(max-width:600px){main{margin-top:95px}.chapters{grid-template-columns:1fr}.chapter{padding:16px}}
+</style>
+</head>
+<body><div id="navbar-placeholder"></div><main>
+<a class="back" href="/quick-notes">← Back to Quick Notes</a>
+<h1 class="title" id="pageTitle">Quick <span>Notes</span></h1>
+<div class="summary" id="summary">Loading chapter index…</div>
+<div class="chapters" id="chapters"></div>
+</main><div id="footer-placeholder"></div>
+<script type="module" src="/src/js/components.js"></script><script src="/src/js/script.js"></script>
+<script>
+const syllabusPaths={c:"/src/data/c-syllabus.json",cpp:"/src/data/cpp-syllabus.json",css:"/src/data/css-syllabus.json",html:"/src/data/html-syllabus.json",java:"/src/data/java-syllabus.json",javascript:"/src/data/javascript-syllabus.json",python:"/src/data/python-syllabus.json"};
+const parts=location.pathname.split("/").filter(Boolean),language=(parts[1]||"c").toLowerCase();
+const safe=value=>String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+document.addEventListener("DOMContentLoaded",async()=>{const root=document.getElementById("chapters");if(!syllabusPaths[language]){location.replace("/quick-notes");return;}try{const response=await fetch(syllabusPaths[language]);if(!response.ok)throw new Error("Syllabus unavailable");const syllabus=await response.json(),name=(syllabus.course_title||language).split(" ")[0],chapters=syllabus.chapters||[];document.title=name+" Quick Notes | Codify";document.getElementById("pageTitle").innerHTML=safe(name)+" <span>Quick Notes</span>";document.getElementById("summary").textContent=chapters.length+" chapters · Chapter-only navigation · Quick revision format";root.innerHTML=chapters.map(ch=>'<article class="chapter"><h2>'+safe(ch.chapter_title)+'</h2><a href="/quick-notes/'+encodeURIComponent(language)+'/'+Number(ch.chapter_number)+'">Read chapter notes →</a></article>').join("");if(!chapters.length)root.textContent="No chapters are configured for this syllabus yet.";}catch(error){console.error(error);document.getElementById("summary").textContent="Could not load this syllabus. Please try again later.";root.innerHTML="";}});
+</script></body></html>
