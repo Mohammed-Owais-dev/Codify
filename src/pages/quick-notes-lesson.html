@@ -1238,7 +1238,7 @@
                 ['prevTopicBtnTop', 'prevTopicBtnBtm'].forEach(id => setChapterButton(id, previous, 'Previous chapter'));
                 ['nextTopicBtnTop', 'nextTopicBtnBtm'].forEach(id => setChapterButton(id, next, 'Next chapter'));
 
-                await initProgress();
+                // Quick Notes are revision pages and do not track course completion.
             } catch (error) {
                 console.error('Quick Notes load error:', error);
                 document.getElementById('markdownOutputContainer').innerHTML = '<h2 style="color:#ff5252">Quick Notes could not be loaded</h2><p>' + error.message + '</p>';
