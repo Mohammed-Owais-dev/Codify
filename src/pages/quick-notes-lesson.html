@@ -1228,7 +1228,8 @@
 
                 const chapterFile = 'chapter-' + activeChapter.number + '.md';
                 fileParam = chapterFile;
-                const markdownUrl = activeCourse.baseDir + chapterFile;
+                const notesBaseDir = (syllabus.quick_notes_path || activeCourse.baseDir).replace(/\/?$/, '/');
+                const markdownUrl = notesBaseDir + chapterFile;
                 const markdownResponse = await fetch(markdownUrl);
                 let markdownText;
                 if (markdownResponse.ok) {
