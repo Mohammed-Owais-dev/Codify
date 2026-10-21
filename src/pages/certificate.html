@@ -67,13 +67,7 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 .x{position:absolute;top:10px;right:14px;background:none;border:none;color:#94a3b8;font-size:1.8rem;cursor:pointer;line-height:1}
 .x:hover{color:#fff}
 .field{position:relative}
-.field input{width:100%;padding:14px 56px 14px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px;box-sizing:border-box}
-.scanbtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:10px;border:1px solid rgba(0,170,255,.4);background:rgba(0,170,255,.12);color:#00aaff;display:grid;place-items:center;cursor:pointer;transition:.2s}
-.scanbtn:hover{background:rgba(0,170,255,.25);color:#fff}
-.cam{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:1/1;max-height:46vh;margin:0 auto 14px}
-.cam video{width:100%;height:100%;object-fit:cover}
-.frame{position:absolute;inset:16%;border:3px solid #00aaff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
-.mrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.field input{width:100%;padding:14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;text-transform:uppercase;letter-spacing:.5px;box-sizing:border-box}
 .card{display:flex;align-items:center;gap:18px;background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:16px;padding:16px 20px;text-decoration:none;color:inherit;transition:.3s;box-sizing:border-box;width:100%}
 .card:hover{border-color:rgba(0,170,255,.65);transform:translateX(4px);box-shadow:0 10px 28px rgba(0,170,255,.18)}
 .card img{width:48px;height:48px;object-fit:contain;background:rgba(255,255,255,.05);border-radius:12px;padding:7px;flex:none}
@@ -105,22 +99,11 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
   <div class="mp" role="dialog" aria-modal="true" aria-labelledby="vTitle">
     <button class="x" id="vClose" type="button" aria-label="Close">&times;</button>
     <h3 id="vTitle">Verify a certificate</h3>
-    <div id="vInputView">
-      <p>Enter the certificate ID, or tap the scanner icon to scan its QR code.</p>
-      <div class="field">
-        <input id="vInput" type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" autocomplete="off" aria-label="Certificate ID">
-        <button class="scanbtn" id="vScan" type="button" aria-label="Scan QR code" title="Scan QR code">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
-        </button>
-      </div>
-      <button class="btn" id="vGo" type="button" style="width:100%;margin-top:14px">Verify</button>
+    <p>Enter the certificate ID printed at the bottom of the certificate.</p>
+    <div class="field">
+      <input id="vInput" type="text" placeholder="CDFY-HTML-XXXXXXXXXX" spellcheck="false" autocomplete="off" autocapitalize="characters" aria-label="Certificate ID">
     </div>
-    <div id="vScanView" hidden>
-      <p>Point your camera at the QR code on the certificate.</p>
-      <div class="cam"><video id="vVideo" playsinline muted></video><div class="frame"></div></div>
-      <div class="mrow"><button class="btn ghost" id="vUpload" type="button">Upload QR image</button><button class="btn ghost" id="vBack" type="button">Enter ID instead</button></div>
-      <input id="vFile" type="file" accept="image/*" hidden>
-    </div>
+    <button class="btn" id="vGo" type="button" style="width:100%;margin-top:14px">Verify</button>
     <div class="vmsg" id="vMsg" role="alert"></div>
   </div>
 </div>
@@ -134,8 +117,9 @@ h1.t span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-c
 import { supabase } from '/src/js/config/supabase-client.js';
 
 const $ = s => document.querySelector(s), view = $('#view');
-const NAMES = { c: 'C Programming', cpp: 'C++ & OOPs', html: 'HTML', css: 'CSS', js: 'JavaScript', java: 'Java', python: 'Python' };
+const NAMES = { c: 'C Programming', cpp: 'C++ & OOPs', html: 'HTML', css: 'CSS', js: 'JavaScript', javascript: 'JavaScript', java: 'Java', python: 'Python' };
 const LOGOS = { js: 'javascript' };
+const logoUrl = id => { const slug = (id || '').split('-')[0]; return `/src/assets/logos/${LOGOS[slug] || slug}.svg`; };
 const courseName = id => NAMES[(id || '').split('-')[0]] || id;
 const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
@@ -150,94 +134,39 @@ function showToast(msg, href, label) {
   t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 4500);
 }
 
-/* ---- verify window: type an ID, scan with the camera, or upload a QR image ---- */
-const vModal = $('#vModal'), vVideo = $('#vVideo'), vMsg = $('#vMsg');
-let stream = null, raf = 0;
+/* ---- verify window: type or paste a certificate ID ---- */
+const vModal = $('#vModal'), vInput = $('#vInput'), vGo = $('#vGo'), vMsg = $('#vMsg');
 const setMsg = (t = '', bad = false) => { vMsg.textContent = t; vMsg.className = 'vmsg' + (bad ? ' bad' : ''); };
-const extractId = t => ((String(t).match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i) || [])[0] || '').toUpperCase();
+// accepts a bare ID (any case, stray spaces) or a whole pasted certificate link
+const extractId = t => ((String(t || '').replace(/\s+/g, '').match(/CDFY-[A-Z0-9]+-[A-Z0-9]+/i) || [])[0] || '').toUpperCase();
 
-function stopCam() { cancelAnimationFrame(raf); stream?.getTracks().forEach(t => t.stop()); stream = null; vVideo.srcObject = null; }
-function showInputView() { stopCam(); $('#vInputView').hidden = false; $('#vScanView').hidden = true; }
-function openVerify() { vModal.classList.add('on'); showInputView(); $('#vInput').value = ''; setMsg(); $('#vInput').focus(); }
-function closeVerify() { stopCam(); vModal.classList.remove('on'); }
+function openVerify() { vModal.classList.add('on'); vInput.value = ''; setMsg(); vGo.disabled = false; setTimeout(() => vInput.focus(), 30); }
+function closeVerify() { vModal.classList.remove('on'); }
 
+let checking = false;
 async function checkId(id) {
-  setMsg('Checking…');
-  const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
-  if (error || !data?.length) { showInputView(); $('#vInput').value = id; setMsg(`No certificate found with the ID ${id}.`, true); return; }
-  location.href = '/certificate?id=' + encodeURIComponent(id);
-}
-// QR reading: the browser's built-in BarcodeDetector when available, otherwise the jsQR library (loaded on demand, with a backup source)
-const QR_LIBS = ['https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js', 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js'];
-const loadJsQR = () => QR_LIBS.reduce((p, src) => p.then(ok => ok || new Promise(res => {
-  const sc = document.createElement('script'); sc.src = src; sc.onload = () => res(!!window.jsQR); sc.onerror = () => res(false); document.head.appendChild(sc);
-})), Promise.resolve(!!window.jsQR));
-
-async function decodeCanvas(c) {
-  if ('BarcodeDetector' in window) {
-    try { const r = await new BarcodeDetector({ formats: ['qr_code'] }).detect(c); if (r[0]?.rawValue) return r[0].rawValue; } catch {}
-  }
-  if (!(await loadJsQR())) throw new Error('scanner-unavailable');
-  const d = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height);
-  return jsQR(d.data, d.width, d.height, { inversionAttempts: 'attemptBoth' })?.data || null;
-}
-const scannerFailed = () => { stopCam(); showInputView(); setMsg('The QR scanner could not load. Please type the certificate ID instead.', true); };
-
-async function handleDecoded(text) {
-  const id = extractId(text);
-  if (!id) { showInputView(); setMsg('That QR code is not a Codify certificate.', true); return; }
-  stopCam(); await checkId(id);
-}
-
-async function startCam() {
-  $('#vInputView').hidden = true; $('#vScanView').hidden = false; setMsg();
+  if (checking) return;
+  checking = true; vGo.disabled = true; setMsg('Checking…');
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    vVideo.srcObject = stream; await vVideo.play();
-  } catch { setMsg('Camera is not available. Allow camera access, or upload a QR image instead.', true); return; }
-  setMsg('Scanning… hold the QR code inside the frame.');
-  const c = document.createElement('canvas'); let busy = false, last = 0;
-  const tick = async t => {
-    if (!stream) return;
-    if (!busy && t - last > 150 && vVideo.readyState >= 2 && vVideo.videoWidth) {
-      busy = true; last = t;
-      const k = Math.min(1, 800 / vVideo.videoWidth); c.width = vVideo.videoWidth * k; c.height = vVideo.videoHeight * k;
-      c.getContext('2d', { willReadFrequently: true }).drawImage(vVideo, 0, 0, c.width, c.height);
-      try { const text = await decodeCanvas(c); if (text) return handleDecoded(text); }
-      catch { return scannerFailed(); }
-      busy = false;
-    }
-    raf = requestAnimationFrame(tick);
-  };
-  raf = requestAnimationFrame(tick);
+    const { data, error } = await supabase.rpc('verify_certificate', { p_id: id });
+    if (error && /fetch|network/i.test(error.message || '')) throw error;
+    if (error || !data?.length) { setMsg(`No certificate found with the ID ${id}.`, true); return; }
+    location.href = '/certificate?id=' + encodeURIComponent(id);
+  } catch {
+    setMsg('Could not reach the verification service. Check your connection and try again.', true);
+  } finally { checking = false; vGo.disabled = false; }
 }
 
-async function scanFile(file) {
-  if (!file) return;
-  setMsg('Reading image…');
-  const url = URL.createObjectURL(file), img = await loadImg(url); URL.revokeObjectURL(url);
-  if (!img) return setMsg('That file could not be read as an image.', true);
-  // a tight screenshot has no white margin, which QR readers need, so also try with one added
-  for (const [max, pad] of [[1200, 0], [1200, .15], [700, .15]]) {
-    const k = Math.min(1, max / Math.max(img.width, img.height)), w = Math.round(img.width * k), h = Math.round(img.height * k), p = Math.round(Math.max(w, h) * pad);
-    const c = document.createElement('canvas'); c.width = w + 2 * p; c.height = h + 2 * p;
-    const x = c.getContext('2d', { willReadFrequently: true }); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, p, p, w, h);
-    try { const text = await decodeCanvas(c); if (text) return handleDecoded(text); } catch { return setMsg('The QR scanner could not load. Please type the certificate ID instead.', true); }
-  }
-  setMsg('No QR code was found in that image. Try a clearer or larger picture.', true);
-}
+vGo.onclick = () => {
+  const id = extractId(vInput.value);
+  if (!id) return setMsg('Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.', true);
+  vInput.value = id; checkId(id);
+};
+vInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); vGo.click(); } });
+vInput.addEventListener('input', () => setMsg());
 $('#vClose').onclick = closeVerify;
 vModal.addEventListener('click', e => { if (e.target === vModal) closeVerify(); });
-addEventListener('keydown', e => { if (e.key === 'Escape') closeVerify(); if (e.key === 'Enter' && vModal.classList.contains('on') && !$('#vInputView').hidden) $('#vGo').click(); });
-$('#vScan').onclick = startCam;
-$('#vBack').onclick = () => { showInputView(); setMsg(); };
-$('#vUpload').onclick = () => $('#vFile').click();
-$('#vFile').onchange = e => { scanFile(e.target.files[0]); e.target.value = ''; };
-$('#vGo').onclick = () => {
-  const id = extractId($('#vInput').value);              // also accepts a pasted certificate link
-  if (!id) return setMsg('Enter a valid certificate ID, like CDFY-HTML-7K2M9Q4X1B.', true);
-  checkId(id);
-};
+addEventListener('keydown', e => { if (e.key === 'Escape') closeVerify(); });
 
 async function init() {
   const id = new URLSearchParams(location.search).get('id');
@@ -285,7 +214,7 @@ function drawSeal(g, cx, cy) {
   g.strokeStyle = '#fff'; g.lineWidth = 6; g.lineCap = 'round'; g.lineJoin = 'round'; g.stroke();
   g.restore();
 }
-function drawCertificate(cv, d, qr, logo, sig) {
+function drawCertificate(cv, d, qr, logo, sig, clogo) {
   cv.width = W * S; cv.height = H * S;
   const g = cv.getContext('2d'); g.scale(S, S); g.textBaseline = 'alphabetic';
   // paper
@@ -305,34 +234,51 @@ function drawCertificate(cv, d, qr, logo, sig) {
   g.font = `800 26px ${PF}`; const bw = [...'CODIFY'].reduce((a, c) => a + g.measureText(c).width + 7, -7), gx = W / 2 - (52 + bw) / 2;
   if (logo) g.drawImage(logo, gx, 60, 40, 40);
   run(g, [['CODIFY', `800 26px ${PF}`, NAVY]], gx + 52 + bw / 2, 90, 7);
-  run(g, [['CERTIFICATE', `800 56px ${PF}`, NAVY]], W / 2, 162, 11);
-  const ex = run(g, [['OF ACHIEVEMENT', `800 16px ${NU}`, BLUE]], W / 2, 196, 8);
-  g.fillStyle = BLUE; g.fillRect(ex.left - 108, 189, 90, 2); g.fillRect(ex.right + 18, 189, 90, 2);
-  run(g, [['This certificate is proudly presented to', `italic 500 19px ${PF}`, '#475569']], W / 2, 250);
+  run(g, [['CERTIFICATE', `800 56px ${PF}`, NAVY]], W / 2, 156, 11);
+  const ex = run(g, [['OF ACHIEVEMENT', `800 16px ${NU}`, BLUE]], W / 2, 188, 8);
+  g.fillStyle = BLUE; g.fillRect(ex.left - 108, 181, 90, 2); g.fillRect(ex.right + 18, 181, 90, 2);
+  run(g, [['This certificate is proudly presented to', `italic 500 19px ${PF}`, '#475569']], W / 2, 238);
   // name (shrinks to fit)
   let fs = 78; do { g.font = `${fs}px ${GV}`; fs -= 2; } while (g.measureText(d.name).width > 800 && fs > 36);
-  g.fillStyle = NAVY; g.textAlign = 'center'; g.fillText(d.name, W / 2, 336);
-  const nw = Math.min(W - 180, Math.max(560, g.measureText(d.name).width + 100)); g.fillRect(W / 2 - nw / 2, 348, nw, 2);
+  g.fillStyle = NAVY; g.textAlign = 'center'; g.fillText(d.name, W / 2, 322);
+  const nw = Math.min(W - 180, Math.max(560, g.measureText(d.name).width + 100)); g.fillRect(W / 2 - nw / 2, 334, nw, 2);
   const L = `400 15px ${NU}`, B = `800 15px ${NU}`;
-  run(g, [['Username: ', L, '#334155'], [d.user, B, NAVY], ['        ', L, '#334155'], ['Email: ', L, '#334155'], [d.email, B, NAVY]], W / 2, 382);
-  run(g, [['for successfully passing the', `400 18px ${NU}`, '#475569']], W / 2, 428);
-  run(g, [[d.course, `700 32px ${PF}`, NAVY]], W / 2, 470);
-  run(g, [['with a score of ', `400 18px ${NU}`, '#475569'], [d.pct + '%', `800 21px ${NU}`, BLUE]], W / 2, 504);
+  run(g, [['Username: ', L, '#334155'], [d.user, B, NAVY], ['        ', L, '#334155'], ['Email: ', L, '#334155'], [d.email, B, NAVY]], W / 2, 366);
+  run(g, [['for successfully passing the', `400 18px ${NU}`, '#475569']], W / 2, 408);
+  // course name with its logo in a small tile on the left
+  g.font = `700 32px ${PF}`; g.textAlign = 'left';
+  const T = 50, GAP = 16, cw = g.measureText(d.course).width, x0 = W / 2 - (cw + (clogo ? T + GAP : 0)) / 2;
+  if (clogo) {
+    const ty = 413;                                   // tile vertically centred on the course title
+    g.save(); g.shadowColor = 'rgba(10,26,58,.15)'; g.shadowBlur = 8; g.shadowOffsetY = 2;
+    g.fillStyle = '#fff'; roundRect(g, x0, ty, T, T, 12); g.fill(); g.restore();
+    g.strokeStyle = 'rgba(0,119,255,.35)'; g.lineWidth = 1.5; roundRect(g, x0, ty, T, T, 12); g.stroke();
+    const iw = clogo.naturalWidth || 1, ih = clogo.naturalHeight || 1, box = 32, k = Math.min(box / iw, box / ih);
+    g.drawImage(clogo, x0 + (T - iw * k) / 2, ty + (T - ih * k) / 2, iw * k, ih * k);
+  }
+  run(g, [[d.course, `700 32px ${PF}`, NAVY]], x0 + (clogo ? T + GAP : 0) + cw / 2, 448);
+  run(g, [['with a score of ', `400 18px ${NU}`, '#475569'], [d.pct + '%', `800 21px ${NU}`, BLUE]], W / 2, 482);
   // footer: QR | seal | date + signature
-  g.fillStyle = '#fff'; roundRect(g, 84, 548, 124, 124, 6); g.fill(); g.strokeStyle = 'rgba(10,26,58,.25)'; g.lineWidth = 1; g.stroke();
-  if (qr) g.drawImage(qr, 90, 554, 112, 112);
-  run(g, [['SCAN TO VERIFY', `800 11px ${NU}`, '#64748b']], 146, 696, 2);
-  drawSeal(g, W / 2, 612);
+  g.fillStyle = '#fff'; roundRect(g, 84, 520, 124, 124, 6); g.fill(); g.strokeStyle = 'rgba(10,26,58,.25)'; g.lineWidth = 1; g.stroke();
+  if (qr) g.drawImage(qr, 90, 526, 112, 112);
+  run(g, [['SCAN TO VERIFY', `800 11px ${NU}`, '#64748b']], 146, 662, 2);
+  drawSeal(g, W / 2, 582);
   g.fillStyle = NAVY;
-  run(g, [[d.date, `800 17px ${NU}`, NAVY]], 914, 582); g.fillRect(789, 592, 250, 1);
-  run(g, [['DATE OF ISSUE', `800 11px ${NU}`, '#64748b']], 914, 610, 2);
-  if (sig) { const h = 56, w = Math.min(230, h * sig.width / sig.height); g.drawImage(sig, 914 - w / 2, 620, w, w * sig.height / sig.width); }
-  else run(g, [['Mohammed Owais', `38px ${GV}`, NAVY]], 914, 668);
-  g.fillStyle = NAVY; g.fillRect(789, 678, 250, 1);
-  run(g, [['MOHAMMED OWAIS', `800 13px ${NU}`, NAVY]], 914, 697, 1.5);
-  run(g, [['FOUNDER, CODIFY', `800 10px ${NU}`, '#64748b']], 914, 712, 2);
-  run(g, [['This certificate confirms completion of a Codify online course exam. It is not a professional licence or accredited qualification.', `italic 400 10.5px ${NU}`, '#64748b']], W / 2, 729);
-  run(g, [['CERTIFICATE ID: ', `400 12px ${NU}`, '#64748b'], [d.id, `800 12px ${NU}`, NAVY], ['  ·  ' + d.url, `400 12px ${NU}`, '#64748b']], W / 2, 744, 1.5);
+  run(g, [[d.date, `800 17px ${NU}`, NAVY]], 914, 554); g.fillRect(789, 564, 250, 1);
+  run(g, [['DATE OF ISSUE', `800 11px ${NU}`, '#64748b']], 914, 582, 2);
+  if (sig) { const h = 56, w = Math.min(230, h * sig.width / sig.height); g.drawImage(sig, 914 - w / 2, 592, w, w * sig.height / sig.width); }
+  else run(g, [['Mohammed Owais', `38px ${GV}`, NAVY]], 914, 640);
+  g.fillStyle = NAVY; g.fillRect(789, 650, 250, 1);
+  run(g, [['MOHAMMED OWAIS', `800 13px ${NU}`, NAVY]], 914, 669, 1.5);
+  run(g, [['FOUNDER, CODIFY', `800 10px ${NU}`, '#64748b']], 914, 684, 2);
+  // verification strip: certificate ID + verify URL in one clear, readable capsule
+  const strip = [['CERTIFICATE ID   ', `800 11px ${NU}`, '#64748b'], [d.id, `800 14px ${NU}`, NAVY], ['      |      ', `400 14px ${NU}`, '#94a3b8'],
+                 ['VERIFY AT   ', `800 11px ${NU}`, '#64748b'], [d.url, `700 13px ${NU}`, BLUE]];
+  const sp = 1, sw = strip.reduce((a, [t, f]) => { g.font = f; return a + [...t].reduce((w, c) => w + g.measureText(c).width + sp, 0); }, 0) - sp;
+  g.fillStyle = 'rgba(0,119,255,.06)'; roundRect(g, W / 2 - (sw + 48) / 2, 699, sw + 48, 28, 14); g.fill();
+  g.strokeStyle = 'rgba(0,119,255,.4)'; g.lineWidth = 1; g.stroke();
+  run(g, strip, W / 2, 718, sp);
+  run(g, [['This certificate confirms completion of a Codify online course exam. It is not a professional licence or accredited qualification.', `italic 400 10.5px ${NU}`, '#64748b']], W / 2, 742);
   if (d.revoked) {                                   // red diagonal stamp across revoked certificates
     g.save(); g.translate(W / 2, H / 2); g.rotate(-0.38); g.textAlign = 'center'; g.textBaseline = 'middle';
     g.font = `800 150px ${NU}`; const tw = g.measureText('REVOKED').width;
@@ -366,7 +312,7 @@ async function showCertificate(id) {
     <div class="frame2"><canvas id="certCanvas" role="img"></canvas></div>
     <div class="info"><div class="tile"><small>COURSE</small><b id="iCourse"></b></div><div class="tile"><small>SCORE</small><b id="iScore"></b></div>
       <div class="tile"><small>ISSUED ON</small><b id="iDate"></b></div><div class="tile"><small>CERTIFICATE ID</small><b id="iId"></b></div></div>
-    <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code, or by entering its ID under "Verify Certificate". It confirms completion of an online course exam and is not a professional licence or accredited qualification.</p>
+    <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code with a phone camera, or by entering its ID under "Verify Certificate". It confirms completion of an online course exam and is not a professional licence or accredited qualification.</p>
   </div>`);
   view.replaceChildren(page);
   txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${c.full_name || '-'}`);
@@ -378,10 +324,10 @@ async function showCertificate(id) {
   new QRCode(tmp, { text: url, width: 224, height: 224, colorDark: NAVY, colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
   const qrData = tmp.querySelector('canvas')?.toDataURL('image/png') || tmp.querySelector('img')?.src;
   await loadFonts();
-  const [qr, logo, sig] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg'), loadImg('/src/assets/signature.png')]);
+  const [qr, logo, sig, clogo] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg'), loadImg('/src/assets/signature.png'), loadImg(logoUrl(c.course_id))]);
   const cv = $('#certCanvas');
   drawCertificate(cv, { name: c.full_name || '-', user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
-                        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate', revoked: !!c.revoked }, qr, logo, sig);
+                        pct, date: fmt(c.issued_at), id, url: location.host + '/certificate', revoked: !!c.revoked }, qr, logo, sig, clogo);
   cv.setAttribute('aria-label', `Certificate of achievement for ${c.full_name}, ${course} exam, score ${pct}%`);
 
   if (c.revoked) {
@@ -428,7 +374,7 @@ async function showList() {
       const slug = (c.course_id || '').split('-')[0];
       const a = el('<a class="card"><img alt=""><div class="mid"><h3></h3><p class="cid2"></p></div><span class="pill"></span><span class="d"></span><span class="go">View &rarr;</span></a>');
       a.href = '/certificate?id=' + encodeURIComponent(c.id);
-      a.querySelector('img').src = `/src/assets/logos/${LOGOS[slug] || slug}.svg`;
+      a.querySelector('img').src = logoUrl(c.course_id);
       const rv = c.revoked || !!c.revoked_at, pl = a.querySelector('.pill');
       pl.textContent = rv ? 'Revoked' : Math.round(c.percentage) + '%'; if (rv) pl.classList.add('bad');
       a.querySelector('h3').textContent = courseName(c.course_id) + ' Certificate';
