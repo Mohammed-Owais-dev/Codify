@@ -237,19 +237,9 @@ document.getElementById('footer-placeholder').innerHTML = `
             </div>
 
             <div class="eng-actions">
-
-                <a href="#" id="engEmail" class="codify-btn-outline"
-                onclick="return false;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round"
-                        stroke-linejoin="round" width="16" height="16"
-                        style="vertical-align: middle; margin-right: 6px;">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    Email
+                <a href="#" id="engEmail" class="codify-btn-outline">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="vertical-align: middle; margin-right: 6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email
                 </a>
-
                 <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="vertical-align: middle; margin-right: 6px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> GitHub
                 </a>
@@ -361,7 +351,17 @@ window.openEngineerModal = function (memberKey) {
     document.getElementById('engId').textContent = `Student ID: ${engineer.id}`;
     document.getElementById('engRole').textContent = engineer.role;
     document.getElementById('engBio').textContent = engineer.bio;
-    document.getElementById('engEmail').href = engineer.email;
+
+    const emailLink = document.getElementById('engEmail');
+
+    const recipient = engineer.email.replace(/^mailto:/i, '');
+
+    emailLink.href =
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}`;
+
+    emailLink.target = '_blank';
+    emailLink.rel = 'noopener noreferrer';
+
     document.getElementById('engGithub').href = engineer.github;
 
     engModal.classList.add('show');
