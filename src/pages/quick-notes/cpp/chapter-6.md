@@ -332,7 +332,7 @@ c = 2
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. How do you pass an argument so the function can change the original?
 

@@ -380,7 +380,7 @@ Hi
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is a function that is passed into another function called?
 

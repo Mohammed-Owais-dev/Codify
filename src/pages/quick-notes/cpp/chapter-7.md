@@ -359,7 +359,7 @@ int main() {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is the index of the first element in an array?
 

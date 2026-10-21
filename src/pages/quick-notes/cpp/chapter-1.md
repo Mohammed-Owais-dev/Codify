@@ -261,7 +261,7 @@ Sum = 8
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Who created C++?
 

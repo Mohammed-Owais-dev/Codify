@@ -415,7 +415,7 @@ True
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What does `"Python"[::-1]` return?
 

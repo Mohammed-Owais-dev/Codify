@@ -383,7 +383,7 @@ int main() {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is the default access of members in a `class`?
 

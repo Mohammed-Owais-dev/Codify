@@ -480,7 +480,7 @@ Stopped
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which event is best for handling a whole form?
 

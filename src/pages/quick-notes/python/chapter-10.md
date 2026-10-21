@@ -481,7 +481,7 @@ expense_tracker/
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which loop is typical for a menu or game that runs until the user quits?
 

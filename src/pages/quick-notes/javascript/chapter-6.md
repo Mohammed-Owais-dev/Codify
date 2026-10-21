@@ -397,7 +397,7 @@ console.log(add(2, 3), multiply(2, 3), pi, MathUtils.add(1, 1));
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. How do you read a property using a key stored in a variable `key`?
 

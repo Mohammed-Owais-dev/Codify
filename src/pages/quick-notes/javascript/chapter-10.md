@@ -459,7 +459,7 @@ console.log(remaining() + " tasks left");
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which block always runs, whether or not an error occurred?
 

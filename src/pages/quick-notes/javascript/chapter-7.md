@@ -348,7 +348,7 @@ element.addEventListener("eventName", callbackFunction);
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which method returns the **first** element matching a CSS selector?
 

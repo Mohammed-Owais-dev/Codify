@@ -352,7 +352,7 @@ Press **Run** to read two numbers from inputs and show the sum on the page.
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which keyword should you use by default for a value that never changes?
 

@@ -430,7 +430,7 @@ Beep
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is `self` in a method?
 

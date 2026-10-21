@@ -354,7 +354,7 @@ True False
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What type does `input()` return?
 

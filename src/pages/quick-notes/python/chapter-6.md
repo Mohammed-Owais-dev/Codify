@@ -457,7 +457,7 @@ print(arr.mean())
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which file mode **erases** existing content?
 

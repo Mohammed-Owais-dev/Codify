@@ -340,7 +340,7 @@ c = 2
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What does a function prototype end with?
 

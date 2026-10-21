@@ -516,7 +516,7 @@ Total accounts: 2
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which operator cannot be overloaded?
 

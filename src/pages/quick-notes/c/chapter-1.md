@@ -273,7 +273,7 @@ Path: C:\files
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Who created the C language?
 

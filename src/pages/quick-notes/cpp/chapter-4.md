@@ -343,7 +343,7 @@ First Class
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. In C++, which value counts as false?
 

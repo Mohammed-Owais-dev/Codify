@@ -431,7 +431,7 @@ Area = 12.00
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which OOP concept hides data inside a class?
 

@@ -339,7 +339,7 @@ B 66 a
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which is a valid identifier?
 

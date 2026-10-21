@@ -345,7 +345,7 @@ Syntax: `condition ? value_if_true : value_if_false`
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. In C, which value is treated as **false**?
 

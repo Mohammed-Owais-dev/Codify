@@ -480,7 +480,7 @@ Fast Python Learn
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Up to which value do you need to test divisors to check if `n` is prime?
 

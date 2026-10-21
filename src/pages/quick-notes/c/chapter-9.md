@@ -416,7 +416,7 @@ int main(void) {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What does the `&` operator give?
 

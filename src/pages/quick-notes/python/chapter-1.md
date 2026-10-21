@@ -277,7 +277,7 @@ Line2
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Who created Python?
 

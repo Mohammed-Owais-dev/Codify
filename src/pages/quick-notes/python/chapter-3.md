@@ -357,7 +357,7 @@ for i in range(1, 4):
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What does `range(1, 4)` produce?
 

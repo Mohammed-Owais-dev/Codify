@@ -1090,7 +1090,7 @@
         // Parse both Codify checkbox bullet styles: * [x] and - [x].
         function compileMarkdownQuiz(markdownText) {
             // Match normal Markdown headings and headings accidentally wrapped
-            // in bold markers, e.g. **## Topic Quiz 🧠 ...**.
+            // in bold markers, e.g. **## Topic Quiz ...**.
             const headingMatch = markdownText.match(/^[ \t]*(?:\*\*[ \t]*)?#{2,3}[ \t]*(?:Topic[ \t]+Quiz|Quiz)\b[^\r\n]*$/im);
             const mount = document.getElementById('dynamicQuizMount');
             if (!headingMatch || !mount) {

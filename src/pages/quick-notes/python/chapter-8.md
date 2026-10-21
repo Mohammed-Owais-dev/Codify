@@ -439,7 +439,7 @@ True
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which keyword turns a function into a generator?
 

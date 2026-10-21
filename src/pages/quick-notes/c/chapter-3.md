@@ -337,7 +337,7 @@ int main(void) {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is `17 % 5`?
 

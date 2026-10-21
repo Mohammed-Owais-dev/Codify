@@ -414,7 +414,7 @@ a-b-c
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What does `"banana".replace("a", "@")` return?
 

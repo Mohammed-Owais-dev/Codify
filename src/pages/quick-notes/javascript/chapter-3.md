@@ -397,7 +397,7 @@ for (let i = 1; i <= 2; i++) {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What does `10 % 3` return?
 

@@ -5,7 +5,7 @@ import { supabase } from '/src/js/config/supabase-client.js';
 const currentPath = window.location.pathname;
 
 // 1. Sign Out Logic (Exposed Globally)
-window.handleSignOut = async function() {
+window.handleSignOut = async function () {
     try {
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
@@ -17,12 +17,12 @@ window.handleSignOut = async function() {
 };
 
 // 2. Toggle Dropdown Menu Visibility (Prevents navigation & closes search)
-window.toggleProfileMenu = function(event) {
+window.toggleProfileMenu = function (event) {
     if (event) {
         event.preventDefault();
         event.stopPropagation();
     }
-    
+
     // Close search dropdown if open
     const searchResults = document.getElementById('globalSearchResults');
     if (searchResults) searchResults.style.display = 'none';
@@ -37,7 +37,7 @@ window.toggleProfileMenu = function(event) {
 document.addEventListener('click', (event) => {
     const profileMenu = document.getElementById('userProfileMenu');
     const dropdown = document.getElementById('profileDropdownMenu');
-    
+
     if (profileMenu && dropdown && !profileMenu.contains(event.target)) {
         dropdown.classList.remove('active');
     }
@@ -237,9 +237,19 @@ document.getElementById('footer-placeholder').innerHTML = `
             </div>
 
             <div class="eng-actions">
-                <a href="#" id="engEmail" class="codify-btn-outline">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="vertical-align: middle; margin-right: 6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Email
+
+                <a href="#" id="engEmail" class="codify-btn-outline"
+                onclick="return false;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" width="16" height="16"
+                        style="vertical-align: middle; margin-right: 6px;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Email
                 </a>
+
                 <a href="#" id="engGithub" class="codify-btn-outline" target="_blank">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" style="vertical-align: middle; margin-right: 6px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> GitHub
                 </a>
@@ -256,58 +266,58 @@ if (engineerModalElement && engineerModalElement.parentElement !== document.body
 }
 
 const teamDatabase = {
-    'owais': { 
-        name: 'Mohammed Owais', 
-        badge: 'Project Lead & Architect', 
-        initials: 'MO', 
+    'owais': {
+        name: 'Mohammed Owais',
+        badge: 'Project Lead & Architect',
+        initials: 'MO',
         photo: '/src/assets/images/mohammed-owais.webp',
-        id: '24030-CM-193', 
-        role: 'Lead Architect & Full-Stack Developer', 
-        bio: 'Bringing the platform to life from scratch, Mohammed single-handedly drives Codify from concept to deployment. He oversees everything from creative ideation and intuitive front-end UI design to rigorous testing, maintenance, robust back-end architecture, APIs, database connectivity, and security protocols.', 
-        email: 'mailto:mohdowais.28.01.2009@gmail.com', 
-        github: 'https://github.com/mohammed-owais-dev' 
+        id: '24030-CM-193',
+        role: 'Lead Architect & Full-Stack Developer',
+        bio: 'Bringing the platform to life from scratch, Mohammed single-handedly drives Codify from concept to deployment. He oversees everything from creative ideation and intuitive front-end UI design to rigorous testing, maintenance, robust back-end architecture, APIs, database connectivity, and security protocols.',
+        email: 'mailto:mohdowais.28.01.2009@gmail.com',
+        github: 'https://github.com/mohammed-owais-dev'
     },
-    'dhanush': { 
-        name: 'M. Dhanush', 
+    'dhanush': {
+        name: 'M. Dhanush',
         badge: '',
-        initials: 'MD', 
-        id: '24030-CM-188', 
-        role: 'Lead QA & Systems Testing Engineer', 
-        bio: 'Dhanush spearheads quality assurance and rigorous testing protocols across Codify. By meticulously identifying bugs, evaluating interface responsiveness, and validating user workflows, he ensures a seamless, secure, and bulletproof learning experience for every student.', 
-        email: 'mailto:dhanush@codify.com', 
-        github: 'https://github.com/mdhanush' 
+        initials: 'MD',
+        id: '24030-CM-188',
+        role: 'Lead QA & Systems Testing Engineer',
+        bio: 'Dhanush spearheads quality assurance and rigorous testing protocols across Codify. By meticulously identifying bugs, evaluating interface responsiveness, and validating user workflows, he ensures a seamless, secure, and bulletproof learning experience for every student.',
+        email: 'mailto:dhanush@codify.com',
+        github: 'https://github.com/mdhanush'
     },
-    'feroz': { 
-        name: 'Feroz', 
+    'feroz': {
+        name: 'Feroz',
         badge: '',
-        initials: 'FZ', 
-        id: '24030-CM-190', 
-        role: 'Lead Curriculum & Technical Notes Writer', 
-        bio: 'Feroz leads the creation of comprehensive learning materials and rapid revision notes for Codify. By breaking down complex computer science concepts into clear, structured, and student-friendly chapters, he empowers learners to master technical tracks efficiently.', 
-        email: 'mailto:feroz@codify.com', 
-        github: 'https://github.com/feroz' 
+        initials: 'FZ',
+        id: '24030-CM-190',
+        role: 'Lead Curriculum & Technical Notes Writer',
+        bio: 'Feroz leads the creation of comprehensive learning materials and rapid revision notes for Codify. By breaking down complex computer science concepts into clear, structured, and student-friendly chapters, he empowers learners to master technical tracks efficiently.',
+        email: 'mailto:feroz@codify.com',
+        github: 'https://github.com/feroz'
     },
-    'basha': { 
-        name: 'Basha', 
+    'basha': {
+        name: 'Basha',
         badge: '',
-        initials: 'BS', 
-        id: '24030-CM-189', 
-        role: 'Lead Assessment & Exam Content Developer', 
-        bio: 'Basha designs and formulates rigorous evaluation materials and exam questions for Codify. By crafting challenging scenario-based quizzes and comprehensive tests, he ensures students can accurately measure their mastery and readiness across every course track.', 
-        email: 'mailto:basha@codify.com', 
-        github: 'https://github.com/basha' 
+        initials: 'BS',
+        id: '24030-CM-189',
+        role: 'Lead Assessment & Exam Content Developer',
+        bio: 'Basha designs and formulates rigorous evaluation materials and exam questions for Codify. By crafting challenging scenario-based quizzes and comprehensive tests, he ensures students can accurately measure their mastery and readiness across every course track.',
+        email: 'mailto:basha@codify.com',
+        github: 'https://github.com/basha'
     },
-    'prasad': { 
-        name: 'Prasad', 
+    'prasad': {
+        name: 'Prasad',
         badge: '',
-        initials: 'PR', 
-        id: '24030-CM-196', 
-        role: 'Lead Quick Notes & Revision Content Writer', 
-        bio: 'Prasad crafts concise, high-impact quick notes and rapid revision cards for Codify. By distilling complex chapters into streamlined, high-yield summary points, he enables students to review critical concepts and master technical tracks swiftly.', 
-        email: 'mailto:prasad@codify.com', 
-        github: 'https://github.com/prasad' 
+        initials: 'PR',
+        id: '24030-CM-196',
+        role: 'Lead Quick Notes & Revision Content Writer',
+        bio: 'Prasad crafts concise, high-impact quick notes and rapid revision cards for Codify. By distilling complex chapters into streamlined, high-yield summary points, he enables students to review critical concepts and master technical tracks swiftly.',
+        email: 'mailto:prasad@codify.com',
+        github: 'https://github.com/prasad'
     }
-};  
+};
 
 const engModal = document.getElementById('engineerModal');
 const closeEngBtn = document.getElementById('closeEngineerModal');
@@ -337,10 +347,10 @@ window.openEngineerModal = function (memberKey) {
         avatarEl.textContent = engineer.initials;
     }
     document.getElementById('engName').textContent = engineer.name;
-    
+
     const badgeContainer = document.getElementById('engBadgeContainer');
     const badgeEl = document.getElementById('engBadge');
-    
+
     if (engineer.badge) {
         badgeEl.textContent = engineer.badge;
         badgeContainer.style.display = 'block';
@@ -442,7 +452,7 @@ async function renderNavbarAuth() {
                         </div>
                     </div>
                 </div>
-            `;  
+            `;
         } else {
             authNavGroup.innerHTML = `
                 <a href="/login" class="codify-btn-outline">Login</a>
@@ -460,7 +470,7 @@ async function renderNavbarAuth() {
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
-    
+
     let masterSearchIndex = null;
     let currentFocus = -1;
 
@@ -487,7 +497,7 @@ setTimeout(() => {
             for (let file of syllabusFiles) {
                 const response = await fetch(file.path);
                 const data = await response.json();
-                
+
                 if (data.chapters) {
                     index.push({
                         title: `${data.course_title || file.name} Course Hub`,
@@ -521,7 +531,7 @@ setTimeout(() => {
         removeActive(rows);
         if (currentFocus >= rows.length) currentFocus = 0;
         if (currentFocus < 0) currentFocus = rows.length - 1;
-        
+
         rows[currentFocus].classList.add('search-item-active');
         rows[currentFocus].scrollIntoView({ block: 'nearest' });
     }
@@ -535,7 +545,7 @@ setTimeout(() => {
     if (searchInput && searchResults) {
         let debounceTimer;
 
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             currentFocus = -1;
             const query = this.value.toLowerCase().trim();
@@ -585,7 +595,7 @@ setTimeout(() => {
                         row.onmouseout = () => {
                             removeActive(searchResults.children);
                         };
-                        
+
                         row.onclick = () => {
                             window.location.href = item.url;
                         };
@@ -601,7 +611,7 @@ setTimeout(() => {
             }, 30);
         });
 
-        searchInput.addEventListener('keydown', function(e) {
+        searchInput.addEventListener('keydown', function (e) {
             const rows = searchResults.children;
             if (searchResults.style.display === 'block' && rows.length > 0) {
                 if (e.key === 'ArrowDown') {
@@ -628,7 +638,7 @@ setTimeout(() => {
             }
         });
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.style.display = 'none';
             }

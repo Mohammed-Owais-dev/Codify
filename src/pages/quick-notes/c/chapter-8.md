@@ -403,7 +403,7 @@ CODIFY
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which character ends every C string?
 

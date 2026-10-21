@@ -421,7 +421,7 @@ int main(void) {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which loop always runs its body at least once?
 

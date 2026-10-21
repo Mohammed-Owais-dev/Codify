@@ -423,7 +423,7 @@ createPost();
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is printed last: `console.log("A"); setTimeout(() => console.log("B"), 0); console.log("C");`?
 

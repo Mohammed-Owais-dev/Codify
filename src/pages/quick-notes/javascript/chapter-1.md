@@ -238,7 +238,7 @@ Age: 20
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Who created JavaScript in 1995?
 

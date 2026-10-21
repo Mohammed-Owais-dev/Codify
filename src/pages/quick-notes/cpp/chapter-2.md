@@ -343,7 +343,7 @@ Quote: "C++"
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is `7 / 2` when both are `int`?
 

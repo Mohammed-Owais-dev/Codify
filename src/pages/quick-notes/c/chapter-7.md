@@ -428,7 +428,7 @@ int main(void) {
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. What is the index of the first element of an array?
 

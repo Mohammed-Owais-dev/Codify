@@ -470,7 +470,7 @@ Loaded from file:
 
 ---
 
-## Quiz: Rapid Fire 🧠
+## Quiz: Rapid Fire
 
 1. Which operator accesses a member through a pointer to a structure?
 
