@@ -113,34 +113,42 @@
         @media(max-width:820px){.about-page{margin-top:24px}}
         @media(max-width:640px){.about-page{padding:0 13px 42px}.about-hero{padding:64px 17px 52px;margin:18px auto 27px;border-radius:23px}.about-hero h1{font-size:clamp(2.2rem,10vw,3.25rem)}.about-hero p{font-size:.98rem;line-height:1.75}.about-hero-actions{flex-direction:column;align-items:stretch}.about-btn{width:100%}.about-intro-strip{gap:10px;margin-bottom:54px}.about-mini{padding:15px}.about-section{margin-bottom:55px}.about-section-heading{margin-bottom:25px}.about-story{grid-template-columns:1fr;gap:23px}.about-visual{min-height:275px}.about-code-window{width:82%;padding:15px}.about-code{font-size:.8rem}.about-values-grid{grid-template-columns:1fr;gap:12px}.about-value-card{padding:22px}.about-feature-lead{padding:23px}.about-feature-row{padding:15px 13px}.about-tech-grid{gap:10px}.about-tech-card{padding:18px 10px}.about-developer{grid-template-columns:1fr;padding:21px;gap:20px}.about-developer-photo{width:145px;max-width:145px;margin:0 auto}.about-developer-copy{text-align:center}.about-developer-links{justify-content:center}.about-cta{padding:39px 19px;border-radius:21px}}
 
-        /* Presentation mode: one full-screen slide per visible section. */
-        html{scroll-snap-type:y mandatory;scroll-padding-top:0}
-        body{scroll-snap-type:y mandatory}
-        .about-page{width:100%;max-width:none;margin:0 auto;padding:0;flex:1}
-        .about-page>section:not(#developer){box-sizing:border-box;min-height:100svh;scroll-snap-align:start;scroll-snap-stop:always;margin:0 auto;padding:clamp(32px,5vh,64px) max(28px,calc((100vw - 1184px)/2));}
-        .about-page>.about-hero{width:100%;max-width:none;border-radius:0;border-left:0;border-right:0;border-top:0;margin:0;padding-top:clamp(100px,14vh,150px);padding-bottom:clamp(50px,9vh,100px);display:flex;flex-direction:column;justify-content:center;align-items:center}
-        .about-page>.about-intro-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:center;gap:18px}
-        .about-page>.about-section:not(.about-story){display:flex;flex-direction:column;justify-content:center}
-        .about-page>.about-story{min-height:100svh}
-        .about-page>.about-cta{border-radius:0;border-left:0;border-right:0;display:flex;flex-direction:column;justify-content:center;align-items:center}
+        /* Smooth, natural scrolling: polished section rhythm without forced full-screen snapping. */
+        html{scroll-snap-type:none;scroll-padding-top:100px;scroll-behavior:smooth}
+        body{scroll-snap-type:none}
+        .about-page{width:100%;max-width:1240px;margin:86px auto 0;padding:0 28px 72px;box-sizing:border-box}
+        .about-page>section:not(#developer){min-height:0;scroll-snap-align:none;scroll-snap-stop:normal;margin:0 auto 78px;padding:0}
+        .about-page>.about-hero{min-height:540px;max-width:1184px;border-radius:30px;border:1px solid rgba(0,170,255,.18);margin:28px auto 46px;padding:clamp(76px,10vw,118px) 28px 86px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+        .about-page>.about-intro-strip{padding:0;align-content:stretch}
+        .about-page>.about-section:not(.about-story){display:block}
+        .about-page>.about-story{min-height:0}
+        .about-page>.about-cta{min-height:320px;border-radius:26px;border:1px solid rgba(0,170,255,.3);padding:52px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center}
         .about-page>.about-cta>*{max-width:850px}
-        .about-page>.about-section .about-section-heading{margin-bottom:clamp(22px,4vh,38px)}
+        .about-reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.75,.25,1)}
+        .about-reveal.about-visible{opacity:1;transform:translateY(0)}
+        .about-reveal-delay-1{transition-delay:.08s}.about-reveal-delay-2{transition-delay:.16s}.about-reveal-delay-3{transition-delay:.24s}
+        .about-values-grid .about-value-card,.about-intro-strip .about-mini,.about-feature-list .about-feature-row,.about-tech-grid .about-tech-card{content-visibility:auto}
         @media(max-width:900px){
-            .about-page>section:not(#developer){padding-left:22px;padding-right:22px}
+            .about-page{margin-top:72px;padding:0 20px 58px}
+            .about-page>section:not(#developer){margin-bottom:64px;padding:0}
+            .about-page>.about-hero{min-height:460px;padding:76px 24px 68px;margin:22px auto 36px}
             .about-page>.about-intro-strip{grid-template-columns:1fr;gap:12px}
-            .about-page>.about-intro-strip .about-mini{padding:15px 18px}
+            .about-page>.about-intro-strip .about-mini{padding:17px 19px}
         }
+        @media(max-width:820px){.about-page{margin-top:24px}}
         @media(max-width:640px){
-            html{scroll-snap-type:y proximity}
-            .about-page>section:not(#developer){min-height:100svh;padding:95px 16px 38px}
-            .about-page>.about-hero{padding:105px 17px 45px}
-            .about-page>.about-intro-strip{padding-top:95px;padding-bottom:38px}
-            .about-page>.about-story{padding-top:95px;padding-bottom:38px}
-            .about-page>.about-section:not(.about-story){justify-content:flex-start}
+            html{scroll-padding-top:80px}
+            .about-page{padding:0 13px 42px}
+            .about-page>section:not(#developer){min-height:0;margin-bottom:54px;padding:0}
+            .about-page>.about-hero{min-height:0;padding:64px 17px 52px;margin:18px auto 27px;border-radius:23px}
+            .about-page>.about-intro-strip{padding:0;margin-bottom:54px}
+            .about-page>.about-story{padding:0}
+            .about-page>.about-section:not(.about-story){justify-content:initial}
             .about-page>.about-section .about-section-heading{margin-bottom:24px}
-            .about-page>.about-cta{padding-top:95px;padding-bottom:45px}
+            .about-page>.about-cta{min-height:0;padding:39px 19px;border-radius:21px}
         }
-        @media(prefers-reduced-motion:reduce){html,body{scroll-snap-type:none}}
+        @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.about-reveal{opacity:1;transform:none;transition:none}}
+
 
     </style>
 </head>
@@ -230,7 +238,7 @@
             <p class="about-tech-note">The platform is deployed through Vercel. The implementation may evolve as Codify grows; this section describes the main technologies currently used in the project.</p>
         </section>
 
-        <section class="about-section about-reveal" id="developer" style="display:none !important;" aria-hidden="true">
+        <section class="about-section about-reveal" id="developer">
             <div class="about-developer">
                 <img class="about-developer-photo" src="/src/assets/images/mohammed-owais.webp" alt="Mohammed Owais, creator of Codify" loading="lazy">
                 <div class="about-developer-copy"><span class="about-eyebrow">06 / Meet the developer</span><h2>Mohammed Owais</h2><span class="about-developer-role">Creator of Codify · Student developer</span><p>Codify is a learning-focused project built by Mohammed Owais with the goal of making programming resources more organised and approachable for students. The work brings together interface design, frontend development, backend integration, and ongoing improvements based on real learning needs.</p><p>The project continues to grow through iteration: improving usability, refining learning content, and making the experience clearer for the people who use it.</p>
@@ -241,7 +249,7 @@
 
 
         <section class="about-section about-reveal" id="project-workflow">
-            <div class="about-section-heading"><span class="about-eyebrow">06 / How the project works</span><h2>A simple learning workflow.</h2><p>Codify connects the main stages of independent learning in a straightforward flow — from discovering a topic to checking your understanding.</p></div>
+            <div class="about-section-heading"><span class="about-eyebrow">07 / How the project works</span><h2>A simple learning workflow.</h2><p>Codify connects the main stages of independent learning in a straightforward flow — from discovering a topic to checking your understanding.</p></div>
             <div class="about-values-grid">
                 <article class="about-value-card"><div class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/><path d="M8 11h6M11 8v6"/></svg></div><h3>1. Discover</h3><p>Browse available courses and choose a subject or topic that matches your learning goal.</p></article>
                 <article class="about-value-card"><div class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15Z"/></svg></div><h3>2. Learn and revise</h3><p>Study the lesson content, work through examples, and revisit quick notes to reinforce important concepts.</p></article>
@@ -250,7 +258,7 @@
         </section>
 
         <section class="about-section about-reveal" id="future-scope">
-            <div class="about-section-heading"><span class="about-eyebrow">07 / Future scope</span><h2>Designed to keep improving.</h2><p>Codify is an evolving student project. Future development can focus on making learning more personalised, accessible, and useful.</p></div>
+            <div class="about-section-heading"><span class="about-eyebrow">08 / Future scope</span><h2>Designed to keep improving.</h2><p>Codify is an evolving student project. Future development can focus on making learning more personalised, accessible, and useful.</p></div>
             <div class="about-feature-list">
                 <article class="about-feature-row"><div class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div><div><h3>More learning content</h3><p>Expand course coverage, add more examples and practice questions, and improve topic-by-topic explanations.</p></div></article>
                 <article class="about-feature-row"><div class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m7 14 4-4 4 4 5-7"/></svg></div><div><h3>Deeper progress insights</h3><p>Build on available activity features to help learners understand completed work and identify topics to revisit.</p></div></article>
