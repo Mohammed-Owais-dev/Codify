@@ -48,6 +48,32 @@
             gap: 20px;
         }
 
+        .profile-edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: -8px 0 24px;
+            min-height: 0;
+        }
+
+        .profile-edit-actions .profile-submit-btn,
+        .profile-edit-actions .btn-modal-secondary {
+            min-height: 42px;
+            padding: 11px 18px;
+            flex: 0 0 auto;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .profile-edit-actions .btn-modal-secondary {
+            border-color: rgba(148, 163, 184, 0.3);
+            border-radius: 12px;
+        }
+
         .profile-user-info {
             display: flex;
             align-items: center;
@@ -742,6 +768,8 @@
             .profile-title-group h1, .profile-title-group h2 { overflow-wrap: anywhere; line-height: 1.3; }
             .header-actions { width: 100%; display: flex; flex-wrap: wrap; gap: 8px; }
             .header-actions > * { max-width: 100%; }
+            .profile-edit-actions { justify-content: stretch; margin: 0 0 20px; }
+            .profile-edit-actions > * { flex: 1 1 100% !important; width: 100%; }
             .stats-grid, .profile-grid { grid-template-columns: minmax(0, 1fr) !important; }
             .profile-form-group { min-width: 0; }
             .profile-input, .profile-card input, .profile-card select, .profile-card textarea { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; font-size: 16px !important; }
@@ -841,6 +869,11 @@
                 </div>
             </div>
 
+            <div class="profile-edit-actions" aria-label="Profile editing actions">
+                <button type="submit" class="profile-submit-btn" id="saveProfileBtn" form="profileForm">Save Profile Changes</button>
+                <button type="button" class="btn-modal-secondary" id="cancelEditBtn">Cancel Editing</button>
+            </div>
+
             <div id="statusAlert" class="alert-box"></div>
 
             <form id="profileForm">
@@ -877,11 +910,6 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 28px; display:flex; gap:12px; flex-wrap:wrap;">
-                    <button type="submit" class="profile-submit-btn" id="saveProfileBtn">Save Profile Changes</button>
-                    <button type="button" class="btn-modal-secondary" id="cancelEditBtn"
-                        style="display:none; flex:0 0 auto;">Cancel Editing</button>
-                </div>
             </form>
 
             <!-- Learning Progress & Activity Stats -->
