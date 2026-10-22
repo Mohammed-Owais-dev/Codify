@@ -843,42 +843,6 @@
 
             <div id="statusAlert" class="alert-box"></div>
 
-            <!-- Learning Progress & Activity Stats -->
-            <div class="section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="20" x2="18" y2="10"></line>
-                    <line x1="12" y1="20" x2="12" y2="4"></line>
-                    <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-                Learning Activity
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3 id="statEnrolledCourses">0</h3>
-                    <p>Enrolled Courses</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="statCertificates">0</h3>
-                    <p>Certificates Earned</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="statProgress">0%</h3>
-                    <p>Overall Progress</p>
-                </div>
-            </div>
-
-            <div class="section-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path>
-                </svg>
-                My Enrolled Courses
-            </div>
-            <div id="learningCourses" class="learning-courses" aria-live="polite">
-                <div class="learning-empty-state">Loading your courses and progress…</div>
-            </div>
-
             <form id="profileForm">
                 <div class="section-title">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -919,6 +883,43 @@
                         style="display:none; flex:0 0 auto;">Cancel Editing</button>
                 </div>
             </form>
+
+            <!-- Learning Progress & Activity Stats -->
+            <div class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                Learning Activity
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="statEnrolledCourses">0</h3>
+                    <p>Enrolled Courses</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statCertificates">0</h3>
+                    <p>Certificates Earned</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statProgress">0%</h3>
+                    <p>Overall Progress</p>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path>
+                </svg>
+                My Enrolled Courses
+            </div>
+            <div id="learningCourses" class="learning-courses" aria-live="polite">
+                <div class="learning-empty-state">Loading your courses and progress…</div>
+            </div>
+
         </div>
     </main>
 
