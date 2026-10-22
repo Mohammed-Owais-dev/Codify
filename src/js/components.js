@@ -466,181 +466,263 @@ async function renderNavbarAuth() {
     }
 }
 
-// 7. Global Search Engine Setup (Closes profile dropdown when typing)
+// 7. Global Search Engine: courses, lessons, quick notes, exams, and site pages
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
-
     let masterSearchIndex = null;
     let currentFocus = -1;
+    let debounceTimer;
+
+    const staticPages = [
+        { title: 'Home Dashboard', category: 'Home', url: '/', keywords: 'homepage dashboard start learning' },
+        { title: 'All Courses', category: 'Courses', url: '/courses', keywords: 'course catalog learning modules' },
+        { title: 'Quick Notes Library', category: 'Quick Notes', url: '/quick-notes', keywords: 'revision notes summaries chapters' },
+        { title: 'Exams & Assessments', category: 'Exams', url: '/exam', keywords: 'test assessment final exam practice' },
+        { title: 'Certificates', category: 'Certificates', url: '/certificate', keywords: 'credentials achievements awards' },
+        { title: 'Contact & Support', category: 'Support', url: '/contact', keywords: 'help contact feedback support team' },
+        { title: 'My Profile', category: 'Account', url: '/profile', keywords: 'profile settings personal account' },
+        { title: 'My Activity', category: 'Account', url: '/activity', keywords: 'progress history activity learning' },
+        { title: 'Account Security', category: 'Account', url: '/account-security', keywords: 'password security login account' },
+        { title: 'Login', category: 'Account', url: '/login', keywords: 'sign in authenticate' },
+        { title: 'Sign Up', category: 'Account', url: '/signup', keywords: 'register create account' }
+    ];
+
+    const syllabusFiles = [
+        { path: '/src/data/html-syllabus.json', slug: 'html', name: 'HTML' },
+        { path: '/src/data/css-syllabus.json', slug: 'css', name: 'CSS' },
+        { path: '/src/data/javascript-syllabus.json', slug: 'javascript', name: 'JavaScript' },
+        { path: '/src/data/java-syllabus.json', slug: 'java', name: 'Java' },
+        { path: '/src/data/python-syllabus.json', slug: 'python', name: 'Python' },
+        { path: '/src/data/c-syllabus.json', slug: 'c', name: 'C' },
+        { path: '/src/data/cpp-syllabus.json', slug: 'cpp', name: 'C++' }
+    ];
 
     async function loadMasterIndex() {
         if (masterSearchIndex) return masterSearchIndex;
+        const index = [...staticPages];
 
-        try {
-            const syllabusFiles = [
-                { path: '/src/data/html-syllabus.json', category: 'html', name: 'HTML' },
-                { path: '/src/data/java-syllabus.json', category: 'java', name: 'Java' },
-                { path: '/src/data/python-syllabus.json', category: 'python', name: 'Python' },
-                { path: '/src/data/c-syllabus.json', category: 'c', name: 'C' },
-                { path: '/src/data/cpp-syllabus.json', category: 'cpp', name: 'Cpp' }
-            ];
+        const loaded = await Promise.allSettled(syllabusFiles.map(async course => {
+            const response = await fetch(course.path);
+            if (!response.ok) throw new Error('Could not load ' + course.path);
+            return { course, data: await response.json() };
+        }));
 
-            let index = [
-                { title: 'Home Dashboard', category: 'General', url: '/' },
-                { title: 'All Courses & Modules', category: 'Courses', url: '/courses' },
-                { title: 'Quizzes & Final Exams', category: 'Assessment', url: '/exam' },
-                { title: 'Certificates & Credentials', category: 'General', url: '/certificate' },
-                { title: 'Contact Support Team', category: 'General', url: '/contact' }
-            ];
-
-            for (let file of syllabusFiles) {
-                const response = await fetch(file.path);
-                const data = await response.json();
-
-                if (data.chapters) {
-                    index.push({
-                        title: `${data.course_title || file.name} Course Hub`,
-                        category: file.name,
-                        url: `/courses/${file.category}`
-                    });
-
-                    data.chapters.forEach(chapter => {
-                        chapter.topics.forEach(topic => {
-                            const lessonId = topic.id || topic.file.split('/').pop().split('-')[0];
-                            index.push({
-                                title: `${topic.title} (${chapter.chapter_title})`,
-                                category: file.name,
-                                url: `/courses/${file.category}/${lessonId}`
-                            });
-                        });
-                    });
-                }
+        loaded.forEach(result => {
+            if (result.status !== 'fulfilled') {
+                console.warn('A course could not be added to search:', result.reason);
+                return;
             }
 
-            masterSearchIndex = index;
-            return masterSearchIndex;
-        } catch (error) {
-            console.error('Error building search index from syllabi:', error);
-            return [];
-        }
-    }
+            const course = result.value.course;
+            const data = result.value.data;
+            const courseTitle = (data.course_title || course.name).replace(/\s+(Course|Index|Syllabus).*/i, '').trim() || course.name;
+            const chapters = Array.isArray(data.chapters) ? data.chapters : [];
 
-    function addActive(rows) {
-        if (!rows || rows.length === 0) return;
-        removeActive(rows);
-        if (currentFocus >= rows.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = rows.length - 1;
+            index.push({
+                title: course.name + ' Course',
+                category: 'Courses',
+                url: '/courses/' + course.slug,
+                keywords: courseTitle + ' course learn lessons syllabus'
+            });
+            index.push({
+                title: course.name + ' Quick Notes',
+                category: 'Quick Notes',
+                url: '/quick-notes/' + course.slug,
+                keywords: courseTitle + ' revision notes summary'
+            });
+            index.push({
+                title: course.name + ' Exam',
+                category: 'Exams',
+                url: '/exam/' + course.slug,
+                keywords: courseTitle + ' assessment test questions final exam'
+            });
 
-        rows[currentFocus].classList.add('search-item-active');
-        rows[currentFocus].scrollIntoView({ block: 'nearest' });
+            chapters.forEach((chapter, chapterIndex) => {
+                const chapterNumber = chapter.chapter_number || chapterIndex + 1;
+                const chapterTitle = chapter.chapter_title || ('Chapter ' + chapterNumber);
+
+                index.push({
+                    title: course.name + ': ' + chapterTitle,
+                    category: 'Course Chapter',
+                    url: '/courses/' + course.slug + '/' + chapterNumber + '.1',
+                    keywords: courseTitle + ' chapter ' + chapterNumber + ' ' + chapterTitle + ' lesson'
+                });
+                index.push({
+                    title: course.name + ' Quick Notes: Chapter ' + chapterNumber + ' — ' + chapterTitle,
+                    category: 'Quick Notes',
+                    url: '/quick-notes/' + course.slug + '/' + chapterNumber,
+                    keywords: courseTitle + ' revision notes summary chapter ' + chapterNumber + ' ' + chapterTitle
+                });
+
+                (Array.isArray(chapter.topics) ? chapter.topics : []).forEach(topic => {
+                    const topicTitle = topic.title || 'Untitled topic';
+                    const filePath = typeof topic.file === 'string' ? topic.file : '';
+                    const fileName = filePath.split('/').pop() || '';
+                    const lessonId = topic.id || fileName.split('-')[0] || (chapterNumber + '.1');
+
+                    index.push({
+                        title: topicTitle,
+                        category: course.name + ' Lesson',
+                        url: '/courses/' + course.slug + '/' + lessonId,
+                        keywords: courseTitle + ' ' + chapterTitle + ' ' + fileName.replace(/\.md$/i, '').replace(/[._-]/g, ' ') + ' lesson tutorial'
+                    });
+                });
+            });
+        });
+
+        index.push(
+            { title: 'My Certificates', category: 'Certificates', url: '/certificates/my-certificates.html', keywords: 'earned certificates credentials' },
+            { title: 'Course Enrollment', category: 'Courses', url: '/courses', keywords: 'enroll enrollment join course' }
+        );
+
+        const seen = new Set();
+        masterSearchIndex = index.filter(item => {
+            if (!item.title || !item.url) return false;
+            const key = (item.title + '|' + item.url).toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            item.searchText = (item.title + ' ' + item.category + ' ' + (item.keywords || '') + ' ' + item.url).toLowerCase();
+            return true;
+        });
+        return masterSearchIndex;
     }
 
     function removeActive(rows) {
-        for (let i = 0; i < rows.length; i++) {
-            rows[i].classList.remove('search-item-active');
+        Array.from(rows || []).forEach(row => row.classList.remove('search-item-active'));
+    }
+
+    function renderResults(matches, query) {
+        searchResults.replaceChildren();
+        if (!matches.length) {
+            searchResults.style.display = 'block';
+            const empty = document.createElement('div');
+            empty.className = 'search-no-results';
+            empty.textContent = 'No results found for "' + query + '"';
+            searchResults.appendChild(empty);
+            return;
         }
+
+        searchResults.style.display = 'block';
+        const fragment = document.createDocumentFragment();
+        matches.slice(0, 30).forEach((item, idx) => {
+            const row = document.createElement('button');
+            row.type = 'button';
+            row.className = 'search-result-row';
+            row.setAttribute('role', 'option');
+            row.setAttribute('aria-selected', 'false');
+
+            const title = document.createElement('span');
+            title.className = 'search-result-title';
+            title.textContent = item.title;
+
+            const badge = document.createElement('span');
+            badge.className = 'search-result-badge';
+            badge.textContent = item.category;
+            row.append(title, badge);
+
+            row.addEventListener('mouseenter', () => {
+                removeActive(searchResults.children);
+                currentFocus = idx;
+                row.classList.add('search-item-active');
+            });
+            row.addEventListener('click', () => { window.location.href = item.url; });
+            fragment.appendChild(row);
+        });
+        searchResults.appendChild(fragment);
     }
 
     if (searchInput && searchResults) {
-        let debounceTimer;
+        searchInput.setAttribute('role', 'combobox');
+        searchInput.setAttribute('aria-controls', 'globalSearchResults');
+        searchInput.setAttribute('aria-expanded', 'false');
+        searchResults.setAttribute('role', 'listbox');
 
         searchInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             currentFocus = -1;
             const query = this.value.toLowerCase().trim();
-
             const profileDropdown = document.getElementById('profileDropdownMenu');
             if (profileDropdown) profileDropdown.classList.remove('active');
 
             debounceTimer = setTimeout(async () => {
-                searchResults.innerHTML = '';
-
-                if (query.length === 0) {
+                if (!query) {
+                    searchResults.replaceChildren();
                     searchResults.style.display = 'none';
+                    searchInput.setAttribute('aria-expanded', 'false');
                     return;
                 }
 
+                searchResults.style.display = 'block';
+                searchResults.innerHTML = '<div class="search-no-results">Searching Codify…</div>';
+                searchInput.setAttribute('aria-expanded', 'true');
+
                 const database = await loadMasterIndex();
-                const keywords = query.split(/\s+/);
+                const words = query.split(/\s+/).filter(Boolean);
+                const matches = database.map(item => {
+                    const text = item.searchText || (item.title + ' ' + item.category + ' ' + (item.keywords || '') + ' ' + item.url).toLowerCase();
+                    if (!words.every(word => text.includes(word))) return null;
+                    const title = item.title.toLowerCase();
+                    const score = (title === query ? 100 : 0)
+                        + (title.startsWith(query) ? 30 : 0)
+                        + (title.includes(query) ? 20 : 0)
+                        + (item.category.toLowerCase().includes(query) ? 8 : 0);
+                    return Object.assign({}, item, { score });
+                }).filter(Boolean).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
 
-                const matches = database.filter(item => {
-                    const searchableText = `${item.title} ${item.category}`.toLowerCase();
-                    return keywords.every(kw => searchableText.includes(kw));
-                });
+                renderResults(matches, query);
+            }, 80);
+        });
 
-                if (matches.length > 0) {
-                    searchResults.style.display = 'block';
-                    const fragment = document.createDocumentFragment();
-
-                    matches.forEach((item, idx) => {
-                        const row = document.createElement('div');
-                        row.className = 'search-result-row';
-
-                        const titleSpan = document.createElement('span');
-                        titleSpan.textContent = item.title;
-                        titleSpan.className = 'search-result-title';
-
-                        const catBadge = document.createElement('span');
-                        catBadge.textContent = item.category;
-                        catBadge.className = 'search-result-badge';
-
-                        row.appendChild(titleSpan);
-                        row.appendChild(catBadge);
-
-                        row.onmouseover = () => {
-                            currentFocus = idx;
-                            addActive(searchResults.children);
-                        };
-                        row.onmouseout = () => {
-                            removeActive(searchResults.children);
-                        };
-
-                        row.onclick = () => {
-                            window.location.href = item.url;
-                        };
-
-                        fragment.appendChild(row);
-                    });
-
-                    searchResults.appendChild(fragment);
-                } else {
-                    searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div class="search-no-results">No matching course topics found</div>';
+        searchInput.addEventListener('keydown', function (event) {
+            const rows = searchResults.querySelectorAll('.search-result-row');
+            if (searchResults.style.display !== 'block' || !rows.length) {
+                if (event.key === 'Escape') {
+                    searchResults.style.display = 'none';
+                    searchInput.setAttribute('aria-expanded', 'false');
                 }
-            }, 30);
-        });
+                return;
+            }
 
-        searchInput.addEventListener('keydown', function (e) {
-            const rows = searchResults.children;
-            if (searchResults.style.display === 'block' && rows.length > 0) {
-                if (e.key === 'ArrowDown') {
-                    currentFocus++;
-                    addActive(rows);
-                    e.preventDefault();
-                } else if (e.key === 'ArrowUp') {
-                    currentFocus--;
-                    addActive(rows);
-                    e.preventDefault();
-                } else if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (currentFocus > -1 && rows[currentFocus]) {
-                        rows[currentFocus].click();
-                    }
+            if (event.key === 'ArrowDown') {
+                currentFocus = (currentFocus + 1) % rows.length;
+                removeActive(rows);
+                rows[currentFocus].classList.add('search-item-active');
+                rows[currentFocus].scrollIntoView({ block: 'nearest' });
+                event.preventDefault();
+            } else if (event.key === 'ArrowUp') {
+                currentFocus = currentFocus <= 0 ? rows.length - 1 : currentFocus - 1;
+                removeActive(rows);
+                rows[currentFocus].classList.add('search-item-active');
+                rows[currentFocus].scrollIntoView({ block: 'nearest' });
+                event.preventDefault();
+            } else if (event.key === 'Enter') {
+                if (currentFocus >= 0 && rows[currentFocus]) {
+                    event.preventDefault();
+                    rows[currentFocus].click();
+                } else if (rows.length === 1) {
+                    event.preventDefault();
+                    rows[0].click();
                 }
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault();
-                searchInput.focus();
-            }
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            } else if (event.key === 'Escape') {
                 searchResults.style.display = 'none';
+                searchInput.setAttribute('aria-expanded', 'false');
+                searchInput.blur();
+            }
+        });
+
+        document.addEventListener('keydown', event => {
+            if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+                event.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+        });
+
+        document.addEventListener('click', event => {
+            if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+                searchResults.style.display = 'none';
+                searchInput.setAttribute('aria-expanded', 'false');
             }
         });
     }
