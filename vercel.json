@@ -17,6 +17,10 @@
       "destination": "/src/pages/contact.html"
     },
     {
+      "source": "/about",
+      "destination": "/src/pages/about.html"
+    },
+    {
       "source": "/quick-notes",
       "destination": "/src/pages/quick-notes.html"
     },

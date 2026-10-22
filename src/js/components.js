@@ -63,6 +63,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
                     <li><a href="/quick-notes" class="${currentPath.startsWith('/quick-notes') ? 'active-link' : ''}">Quick Notes</a></li>
                     <li><a href="/exam" class="${currentPath === '/exam' ? 'active-link' : ''}">Exams</a></li>
                     <li><a href="/certificate" class="${currentPath === '/certificate' ? 'active-link' : ''}">Certificates</a></li>
+                    <li><a href="/about" class="${currentPath === '/about' ? 'active-link' : ''}">About</a></li>
                     <li><a href="/contact" class="${currentPath === '/contact' ? 'active-link' : ''}">Contact</a></li>
                 </ul>
             </nav>
@@ -470,181 +471,265 @@ async function renderNavbarAuth() {
     }
 }
 
-// 7. Global Search Engine Setup (Closes profile dropdown when typing)
+// 7. Global Search Engine: courses, lessons, quick notes, exams, and site pages
 setTimeout(() => {
     const searchInput = document.getElementById('globalSiteSearch');
     const searchResults = document.getElementById('globalSearchResults');
-
     let masterSearchIndex = null;
     let currentFocus = -1;
+    let debounceTimer;
+
+    const staticPages = [
+        { title: 'Home Dashboard', category: 'Home', url: '/', keywords: 'homepage dashboard start learning' },
+        { title: 'All Courses', category: 'Courses', url: '/courses', keywords: 'course catalog learning modules' },
+        { title: 'Quick Notes Library', category: 'Quick Notes', url: '/quick-notes', keywords: 'revision notes summaries chapters' },
+        { title: 'Exams & Assessments', category: 'Exams', url: '/exam', keywords: 'test assessment final exam practice' },
+        { title: 'Certificates', category: 'Certificates', url: '/certificate', keywords: 'credentials achievements awards' },
+        { title: 'About Codify', category: 'About', url: '/about', keywords: 'about story mission developer technology platform features' },
+        { title: 'Contact & Support', category: 'Support', url: '/contact', keywords: 'help contact feedback support team' },
+        { title: 'My Profile', category: 'Account', url: '/profile', keywords: 'profile settings personal account' },
+        { title: 'My Activity', category: 'Account', url: '/activity', keywords: 'progress history activity learning' },
+        { title: 'Account Security', category: 'Account', url: '/account-security', keywords: 'password security login account' },
+        { title: 'Login', category: 'Account', url: '/login', keywords: 'sign in authenticate' },
+        { title: 'Sign Up', category: 'Account', url: '/signup', keywords: 'register create account' }
+    ];
+
+    const syllabusFiles = [
+        { path: '/src/data/html-syllabus.json', slug: 'html', name: 'HTML' },
+        { path: '/src/data/css-syllabus.json', slug: 'css', name: 'CSS' },
+        { path: '/src/data/javascript-syllabus.json', slug: 'javascript', name: 'JavaScript' },
+        { path: '/src/data/java-syllabus.json', slug: 'java', name: 'Java' },
+        { path: '/src/data/python-syllabus.json', slug: 'python', name: 'Python' },
+        { path: '/src/data/c-syllabus.json', slug: 'c', name: 'C' },
+        { path: '/src/data/cpp-syllabus.json', slug: 'cpp', name: 'C++' }
+    ];
 
     async function loadMasterIndex() {
         if (masterSearchIndex) return masterSearchIndex;
+        const index = [...staticPages];
 
-        try {
-            const syllabusFiles = [
-                { path: '/src/data/html-syllabus.json', category: 'html', name: 'HTML' },
-                { path: '/src/data/java-syllabus.json', category: 'java', name: 'Java' },
-                { path: '/src/data/python-syllabus.json', category: 'python', name: 'Python' },
-                { path: '/src/data/c-syllabus.json', category: 'c', name: 'C' },
-                { path: '/src/data/cpp-syllabus.json', category: 'cpp', name: 'Cpp' }
-            ];
+        const loaded = await Promise.allSettled(syllabusFiles.map(async course => {
+            const response = await fetch(course.path);
+            if (!response.ok) throw new Error('Could not load ' + course.path);
+            return { course, data: await response.json() };
+        }));
 
-            let index = [
-                { title: 'Home Dashboard', category: 'General', url: '/' },
-                { title: 'All Courses & Modules', category: 'Courses', url: '/courses' },
-                { title: 'Quizzes & Final Exams', category: 'Assessment', url: '/exam' },
-                { title: 'Certificates & Credentials', category: 'General', url: '/certificate' },
-                { title: 'Contact Support Team', category: 'General', url: '/contact' }
-            ];
-
-            for (let file of syllabusFiles) {
-                const response = await fetch(file.path);
-                const data = await response.json();
-
-                if (data.chapters) {
-                    index.push({
-                        title: `${data.course_title || file.name} Course Hub`,
-                        category: file.name,
-                        url: `/courses/${file.category}`
-                    });
-
-                    data.chapters.forEach(chapter => {
-                        chapter.topics.forEach(topic => {
-                            const lessonId = topic.id || topic.file.split('/').pop().split('-')[0];
-                            index.push({
-                                title: `${topic.title} (${chapter.chapter_title})`,
-                                category: file.name,
-                                url: `/courses/${file.category}/${lessonId}`
-                            });
-                        });
-                    });
-                }
+        loaded.forEach(result => {
+            if (result.status !== 'fulfilled') {
+                console.warn('A course could not be added to search:', result.reason);
+                return;
             }
 
-            masterSearchIndex = index;
-            return masterSearchIndex;
-        } catch (error) {
-            console.error('Error building search index from syllabi:', error);
-            return [];
-        }
-    }
+            const course = result.value.course;
+            const data = result.value.data;
+            const courseTitle = (data.course_title || course.name).replace(/\s+(Course|Index|Syllabus).*/i, '').trim() || course.name;
+            const chapters = Array.isArray(data.chapters) ? data.chapters : [];
 
-    function addActive(rows) {
-        if (!rows || rows.length === 0) return;
-        removeActive(rows);
-        if (currentFocus >= rows.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = rows.length - 1;
+            index.push({
+                title: course.name + ' Course',
+                category: 'Courses',
+                url: '/courses/' + course.slug,
+                keywords: courseTitle + ' course learn lessons syllabus'
+            });
+            index.push({
+                title: course.name + ' Quick Notes',
+                category: 'Quick Notes',
+                url: '/quick-notes/' + course.slug,
+                keywords: courseTitle + ' revision notes summary'
+            });
+            index.push({
+                title: course.name + ' Exam',
+                category: 'Exams',
+                url: '/exam/' + course.slug,
+                keywords: courseTitle + ' assessment test questions final exam'
+            });
 
-        rows[currentFocus].classList.add('search-item-active');
-        rows[currentFocus].scrollIntoView({ block: 'nearest' });
+            chapters.forEach((chapter, chapterIndex) => {
+                const chapterNumber = chapter.chapter_number || chapterIndex + 1;
+                const chapterTitle = chapter.chapter_title || ('Chapter ' + chapterNumber);
+
+                index.push({
+                    title: course.name + ': ' + chapterTitle,
+                    category: 'Course Chapter',
+                    url: '/courses/' + course.slug + '/' + chapterNumber + '.1',
+                    keywords: courseTitle + ' chapter ' + chapterNumber + ' ' + chapterTitle + ' lesson'
+                });
+                index.push({
+                    title: course.name + ' Quick Notes: Chapter ' + chapterNumber + ' — ' + chapterTitle,
+                    category: 'Quick Notes',
+                    url: '/quick-notes/' + course.slug + '/' + chapterNumber,
+                    keywords: courseTitle + ' revision notes summary chapter ' + chapterNumber + ' ' + chapterTitle
+                });
+
+                (Array.isArray(chapter.topics) ? chapter.topics : []).forEach(topic => {
+                    const topicTitle = topic.title || 'Untitled topic';
+                    const filePath = typeof topic.file === 'string' ? topic.file : '';
+                    const fileName = filePath.split('/').pop() || '';
+                    const lessonId = topic.id || fileName.split('-')[0] || (chapterNumber + '.1');
+
+                    index.push({
+                        title: topicTitle,
+                        category: course.name + ' Lesson',
+                        url: '/courses/' + course.slug + '/' + lessonId,
+                        keywords: courseTitle + ' ' + chapterTitle + ' ' + fileName.replace(/\.md$/i, '').replace(/[._-]/g, ' ') + ' lesson tutorial'
+                    });
+                });
+            });
+        });
+
+        index.push(
+            { title: 'My Certificates', category: 'Certificates', url: '/certificates/my-certificates.html', keywords: 'earned certificates credentials' },
+            { title: 'Course Enrollment', category: 'Courses', url: '/courses', keywords: 'enroll enrollment join course' }
+        );
+
+        const seen = new Set();
+        masterSearchIndex = index.filter(item => {
+            if (!item.title || !item.url) return false;
+            const key = (item.title + '|' + item.url).toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            item.searchText = (item.title + ' ' + item.category + ' ' + (item.keywords || '') + ' ' + item.url).toLowerCase();
+            return true;
+        });
+        return masterSearchIndex;
     }
 
     function removeActive(rows) {
-        for (let i = 0; i < rows.length; i++) {
-            rows[i].classList.remove('search-item-active');
+        Array.from(rows || []).forEach(row => row.classList.remove('search-item-active'));
+    }
+
+    function renderResults(matches, query) {
+        searchResults.replaceChildren();
+        if (!matches.length) {
+            searchResults.style.display = 'block';
+            const empty = document.createElement('div');
+            empty.className = 'search-no-results';
+            empty.textContent = 'No results found for "' + query + '"';
+            searchResults.appendChild(empty);
+            return;
         }
+
+        searchResults.style.display = 'block';
+        const fragment = document.createDocumentFragment();
+        matches.slice(0, 30).forEach((item, idx) => {
+            const row = document.createElement('button');
+            row.type = 'button';
+            row.className = 'search-result-row';
+            row.style.cssText = 'width:100%;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;';
+            row.setAttribute('role', 'option');
+            row.setAttribute('aria-selected', 'false');
+
+            const title = document.createElement('span');
+            title.className = 'search-result-title';
+            title.textContent = item.title;
+
+            const badge = document.createElement('span');
+            badge.className = 'search-result-badge';
+            badge.textContent = item.category;
+            row.append(title, badge);
+
+            row.addEventListener('mouseenter', () => {
+                removeActive(searchResults.children);
+                currentFocus = idx;
+                row.classList.add('search-item-active');
+            });
+            row.addEventListener('click', () => { window.location.href = item.url; });
+            fragment.appendChild(row);
+        });
+        searchResults.appendChild(fragment);
     }
 
     if (searchInput && searchResults) {
-        let debounceTimer;
+        searchInput.setAttribute('role', 'combobox');
+        searchInput.setAttribute('aria-controls', 'globalSearchResults');
+        searchInput.setAttribute('aria-expanded', 'false');
+        searchResults.setAttribute('role', 'listbox');
 
         searchInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             currentFocus = -1;
             const query = this.value.toLowerCase().trim();
-
             const profileDropdown = document.getElementById('profileDropdownMenu');
             if (profileDropdown) profileDropdown.classList.remove('active');
 
             debounceTimer = setTimeout(async () => {
-                searchResults.innerHTML = '';
-
-                if (query.length === 0) {
+                if (!query) {
+                    searchResults.replaceChildren();
                     searchResults.style.display = 'none';
+                    searchInput.setAttribute('aria-expanded', 'false');
                     return;
                 }
 
+                searchResults.style.display = 'block';
+                searchResults.innerHTML = '<div class="search-no-results">Searching Codify…</div>';
+                searchInput.setAttribute('aria-expanded', 'true');
+
                 const database = await loadMasterIndex();
-                const keywords = query.split(/\s+/);
+                const words = query.split(/\s+/).filter(Boolean);
+                const matches = database.map(item => {
+                    const text = item.searchText || (item.title + ' ' + item.category + ' ' + (item.keywords || '') + ' ' + item.url).toLowerCase();
+                    if (!words.every(word => text.includes(word))) return null;
+                    const title = item.title.toLowerCase();
+                    const score = (title === query ? 100 : 0)
+                        + (title.startsWith(query) ? 30 : 0)
+                        + (title.includes(query) ? 20 : 0)
+                        + (item.category.toLowerCase().includes(query) ? 8 : 0);
+                    return Object.assign({}, item, { score });
+                }).filter(Boolean).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
 
-                const matches = database.filter(item => {
-                    const searchableText = `${item.title} ${item.category}`.toLowerCase();
-                    return keywords.every(kw => searchableText.includes(kw));
-                });
+                renderResults(matches, query);
+            }, 80);
+        });
 
-                if (matches.length > 0) {
-                    searchResults.style.display = 'block';
-                    const fragment = document.createDocumentFragment();
-
-                    matches.forEach((item, idx) => {
-                        const row = document.createElement('div');
-                        row.className = 'search-result-row';
-
-                        const titleSpan = document.createElement('span');
-                        titleSpan.textContent = item.title;
-                        titleSpan.className = 'search-result-title';
-
-                        const catBadge = document.createElement('span');
-                        catBadge.textContent = item.category;
-                        catBadge.className = 'search-result-badge';
-
-                        row.appendChild(titleSpan);
-                        row.appendChild(catBadge);
-
-                        row.onmouseover = () => {
-                            currentFocus = idx;
-                            addActive(searchResults.children);
-                        };
-                        row.onmouseout = () => {
-                            removeActive(searchResults.children);
-                        };
-
-                        row.onclick = () => {
-                            window.location.href = item.url;
-                        };
-
-                        fragment.appendChild(row);
-                    });
-
-                    searchResults.appendChild(fragment);
-                } else {
-                    searchResults.style.display = 'block';
-                    searchResults.innerHTML = '<div class="search-no-results">No matching course topics found</div>';
+        searchInput.addEventListener('keydown', function (event) {
+            const rows = searchResults.querySelectorAll('.search-result-row');
+            if (searchResults.style.display !== 'block' || !rows.length) {
+                if (event.key === 'Escape') {
+                    searchResults.style.display = 'none';
+                    searchInput.setAttribute('aria-expanded', 'false');
                 }
-            }, 30);
-        });
+                return;
+            }
 
-        searchInput.addEventListener('keydown', function (e) {
-            const rows = searchResults.children;
-            if (searchResults.style.display === 'block' && rows.length > 0) {
-                if (e.key === 'ArrowDown') {
-                    currentFocus++;
-                    addActive(rows);
-                    e.preventDefault();
-                } else if (e.key === 'ArrowUp') {
-                    currentFocus--;
-                    addActive(rows);
-                    e.preventDefault();
-                } else if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (currentFocus > -1 && rows[currentFocus]) {
-                        rows[currentFocus].click();
-                    }
+            if (event.key === 'ArrowDown') {
+                currentFocus = (currentFocus + 1) % rows.length;
+                removeActive(rows);
+                rows[currentFocus].classList.add('search-item-active');
+                rows[currentFocus].scrollIntoView({ block: 'nearest' });
+                event.preventDefault();
+            } else if (event.key === 'ArrowUp') {
+                currentFocus = currentFocus <= 0 ? rows.length - 1 : currentFocus - 1;
+                removeActive(rows);
+                rows[currentFocus].classList.add('search-item-active');
+                rows[currentFocus].scrollIntoView({ block: 'nearest' });
+                event.preventDefault();
+            } else if (event.key === 'Enter') {
+                if (currentFocus >= 0 && rows[currentFocus]) {
+                    event.preventDefault();
+                    rows[currentFocus].click();
+                } else if (rows.length === 1) {
+                    event.preventDefault();
+                    rows[0].click();
                 }
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                e.preventDefault();
-                searchInput.focus();
-            }
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            } else if (event.key === 'Escape') {
                 searchResults.style.display = 'none';
+                searchInput.setAttribute('aria-expanded', 'false');
+                searchInput.blur();
+            }
+        });
+
+        document.addEventListener('keydown', event => {
+            if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+                event.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+        });
+
+        document.addEventListener('click', event => {
+            if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+                searchResults.style.display = 'none';
+                searchInput.setAttribute('aria-expanded', 'false');
             }
         });
     }
@@ -657,3 +742,214 @@ supabase.auth.onAuthStateChange((event) => {
 });
 
 document.addEventListener('DOMContentLoaded', renderNavbarAuth);
+
+// Floating, draggable control for hiding/showing the shared top navigation.
+(() => {
+    const header = document.querySelector('.codify-main-header');
+    if (!header || document.getElementById('codifyNavVisibilityToggle')) return;
+
+    const style = document.createElement('style');
+    style.id = 'codifyNavVisibilityStyles';
+    style.textContent = `
+        .codify-main-header {
+            transition: transform .28s ease, opacity .28s ease;
+            will-change: transform;
+        }
+        .codify-main-header.codify-nav-hidden {
+            transform: translateY(calc(-100% - 2px));
+            opacity: 0;
+            pointer-events: none;
+        }
+        #codifyNavVisibilityToggle {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 2147483000;
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border: 1px solid rgba(160,210,240,.28);
+            border-radius: 15px;
+            color: #eaf8ff;
+            background: rgba(10,22,38,.34);
+            box-shadow: 0 6px 22px rgba(0,0,0,.16);
+            backdrop-filter: blur(18px) saturate(135%);
+            -webkit-backdrop-filter: blur(18px) saturate(135%);
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+            transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+        #codifyNavVisibilityToggle:hover {
+            background: rgba(0,90,140,.38);
+            border-color: #00aaff;
+            box-shadow: 0 8px 26px rgba(0,0,0,.2);
+        }
+        #codifyNavVisibilityToggle:active { cursor: grabbing; }
+        #codifyNavVisibilityToggle:focus-visible {
+            outline: 2px solid #00aaff;
+            outline-offset: 4px;
+        }
+        #codifyNavVisibilityToggle svg { width: 22px; height: 22px; pointer-events: none; }
+        #codifyNavVisibilityToggle .codify-toggle-grip {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            width: 15px;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(0,170,255,.65);
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        @media (max-width: 600px) {
+            #codifyNavVisibilityToggle { width: 44px; height: 44px; border-radius: 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .codify-main-header, #codifyNavVisibilityToggle { transition: none !important; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.id = 'codifyNavVisibilityToggle';
+    toggle.setAttribute('aria-controls', 'codifyCenterNav');
+    toggle.setAttribute('aria-pressed', 'false');
+    toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="m9 12-3 3 3 3"/><path d="m15 12 3 3-3 3"/></svg>';
+    toggle.title = 'Hide top navigation — drag to move';
+    toggle.setAttribute('aria-label', 'Hide top navigation. Drag to move this button.');
+    document.body.appendChild(toggle);
+
+    const visibilityStorageKey = 'codify-nav-hidden';
+    try {
+        if (localStorage.getItem(visibilityStorageKey) === 'true') {
+            header.classList.add('codify-nav-hidden');
+        }
+    } catch (_) {}
+
+    const storageKey = 'codify-nav-toggle-position';
+    const edgeGap = 12;
+
+    // Keep the saved position, but restore it safely inside the viewport.
+    function placeToggle(x, y) {
+        const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+        const maxY = Math.max(edgeGap, innerHeight - toggle.offsetHeight - edgeGap);
+        toggle.style.left = Math.max(edgeGap, Math.min(x, maxX)) + 'px';
+        toggle.style.top = Math.max(edgeGap, Math.min(y, maxY)) + 'px';
+        toggle.style.right = 'auto';
+        toggle.style.bottom = 'auto';
+    }
+
+    try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+        if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+            placeToggle(saved.x, saved.y);
+        }
+    } catch (_) {}
+
+    const updateToggleState = () => {
+        const hidden = header.classList.contains('codify-nav-hidden');
+        toggle.setAttribute('aria-pressed', String(hidden));
+        toggle.setAttribute('aria-label', hidden
+            ? 'Show top navigation. Drag to move this button.'
+            : 'Hide top navigation. Drag to move this button.');
+        toggle.title = hidden ? 'Show top navigation — drag to move' : 'Hide top navigation — drag to move';
+
+        // A browser-window icon with an eye clearly communicates navbar visibility.
+        const icon = hidden
+            ? '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z"/><path d="M3 8h18"/><path d="M6 5.5h.01M8.5 5.5h.01"/><path d="M8 13s1.5-2.5 4-2.5 4 2.5 4 2.5-1.5 2.5-4 2.5S8 13 8 13Z"/><path d="m5 10 14 8"/>'
+            : '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z"/><path d="M3 8h18"/><path d="M6 5.5h.01M8.5 5.5h.01"/><path d="M7 14s1.8-3.5 5-3.5 5 3.5 5 3.5-1.8 3.5-5 3.5S7 14 7 14Z"/><circle cx="12" cy="14" r="1.3"/>';
+        toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icon + '</svg>';
+    };
+
+    let pointerStart = null;
+    let moved = false;
+    let dragging = false;
+
+    toggle.addEventListener('pointerdown', event => {
+        if (event.button !== 0 && event.pointerType === 'mouse') return;
+        const rect = toggle.getBoundingClientRect();
+        pointerStart = { x: event.clientX, y: event.clientY, left: rect.left, top: rect.top };
+        moved = false;
+        dragging = true;
+        toggle.setPointerCapture?.(event.pointerId);
+    });
+
+    toggle.addEventListener('pointermove', event => {
+        if (!dragging || !pointerStart) return;
+        const dx = event.clientX - pointerStart.x;
+        const dy = event.clientY - pointerStart.y;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+        if (!moved) return;
+        placeToggle(pointerStart.left + dx, pointerStart.top + dy);
+    });
+
+    const finishDrag = () => {
+        if (!dragging) return;
+        dragging = false;
+        if (moved) {
+            const rect = toggle.getBoundingClientRect();
+            const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+            const maxY = Math.max(edgeGap, innerHeight - toggle.offsetHeight - edgeGap);
+
+            // Magnetically snap to the nearest screen edge on release.
+            // Prefer left/right edges over top/bottom when snapping.
+            const horizontalDistances = [
+                { edge: 'left', distance: Math.abs(rect.left - edgeGap) },
+                { edge: 'right', distance: Math.abs(maxX - rect.left) }
+            ];
+            horizontalDistances.sort((a, b) => a.distance - b.distance);
+            const nearestHorizontal = horizontalDistances[0];
+            const nearestVertical = {
+                edge: Math.abs(rect.top - edgeGap) <= Math.abs(maxY - rect.top) ? 'top' : 'bottom',
+                distance: Math.min(Math.abs(rect.top - edgeGap), Math.abs(maxY - rect.top))
+            };
+
+            // Snap horizontally unless the button is clearly closer to a vertical edge.
+            // Side edges get a generous priority zone to make left/right placement natural.
+            let x = rect.left;
+            let y = rect.top;
+            if (nearestHorizontal.distance <= nearestVertical.distance + toggle.offsetWidth) {
+                x = nearestHorizontal.edge === 'left' ? edgeGap : maxX;
+            } else {
+                y = nearestVertical.edge === 'top' ? edgeGap : maxY;
+            }
+
+            placeToggle(x, y);
+            const snapped = toggle.getBoundingClientRect();
+            try {
+                localStorage.setItem(storageKey, JSON.stringify({ x: snapped.left, y: snapped.top }));
+            } catch (_) {}
+        }
+    };
+    toggle.addEventListener('pointerup', finishDrag);
+    toggle.addEventListener('pointercancel', finishDrag);
+    toggle.addEventListener('click', event => {
+        if (moved) {
+            event.preventDefault();
+            event.stopPropagation();
+            moved = false;
+            return;
+        }
+        const hidden = header.classList.toggle('codify-nav-hidden');
+        try { localStorage.setItem(visibilityStorageKey, String(hidden)); } catch (_) {}
+        if (hidden) header.classList.remove('mobile-nav-open');
+        const mobileToggle = document.getElementById('codifyMobileMenuToggle');
+        if (mobileToggle) {
+            mobileToggle.setAttribute('aria-expanded', 'false');
+            mobileToggle.setAttribute('aria-label', 'Open navigation menu');
+        }
+        updateToggleState();
+    });
+    window.addEventListener('resize', () => {
+        const rect = toggle.getBoundingClientRect();
+        placeToggle(rect.left, rect.top);
+        const adjusted = toggle.getBoundingClientRect();
+        try { localStorage.setItem(storageKey, JSON.stringify({ x: adjusted.left, y: adjusted.top })); } catch (_) {}
+    });
+    updateToggleState();
+})();
+
