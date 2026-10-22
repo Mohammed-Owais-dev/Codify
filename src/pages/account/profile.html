@@ -175,6 +175,21 @@
             margin-bottom: 30px;
         }
 
+        .learning-courses { display: grid; gap: 14px; margin: 0 0 30px; }
+        .learning-course-card { padding: 18px; border: 1px solid rgba(0,170,255,.2); border-radius: 16px; background: rgba(10,15,28,.55); display: grid; gap: 13px; }
+        .learning-course-top { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .learning-course-logo { width: 42px; height: 42px; object-fit: contain; flex: 0 0 auto; }
+        .learning-course-name { color: #f8fafc; font-size: 1rem; font-weight: 800; margin: 0; overflow-wrap: anywhere; }
+        .learning-course-meta { color: #94a3b8; font-size: .82rem; margin: 4px 0 0; }
+        .learning-course-progress { height: 8px; border-radius: 999px; background: rgba(148,163,184,.18); overflow: hidden; }
+        .learning-course-progress span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg,#0077ff,#00aaff); transition: width .35s ease; }
+        .learning-course-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .learning-course-percent { color: #00aaff; font-size: .85rem; font-weight: 800; }
+        .learning-course-link { display: inline-flex; align-items: center; justify-content: center; padding: 9px 13px; border-radius: 10px; border: 1px solid rgba(0,170,255,.35); color: #00aaff; text-decoration: none; font-size: .85rem; font-weight: 800; }
+        .learning-course-link:hover { background: rgba(0,170,255,.12); }
+        .learning-empty-state { padding: 22px; border: 1px dashed rgba(0,170,255,.3); border-radius: 15px; color: #94a3b8; text-align: center; line-height: 1.6; }
+        .learning-empty-state a { color: #00aaff; font-weight: 800; text-decoration: none; }
+
         @media (max-width: 640px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -853,6 +868,17 @@
                 </div>
             </div>
 
+            <div class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"></path>
+                </svg>
+                My Enrolled Courses
+            </div>
+            <div id="learningCourses" class="learning-courses" aria-live="polite">
+                <div class="learning-empty-state">Loading your courses and progress…</div>
+            </div>
+
             <form id="profileForm">
                 <div class="section-title">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1070,6 +1096,15 @@
             }
         }
 
+        // Use the animated toast for profile messages instead of the old inline alert.
+        function alertBox(_target, message = '', type = 'error') {
+            if (!message) {
+                clearSecurityAlert();
+                return;
+            }
+            showSecurityAlert(message, type);
+        }
+
         // -----------------------------
         // Modal controls
         // -----------------------------
@@ -1235,6 +1270,167 @@
             }
         }
 
+
+        // -----------------------------
+        // Learning dashboard: enrolled courses, completion, certificates
+        // -----------------------------
+        const learningCourseConfig = {
+            c: { id: 'c-101', name: 'C Programming', path: '/src/data/c-syllabus.json', url: '/courses/c', logo: '/src/assets/logos/c.svg' },
+            python: { id: 'python-101', name: 'Python', path: '/src/data/python-syllabus.json', url: '/courses/python', logo: '/src/assets/logos/python.svg' },
+            cpp: { id: 'cpp-101', name: 'C++', path: '/src/data/cpp-syllabus.json', url: '/courses/cpp', logo: '/src/assets/logos/cpp.svg' },
+            java: { id: 'java-101', name: 'Java', path: '/src/data/java-syllabus.json', url: '/courses/java', logo: '/src/assets/logos/java.svg' },
+            html: { id: 'html-101', name: 'HTML', path: '/src/data/html-syllabus.json', url: '/courses/html', logo: '/src/assets/logos/html.svg' },
+            css: { id: 'css-101', name: 'CSS', path: '/src/data/css-syllabus.json', url: '/courses/css', logo: '/src/assets/logos/css.svg' },
+            javascript: { id: 'javascript-101', name: 'JavaScript', path: '/src/data/javascript-syllabus.json', url: '/courses/javascript', logo: '/src/assets/logos/javascript.svg' }
+        };
+
+        function setStat(id, value) {
+            const node = $(id);
+            if (node) node.textContent = String(value);
+        }
+
+        function renderLearningEmpty(message, showLink = false) {
+            const host = $('learningCourses');
+            if (!host) return;
+            host.replaceChildren();
+            const box = document.createElement('div');
+            box.className = 'learning-empty-state';
+            box.append(document.createTextNode(message));
+            if (showLink) {
+                box.append(document.createTextNode(' '));
+                const link = document.createElement('a');
+                link.href = '/courses';
+                link.textContent = 'Browse courses';
+                box.append(link);
+            }
+            host.append(box);
+        }
+
+        function renderLearningCourse(course, completed, total) {
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            const card = document.createElement('article');
+            card.className = 'learning-course-card';
+
+            const top = document.createElement('div');
+            top.className = 'learning-course-top';
+            const logo = document.createElement('img');
+            logo.className = 'learning-course-logo';
+            logo.src = course.logo;
+            logo.alt = '';
+            const info = document.createElement('div');
+            info.style.minWidth = '0';
+            const title = document.createElement('h3');
+            title.className = 'learning-course-name';
+            title.textContent = course.name;
+            const meta = document.createElement('p');
+            meta.className = 'learning-course-meta';
+            meta.textContent = total ? completed + ' of ' + total + ' topics completed' : 'Course curriculum unavailable';
+            info.append(title, meta);
+            top.append(logo, info);
+
+            const progress = document.createElement('div');
+            progress.className = 'learning-course-progress';
+            progress.setAttribute('role', 'progressbar');
+            progress.setAttribute('aria-label', course.name + ' progress');
+            progress.setAttribute('aria-valuemin', '0');
+            progress.setAttribute('aria-valuemax', '100');
+            progress.setAttribute('aria-valuenow', String(percent));
+            const fill = document.createElement('span');
+            fill.style.width = percent + '%';
+            progress.append(fill);
+
+            const bottom = document.createElement('div');
+            bottom.className = 'learning-course-bottom';
+            const percentLabel = document.createElement('span');
+            percentLabel.className = 'learning-course-percent';
+            percentLabel.textContent = percent + '% complete';
+            const link = document.createElement('a');
+            link.className = 'learning-course-link';
+            link.href = course.url;
+            link.textContent = percent === 100 ? 'Review Course' : completed > 0 ? 'Continue Learning' : 'Start Learning';
+            bottom.append(percentLabel, link);
+            card.append(top, progress, bottom);
+            return card;
+        }
+
+        async function loadLearningDashboard(userId) {
+            const host = $('learningCourses');
+            if (!host || !userId) return;
+            host.replaceChildren();
+            const loading = document.createElement('div');
+            loading.className = 'learning-empty-state';
+            loading.textContent = 'Loading your courses and progress…';
+            host.append(loading);
+
+            try {
+                const [enrollmentResult, progressResult] = await Promise.all([
+                    supabase.from('user_enrollments').select('course_id').eq('user_id', userId),
+                    supabase.from('user_progress').select('course_id, lesson_id, completed').eq('user_id', userId).eq('completed', true)
+                ]);
+                if (enrollmentResult.error) throw enrollmentResult.error;
+                if (progressResult.error) throw progressResult.error;
+
+                const enrollments = enrollmentResult.data || [];
+                const enrolledIds = [...new Set(enrollments.map(row => row.course_id).filter(Boolean))];
+                const completedByCourse = new Map();
+                (progressResult.data || []).forEach(row => {
+                    if (!row.course_id || !row.lesson_id || !row.completed) return;
+                    if (!completedByCourse.has(row.course_id)) completedByCourse.set(row.course_id, new Set());
+                    completedByCourse.get(row.course_id).add(row.lesson_id);
+                });
+
+                let totalTopics = 0;
+                let completedTopics = 0;
+                const courseCards = [];
+                for (const courseId of enrolledIds) {
+                    const course = Object.values(learningCourseConfig).find(item => item.id === courseId);
+                    if (!course) continue;
+                    let count = 0;
+                    try {
+                        const response = await fetch(course.path);
+                        if (!response.ok) throw new Error('Curriculum could not be loaded');
+                        const syllabus = await response.json();
+                        count = (syllabus.chapters || []).reduce((sum, chapter) => sum + (chapter.topics || []).length, 0);
+                    } catch (error) {
+                        console.warn('Could not load course curriculum:', course.name, error);
+                    }
+                    const completedSet = completedByCourse.get(courseId) || new Set();
+                    const completed = Math.min(count, completedSet.size);
+                    totalTopics += count;
+                    completedTopics += completed;
+                    courseCards.push(renderLearningCourse(course, completed, count));
+                }
+
+                setStat('statEnrolledCourses', enrolledIds.length);
+                setStat('statProgress', totalTopics ? Math.round(completedTopics / totalTopics * 100) + '%' : '0%');
+
+                let certificateCount = 0;
+                const certificateResult = await supabase.rpc('my_certificates');
+                if (!certificateResult.error && Array.isArray(certificateResult.data)) {
+                    certificateCount = certificateResult.data.length;
+                } else {
+                    const fallback = await supabase.from('certificates').select('id').eq('user_id', userId);
+                    if (!fallback.error) certificateCount = (fallback.data || []).length;
+                    else console.warn('Could not load certificate count:', fallback.error);
+                }
+                setStat('statCertificates', certificateCount);
+
+                host.replaceChildren();
+                if (!courseCards.length) {
+                    renderLearningEmpty('You are not enrolled in any courses yet.', true);
+                } else {
+                    courseCards.forEach(card => host.append(card));
+                }
+            } catch (error) {
+                console.error('Learning dashboard load failed:', error);
+                setStat('statEnrolledCourses', '—');
+                setStat('statCertificates', '—');
+                setStat('statProgress', '—');
+                renderLearningEmpty('We could not load your learning data. Please refresh the page and try again.');
+                showSecurityAlert('Your learning progress could not be loaded. Check your connection and refresh the page.');
+            }
+        }
+
         // -----------------------------
         // Load signed-in user
         // -----------------------------
@@ -1255,13 +1451,11 @@
                 renderProfile(originalProfile);
                 setEditMode(false);
                 initAvatarGrid();
+                await loadLearningDashboard(currentAuthUser.id);
             } catch (error) {
                 console.error('Failed to load profile:', error);
 
-                alertBox(
-                    $('statusAlert'),
-                    'Unable to load your profile. Please refresh the page and try again.'
-                );
+                showSecurityAlert('Unable to load your profile. Please refresh the page and try again.');
             }
         }
 
