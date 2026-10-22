@@ -609,6 +609,7 @@ setTimeout(() => {
             const row = document.createElement('button');
             row.type = 'button';
             row.className = 'search-result-row';
+            row.style.cssText = 'width:100%;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;';
             row.setAttribute('role', 'option');
             row.setAttribute('aria-selected', 'false');
 
