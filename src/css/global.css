@@ -15,9 +15,19 @@ body {
     font-family: 'Nunito', sans-serif;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(135deg, #0a0f1c, #0d1b2a);
     color: #e0e6ed;
     overflow-x: hidden;
+}
+
+/* Shared sticky-footer layout: short pages still fill the viewport. */
+#footer-placeholder {
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
 }
 
 html {
@@ -1119,7 +1129,7 @@ button, a, input, select, textarea {
 }
 @media (max-width: 820px) {
     .codify-footer {
-        margin-top: 36px;
+        margin-top: 0;
         padding: 24px 18px calc(24px + env(safe-area-inset-bottom, 0px));
         font-size: .9rem;
         line-height: 1.75;
