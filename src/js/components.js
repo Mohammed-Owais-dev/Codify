@@ -63,6 +63,7 @@ document.getElementById('navbar-placeholder').innerHTML = `
                     <li><a href="/quick-notes" class="${currentPath.startsWith('/quick-notes') ? 'active-link' : ''}">Quick Notes</a></li>
                     <li><a href="/exam" class="${currentPath === '/exam' ? 'active-link' : ''}">Exams</a></li>
                     <li><a href="/certificate" class="${currentPath === '/certificate' ? 'active-link' : ''}">Certificates</a></li>
+                    <li><a href="/about" class="${currentPath === '/about' ? 'active-link' : ''}">About</a></li>
                     <li><a href="/contact" class="${currentPath === '/contact' ? 'active-link' : ''}">Contact</a></li>
                 </ul>
             </nav>
@@ -480,6 +481,7 @@ setTimeout(() => {
         { title: 'Quick Notes Library', category: 'Quick Notes', url: '/quick-notes', keywords: 'revision notes summaries chapters' },
         { title: 'Exams & Assessments', category: 'Exams', url: '/exam', keywords: 'test assessment final exam practice' },
         { title: 'Certificates', category: 'Certificates', url: '/certificate', keywords: 'credentials achievements awards' },
+        { title: 'About Codify', category: 'About', url: '/about', keywords: 'about story mission developer technology platform features' },
         { title: 'Contact & Support', category: 'Support', url: '/contact', keywords: 'help contact feedback support team' },
         { title: 'My Profile', category: 'Account', url: '/profile', keywords: 'profile settings personal account' },
         { title: 'My Activity', category: 'Account', url: '/activity', keywords: 'progress history activity learning' },
