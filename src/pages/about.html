@@ -87,7 +87,7 @@
         .about-tech-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
         .about-tech-card{text-align:center;padding:23px 15px;border-radius:18px;border:1px solid var(--about-line);background:rgba(13,27,42,.48);transition:transform .25s ease,border-color .25s ease}
         .about-tech-card:hover{transform:translateY(-4px);border-color:rgba(0,170,255,.5)}
-        .about-tech-mark{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 13px;border-radius:14px;background:rgba(0,170,255,.1);color:#69d3ff;font:900 1.1rem ui-monospace,monospace}
+        .about-tech-mark{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 13px;border-radius:14px;background:rgba(0,170,255,.08);border:1px solid rgba(0,170,255,.12)}.about-tech-mark img{display:block;width:36px;height:36px;object-fit:contain}.about-tech-mark img[alt="Supabase"]{width:34px;height:36px}
         .about-tech-card h3{margin:0 0 6px;color:#f4f8ff;font-size:1rem}
         .about-tech-card p{margin:0;color:var(--about-muted);font-size:.83rem;line-height:1.6}
         .about-tech-note{margin:18px 0 0;color:#7f93aa;text-align:center;font-size:.83rem;line-height:1.7}
@@ -192,15 +192,15 @@
         <section class="about-section about-reveal" id="technology">
             <div class="about-section-heading"><span class="about-eyebrow">05 / Technology</span><h2>Thoughtful design, practical technology.</h2><p>Codify combines familiar web technologies with backend services to deliver its learning interface, account features, and learning resources.</p></div>
             <div class="about-tech-grid">
-                <article class="about-tech-card"><div class="about-tech-mark">HTML</div><h3>HTML</h3><p>Organises page content and accessible structure.</p></article>
-                <article class="about-tech-card"><div class="about-tech-mark">CSS</div><h3>CSS</h3><p>Creates the visual theme, responsive layouts, and transitions.</p></article>
-                <article class="about-tech-card"><div class="about-tech-mark">JS</div><h3>JavaScript</h3><p>Adds interactions, navigation behaviour, and page logic.</p></article>
-                <article class="about-tech-card"><div class="about-tech-mark">S</div><h3>Supabase</h3><p>Provides backend services used for authentication and supported data features.</p></article>
+                <article class="about-tech-card"><div class="about-tech-mark"><img src="/src/assets/logos/html.svg" alt="HTML" loading="lazy"></div><h3>HTML</h3><p>Organises page content and accessible structure.</p></article>
+                <article class="about-tech-card"><div class="about-tech-mark"><img src="/src/assets/logos/css.svg" alt="CSS" loading="lazy"></div><h3>CSS</h3><p>Creates the visual theme, responsive layouts, and transitions.</p></article>
+                <article class="about-tech-card"><div class="about-tech-mark"><img src="/src/assets/logos/javascript.svg" alt="JavaScript" loading="lazy"></div><h3>JavaScript</h3><p>Adds interactions, navigation behaviour, and page logic.</p></article>
+                <article class="about-tech-card"><div class="about-tech-mark"><img src="/src/assets/logos/supabase.svg" alt="Supabase" loading="lazy"></div><h3>Supabase</h3><p>Provides backend services used for authentication and supported data features.</p></article>
             </div>
             <p class="about-tech-note">The platform is deployed through Vercel. The implementation may evolve as Codify grows; this section describes the main technologies currently used in the project.</p>
         </section>
 
-        <section class="about-section about-reveal" id="developer">
+        <section class="about-section about-reveal" id="developer" style="display:none !important;" aria-hidden="true">
             <div class="about-developer">
                 <img class="about-developer-photo" src="/src/assets/images/mohammed-owais.webp" alt="Mohammed Owais, creator of Codify" loading="lazy">
                 <div class="about-developer-copy"><span class="about-eyebrow">06 / Meet the developer</span><h2>Mohammed Owais</h2><span class="about-developer-role">Creator of Codify · Student developer</span><p>Codify is a learning-focused project built by Mohammed Owais with the goal of making programming resources more organised and approachable for students. The work brings together interface design, frontend development, backend integration, and ongoing improvements based on real learning needs.</p><p>The project continues to grow through iteration: improving usability, refining learning content, and making the experience clearer for the people who use it.</p>
