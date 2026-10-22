@@ -1394,8 +1394,9 @@
             }
             toast.querySelector('.toast-message').textContent = message;
             const action = toast.querySelector('.toast-login-btn');
-            action.textContent = actionLabel;
-            action.href = actionHref;
+            action.textContent = actionLabel || '';
+            action.href = actionHref || '#';
+            action.style.display = actionLabel ? '' : 'none';
             toast.classList.add('show');
             clearTimeout(accessToastTimer);
             accessToastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
@@ -1426,7 +1427,7 @@
 
             if (error) {
                 console.error('Course enrollment check error:', error);
-                return false;
+                return null;
             }
             return Boolean(data);
         }
@@ -1460,34 +1461,58 @@
         }
 
         window.toggleLessonCompletion = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) {
-                showLoginToast();
-                return;
-            }
-            if (!fileParam) return;
-
-            const enrolled = await checkCourseEnrollment(user.id);
-            if (!enrolled) {
-                showEnrollmentToast();
-                return;
-            }
-
             const btn = document.getElementById('markCompleteBtn');
             const btnText = document.getElementById('completeBtnText');
-            const nextState = !isCompleted;
-            const { error } = nextState
-                ? await supabase.from('user_progress').upsert({ user_id: user.id, course_id: COURSE_ID, lesson_id: fileParam, completed: true })
-                : await supabase.from('user_progress').delete().eq('user_id', user.id).eq('course_id', COURSE_ID).eq('lesson_id', fileParam);
+            if (!btn || btn.disabled) return;
 
-            if (error) {
+            btn.disabled = true;
+            try {
+                const { data: { user }, error: userError } = await supabase.auth.getUser();
+                if (userError) throw userError;
+                if (!user) {
+                    showLoginToast();
+                    return;
+                }
+                if (!fileParam) {
+                    showAccessToast('This lesson could not be identified. Refresh the page and try again.', '', '');
+                    return;
+                }
+
+                const enrolled = await checkCourseEnrollment(user.id);
+                if (enrolled === null) {
+                    showAccessToast('We could not verify your enrollment. Please try again.', 'Retry', window.location.href);
+                    return;
+                }
+                if (!enrolled) {
+                    showEnrollmentToast();
+                    return;
+                }
+
+                const nextState = !isCompleted;
+                const result = nextState
+                    ? await supabase.from('user_progress').upsert(
+                        { user_id: user.id, course_id: COURSE_ID, lesson_id: fileParam, completed: true },
+                        { onConflict: 'user_id,course_id,lesson_id' }
+                    )
+                    : await supabase.from('user_progress').delete()
+                        .eq('user_id', user.id).eq('course_id', COURSE_ID).eq('lesson_id', fileParam);
+
+                if (result.error) throw result.error;
+
+                isCompleted = nextState;
+                btn.classList.toggle('is-completed', isCompleted);
+                btnText.textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
+                showAccessToast(
+                    isCompleted ? 'Topic marked as completed.' : 'Topic marked as incomplete.',
+                    '',
+                    ''
+                );
+            } catch (error) {
                 console.error('Progress update error:', error);
-                return;
+                showAccessToast('Could not save your progress. Check your connection and try again.', 'Retry', window.location.href);
+            } finally {
+                btn.disabled = false;
             }
-
-            isCompleted = nextState;
-            btn.classList.toggle('is-completed', isCompleted);
-            btnText.textContent = isCompleted ? '✓ Completed' : 'Mark as Completed';
         };
     </script>
 </body>
