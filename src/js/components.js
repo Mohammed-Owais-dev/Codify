@@ -892,19 +892,27 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
             const maxY = Math.max(edgeGap, innerHeight - toggle.offsetHeight - edgeGap);
 
             // Magnetically snap to the nearest screen edge on release.
-            const distances = [
+            // Prefer left/right edges over top/bottom when snapping.
+            const horizontalDistances = [
                 { edge: 'left', distance: Math.abs(rect.left - edgeGap) },
-                { edge: 'right', distance: Math.abs(maxX - rect.left) },
-                { edge: 'top', distance: Math.abs(rect.top - edgeGap) },
-                { edge: 'bottom', distance: Math.abs(maxY - rect.top) }
+                { edge: 'right', distance: Math.abs(maxX - rect.left) }
             ];
-            distances.sort((a, b) => a.distance - b.distance);
+            horizontalDistances.sort((a, b) => a.distance - b.distance);
+            const nearestHorizontal = horizontalDistances[0];
+            const nearestVertical = {
+                edge: Math.abs(rect.top - edgeGap) <= Math.abs(maxY - rect.top) ? 'top' : 'bottom',
+                distance: Math.min(Math.abs(rect.top - edgeGap), Math.abs(maxY - rect.top))
+            };
+
+            // Snap horizontally unless the button is clearly closer to a vertical edge.
+            // Side edges get a generous priority zone to make left/right placement natural.
             let x = rect.left;
             let y = rect.top;
-            if (distances[0].edge === 'left') x = edgeGap;
-            if (distances[0].edge === 'right') x = maxX;
-            if (distances[0].edge === 'top') y = edgeGap;
-            if (distances[0].edge === 'bottom') y = maxY;
+            if (nearestHorizontal.distance <= nearestVertical.distance + toggle.offsetWidth) {
+                x = nearestHorizontal.edge === 'left' ? edgeGap : maxX;
+            } else {
+                y = nearestVertical.edge === 'top' ? edgeGap : maxY;
+            }
 
             placeToggle(x, y);
             const snapped = toggle.getBoundingClientRect();
