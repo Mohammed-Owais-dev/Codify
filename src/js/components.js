@@ -766,29 +766,29 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
             display: grid;
             place-items: center;
             padding: 0;
-            border: 1px solid rgba(0,170,255,.55);
+            border: 1px solid rgba(160,210,240,.28);
             border-radius: 15px;
             color: #eaf8ff;
-            background: rgba(10,22,38,.92);
-            box-shadow: 0 8px 26px rgba(0,0,0,.32), 0 0 18px rgba(0,170,255,.16);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10,22,38,.34);
+            box-shadow: 0 6px 22px rgba(0,0,0,.16);
+            backdrop-filter: blur(18px) saturate(135%);
+            -webkit-backdrop-filter: blur(18px) saturate(135%);
             cursor: grab;
             touch-action: none;
             user-select: none;
             transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
         }
         #codifyNavVisibilityToggle:hover {
-            background: rgba(0,75,120,.96);
+            background: rgba(0,90,140,.38);
             border-color: #00aaff;
-            box-shadow: 0 10px 30px rgba(0,0,0,.36), 0 0 22px rgba(0,170,255,.28);
+            box-shadow: 0 8px 26px rgba(0,0,0,.2);
         }
         #codifyNavVisibilityToggle:active { cursor: grabbing; }
         #codifyNavVisibilityToggle:focus-visible {
             outline: 2px solid #00aaff;
             outline-offset: 4px;
         }
-        #codifyNavVisibilityToggle svg { width: 21px; height: 21px; pointer-events: none; }
+        #codifyNavVisibilityToggle svg { width: 22px; height: 22px; pointer-events: none; }
         #codifyNavVisibilityToggle .codify-toggle-grip {
             position: absolute;
             top: 5px;
@@ -819,6 +819,13 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     toggle.setAttribute('aria-label', 'Hide top navigation. Drag to move this button.');
     document.body.appendChild(toggle);
 
+    const visibilityStorageKey = 'codify-nav-hidden';
+    try {
+        if (localStorage.getItem(visibilityStorageKey) === 'true') {
+            header.classList.add('codify-nav-hidden');
+        }
+    } catch (_) {}
+
     const storageKey = 'codify-nav-toggle-position';
     try {
         const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
@@ -835,10 +842,9 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
         toggle.setAttribute('aria-pressed', String(hidden));
         toggle.setAttribute('aria-label', hidden ? 'Show top navigation. Drag to move this button.' : 'Hide top navigation. Drag to move this button.');
         toggle.title = hidden ? 'Show top navigation — drag to move' : 'Hide top navigation — drag to move';
-        toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span>' +
-            (hidden
-                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="m8 13 4 4 4-4"/></svg>'
-                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="m8 17 4-4 4 4"/></svg>');
+        toggle.innerHTML = hidden
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5.8 0 9.5 7 9.5 7a16 16 0 0 1-3.1 3.8"/><path d="M6.2 6.2C3.8 7.8 2.5 12 2.5 12s3.7 7 9.5 7a10 10 0 0 0 3-.5"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="2.8"/></svg>';
     };
 
     let pointerStart = null;
@@ -886,6 +892,7 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
             return;
         }
         const hidden = header.classList.toggle('codify-nav-hidden');
+        try { localStorage.setItem(visibilityStorageKey, String(hidden)); } catch (_) {}
         if (hidden) header.classList.remove('mobile-nav-open');
         const mobileToggle = document.getElementById('codifyMobileMenuToggle');
         if (mobileToggle) {
