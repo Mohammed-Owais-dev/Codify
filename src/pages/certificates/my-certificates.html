@@ -306,7 +306,7 @@
             <div class="empty-icon">🚀</div>
             <h3>No Certificates Yet</h3>
             <p>Great things take time. Keep pushing forward, complete your first course, and your achievements will appear right here!</p>
-            <button class="btn btn-primary" onclick="alert('Redirecting to courses...')">Continue Learning</button>
+            <a class="btn btn-primary" href="/courses">Continue Learning</a>
         </div>
     </div>
 
@@ -334,112 +334,109 @@
         </div>
     </div>
 
-    <script>
-        // --- Mock Data (Toggle to test both states) ---
-        // To see the motivational empty state, change this array to: const userCertificates = [];
-        const userCertificates = [
-            {
-                id: 1,
-                courseName: "Full-Stack Web Development Bootcamp",
-                date: "August 12, 2026",
-                pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-            },
-            {
-                id: 2,
-                courseName: "Advanced UI/UX Design Masterclass",
-                date: "July 05, 2026",
-                pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-            }
-        ];
+    <script type="module">
+        import { supabase } from '/src/js/config/supabase-client.js';
 
-        // --- DOM Elements ---
         const listContainer = document.getElementById('certificate-list');
         const emptyState = document.getElementById('empty-state');
-        const modal = document.getElementById('certificateModal');
-        const modalTitle = document.getElementById('modal-title');
-        const pdfIframe = document.getElementById('pdfIframe');
-        const closeBtn = document.getElementById('closeModalBtn');
-        const printBtn = document.getElementById('printBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
+        const courseNames = {
+            c: 'C Programming',
+            cpp: 'C++',
+            python: 'Python',
+            java: 'Java',
+            html: 'HTML',
+            css: 'CSS',
+            javascript: 'JavaScript'
+        };
 
-        let currentPdfUrl = "";
-        let currentCourseName = "";
+        function getCourseName(courseId) {
+            const slug = String(courseId || '').split('-')[0].toLowerCase();
+            return courseNames[slug] || slug.toUpperCase() || 'Course';
+        }
 
-        // --- Initialization Logic ---
-        function renderPage() {
-            if (userCertificates.length === 0) {
-                // Show motivation if empty
-                emptyState.classList.add('active');
-                listContainer.style.display = 'none';
-            } else {
-                // Render list if populated
-                emptyState.classList.remove('active');
-                listContainer.style.display = 'flex';
-                
-                userCertificates.forEach(cert => {
-                    const itemHTML = `
-                        <div class="list-item" onclick="openModal('${cert.courseName}', '${cert.pdfUrl}')">
-                            <div class="item-info">
-                                <div class="icon-box">🏆</div>
-                                <div class="item-text">
-                                    <h3>${cert.courseName}</h3>
-                                    <p>Issued on ${cert.date}</p>
-                                </div>
-                            </div>
-                            <div class="view-btn">
-                                View Certificate 
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
-                        </div>
-                    `;
-                    listContainer.insertAdjacentHTML('beforeend', itemHTML);
-                });
+        function formatDate(value) {
+            if (!value) return 'Date unavailable';
+            const date = new Date(value);
+            return Number.isNaN(date.getTime()) ? 'Date unavailable' :
+                date.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function showEmpty(message, showLogin = false) {
+            listContainer.replaceChildren();
+            listContainer.style.display = 'none';
+            emptyState.classList.add('active');
+            const heading = emptyState.querySelector('h3');
+            const paragraph = emptyState.querySelector('p');
+            const action = emptyState.querySelector('a');
+            if (heading) heading.textContent = showLogin ? 'Log In to View Certificates' : 'No Certificates Yet';
+            if (paragraph) paragraph.textContent = message;
+            if (action) {
+                action.href = showLogin ? '/login' : '/courses';
+                action.textContent = showLogin ? 'Log In' : 'Continue Learning';
             }
         }
 
-        // --- Modal Logic ---
-        window.openModal = (courseName, pdfUrl) => {
-            currentPdfUrl = pdfUrl;
-            currentCourseName = courseName;
-            
-            modalTitle.textContent = `${courseName} - Certificate`;
-            pdfIframe.src = pdfUrl;
-            
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
+        function renderCertificates(certificates) {
+            listContainer.replaceChildren();
+            emptyState.classList.remove('active');
+            listContainer.style.display = 'flex';
 
-        const closeModal = () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            // Clear iframe src after closing so it doesn't keep loading in background
-            setTimeout(() => { pdfIframe.src = ""; }, 300);
-        };
+            certificates.forEach(cert => {
+                const course = getCourseName(cert.course_id);
+                const item = document.createElement('a');
+                item.className = 'list-item';
+                item.href = '/certificate?id=' + encodeURIComponent(cert.id);
+                item.style.textDecoration = 'none';
+                item.setAttribute('aria-label', 'View ' + course + ' certificate');
 
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
+                const info = document.createElement('div');
+                info.className = 'item-info';
+                const icon = document.createElement('div');
+                icon.className = 'icon-box';
+                icon.textContent = '✓';
+                const text = document.createElement('div');
+                text.className = 'item-text';
+                const title = document.createElement('h3');
+                title.textContent = course + ' Certificate';
+                const date = document.createElement('p');
+                date.textContent = 'Issued on ' + formatDate(cert.issued_at);
+                const id = document.createElement('p');
+                id.textContent = 'Certificate ID: ' + cert.id;
+                text.append(title, date, id);
+                info.append(icon, text);
 
-        // --- Print & Download Logic ---
-        printBtn.addEventListener('click', () => {
-            pdfIframe.contentWindow.focus();
-            pdfIframe.contentWindow.print();
-        });
+                const view = document.createElement('span');
+                view.className = 'view-btn';
+                view.textContent = cert.revoked || cert.revoked_at ? 'View Status' : 'View Certificate';
+                item.append(info, view);
+                listContainer.append(item);
+            });
+        }
 
-        downloadBtn.addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.href = currentPdfUrl;
-            // Format filename safely
-            const safeFileName = currentCourseName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            link.download = `${safeFileName}_certificate.pdf`; 
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+        async function initCertificatesPage() {
+            try {
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError) throw sessionError;
+                if (!session?.user) {
+                    showEmpty('Log in to see certificates earned from your Codify account.', true);
+                    return;
+                }
 
-        // Run on load
-        renderPage();
+                const { data, error } = await supabase.rpc('my_certificates');
+                if (error) throw error;
+                const certificates = Array.isArray(data) ? data : [];
+                if (!certificates.length) {
+                    showEmpty('Complete a course exam and meet the passing score to see your certificate here.');
+                    return;
+                }
+                renderCertificates(certificates);
+            } catch (error) {
+                console.error('Could not load certificates:', error);
+                showEmpty('Your certificates could not be loaded. Please refresh the page and try again.');
+            }
+        }
+
+        initCertificatesPage();
     </script>
 </body>
 </html>
