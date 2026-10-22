@@ -858,7 +858,9 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     try {
         const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
         if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
-            placeToggle(saved.x, saved.y);
+            const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+            const x = Math.abs(saved.x - edgeGap) <= Math.abs(maxX - saved.x) ? edgeGap : maxX;
+            placeToggle(x, saved.y);
         }
     } catch (_) {}
 
@@ -937,7 +939,9 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     });
     window.addEventListener('resize', () => {
         const rect = toggle.getBoundingClientRect();
-        placeToggle(rect.left, rect.top);
+        const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+        const x = Math.abs(rect.left - edgeGap) <= Math.abs(maxX - rect.left) ? edgeGap : maxX;
+        placeToggle(x, rect.top);
         const adjusted = toggle.getBoundingClientRect();
         try { localStorage.setItem(storageKey, JSON.stringify({ x: adjusted.left, y: adjusted.top })); } catch (_) {}
     });
