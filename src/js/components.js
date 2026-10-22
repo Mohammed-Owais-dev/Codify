@@ -738,3 +738,171 @@ supabase.auth.onAuthStateChange((event) => {
 });
 
 document.addEventListener('DOMContentLoaded', renderNavbarAuth);
+
+// Floating, draggable control for hiding/showing the shared top navigation.
+(() => {
+    const header = document.querySelector('.codify-main-header');
+    if (!header || document.getElementById('codifyNavVisibilityToggle')) return;
+
+    const style = document.createElement('style');
+    style.id = 'codifyNavVisibilityStyles';
+    style.textContent = `
+        .codify-main-header {
+            transition: transform .28s ease, opacity .28s ease;
+            will-change: transform;
+        }
+        .codify-main-header.codify-nav-hidden {
+            transform: translateY(calc(-100% - 2px));
+            opacity: 0;
+            pointer-events: none;
+        }
+        #codifyNavVisibilityToggle {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 2147483000;
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border: 1px solid rgba(0,170,255,.55);
+            border-radius: 15px;
+            color: #eaf8ff;
+            background: rgba(10,22,38,.92);
+            box-shadow: 0 8px 26px rgba(0,0,0,.32), 0 0 18px rgba(0,170,255,.16);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+            transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+        #codifyNavVisibilityToggle:hover {
+            background: rgba(0,75,120,.96);
+            border-color: #00aaff;
+            box-shadow: 0 10px 30px rgba(0,0,0,.36), 0 0 22px rgba(0,170,255,.28);
+        }
+        #codifyNavVisibilityToggle:active { cursor: grabbing; }
+        #codifyNavVisibilityToggle:focus-visible {
+            outline: 2px solid #00aaff;
+            outline-offset: 4px;
+        }
+        #codifyNavVisibilityToggle svg { width: 21px; height: 21px; pointer-events: none; }
+        #codifyNavVisibilityToggle .codify-toggle-grip {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            width: 15px;
+            height: 2px;
+            border-radius: 2px;
+            background: rgba(0,170,255,.65);
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        @media (max-width: 600px) {
+            #codifyNavVisibilityToggle { width: 44px; height: 44px; border-radius: 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .codify-main-header, #codifyNavVisibilityToggle { transition: none !important; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.id = 'codifyNavVisibilityToggle';
+    toggle.setAttribute('aria-controls', 'codifyCenterNav');
+    toggle.setAttribute('aria-pressed', 'false');
+    toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="m8 3-4 4 4 4"/><path d="M21 17H3"/><path d="m16 13 4 4-4 4"/></svg>';
+    toggle.title = 'Hide top navigation — drag to move';
+    toggle.setAttribute('aria-label', 'Hide top navigation. Drag to move this button.');
+    document.body.appendChild(toggle);
+
+    const storageKey = 'codify-nav-toggle-position';
+    try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+        if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+            toggle.style.left = Math.max(0, Math.min(saved.x, innerWidth - 46)) + 'px';
+            toggle.style.top = Math.max(0, Math.min(saved.y, innerHeight - 46)) + 'px';
+            toggle.style.right = 'auto';
+            toggle.style.bottom = 'auto';
+        }
+    } catch (_) {}
+
+    const updateToggleState = () => {
+        const hidden = header.classList.contains('codify-nav-hidden');
+        toggle.setAttribute('aria-pressed', String(hidden));
+        toggle.setAttribute('aria-label', hidden ? 'Show top navigation. Drag to move this button.' : 'Hide top navigation. Drag to move this button.');
+        toggle.title = hidden ? 'Show top navigation — drag to move' : 'Hide top navigation — drag to move';
+        toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span>' +
+            (hidden
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="m8 11-4-4 4-4"/><path d="M21 17H3"/><path d="m16 13 4 4-4 4"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="m8 3-4 4 4 4"/><path d="M21 17H3"/><path d="m16 13 4 4-4 4"/></svg>');
+    };
+
+    let pointerStart = null;
+    let moved = false;
+    let dragging = false;
+
+    toggle.addEventListener('pointerdown', event => {
+        if (event.button !== 0 && event.pointerType === 'mouse') return;
+        const rect = toggle.getBoundingClientRect();
+        pointerStart = { x: event.clientX, y: event.clientY, left: rect.left, top: rect.top };
+        moved = false;
+        dragging = true;
+        toggle.setPointerCapture?.(event.pointerId);
+    });
+
+    toggle.addEventListener('pointermove', event => {
+        if (!dragging || !pointerStart) return;
+        const dx = event.clientX - pointerStart.x;
+        const dy = event.clientY - pointerStart.y;
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+        if (!moved) return;
+        const x = Math.max(0, Math.min(pointerStart.left + dx, innerWidth - toggle.offsetWidth));
+        const y = Math.max(0, Math.min(pointerStart.top + dy, innerHeight - toggle.offsetHeight));
+        toggle.style.left = x + 'px';
+        toggle.style.top = y + 'px';
+        toggle.style.right = 'auto';
+        toggle.style.bottom = 'auto';
+    });
+
+    const finishDrag = () => {
+        if (!dragging) return;
+        dragging = false;
+        if (moved) {
+            const rect = toggle.getBoundingClientRect();
+            try { localStorage.setItem(storageKey, JSON.stringify({ x: rect.left, y: rect.top })); } catch (_) {}
+        }
+    };
+    toggle.addEventListener('pointerup', finishDrag);
+    toggle.addEventListener('pointercancel', finishDrag);
+    toggle.addEventListener('click', event => {
+        if (moved) {
+            event.preventDefault();
+            event.stopPropagation();
+            moved = false;
+            return;
+        }
+        const hidden = header.classList.toggle('codify-nav-hidden');
+        if (hidden) header.classList.remove('mobile-nav-open');
+        const mobileToggle = document.getElementById('codifyMobileMenuToggle');
+        if (mobileToggle) {
+            mobileToggle.setAttribute('aria-expanded', 'false');
+            mobileToggle.setAttribute('aria-label', 'Open navigation menu');
+        }
+        updateToggleState();
+    });
+    window.addEventListener('resize', () => {
+        const rect = toggle.getBoundingClientRect();
+        const x = Math.max(0, Math.min(rect.left, innerWidth - toggle.offsetWidth));
+        const y = Math.max(0, Math.min(rect.top, innerHeight - toggle.offsetHeight));
+        toggle.style.left = x + 'px';
+        toggle.style.top = y + 'px';
+        toggle.style.right = 'auto';
+        toggle.style.bottom = 'auto';
+    });
+    updateToggleState();
+})();
+
