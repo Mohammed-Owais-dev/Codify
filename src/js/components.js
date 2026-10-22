@@ -827,24 +827,38 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     } catch (_) {}
 
     const storageKey = 'codify-nav-toggle-position';
+    const edgeGap = 12;
+
+    // Keep the saved position, but restore it safely inside the viewport.
+    function placeToggle(x, y) {
+        const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+        const maxY = Math.max(edgeGap, innerHeight - toggle.offsetHeight - edgeGap);
+        toggle.style.left = Math.max(edgeGap, Math.min(x, maxX)) + 'px';
+        toggle.style.top = Math.max(edgeGap, Math.min(y, maxY)) + 'px';
+        toggle.style.right = 'auto';
+        toggle.style.bottom = 'auto';
+    }
+
     try {
         const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
         if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
-            toggle.style.left = Math.max(0, Math.min(saved.x, innerWidth - 46)) + 'px';
-            toggle.style.top = Math.max(0, Math.min(saved.y, innerHeight - 46)) + 'px';
-            toggle.style.right = 'auto';
-            toggle.style.bottom = 'auto';
+            placeToggle(saved.x, saved.y);
         }
     } catch (_) {}
 
     const updateToggleState = () => {
         const hidden = header.classList.contains('codify-nav-hidden');
         toggle.setAttribute('aria-pressed', String(hidden));
-        toggle.setAttribute('aria-label', hidden ? 'Show top navigation. Drag to move this button.' : 'Hide top navigation. Drag to move this button.');
+        toggle.setAttribute('aria-label', hidden
+            ? 'Show top navigation. Drag to move this button.'
+            : 'Hide top navigation. Drag to move this button.');
         toggle.title = hidden ? 'Show top navigation — drag to move' : 'Hide top navigation — drag to move';
-        toggle.innerHTML = hidden
-            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5.8 0 9.5 7 9.5 7a16 16 0 0 1-3.1 3.8"/><path d="M6.2 6.2C3.8 7.8 2.5 12 2.5 12s3.7 7 9.5 7a10 10 0 0 0 3-.5"/></svg>'
-            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="2.8"/></svg>';
+
+        // A browser-window icon with an eye clearly communicates navbar visibility.
+        const icon = hidden
+            ? '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z"/><path d="M3 8h18"/><path d="M6 5.5h.01M8.5 5.5h.01"/><path d="M8 13s1.5-2.5 4-2.5 4 2.5 4 2.5-1.5 2.5-4 2.5S8 13 8 13Z"/><path d="m5 10 14 8"/>'
+            : '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z"/><path d="M3 8h18"/><path d="M6 5.5h.01M8.5 5.5h.01"/><path d="M7 14s1.8-3.5 5-3.5 5 3.5 5 3.5-1.8 3.5-5 3.5S7 14 7 14Z"/><circle cx="12" cy="14" r="1.3"/>';
+        toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icon + '</svg>';
     };
 
     let pointerStart = null;
@@ -866,12 +880,7 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
         const dy = event.clientY - pointerStart.y;
         if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
         if (!moved) return;
-        const x = Math.max(0, Math.min(pointerStart.left + dx, innerWidth - toggle.offsetWidth));
-        const y = Math.max(0, Math.min(pointerStart.top + dy, innerHeight - toggle.offsetHeight));
-        toggle.style.left = x + 'px';
-        toggle.style.top = y + 'px';
-        toggle.style.right = 'auto';
-        toggle.style.bottom = 'auto';
+        placeToggle(pointerStart.left + dx, pointerStart.top + dy);
     });
 
     const finishDrag = () => {
@@ -879,7 +888,29 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
         dragging = false;
         if (moved) {
             const rect = toggle.getBoundingClientRect();
-            try { localStorage.setItem(storageKey, JSON.stringify({ x: rect.left, y: rect.top })); } catch (_) {}
+            const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+            const maxY = Math.max(edgeGap, innerHeight - toggle.offsetHeight - edgeGap);
+
+            // Magnetically snap to the nearest screen edge on release.
+            const distances = [
+                { edge: 'left', distance: Math.abs(rect.left - edgeGap) },
+                { edge: 'right', distance: Math.abs(maxX - rect.left) },
+                { edge: 'top', distance: Math.abs(rect.top - edgeGap) },
+                { edge: 'bottom', distance: Math.abs(maxY - rect.top) }
+            ];
+            distances.sort((a, b) => a.distance - b.distance);
+            let x = rect.left;
+            let y = rect.top;
+            if (distances[0].edge === 'left') x = edgeGap;
+            if (distances[0].edge === 'right') x = maxX;
+            if (distances[0].edge === 'top') y = edgeGap;
+            if (distances[0].edge === 'bottom') y = maxY;
+
+            placeToggle(x, y);
+            const snapped = toggle.getBoundingClientRect();
+            try {
+                localStorage.setItem(storageKey, JSON.stringify({ x: snapped.left, y: snapped.top }));
+            } catch (_) {}
         }
     };
     toggle.addEventListener('pointerup', finishDrag);
@@ -903,12 +934,9 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     });
     window.addEventListener('resize', () => {
         const rect = toggle.getBoundingClientRect();
-        const x = Math.max(0, Math.min(rect.left, innerWidth - toggle.offsetWidth));
-        const y = Math.max(0, Math.min(rect.top, innerHeight - toggle.offsetHeight));
-        toggle.style.left = x + 'px';
-        toggle.style.top = y + 'px';
-        toggle.style.right = 'auto';
-        toggle.style.bottom = 'auto';
+        placeToggle(rect.left, rect.top);
+        const adjusted = toggle.getBoundingClientRect();
+        try { localStorage.setItem(storageKey, JSON.stringify({ x: adjusted.left, y: adjusted.top })); } catch (_) {}
     });
     updateToggleState();
 })();
