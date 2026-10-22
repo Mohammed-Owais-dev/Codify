@@ -57,7 +57,7 @@
 
 **Dark mode with variables**
 
-```text
+```css
 :root {
   --bg: #ffffff;
   --text: #0f172a;
@@ -78,7 +78,7 @@ body {
 
 **With `calc()`**
 
-```text
+```css
 .box { padding: calc(var(--space) * 2); }
 ```
 

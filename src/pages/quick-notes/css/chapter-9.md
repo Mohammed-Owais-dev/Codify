@@ -120,7 +120,7 @@
 
 **Centering with transform**
 
-```text
+```css
 .centered {
   position: absolute;
   top: 50%;
@@ -324,7 +324,7 @@
 
 **Respecting motion preferences**
 
-```text
+```css
 @media (prefers-reduced-motion: reduce) {
   .hero, .card {
     animation: none;
@@ -335,7 +335,7 @@
 
 **Hover only on devices that can hover**
 
-```text
+```css
 @media (hover: hover) {
   .card:hover { transform: translateY(-4px); }
 }
