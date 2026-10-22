@@ -814,7 +814,7 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     toggle.id = 'codifyNavVisibilityToggle';
     toggle.setAttribute('aria-controls', 'codifyCenterNav');
     toggle.setAttribute('aria-pressed', 'false');
-    toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="m8 3-4 4 4 4"/><path d="M21 17H3"/><path d="m16 13 4 4-4 4"/></svg>';
+    toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="m9 12-3 3 3 3"/><path d="m15 12 3 3-3 3"/></svg>';
     toggle.title = 'Hide top navigation — drag to move';
     toggle.setAttribute('aria-label', 'Hide top navigation. Drag to move this button.');
     document.body.appendChild(toggle);
@@ -837,8 +837,8 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
         toggle.title = hidden ? 'Show top navigation — drag to move' : 'Hide top navigation — drag to move';
         toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span>' +
             (hidden
-                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="m8 11-4-4 4-4"/><path d="M21 17H3"/><path d="m16 13 4 4-4 4"/></svg>'
-                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18"/><path d="m8 3-4 4 4 4"/><path d="M21 17H3"/><path d="m16 13 4 4-4 4"/></svg>');
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="m8 13 4 4 4-4"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="m8 17 4-4 4 4"/></svg>');
     };
 
     let pointerStart = null;
