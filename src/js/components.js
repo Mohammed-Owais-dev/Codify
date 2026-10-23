@@ -201,7 +201,7 @@ document.getElementById('footer-placeholder').innerHTML = `
                             <span class="member-dot"></span><span class="member-name">Mohammed Owais</span> <span class="student-id">(24030-CM-193)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span><span class="member-name">M. Dhanush</span> <span class="student-id">(24030-CM-189)</span>
+                            <span class="member-dot"></span><span class="member-name">M. Dhanush</span> <span class="student-id">(24030-CM-188)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('feroz')">
                             <span class="member-dot"></span><span class="member-name">MD. Feroz Basha</span> <span class="student-id">(24030-CM-190)</span>
