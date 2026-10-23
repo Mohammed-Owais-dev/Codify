@@ -1,9 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /exam
-Disallow: /profile
-Disallow: /account-security
-Disallow: /activity
 
 Sitemap: https://learn-codify.vercel.app/sitemap.xml
