@@ -2,810 +2,234 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="Codify project presentation: problem, solution, architecture, technology, security, team and future scope of a student-friendly learning platform.">
-<meta name="theme-color" content="#0a0f1c">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
 <link rel="stylesheet" href="/src/css/global.css">
-<title>About Codify | Project Presentation</title>
+<title>Admin | Codify</title>
 <style>
-:root{--bg:#0a0f1c;--bg2:#0d1b2a;--panel:rgba(13,27,42,.72);--line:rgba(0,170,255,.2);--blue:#00aaff;--blue2:#0878ff;--sky:#67d2ff;--muted:#9aa9bd;--white:#f7fbff;--green:#34d399;--purple:#c4a3ff;--ease:cubic-bezier(.2,.75,.25,1)}
-html{scroll-behavior:smooth;scroll-snap-type:y mandatory;max-width:100%;overflow-x:clip}
-body{margin:0;background:var(--bg);color:#e0e6ed;font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:clip}
-#footer-placeholder{margin-top:auto;scroll-snap-align:end;position:relative;z-index:2}
-.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-
-/* ---------- ambient background ---------- */
-.dk-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.dk-bg:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,170,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,170,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%)}
-.dk-orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
-.dk-orb.o1{width:46vw;height:46vw;left:-12vw;top:-10vw;background:radial-gradient(circle,rgba(8,120,255,.55),transparent 65%);transform:translate3d(calc(var(--p,0)*30vw),calc(var(--p,0)*55vh),0)}
-.dk-orb.o2{width:40vw;height:40vw;right:-12vw;bottom:-12vw;background:radial-gradient(circle,rgba(0,200,255,.4),transparent 65%);transform:translate3d(calc(var(--p,0)*-24vw),calc(var(--p,0)*-50vh),0)}
-.dk-orb.o3{width:28vw;height:28vw;left:40vw;top:30vh;background:radial-gradient(circle,rgba(150,110,255,.25),transparent 65%);transform:translate3d(calc(var(--p,0)*-18vw),calc(var(--p,0)*20vh),0)}
-
-/* ---------- deck chrome ---------- */
-.dk-progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:3000;background:transparent;pointer-events:none}
-.dk-progress i{display:block;height:100%;width:calc(var(--p,0)*100%);background:linear-gradient(90deg,var(--blue2),var(--sky));box-shadow:0 0 14px rgba(0,170,255,.7);transition:width .15s linear}
-.dk-dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:9px}
-.dk-dots button{position:relative;width:10px;height:10px;padding:0;border-radius:50%;border:1.5px solid rgba(0,170,255,.5);background:transparent;cursor:pointer;transition:all .3s var(--ease)}
-.dk-dots button:hover{background:rgba(0,170,255,.5);transform:scale(1.3)}
-.dk-dots button.on{background:var(--blue);border-color:var(--blue);height:26px;border-radius:6px;box-shadow:0 0 12px rgba(0,170,255,.7)}
-.dk-dots button span{position:absolute;right:22px;top:50%;transform:translate(8px,-50%);white-space:nowrap;padding:5px 10px;border-radius:8px;background:rgba(7,13,25,.95);border:1px solid var(--line);color:#dceeff;font:800 .72rem 'Nunito',sans-serif;opacity:0;pointer-events:none;transition:all .2s ease}
-.dk-dots button:hover span{opacity:1;transform:translate(0,-50%)}
-.dk-hud{position:fixed;left:22px;bottom:18px;z-index:900;display:flex;align-items:center;gap:12px;font-weight:800;font-size:.8rem;color:var(--muted);letter-spacing:.08em}
-.dk-hud b{color:var(--white);font-size:1.05rem;font-variant-numeric:tabular-nums}
-.dk-hud .t{max-width:210px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--sky);text-transform:uppercase;font-size:.7rem}
-.dk-tools{position:fixed;right:22px;bottom:16px;z-index:900;display:flex;gap:8px}
-.dk-tools button{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:rgba(10,15,28,.82);color:#cfeeff;font-size:18px;cursor:pointer;backdrop-filter:blur(8px);transition:all .25s ease}
-.dk-tools button:hover{border-color:var(--blue);background:rgba(0,170,255,.14);transform:translateY(-2px)}
-
-/* ---------- slides ---------- */
-.dk{position:relative;z-index:1;flex:1}
-.dk-slide{position:relative;box-sizing:border-box;min-height:100svh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(78px,11vh,104px) max(26px,calc((100vw - 1180px)/2)) clamp(34px,6vh,60px)}
-.dk-slide>.in{width:100%}
-.dk-slide{overflow:clip}
-.dk-ghost{position:absolute;right:max(20px,calc((100vw - 1260px)/2));top:50%;transform:translateY(-52%);font-size:clamp(9rem,24vw,22rem);font-weight:900;line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.5px rgba(0,170,255,.07);pointer-events:none;user-select:none;opacity:0;transition:opacity 1.2s ease,transform 1.4s var(--ease)}
-.dk-slide.is-active .dk-ghost{opacity:1;transform:translateY(-50%)}
-
-/* animation system: keyframe entrance, so it never fights hover transforms or per-component transitions */
-[data-a]{opacity:0;--tx:0px;--ty:28px;--sc:1;--bl:0px}
-[data-a=left]{--tx:-46px;--ty:0px}[data-a=right]{--tx:46px;--ty:0px}
-[data-a=zoom]{--ty:0px;--sc:.88}[data-a=blur]{--ty:14px;--bl:12px}
-.is-active [data-a]{opacity:1;animation:aIn .8s var(--ease) backwards;animation-delay:calc(var(--i,0)*80ms)}
-@keyframes aIn{from{opacity:0;transform:translate3d(var(--tx),var(--ty),0) scale(var(--sc));filter:blur(var(--bl))}to{opacity:1;transform:none;filter:blur(0)}}
-
-.dk-eyebrow{display:inline-flex;align-items:center;gap:10px;color:#42c2ff;font-size:.78rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
-.dk-eyebrow:before{content:"";width:28px;height:2px;background:linear-gradient(90deg,var(--blue),transparent)}
-.dk-h2{margin:0 0 12px;color:var(--white);font-size:clamp(1.7rem,3.3vw,2.7rem)!important;line-height:1.15;letter-spacing:-.035em;font-weight:900}
-.dk-h2 em{font-style:normal;background:linear-gradient(95deg,#fff 5%,var(--sky) 50%,var(--blue2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.dk-lead{margin:0;max-width:720px;color:var(--muted);font-size:clamp(.95rem,1.4vw,1.08rem);line-height:1.75}
-.dk-head{margin-bottom:clamp(18px,3.5vh,34px)}
-.dk-head.c{text-align:center}.dk-head.c .dk-lead{margin-inline:auto}.dk-head.c .dk-eyebrow:after{content:"";width:28px;height:2px;background:linear-gradient(270deg,var(--blue),transparent)}
-
-.g2,.g3,.g4,.g5{display:grid;gap:clamp(10px,1.6vh,16px)}
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
-.card{position:relative;overflow:hidden;padding:clamp(15px,2.3vh,24px);border-radius:18px;border:1px solid var(--line);background:var(--panel);transition:transform .3s var(--ease),border-color .3s,box-shadow .3s}
-.card:after{content:"";position:absolute;right:-40px;top:-50px;width:120px;height:120px;border-radius:50%;background:rgba(0,170,255,.08);transition:transform .4s var(--ease)}
-.card:hover{transform:translateY(-6px)!important;border-color:rgba(0,170,255,.55);box-shadow:0 18px 40px rgba(0,0,0,.28)}
-.card:hover:after{transform:scale(1.5)}
-.card h3{position:relative;margin:0 0 6px;color:#f4f8ff;font-size:1.04rem;font-weight:850}
-.card p{position:relative;margin:0;color:var(--muted);font-size:.9rem;line-height:1.6}
-.ico{display:grid;place-items:center;width:44px;height:44px;margin-bottom:13px;border-radius:13px;color:var(--blue);background:rgba(0,170,255,.1);border:1px solid rgba(0,170,255,.18);font-size:22px;position:relative}
-.ico.sm{width:36px;height:36px;font-size:18px;margin:0;border-radius:11px}
-.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:800;color:#8fdcff;background:rgba(0,170,255,.1);border:1px solid rgba(0,170,255,.2)}
-.btn{min-height:48px;padding:12px 22px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;box-sizing:border-box;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease}
-.btn .ic{font-size:18px}
-.btn.p{color:#fff;background:linear-gradient(100deg,var(--blue2),var(--blue));box-shadow:0 8px 26px rgba(0,145,255,.25)}
-.btn.p:hover{transform:translateY(-3px);box-shadow:0 12px 34px rgba(0,145,255,.45)}
-.btn.s{color:#dce9f7;border:1px solid rgba(0,170,255,.3);background:rgba(13,27,42,.6)}
-.btn.s:hover{border-color:var(--blue);background:rgba(0,170,255,.1);transform:translateY(-2px)}
-.row{display:flex;gap:13px;flex-wrap:wrap}.row.c{justify-content:center}
-
-/* 1 title */
-.s-title{text-align:center}
-.s-title .in{display:flex;flex-direction:column;align-items:center}
-.kick{display:inline-flex;align-items:center;gap:9px;padding:8px 15px;border:1px solid rgba(0,170,255,.3);border-radius:999px;background:rgba(0,170,255,.08);color:#70d2ff;font-size:.82rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
-.kick i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:ping 2s infinite}
-.s-title .logo{width:clamp(64px,10vh,92px);margin:clamp(14px,3vh,28px) 0 8px;filter:drop-shadow(0 0 24px rgba(0,170,255,.7));animation:float 5s ease-in-out infinite}
-.s-title h1{margin:0;font-size:clamp(3.6rem,10vw,7.6rem)!important;line-height:.98;letter-spacing:-.06em;font-weight:900;color:var(--white)}
-.s-title h1 span{background:linear-gradient(95deg,#fff 0%,var(--sky) 45%,var(--blue2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.words{display:flex;gap:clamp(8px,2vw,22px);justify-content:center;margin:clamp(10px,2vh,18px) 0;font-size:clamp(1.2rem,2.8vw,2rem);font-weight:900;letter-spacing:-.02em}
-.words b{color:#cfeeff}.words b:nth-child(2){color:var(--sky)}.words b:nth-child(3){color:var(--blue)}
-.s-title .dk-lead{margin-inline:auto;max-width:640px}
-.s-title .row{margin-top:clamp(18px,3.5vh,32px)}
-.team-line{margin-top:clamp(16px,3vh,28px);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;color:#7f93aa;font-size:.82rem;font-weight:700}
-.team-line span:not(:last-child):after{content:"·";margin-left:8px;color:#3b4d66}
-.cue{position:absolute;bottom:clamp(14px,3vh,28px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:#6f86a3;font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
-.cue i{width:22px;height:36px;border:2px solid rgba(0,170,255,.45);border-radius:14px;position:relative}
-.cue i:after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:2px;background:var(--blue);animation:wheel 1.8s infinite}
-
-/* 2 agenda */
-.agenda{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
-.ag{display:flex;align-items:center;gap:16px;padding:clamp(11px,2vh,17px) 18px;border-radius:16px;border:1px solid var(--line);background:rgba(13,27,42,.55);cursor:pointer;text-align:left;color:inherit;font:inherit;transition:all .3s var(--ease)}
-.ag:hover{border-color:var(--blue);transform:translateX(6px);background:rgba(0,170,255,.09)}
-.ag b{font-size:1.7rem;font-weight:900;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.2px var(--blue);min-width:46px}
-.ag strong{display:block;color:#f4f8ff;font-size:1.02rem}.ag small{color:var(--muted);font-size:.82rem}
-
-/* 3 intro */
-.split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,56px);align-items:center}
-.quote{margin-top:20px;padding:15px 18px;border-left:3px solid var(--blue);border-radius:0 12px 12px 0;background:rgba(0,170,255,.07);color:#cfeeff;font-weight:750;line-height:1.65}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.vis{position:relative;min-height:clamp(260px,42vh,380px);display:grid;place-items:center;border:1px solid var(--line);border-radius:26px;overflow:hidden;background:radial-gradient(circle at 50% 40%,rgba(0,170,255,.16),transparent 58%),linear-gradient(145deg,rgba(13,27,42,.85),rgba(10,15,28,.92))}
-.vis:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,170,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,170,255,.06) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(to bottom,#000,transparent)}
-.win{position:relative;width:min(86%,410px);padding:18px 20px 20px;border:1px solid rgba(0,170,255,.28);border-radius:17px;background:rgba(7,13,25,.93);box-shadow:0 22px 60px rgba(0,0,0,.45);animation:float 6s ease-in-out infinite}
-.win .top{display:flex;align-items:center;gap:6px;padding-bottom:13px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
-.win .top i{width:9px;height:9px;border-radius:50%;background:#ff5f57}.win .top i:nth-child(2){background:#febc2e}.win .top i:nth-child(3){background:#28c840}
-.win .top span{margin-left:auto;color:#8192a8;font-size:.72rem}
-.code{font:.88rem/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;color:#b9c8da;white-space:pre-wrap;min-height:9.5em}
-.code .b{color:#63cfff}.code .p{color:var(--purple)}.code .g{color:#9ee6ba}
-.code .cur{display:inline-block;width:8px;height:1.05em;background:var(--blue);vertical-align:-2px;animation:blink 1s steps(2) infinite}
-.win .note{display:flex;align-items:center;gap:9px;margin-top:14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.08);font-size:.78rem;color:#8fa3ba}
-.win .note .ic{color:#51d6a1;font-size:16px}
-.float-badge{z-index:3;position:absolute;padding:9px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(10,15,28,.92);font-size:.76rem;font-weight:800;color:#dceeff;display:flex;gap:8px;align-items:center;box-shadow:0 10px 28px rgba(0,0,0,.35)}
-.float-badge .ic{color:var(--blue);font-size:15px}
-.fb1{left:5%;top:12%;animation:float 5s ease-in-out infinite}.fb2{right:5%;bottom:13%;animation:float 6s ease-in-out -2s infinite}
-
-/* 4 problem */
-.pain{display:flex;flex-direction:column;gap:12px}
-.pain .num{font-size:1.7rem;font-weight:900;letter-spacing:-.05em;line-height:1;color:transparent;-webkit-text-stroke:1.3px #ff7a90}
-.pain .card:hover{border-color:rgba(255,122,144,.55)}
-.arrowdown{display:flex;justify-content:center;margin:clamp(4px,1vh,10px) 0;color:var(--blue);font-size:26px}
-.arrowdown .ic{animation:bob 1.6s ease-in-out infinite}
-.solve-bar{text-align:center;padding:14px 20px;border-radius:16px;border:1px solid rgba(0,170,255,.35);background:linear-gradient(90deg,rgba(0,119,255,.16),rgba(0,200,255,.08));color:#dff3ff;font-weight:800;font-size:1.02rem}
-
-/* 5 objectives */
-.obj{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.obj .card{display:flex;gap:16px;align-items:flex-start}
-.obj .card .ico{margin:0}
-.tick{display:inline-flex;margin-top:9px;gap:6px;align-items:center;color:var(--green);font-size:.78rem;font-weight:800}
-.tick .ic{font-size:14px}
-
-/* 6 loop */
-.loop{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:6px}
-.loop:before{content:"";position:absolute;left:12.5%;right:12.5%;top:38px;height:2px;background:rgba(0,170,255,.18)}
-.loop:after{content:"";position:absolute;left:12.5%;top:38px;height:2px;width:0;background:linear-gradient(90deg,var(--blue2),var(--sky));box-shadow:0 0 12px var(--blue);transition:width 1.8s var(--ease) .5s}
-.is-active .loop:after{width:75%}
-.step{position:relative;text-align:center;padding:0 6px}
-.step .orb{position:relative;z-index:1;width:76px;height:76px;margin:0 auto 14px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 30%,#12304b,#0a1626);border:2px solid var(--blue);color:var(--sky);font-size:30px;box-shadow:0 0 0 7px rgba(0,170,255,.08),0 0 30px rgba(0,170,255,.3);transition:transform .4s var(--ease)}
-.step:hover .orb{transform:scale(1.12) rotate(-6deg)}
-.step h3{margin:0 0 6px;color:#fff;font-size:1.1rem}.step p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.6}
-.step .n{position:absolute;top:-6px;left:50%;margin-left:22px;z-index:2;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#04101e;font-size:.72rem;font-weight:900}
-.loopback{margin-top:clamp(18px,3vh,30px);text-align:center;color:#7f93aa;font-size:.85rem;font-weight:700}
-
-/* 7 features */
-.feat .card{display:flex;flex-direction:column}
-.feat .card .tag{align-self:flex-start;margin-top:12px}
-
-/* 8 stats */
-.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
-.stat{text-align:center;padding:clamp(18px,3.5vh,34px) 12px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(0,119,255,.12),rgba(13,27,42,.7));transition:transform .3s var(--ease),border-color .3s}
-.stat:hover{transform:translateY(-6px)!important;border-color:var(--blue)}
-.stat b{display:block;font-size:clamp(2.2rem,4.8vw,3.8rem);font-weight:900;letter-spacing:-.05em;line-height:1;background:linear-gradient(180deg,#fff,var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
-.stat span{display:block;margin-top:9px;color:var(--muted);font-weight:800;font-size:.84rem;letter-spacing:.04em}
-.statnote{margin-top:clamp(18px,3vh,28px);text-align:center;color:#7f93aa;font-size:.88rem}
-
-/* 9 courses */
-.courses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.crs{display:flex;align-items:center;gap:14px;padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--panel);text-decoration:none;color:inherit;transition:transform .3s var(--ease),border-color .3s}
-.crs:hover{transform:translateY(-6px)!important;border-color:var(--blue)}
-.crs img{width:42px;height:42px;object-fit:contain;flex-shrink:0}
-.crs strong{display:block;color:#fff;font-size:1rem}.crs small{color:var(--muted);font-size:.78rem;font-weight:700}
-.crs.more{justify-content:center;border-style:dashed;color:var(--sky);font-weight:800}
-
-/* 10 architecture */
-.arch{display:grid;grid-template-columns:1fr 54px 1fr 54px 1fr;align-items:stretch}
-.layer{padding:clamp(14px,2.3vh,22px);border-radius:20px;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;gap:9px}
-.layer h3{margin:0;display:flex;align-items:center;gap:10px;color:#fff;font-size:1.05rem}
-.layer h3 .ico{margin:0}
-.layer small{color:var(--blue);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.68rem}
-.node{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:10px;background:rgba(0,170,255,.07);border:1px solid rgba(0,170,255,.13);color:#cfe3f5;font-size:.84rem;font-weight:700}
-.node .ic{color:var(--sky);font-size:15px}
-.link{position:relative;align-self:center;height:2px;background:repeating-linear-gradient(90deg,rgba(0,170,255,.7) 0 6px,transparent 6px 12px);background-size:24px 2px;animation:dash 1s linear infinite}
-.link:after{content:"";position:absolute;right:-2px;top:-5px;border-left:9px solid var(--blue);border-top:6px solid transparent;border-bottom:6px solid transparent}
-.link i{position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--sky);box-shadow:0 0 12px var(--blue);animation:travel 2.2s linear infinite}
-.archnote{margin-top:clamp(14px,2.4vh,22px);display:flex;justify-content:center;gap:clamp(12px,3vw,34px);flex-wrap:wrap;color:#8ea3ba;font-size:.84rem;font-weight:700}
-.archnote span{display:flex;gap:8px;align-items:center}.archnote .ic{color:var(--blue)}
-
-/* 11 stack */
-.stack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.srow{display:flex;gap:16px;align-items:center;padding:16px 18px;border-radius:18px;border:1px solid var(--line);background:var(--panel);transition:transform .3s var(--ease),border-color .3s}
-.srow:hover{transform:translateX(6px)!important;border-color:var(--blue)}
-.srow>div:first-child{min-width:92px}
-.srow small{display:block;color:var(--blue);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.66rem;margin-bottom:3px}
-.srow strong{color:#fff}
-.srow .pills{display:flex;flex-wrap:wrap;gap:7px;margin-left:auto;justify-content:flex-end}
-.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:999px;background:rgba(0,170,255,.08);border:1px solid rgba(0,170,255,.18);font-size:.8rem;font-weight:800;color:#d6eaff}
-.pill img{width:16px;height:16px;object-fit:contain}
-
-/* 12 data */
-.tables{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-.tbl{padding:0;border-radius:16px;border:1px solid var(--line);background:var(--panel);overflow:hidden;transition:transform .3s var(--ease),border-color .3s}
-.tbl:hover{transform:translateY(-6px)!important;border-color:var(--blue)}
-.tbl header{padding:11px 14px;background:rgba(0,170,255,.12);font:800 .86rem ui-monospace,Consolas,monospace;color:var(--sky);display:flex;gap:8px;align-items:center}
-.tbl p{margin:0;padding:12px 14px;color:var(--muted);font-size:.84rem;line-height:1.55}
-.contentbox{margin-top:clamp(14px,2.4vh,22px);display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tree{font:.82rem/1.75 ui-monospace,Consolas,monospace;color:#9fb4cb;white-space:pre;overflow:auto}.tree b{color:var(--sky)}.tree i{color:var(--green);font-style:normal}
-
-/* 13 journey */
-.journey{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.journey:before{content:"";position:absolute;left:8%;right:8%;top:22px;height:2px;background:rgba(0,170,255,.18)}
-.journey:after{content:"";position:absolute;left:8%;top:22px;height:2px;width:0;background:linear-gradient(90deg,var(--blue2),var(--sky));box-shadow:0 0 12px var(--blue);transition:width 2.2s var(--ease) .4s}
-.is-active .journey:after{width:84%}
-.jn{text-align:center;position:relative;z-index:1}
-.jn .dot{width:46px;height:46px;margin:0 auto 12px;display:grid;place-items:center;border-radius:50%;background:#0a1626;border:2px solid var(--blue);color:var(--sky);font-weight:900;box-shadow:0 0 0 6px rgba(0,170,255,.08)}
-.jn h3{margin:0 0 5px;color:#fff;font-size:.98rem}.jn p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.55}
-.gate{margin-top:clamp(18px,3vh,30px);display:flex;gap:14px;align-items:center;padding:14px 18px;border-radius:16px;border:1px dashed rgba(52,211,153,.5);background:rgba(52,211,153,.06);color:#cdf5e4;font-weight:700;font-size:.92rem}
-.gate .ic{font-size:22px;color:var(--green)}
-
-/* 14 exam */
-.mock{border-radius:20px;border:1px solid rgba(0,170,255,.3);background:rgba(7,13,25,.94);box-shadow:0 24px 60px rgba(0,0,0,.45);overflow:hidden}
-.mock .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(0,170,255,.08);border-bottom:1px solid var(--line);font-weight:800;font-size:.85rem;color:#cfe8ff}
-.mock .time{display:flex;align-items:center;gap:7px;color:#ffd479;font-variant-numeric:tabular-nums}
-.mock .body{padding:18px;position:relative}
-.mock .q{font-weight:800;color:#fff;margin:0 0 12px;font-size:.98rem}
-.opt{display:flex;gap:10px;align-items:center;padding:10px 12px;margin-bottom:8px;border-radius:11px;border:1px solid rgba(255,255,255,.09);color:#b9c8da;font-size:.88rem;font-weight:700}
-.opt i{width:18px;height:18px;border-radius:50%;border:2px solid #4a6078;flex-shrink:0}
-.opt.sel{border-color:var(--blue);background:rgba(0,170,255,.1);color:#fff}.opt.sel i{border-color:var(--blue);background:radial-gradient(circle,var(--blue) 45%,transparent 50%)}
-.wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;color:rgba(255,255,255,.045);font-weight:900;font-size:1.5rem;transform:rotate(-18deg);letter-spacing:.1em;text-align:center}
-.rules{display:grid;gap:11px}
-.rule{display:flex;gap:14px;align-items:flex-start;padding:13px 16px;border-radius:15px;border:1px solid var(--line);background:var(--panel);transition:transform .3s var(--ease),border-color .3s}
-.rule:hover{transform:translateX(6px)!important;border-color:var(--blue)}
-.rule h3{margin:0 0 3px;color:#fff;font-size:.96rem}.rule p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.55}
-
-/* 15 certificate / 16 admin */
-.cert{position:relative;padding:clamp(18px,3vh,28px);border-radius:18px;background:linear-gradient(145deg,#0f2238,#0a1626);border:2px solid rgba(0,170,255,.45);box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 0 0 6px rgba(0,170,255,.06);text-align:center;transform:rotate(-1.5deg);transition:transform .5s var(--ease)}
-.cert:hover{transform:rotate(0) scale(1.02)}
-.cert small{letter-spacing:.3em;color:var(--sky);font-weight:900;font-size:.68rem}
-.cert h3{margin:6px 0;color:#fff;font-size:clamp(1.3rem,2.4vw,1.8rem);letter-spacing:-.02em}
-.cert .ln{height:1px;margin:12px auto;width:60%;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.cert p{margin:0;color:var(--muted);font-size:.84rem}
-.cert .foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px}
-.qr{width:62px;height:62px;border-radius:8px;background:#fff;padding:5px}
-.qr i{display:block;width:100%;height:100%;background:conic-gradient(#0a1626 25%,#fff 0 50%,#0a1626 0 75%,#fff 0) 0 0/12px 12px;mask:linear-gradient(#000,#000)}
-.seal{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:26px;background:radial-gradient(circle at 30% 30%,#33c1ff,#0878ff);box-shadow:0 0 24px rgba(0,170,255,.6)}
-.sig{font-family:'Brush Script MT',cursive;font-style:italic;color:#cfe8ff;font-size:1.1rem}
-.dash{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dash .card{padding:15px}
-.dash .card h3{display:flex;align-items:center;gap:9px;font-size:.96rem}
-.dash .card h3 .ic{color:var(--blue);font-size:17px}
-.mini{display:flex;align-items:flex-end;gap:5px;height:34px;margin-top:10px}
-.mini i{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(180deg,var(--sky),var(--blue2));height:var(--h);transform:scaleY(0);transform-origin:bottom;transition:transform .8s var(--ease) calc(.4s + var(--k)*70ms)}
-.is-active .mini i{transform:scaleY(1)}
-.admin-wide{grid-column:1/-1}
-
-/* 16 team */
-.team{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
-.mem{text-align:center;padding:clamp(16px,2.6vh,24px) 14px;border-radius:20px;border:1px solid var(--line);background:var(--panel);transition:transform .35s var(--ease),border-color .3s,box-shadow .3s}
-.mem:hover{transform:translateY(-8px)!important;border-color:var(--blue);box-shadow:0 20px 44px rgba(0,0,0,.35)}
-.mem.lead{border-color:rgba(0,170,255,.55);background:linear-gradient(160deg,rgba(0,119,255,.2),rgba(13,27,42,.8))}
-.av{position:relative;width:clamp(74px,12vh,104px);aspect-ratio:1;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;font-weight:900;font-size:1.5rem;box-shadow:0 0 0 4px rgba(0,170,255,.15),0 10px 28px rgba(0,0,0,.35);overflow:hidden}
-.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.mem h3{margin:0;color:#fff;font-size:1rem}
-.mem .rid{display:block;margin:2px 0 8px;color:#6f86a3;font-size:.72rem;font-weight:800;letter-spacing:.05em}
-.mem .role{display:block;color:var(--sky);font-weight:800;font-size:.8rem;line-height:1.4}
-.mem .badge{display:inline-block;margin-bottom:8px;padding:3px 10px;border-radius:999px;background:linear-gradient(100deg,var(--blue2),var(--blue));color:#fff;font-size:.66rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-
-/* 17 challenges */
-.chal{display:grid;gap:12px}
-.cl{display:grid;grid-template-columns:1fr 36px 1.25fr;gap:12px;align-items:center}
-.cl .a,.cl .b{padding:14px 18px;border-radius:15px;font-size:.9rem;line-height:1.55}
-.cl .a{border:1px solid rgba(255,122,144,.3);background:rgba(255,122,144,.06);color:#ffd3da}
-.cl .b{border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.06);color:#cdf5e4}
-.cl .a strong,.cl .b strong{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px;opacity:.8}
-.cl .x{color:var(--blue);font-size:22px;display:grid;place-items:center}
-
-/* 18 future */
-.road{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.rd{padding:20px;border-radius:20px;border:1px solid var(--line);background:var(--panel);transition:transform .3s var(--ease),border-color .3s}
-.rd:hover{transform:translateY(-6px)!important;border-color:var(--blue)}
-.rd .when{display:inline-block;margin-bottom:10px;padding:3px 11px;border-radius:999px;font-size:.7rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#04101e;background:linear-gradient(100deg,var(--sky),var(--blue))}
-.rd h3{margin:0 0 10px;color:#fff;font-size:1.1rem}
-.rd ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
-.rd li{display:flex;gap:9px;color:var(--muted);font-size:.88rem;line-height:1.5}
-.rd li .ic{color:var(--blue);font-size:15px;margin-top:3px}
-
-/* 19 end */
-.s-end{text-align:center}
-.s-end .in{display:flex;flex-direction:column;align-items:center}
-.s-end .big{margin:0;font-size:clamp(2.8rem,8vw,6rem)!important;line-height:1;letter-spacing:-.055em;font-weight:900;color:var(--white)}
-.s-end .big span{background:linear-gradient(95deg,#fff,var(--sky) 50%,var(--blue2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.s-end .dk-lead{margin:16px auto 0}.s-end .row{margin-top:clamp(18px,3.5vh,30px)}
-.contact{margin-top:clamp(18px,3vh,28px);display:flex;gap:10px 24px;flex-wrap:wrap;justify-content:center;color:#8ea3ba;font-weight:700;font-size:.88rem}
-.contact a{color:#8fdcff;text-decoration:none}.contact a:hover{color:#fff}.contact span{display:flex;gap:8px;align-items:center}
-.pulse-ring{position:absolute;left:50%;top:50%;width:min(80vw,700px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(0,170,255,.15);transform:translate(-50%,-50%);pointer-events:none;animation:ring 5s ease-out infinite}
-.pulse-ring.r2{animation-delay:2.5s}
-
-/* keyframes */
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes blink{50%{opacity:0}}
-@keyframes bob{50%{transform:translateY(7px)}}
-@keyframes wheel{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
-@keyframes ping{70%{box-shadow:0 0 0 9px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
-@keyframes dash{to{background-position:24px 0}}
-@keyframes travel{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 10px);opacity:0}}
-@keyframes ring{0%{transform:translate(-50%,-50%) scale(.5);opacity:.9}100%{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
-.words b{opacity:0;transform:translateY(20px);display:inline-block}
-.is-active .words b{animation:wordIn .8s var(--ease) forwards}
-.is-active .words b:nth-child(1){animation-delay:.7s}.is-active .words b:nth-child(2){animation-delay:1s}.is-active .words b:nth-child(3){animation-delay:1.3s}
-@keyframes wordIn{to{opacity:1;transform:none}}
-
-/* responsive */
-@media(max-width:1100px){.team{grid-template-columns:repeat(3,minmax(0,1fr))}.tables{grid-template-columns:repeat(3,minmax(0,1fr))}.courses{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.g5{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:900px){
-  html{scroll-snap-type:y proximity}
-  .dk-slide{scroll-snap-stop:normal;padding:88px 20px 70px;justify-content:flex-start}
-  .s-title,.s-end{justify-content:center}
-  .dk-dots,.dk-hud .t{display:none}.dk-ghost{opacity:.5!important}
-  .split,.contentbox,.stack,.g2,.obj,.agenda,.dash{grid-template-columns:1fr}
-  .g3,.g4,.road{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .loop{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}.loop:before,.loop:after{display:none}
-  .journey{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:22px}.journey:before,.journey:after{display:none}
-  .arch{grid-template-columns:1fr;gap:6px}.link{width:2px;height:34px;margin:0 auto;background:repeating-linear-gradient(180deg,rgba(0,170,255,.7) 0 6px,transparent 6px 12px);background-size:2px 24px;animation:dashv 1s linear infinite}
-  .link:after{right:auto;left:-5px;top:auto;bottom:-2px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid var(--blue);border-bottom:0}
-  .link i{display:none}
-  .cl{grid-template-columns:1fr}.cl .x{transform:rotate(90deg)}
-  .srow{flex-direction:column;align-items:flex-start}.srow .pills{margin-left:0;justify-content:flex-start}
-}
-@keyframes dashv{to{background-position:0 24px}}
-@media(max-width:600px){
-  .g3,.g4,.road,.team,.tables,.courses,.stats,.g5,.loop,.journey{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .team{grid-template-columns:repeat(2,minmax(0,1fr))}.mem:last-child{grid-column:1/-1}
-  .feat{grid-template-columns:repeat(2,minmax(0,1fr))!important}.feat .card{padding:13px}.feat .card p{font-size:.8rem}.feat .card .tag{display:none}.feat .ico{width:36px;height:36px;font-size:18px;margin-bottom:9px}
-  .btn{width:100%}.row{flex-direction:column}
-  .dk-tools{display:none}.dk-hud{left:14px;bottom:12px}
-  .fb1,.fb2{display:none}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}[data-a]{opacity:1!important;animation:none!important}.words b{opacity:1;transform:none}}
+body{min-width:0!important;overflow-x:hidden!important;font-family:'Nunito',sans-serif;background:#0a0f1c;color:#e0e6ed;margin:0}
+body.pending{visibility:hidden}
+main{display:block!important;margin-top:100px!important;position:relative;z-index:2;padding:0 20px 70px;max-width:1150px;margin-left:auto!important;margin-right:auto!important}
+h1{font-size:2rem;font-weight:800;color:#fff;margin:0 0 4px}h1 span{background:linear-gradient(90deg,#0077ff,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:#94a3b8;margin:0 0 24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.tile,.panel{background:rgba(13,27,42,.55);border:1px solid rgba(0,170,255,.2);border-radius:16px;backdrop-filter:blur(12px)}
+.tile{padding:16px 18px}.tile small{display:block;color:#64748b;font-size:.7rem;font-weight:800;letter-spacing:1.5px}.tile b{font-size:1.8rem;color:#00aaff}
+.panel{padding:20px;margin-bottom:24px}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.ph h2{margin:0;font-size:1.2rem;color:#fff}
+.search{display:flex;gap:10px;flex:1;max-width:520px}
+.search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border-radius:10px;border:none;font:inherit;font-weight:700;font-size:.88rem;color:#fff;cursor:pointer;background:linear-gradient(90deg,#0077ff,#00aaff);transition:.2s}
+.btn:hover{filter:brightness(1.12)}.btn:disabled{opacity:.5;cursor:wait}
+.btn.ghost{background:rgba(10,15,28,.6);border:1px solid rgba(0,170,255,.3);color:#00aaff}
+.btn.danger{background:linear-gradient(90deg,#dc2626,#ef4444)}.btn.ok{background:linear-gradient(90deg,#059669,#10b981)}
+.btn.sm{padding:6px 12px;font-size:.8rem}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:760px}
+th{text-align:left;color:#64748b;font-size:.7rem;letter-spacing:1.5px;font-weight:800;padding:8px 10px;border-bottom:1px solid rgba(0,170,255,.2)}
+td{padding:11px 10px;border-bottom:1px solid rgba(0,170,255,.1);vertical-align:middle}
+td small{display:block;color:#94a3b8}
+.id{font-family:ui-monospace,Consolas,monospace;font-size:.82rem;color:#e0e6ed}
+.pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:.75rem;font-weight:800;border:1px solid}
+.pill.v{color:#34d399;border-color:rgba(16,185,129,.45);background:rgba(16,185,129,.1)}
+.pill.r{color:#f87171;border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.1)}
+.bar{height:6px;border-radius:4px;background:linear-gradient(90deg,#0077ff,#00aaff);margin-top:4px;min-width:2px}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.empty{color:#94a3b8;padding:20px;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(5,8,16,.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9000}
+.modal.on{display:flex}
+.mp{width:100%;max-width:560px;max-height:88vh;overflow:auto;background:rgba(13,27,42,.98);border:1px solid rgba(0,170,255,.35);border-radius:18px;padding:24px}
+.mp h3{margin:0 0 6px;color:#fff}.mp p{color:#94a3b8;font-size:.9rem;margin:0 0 14px}
+.mp textarea{width:100%;box-sizing:border-box;min-height:90px;padding:12px;border-radius:12px;background:#0a0f1c;color:#fff;border:1px solid rgba(0,170,255,.35);font:inherit;resize:vertical}
+.mrow{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.toast{position:fixed;bottom:24px;right:24px;background:rgba(13,27,42,.96);border:1px solid rgba(0,170,255,.4);padding:14px 18px;border-radius:12px;z-index:9999;opacity:0;transform:translateY(16px);transition:.3s;pointer-events:none}
+.toast.show{opacity:1;transform:none}.toast.bad{border-color:rgba(248,113,113,.6)}
+@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}main{margin-top:40px!important}}
 </style>
 </head>
-<body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
-<symbol id="i-notes" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></symbol>
-<symbol id="i-exam" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
-<symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></symbol>
-<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
-<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-<symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
-<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
-<symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
-<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
-<symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
-<symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
-<symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
-<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
-<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></symbol>
-<symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
-<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
-<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
-<symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
-<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
-<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
-<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
-<symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
-<symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h3M20 17v4"/></symbol>
-<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
-<symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
-<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
-<symbol id="i-ticket" viewBox="0 0 24 24"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 17v2M13 11v2"/></symbol>
-<symbol id="i-fs" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
-<symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
-<symbol id="i-dn" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-<symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></symbol>
-<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.78A6 6 0 1 0 6 18.5"/><path d="M6 19h11.5"/></symbol>
-<symbol id="i-file" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z"/><path d="M14 2v6h6"/></symbol>
-</defs></svg>
-
+<body class="pending">
 <div id="navbar-placeholder"></div>
-<div class="dk-bg" aria-hidden="true"><div class="dk-orb o1"></div><div class="dk-orb o2"></div><div class="dk-orb o3"></div></div>
-<div class="dk-progress" aria-hidden="true"><i></i></div>
-<nav class="dk-dots" id="dkDots" aria-label="Slide navigation"></nav>
-<div class="dk-hud" aria-live="polite"><b id="dkNum">01</b><span>/ <span id="dkTot">00</span></span><span class="t" id="dkTitle"></span></div>
-<div class="dk-tools">
-  <button id="dkPrev" type="button" aria-label="Previous slide"><svg class="ic"><use href="#i-up"/></svg></button>
-  <button id="dkNext" type="button" aria-label="Next slide"><svg class="ic"><use href="#i-dn"/></svg></button>
-  <button id="dkFs" type="button" aria-label="Toggle full screen presentation"><svg class="ic"><use href="#i-fs"/></svg></button>
-</div>
+<main>
+  <h1>Admin <span>Dashboard</span></h1>
+  <p class="sub">Search certificates, revoke or restore them, and review exam attempts.</p>
 
-<main class="dk" id="deck">
-
-<!-- 01 TITLE -->
-<section class="dk-slide s-title" id="intro" data-title="Title">
-  <div class="in">
-    <div class="kick" data-a="blur" style="--i:0"><i></i> Project Presentation</div>
-    <img class="logo" src="/src/assets/logos/main-logo.svg" alt="" data-a="zoom" style="--i:1">
-    <h1 data-a="blur" style="--i:2"><span>Codify</span></h1>
-    <div class="words" aria-label="Learn. Practise. Grow."><b>Learn.</b><b>Practise.</b><b>Grow.</b></div>
-    <p class="dk-lead" data-a style="--i:6">A student-friendly learning management system that brings structured programming courses, quick revision notes, secure exams and verifiable certificates into one platform.</p>
-    <div class="row c" data-a style="--i:7"><a class="btn p" href="/courses">Explore the platform <svg class="ic"><use href="#i-arrow"/></svg></a><button class="btn s" type="button" data-go="1">Start presentation <svg class="ic"><use href="#i-down"/></svg></button></div>
-    <div class="team-line" data-a style="--i:8"><span>Mohammed Owais</span><span>M. Dhanush</span><span>MD. Feroz Basha</span><span>M. Basha</span><span>M. Prasad</span></div>
+  <div class="stats">
+    <div class="tile"><small>CERTIFICATES</small><b id="sCert">-</b></div>
+    <div class="tile"><small>REVOKED</small><b id="sRev">-</b></div>
+    <div class="tile"><small>EXAMS SUBMITTED</small><b id="sAtt">-</b></div>
+    <div class="tile"><small>STARTED (7 DAYS)</small><b id="sWeek">-</b></div>
   </div>
-  <div class="cue" aria-hidden="true"><i></i>Scroll</div>
-</section>
 
-<!-- 02 AGENDA -->
-<section class="dk-slide" id="agenda" data-title="Agenda">
-  <div class="dk-ghost" aria-hidden="true">02</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">Agenda</span><h2 class="dk-h2">What we will <em>cover today.</em></h2></div>
-    <div class="agenda">
-      <button class="ag" data-go="2" data-a="left" style="--i:1"><b>01</b><span><strong>Introduction</strong><small>What Codify is and why we built it</small></span></button>
-      <button class="ag" data-go="3" data-a="right" style="--i:1"><b>02</b><span><strong>Problem &amp; Objectives</strong><small>The gap we set out to close</small></span></button>
-      <button class="ag" data-go="5" data-a="left" style="--i:2"><b>03</b><span><strong>Solution &amp; Features</strong><small>The learning loop and key modules</small></span></button>
-      <button class="ag" data-go="9" data-a="right" style="--i:2"><b>04</b><span><strong>Architecture &amp; Technology</strong><small>How the system is built</small></span></button>
-      <button class="ag" data-go="12" data-a="left" style="--i:3"><b>05</b><span><strong>User Journey</strong><small>From sign-up to certificate</small></span></button>
-      <button class="ag" data-go="13" data-a="right" style="--i:3"><b>06</b><span><strong>Security, Certificates &amp; Admin</strong><small>Trust and integrity by design</small></span></button>
-      <button class="ag" data-go="16" data-a="left" style="--i:4"><b>07</b><span><strong>Team &amp; Challenges</strong><small>The people and the lessons</small></span></button>
-      <button class="ag" data-go="18" data-a="right" style="--i:4"><b>08</b><span><strong>Future Scope &amp; Conclusion</strong><small>Where Codify goes next</small></span></button>
-    </div>
-  </div>
-</section>
+  <section class="panel">
+    <div class="ph"><h2>Certificates</h2>
+      <form class="search" id="sf"><input id="q" type="search" placeholder="Search ID, name, username or email" aria-label="Search certificates"><button class="btn" type="submit">Search</button></form><button class="btn ghost" id="exp" type="button">Export CSV</button></div>
+    <div class="tw"><table><thead><tr><th>CERTIFICATE</th><th>HOLDER</th><th>COURSE</th><th>SCORE</th><th>ISSUED</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
 
-<!-- 03 INTRODUCTION -->
-<section class="dk-slide" id="introduction" data-title="Introduction">
-  <div class="dk-ghost" aria-hidden="true">03</div>
-  <div class="in split">
-    <div>
-      <div data-a><span class="dk-eyebrow">01 · Introduction</span></div>
-      <h2 class="dk-h2" data-a style="--i:1">One place to <em>learn, revise and prove</em> your skills.</h2>
-      <p class="dk-lead" data-a style="--i:2">Codify is a web-based learning management system for programming students. It organises lessons into chapters and topics, tracks progress per learner, assesses understanding through timed exams and issues certificates that anyone can verify.</p>
-      <div class="chips" data-a style="--i:3"><span class="tag">Learning Management System</span><span class="tag">Progress tracking</span><span class="tag">Secure exams</span><span class="tag">Verifiable certificates</span></div>
-      <div class="quote" data-a style="--i:4">“One concept at a time. One practice session at a time. Keep getting better.”</div>
-    </div>
-    <div class="vis" data-a="zoom" style="--i:2">
-      <div class="float-badge fb1"><svg class="ic"><use href="#i-bolt"/></svg> 7 courses</div>
-      <div class="float-badge fb2"><svg class="ic"><use href="#i-award"/></svg> Certified</div>
-      <div class="win">
-        <div class="top"><i></i><i></i><i></i><span>first-steps.c</span></div>
-        <div class="code" id="typed" data-text="#include <stdio.h>||int main(void) {|    printf(&quot;Keep learning.\n&quot;);|    return 0;|}"><span class="cur"></span></div>
-        <div class="note"><svg class="ic"><use href="#i-check"/></svg> Small steps build strong foundations</div>
-      </div>
-    </div>
-  </div>
-</section>
+  <section class="panel">
+    <div class="ph"><h2>Course analytics</h2></div>
+    <div class="tw"><table><thead><tr><th>COURSE</th><th>ENROLLED</th><th>EXAMS TAKEN</th><th>PASS RATE</th><th>AVG SCORE</th><th>CERTIFICATES</th></tr></thead><tbody id="courses"></tbody></table></div>
+  </section>
 
-<!-- 04 PROBLEM -->
-<section class="dk-slide" id="problem" data-title="Problem statement">
-  <div class="dk-ghost" aria-hidden="true">04</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">02 · Problem statement</span><h2 class="dk-h2">Learning to code is <em>scattered and unstructured.</em></h2><p class="dk-lead">Beginners know what they want to learn but struggle to find a clear path from the first concept to confident practice.</p></div>
-    <div class="g3 pain">
-      <article class="card" data-a style="--i:1"><div class="num">01</div><h3>No clear starting point</h3><p>Tutorials, videos and notes live in different places, so learners do not know what to study first or next.</p></article>
-      <article class="card" data-a style="--i:2"><div class="num">02</div><h3>Revision is inconvenient</h3><p>Revisiting key ideas before an exam means hunting through long lessons instead of concise, focused notes.</p></article>
-      <article class="card" data-a style="--i:3"><div class="num">03</div><h3>No way to prove learning</h3><p>Self-study rarely includes trustworthy assessments or credentials that someone else can verify.</p></article>
-    </div>
-    <div class="arrowdown" data-a style="--i:4"><svg class="ic"><use href="#i-down"/></svg></div>
-    <div class="solve-bar" data-a="zoom" style="--i:5">Codify joins learning, revision, assessment and certification in one guided experience.</div>
-  </div>
-</section>
+  <section class="panel">
+    <div class="ph"><h2>Suspicious attempts</h2></div>
+    <p class="sub" style="margin:0 0 12px">Two or more warnings, or a pass in under a quarter of the allowed time.</p>
+    <div class="tw"><table><thead><tr><th>USER</th><th>COURSE</th><th>SCORE</th><th>WARNINGS</th><th>TIME USED</th><th>ENDED BY</th><th></th></tr></thead><tbody id="susp"></tbody></table></div>
+  </section>
 
-<!-- 05 OBJECTIVES -->
-<section class="dk-slide" id="objectives" data-title="Objectives">
-  <div class="dk-ghost" aria-hidden="true">05</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">03 · Objectives</span><h2 class="dk-h2">What the project <em>set out to achieve.</em></h2></div>
-    <div class="obj">
-      <article class="card" data-a="left" style="--i:1"><div class="ico"><svg class="ic"><use href="#i-layers"/></svg></div><div><h3>Structured curriculum</h3><p>Deliver every course as chapters and topics in a logical order so learners always know where they are.</p><span class="tick"><svg class="ic"><use href="#i-check"/></svg> 7 courses · 70 chapters</span></div></article>
-      <article class="card" data-a="right" style="--i:1"><div class="ico"><svg class="ic"><use href="#i-notes"/></svg></div><div><h3>Fast, focused revision</h3><p>Provide concise quick notes alongside full lessons for last-minute review and recall.</p><span class="tick"><svg class="ic"><use href="#i-check"/></svg> Quick Notes for every course</span></div></article>
-      <article class="card" data-a="left" style="--i:2"><div class="ico"><svg class="ic"><use href="#i-shield"/></svg></div><div><h3>Trustworthy assessment</h3><p>Run timed, randomised exams with integrity controls so results genuinely reflect understanding.</p><span class="tick"><svg class="ic"><use href="#i-check"/></svg> Server-graded exams</span></div></article>
-      <article class="card" data-a="right" style="--i:2"><div class="ico"><svg class="ic"><use href="#i-award"/></svg></div><div><h3>Verifiable credentials</h3><p>Issue downloadable certificates with a QR code and ID that anyone can check online.</p><span class="tick"><svg class="ic"><use href="#i-check"/></svg> PDF + public verification</span></div></article>
-    </div>
-  </div>
-</section>
+  <section class="panel">
+    <div class="ph"><h2>Users</h2>
+      <form class="search" id="uf"><input id="uq" type="search" placeholder="Search email or name" aria-label="Search users"><button class="btn" type="submit">Search</button></form></div>
+    <div class="tw"><table><thead><tr><th>USER</th><th>JOINED</th><th>LAST LOGIN</th><th>ENROLLED</th><th>LESSONS DONE</th><th>EXAMS</th><th>CERTIFICATES</th><th></th></tr></thead><tbody id="users"></tbody></table></div>
+  </section>
 
-<!-- 06 SOLUTION / LOOP -->
-<section class="dk-slide" id="solution" data-title="Proposed solution">
-  <div class="dk-ghost" aria-hidden="true">06</div>
-  <div class="in">
-    <div class="dk-head c" data-a><span class="dk-eyebrow">04 · Proposed solution</span><h2 class="dk-h2">The Codify <em>learning loop.</em></h2><p class="dk-lead">Four connected stages that take a learner from curiosity to a certificate they can share.</p></div>
-    <div class="loop">
-      <div class="step" data-a style="--i:1"><div class="orb"><svg class="ic"><use href="#i-book"/></svg></div><span class="n">1</span><h3>Learn</h3><p>Follow chapter-by-chapter lessons with code examples.</p></div>
-      <div class="step" data-a style="--i:2"><div class="orb"><svg class="ic"><use href="#i-notes"/></svg></div><span class="n">2</span><h3>Revise</h3><p>Reinforce key ideas with concise quick notes.</p></div>
-      <div class="step" data-a style="--i:3"><div class="orb"><svg class="ic"><use href="#i-exam"/></svg></div><span class="n">3</span><h3>Practise</h3><p>Take a timed exam to check real understanding.</p></div>
-      <div class="step" data-a style="--i:4"><div class="orb"><svg class="ic"><use href="#i-award"/></svg></div><span class="n">4</span><h3>Certify</h3><p>Earn a verifiable certificate on passing.</p></div>
-    </div>
-    <p class="loopback" data-a style="--i:6">Didn’t pass? Go back, revise the weak topics and try again.</p>
-  </div>
-</section>
-
-<!-- 07 FEATURES -->
-<section class="dk-slide" id="features" data-title="Key features">
-  <div class="dk-ghost" aria-hidden="true">07</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">05 · Key features</span><h2 class="dk-h2">Everything a learner needs, <em>nothing they don’t.</em></h2></div>
-    <div class="g3 feat">
-      <article class="card" data-a style="--i:1"><div class="ico"><svg class="ic"><use href="#i-user"/></svg></div><h3>Secure authentication</h3><p>Sign up, log in and protect pages with Supabase Auth and route guards.</p><span class="tag">Auth</span></article>
-      <article class="card" data-a style="--i:2"><div class="ico"><svg class="ic"><use href="#i-book"/></svg></div><h3>Courses &amp; progress</h3><p>Enrol in a course and track completed topics automatically as you learn.</p><span class="tag">Learn</span></article>
-      <article class="card" data-a style="--i:3"><div class="ico"><svg class="ic"><use href="#i-notes"/></svg></div><h3>Quick notes</h3><p>Condensed chapter summaries for rapid revision before practice or exams.</p><span class="tag">Revise</span></article>
-      <article class="card" data-a style="--i:4"><div class="ico"><svg class="ic"><use href="#i-search"/></svg></div><h3>Global search</h3><p>Instantly find pages, courses, chapters and lesson topics from the navbar.</p><span class="tag">Discover</span></article>
-      <article class="card" data-a style="--i:5"><div class="ico"><svg class="ic"><use href="#i-exam"/></svg></div><h3>Timed exams</h3><p>30 random questions in 40 minutes with automatic grading and instant results.</p><span class="tag">Assess</span></article>
-      <article class="card" data-a style="--i:6"><div class="ico"><svg class="ic"><use href="#i-award"/></svg></div><h3>Certificates</h3><p>Unlocked only after full completion and a passing score, with QR verification.</p><span class="tag">Certify</span></article>
-    </div>
-  </div>
-</section>
-
-<!-- 08 STATS -->
-<section class="dk-slide" id="numbers" data-title="By the numbers">
-  <div class="dk-ghost" aria-hidden="true">08</div>
-  <div class="in">
-    <div class="dk-head c" data-a><span class="dk-eyebrow">06 · Project scale</span><h2 class="dk-h2">Codify <em>by the numbers.</em></h2><p class="dk-lead">Real content, built and maintained by a five-member student team.</p></div>
-    <div class="stats">
-      <div class="stat" data-a="zoom" style="--i:1"><b data-count="7">0</b><span>PROGRAMMING COURSES</span></div>
-      <div class="stat" data-a="zoom" style="--i:2"><b data-count="70">0</b><span>CHAPTERS</span></div>
-      <div class="stat" data-a="zoom" style="--i:3"><b data-count="341">0</b><span>LESSON TOPICS</span></div>
-      <div class="stat" data-a="zoom" style="--i:4"><b data-count="30">0</b><span>EXAM QUESTIONS</span></div>
-      <div class="stat" data-a="zoom" style="--i:5"><b data-count="5">0</b><span>TEAM MEMBERS</span></div>
-    </div>
-    <p class="statnote" data-a style="--i:7">Each exam runs for 40 minutes · pass mark 50%</p>
-  </div>
-</section>
-
-<!-- 09 COURSES -->
-<section class="dk-slide" id="courses" data-title="Courses">
-  <div class="dk-ghost" aria-hidden="true">09</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">07 · Course catalogue</span><h2 class="dk-h2">Seven courses, <em>one learning path.</em></h2><p class="dk-lead">From web fundamentals to systems and object-oriented programming.</p></div>
-    <div class="courses">
-      <a class="crs" href="/courses/html" data-a style="--i:1"><img src="/src/assets/logos/html.svg" alt="" loading="lazy"><div><strong>HTML</strong><small>10 chapters · 41 topics</small></div></a>
-      <a class="crs" href="/courses/css" data-a style="--i:2"><img src="/src/assets/logos/css.svg" alt="" loading="lazy"><div><strong>CSS</strong><small>10 chapters · 50 topics</small></div></a>
-      <a class="crs" href="/courses/javascript" data-a style="--i:3"><img src="/src/assets/logos/javascript.svg" alt="" loading="lazy"><div><strong>JavaScript</strong><small>10 chapters · 50 topics</small></div></a>
-      <a class="crs" href="/courses/python" data-a style="--i:4"><img src="/src/assets/logos/python.svg" alt="" loading="lazy"><div><strong>Python</strong><small>10 chapters · 50 topics</small></div></a>
-      <a class="crs" href="/courses/c" data-a style="--i:5"><img src="/src/assets/logos/c.svg" alt="" loading="lazy"><div><strong>C</strong><small>10 chapters · 50 topics</small></div></a>
-      <a class="crs" href="/courses/cpp" data-a style="--i:6"><img src="/src/assets/logos/cpp.svg" alt="" loading="lazy"><div><strong>C++</strong><small>10 chapters · 50 topics</small></div></a>
-      <a class="crs" href="/courses/java" data-a style="--i:7"><img src="/src/assets/logos/java.svg" alt="" loading="lazy"><div><strong>Java</strong><small>10 chapters · 50 topics</small></div></a>
-      <a class="crs more" href="/courses" data-a style="--i:8">Browse all courses <svg class="ic"><use href="#i-arrow"/></svg></a>
-    </div>
-  </div>
-</section>
-
-<!-- 10 ARCHITECTURE -->
-<section class="dk-slide" id="architecture" data-title="Architecture">
-  <div class="dk-ghost" aria-hidden="true">10</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">08 · System architecture</span><h2 class="dk-h2">A lightweight, <em>serverless</em> architecture.</h2><p class="dk-lead">A static front end served from the edge, talking directly to a managed backend, with no servers to maintain.</p></div>
-    <div class="arch">
-      <div class="layer" data-a="left" style="--i:1"><small>Client</small><h3><span class="ico sm"><svg class="ic"><use href="#i-globe"/></svg></span>Browser</h3>
-        <div class="node"><svg class="ic"><use href="#i-code"/></svg>HTML5 pages</div><div class="node"><svg class="ic"><use href="#i-layers"/></svg>CSS3 dark theme, responsive</div><div class="node"><svg class="ic"><use href="#i-bolt"/></svg>JavaScript ES modules</div><div class="node"><svg class="ic"><use href="#i-search"/></svg>Shared navbar + global search</div></div>
-      <div class="link" data-a style="--i:2"><i></i></div>
-      <div class="layer" data-a style="--i:3"><small>Delivery</small><h3><span class="ico sm"><svg class="ic"><use href="#i-cloud"/></svg></span>Vercel</h3>
-        <div class="node"><svg class="ic"><use href="#i-globe"/></svg>Global static hosting</div><div class="node"><svg class="ic"><use href="#i-arrow"/></svg>Clean URL rewrites (vercel.json)</div><div class="node"><svg class="ic"><use href="#i-file"/></svg>Markdown lessons + JSON syllabus</div><div class="node"><svg class="ic"><use href="#i-rocket"/></svg>Git-based deployments</div></div>
-      <div class="link" data-a style="--i:4"><i></i></div>
-      <div class="layer" data-a="right" style="--i:5"><small>Backend</small><h3><span class="ico sm"><svg class="ic"><use href="#i-db"/></svg></span>Supabase</h3>
-        <div class="node"><svg class="ic"><use href="#i-lock"/></svg>Authentication &amp; sessions</div><div class="node"><svg class="ic"><use href="#i-db"/></svg>PostgreSQL database</div><div class="node"><svg class="ic"><use href="#i-shield"/></svg>Row-level security</div><div class="node"><svg class="ic"><use href="#i-bolt"/></svg>RPC functions (exam, certificates)</div></div>
-    </div>
-    <div class="archnote" data-a style="--i:7"><span><svg class="ic"><use href="#i-check"/></svg> No server to manage</span><span><svg class="ic"><use href="#i-check"/></svg> Fast, cacheable pages</span><span><svg class="ic"><use href="#i-check"/></svg> Scores graded on the server</span></div>
-  </div>
-</section>
-
-<!-- 11 TECH STACK -->
-<section class="dk-slide" id="stack" data-title="Technology stack">
-  <div class="dk-ghost" aria-hidden="true">11</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">09 · Technology stack</span><h2 class="dk-h2">Familiar tools, <em>chosen on purpose.</em></h2></div>
-    <div class="stack">
-      <div class="srow" data-a="left" style="--i:1"><div><small>Front end</small><strong>Interface</strong></div><div class="pills"><span class="pill"><img src="/src/assets/logos/html.svg" alt="">HTML5</span><span class="pill"><img src="/src/assets/logos/css.svg" alt="">CSS3</span><span class="pill"><img src="/src/assets/logos/javascript.svg" alt="">JavaScript</span><span class="pill">Nunito font</span></div></div>
-      <div class="srow" data-a="right" style="--i:1"><div><small>Backend</small><strong>Services</strong></div><div class="pills"><span class="pill"><img src="/src/assets/logos/supabase.svg" alt="">Supabase</span><span class="pill">PostgreSQL</span><span class="pill">Auth</span><span class="pill">RLS</span></div></div>
-      <div class="srow" data-a="left" style="--i:2"><div><small>Content</small><strong>Learning</strong></div><div class="pills"><span class="pill">Markdown lessons</span><span class="pill">JSON syllabus</span><span class="pill">Quick notes</span></div></div>
-      <div class="srow" data-a="right" style="--i:2"><div><small>Documents</small><strong>Certificates</strong></div><div class="pills"><span class="pill">jsPDF</span><span class="pill">QRCode.js</span></div></div>
-      <div class="srow" data-a="left" style="--i:3"><div><small>Hosting</small><strong>Deployment</strong></div><div class="pills"><span class="pill">Vercel</span><span class="pill">Git &amp; GitHub</span><span class="pill">URL rewrites</span></div></div>
-      <div class="srow" data-a="right" style="--i:3"><div><small>Quality</small><strong>Design</strong></div><div class="pills"><span class="pill">Responsive</span><span class="pill">Glassmorphism</span><span class="pill">Reduced-motion aware</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 12 DATA MODEL -->
-<section class="dk-slide" id="data" data-title="Data &amp; content">
-  <div class="dk-ghost" aria-hidden="true">12</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">10 · Data &amp; content model</span><h2 class="dk-h2">Simple tables, <em>well-organised content.</em></h2></div>
-    <div class="tables">
-      <div class="tbl" data-a style="--i:1"><header><svg class="ic"><use href="#i-user"/></svg>profiles</header><p>Learner identity: name, username and avatar.</p></div>
-      <div class="tbl" data-a style="--i:2"><header><svg class="ic"><use href="#i-book"/></svg>user_enrollments</header><p>Which courses each learner has joined.</p></div>
-      <div class="tbl" data-a style="--i:3"><header><svg class="ic"><use href="#i-trend"/></svg>user_progress</header><p>Completed topics that drive progress and unlocks.</p></div>
-      <div class="tbl" data-a style="--i:4"><header><svg class="ic"><use href="#i-award"/></svg>certificates</header><p>Issued certificates with unique verification IDs.</p></div>
-      <div class="tbl" data-a style="--i:5"><header><svg class="ic"><use href="#i-ticket"/></svg>support_tickets</header><p>Messages sent from the contact page.</p></div>
-    </div>
-    <div class="contentbox">
-      <div class="card" data-a="left" style="--i:6"><h3>Content stays in files, not the database</h3><p>Each course is a JSON syllabus plus Markdown lessons, so new topics can be added with a pull request, with no schema changes.</p></div>
-      <div class="card" data-a="right" style="--i:6"><div class="tree">src/
-├─ <b>data/</b>  <i>c-syllabus.json</i> · <i>java-syllabus.json</i> …
-└─ <b>pages/courses/</b>java/chapter-6/
-   └─ <i>6.1-what-are-methods.md</i></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 13 JOURNEY -->
-<section class="dk-slide" id="journey" data-title="User journey">
-  <div class="dk-ghost" aria-hidden="true">13</div>
-  <div class="in">
-    <div class="dk-head c" data-a><span class="dk-eyebrow">11 · User journey</span><h2 class="dk-h2">From sign-up to <em>certificate.</em></h2></div>
-    <div class="journey">
-      <div class="jn" data-a style="--i:1"><div class="dot">1</div><h3>Sign up</h3><p>Create an account and log in securely.</p></div>
-      <div class="jn" data-a style="--i:2"><div class="dot">2</div><h3>Enrol</h3><p>Pick a course and review its overview.</p></div>
-      <div class="jn" data-a style="--i:3"><div class="dot">3</div><h3>Learn</h3><p>Work through chapters; progress is saved.</p></div>
-      <div class="jn" data-a style="--i:4"><div class="dot">4</div><h3>Revise</h3><p>Skim quick notes before the exam.</p></div>
-      <div class="jn" data-a style="--i:5"><div class="dot">5</div><h3>Take exam</h3><p>30 questions, 40 minutes, 50% to pass.</p></div>
-      <div class="jn" data-a style="--i:6"><div class="dot">6</div><h3>Certificate</h3><p>Download the PDF and share its QR.</p></div>
-    </div>
-    <div class="gate" data-a style="--i:8"><svg class="ic"><use href="#i-lock"/></svg><span>Certificates unlock <strong>only</strong> when 100% of topics are complete <strong>and</strong> the final exam is passed.</span></div>
-  </div>
-</section>
-
-<!-- 14 EXAM -->
-<section class="dk-slide" id="exam" data-title="Secure exams">
-  <div class="dk-ghost" aria-hidden="true">14</div>
-  <div class="in split">
-    <div>
-      <div class="dk-head" data-a><span class="dk-eyebrow">12 · Assessment integrity</span><h2 class="dk-h2">Exams you can <em>trust.</em></h2></div>
-      <div class="rules">
-        <div class="rule" data-a="left" style="--i:1"><span class="ico sm"><svg class="ic"><use href="#i-bolt"/></svg></span><div><h3>Randomised for every attempt</h3><p>30 random questions with shuffled options, started and graded through server-side functions.</p></div></div>
-        <div class="rule" data-a="left" style="--i:2"><span class="ico sm"><svg class="ic"><use href="#i-eye"/></svg></span><div><h3>Focus monitoring</h3><p>Full-screen exam; leaving it triggers warnings, and the third ends the attempt.</p></div></div>
-        <div class="rule" data-a="left" style="--i:3"><span class="ico sm"><svg class="ic"><use href="#i-lock"/></svg></span><div><h3>Copy and paste blocked</h3><p>Context menu, copy and paste are disabled during the exam.</p></div></div>
-        <div class="rule" data-a="left" style="--i:4"><span class="ico sm"><svg class="ic"><use href="#i-user"/></svg></span><div><h3>Watermarked screens</h3><p>Name, username and email appear on every screen, so leaked questions are traceable.</p></div></div>
-      </div>
-    </div>
-    <div class="mock" data-a="right" style="--i:2">
-      <div class="bar"><span>Question 7 of 30</span><span class="time"><svg class="ic"><use href="#i-clock"/></svg><b id="mockTime">39:42</b></span></div>
-      <div class="body"><div class="wm">LEARNER · EMAIL<br>WATERMARK</div>
-        <p class="q">Which keyword declares a constant in C?</p>
-        <div class="opt"><i></i>static</div><div class="opt sel"><i></i>const</div><div class="opt"><i></i>final</div><div class="opt"><i></i>let</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 15 CERTIFICATE -->
-<section class="dk-slide" id="certificates" data-title="Certificates">
-  <div class="dk-ghost" aria-hidden="true">15</div>
-  <div class="in split">
-    <div class="cert" data-a="zoom" style="--i:1">
-      <small>CERTIFICATE OF COMPLETION</small>
-      <h3>Learner Name</h3><div class="ln"></div>
-      <p>has successfully completed the <strong style="color:#fff">Codify Programming Course</strong><br>and passed the final assessment</p>
-      <div class="foot"><div class="qr"><i></i></div><div class="sig">Codify</div><div class="seal"><svg class="ic"><use href="#i-award"/></svg></div></div>
-    </div>
-    <div>
-      <div class="dk-head" data-a><span class="dk-eyebrow">13 · Certification</span><h2 class="dk-h2">Proof of learning <em>anyone can verify.</em></h2></div>
-      <div class="rules">
-        <div class="rule" data-a style="--i:1"><span class="ico sm"><svg class="ic"><use href="#i-file"/></svg></span><div><h3>Instant PDF download</h3><p>Generated in the browser with jsPDF, laid out to match the on-screen certificate.</p></div></div>
-        <div class="rule" data-a style="--i:2"><span class="ico sm"><svg class="ic"><use href="#i-qr"/></svg></span><div><h3>QR code &amp; unique ID</h3><p>Scan the code or enter the ID on the certificates page to confirm authenticity.</p></div></div>
-        <div class="rule" data-a style="--i:3"><span class="ico sm"><svg class="ic"><use href="#i-award"/></svg></span><div><h3>My Certificates</h3><p>Every earned certificate is stored on the learner’s account for later access.</p></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 16 ADMIN -->
-<section class="dk-slide" id="admin" data-title="Admin dashboard">
-  <div class="dk-ghost" aria-hidden="true">16</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">14 · Administration</span><h2 class="dk-h2">A dashboard to <em>keep Codify healthy.</em></h2><p class="dk-lead">Access is checked on the server before any admin data is shown.</p></div>
-    <div class="dash">
-      <div class="card" data-a style="--i:1"><h3><svg class="ic"><use href="#i-award"/></svg>Certificates</h3><p>Review every issued certificate.</p><div class="mini"><i style="--h:40%;--k:0"></i><i style="--h:65%;--k:1"></i><i style="--h:50%;--k:2"></i><i style="--h:85%;--k:3"></i><i style="--h:70%;--k:4"></i><i style="--h:100%;--k:5"></i></div></div>
-      <div class="card" data-a style="--i:2"><h3><svg class="ic"><use href="#i-chart"/></svg>Course analytics</h3><p>See enrolment and completion by course.</p><div class="mini"><i style="--h:90%;--k:0"></i><i style="--h:60%;--k:1"></i><i style="--h:75%;--k:2"></i><i style="--h:45%;--k:3"></i><i style="--h:55%;--k:4"></i><i style="--h:35%;--k:5"></i></div></div>
-      <div class="card" data-a style="--i:3"><h3><svg class="ic"><use href="#i-alert"/></svg>Suspicious attempts</h3><p>Flag exam attempts with integrity warnings.</p></div>
-      <div class="card" data-a style="--i:4"><h3><svg class="ic"><use href="#i-users"/></svg>Users</h3><p>Look up and manage registered learners.</p></div>
-      <div class="card admin-wide" data-a style="--i:5"><h3><svg class="ic"><use href="#i-eye"/></svg>Recent admin activity</h3><p>An audit trail of administrative actions for accountability.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 17 TEAM -->
-<section class="dk-slide" id="team" data-title="Team">
-  <div class="dk-ghost" aria-hidden="true">17</div>
-  <div class="in">
-    <div class="dk-head c" data-a><span class="dk-eyebrow">15 · The team</span><h2 class="dk-h2">Five students, <em>one shared vision.</em></h2></div>
-    <div class="team">
-      <article class="mem lead" data-a style="--i:1"><span class="badge">Project Lead</span><div class="av">MO<img src="/src/assets/images/mohammed-owais.webp" alt="Mohammed Owais" loading="lazy" onerror="this.remove()"></div><h3>Mohammed Owais</h3><span class="rid">24030-CM-193</span><span class="role">Architect &amp; Full-Stack Developer</span></article>
-      <article class="mem" data-a style="--i:2"><div class="av">MD<img src="/src/assets/images/m-dhanush.webp" alt="M. Dhanush" loading="lazy" onerror="this.remove()"></div><h3>M. Dhanush</h3><span class="rid">24030-CM-188</span><span class="role">QA &amp; Systems Testing</span></article>
-      <article class="mem" data-a style="--i:3"><div class="av">FB<img src="/src/assets/images/feroz.webp" alt="MD. Feroz Basha" loading="lazy" onerror="this.remove()"></div><h3>MD. Feroz Basha</h3><span class="rid">24030-CM-190</span><span class="role">Curriculum &amp; Technical Notes</span></article>
-      <article class="mem" data-a style="--i:4"><div class="av">MB<img src="/src/assets/images/basha.webp" alt="M. Basha" loading="lazy" onerror="this.remove()"></div><h3>M. Basha</h3><span class="rid">24030-CM-189</span><span class="role">Assessment &amp; Exam Content</span></article>
-      <article class="mem" data-a style="--i:5"><div class="av">MP<img src="/src/assets/images/prasad.webp" alt="M. Prasad" loading="lazy" onerror="this.remove()"></div><h3>M. Prasad</h3><span class="rid">24030-CM-196</span><span class="role">Quick Notes &amp; Revision</span></article>
-    </div>
-  </div>
-</section>
-
-<!-- 18 CHALLENGES -->
-<section class="dk-slide" id="challenges" data-title="Challenges">
-  <div class="dk-ghost" aria-hidden="true">18</div>
-  <div class="in">
-    <div class="dk-head" data-a><span class="dk-eyebrow">16 · Challenges &amp; solutions</span><h2 class="dk-h2">Problems we met, <em>and how we solved them.</em></h2></div>
-    <div class="chal">
-      <div class="cl" data-a style="--i:1"><div class="a"><strong>Challenge</strong>Keeping exams honest in a browser</div><div class="x"><svg class="ic"><use href="#i-arrow"/></svg></div><div class="b"><strong>Solution</strong>Server-side grading, shuffled questions, full-screen focus warnings and watermarks</div></div>
-      <div class="cl" data-a style="--i:2"><div class="a"><strong>Challenge</strong>Managing 341 lessons across 7 courses</div><div class="x"><svg class="ic"><use href="#i-arrow"/></svg></div><div class="b"><strong>Solution</strong>A JSON syllabus plus Markdown files per topic, rendered by shared course pages</div></div>
-      <div class="cl" data-a style="--i:3"><div class="a"><strong>Challenge</strong>Making certificates trustworthy</div><div class="x"><svg class="ic"><use href="#i-arrow"/></svg></div><div class="b"><strong>Solution</strong>Unlock rules based on progress and exam result, plus public QR and ID verification</div></div>
-      <div class="cl" data-a style="--i:4"><div class="a"><strong>Challenge</strong>One consistent experience on phones and desktops</div><div class="x"><svg class="ic"><use href="#i-arrow"/></svg></div><div class="b"><strong>Solution</strong>A shared dark theme, responsive layouts and a reusable navbar and footer</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 19 FUTURE -->
-<section class="dk-slide" id="future" data-title="Future scope">
-  <div class="dk-ghost" aria-hidden="true">19</div>
-  <div class="in">
-    <div class="dk-head c" data-a><span class="dk-eyebrow">17 · Future scope</span><h2 class="dk-h2">Designed to <em>keep improving.</em></h2></div>
-    <div class="road">
-      <div class="rd" data-a style="--i:1"><span class="when">Next</span><h3>Richer content</h3><ul><li><svg class="ic"><use href="#i-check"/></svg>More courses and examples</li><li><svg class="ic"><use href="#i-check"/></svg>Larger exam question banks</li><li><svg class="ic"><use href="#i-check"/></svg>Interactive coding practice</li></ul></div>
-      <div class="rd" data-a style="--i:2"><span class="when">Then</span><h3>Smarter learning</h3><ul><li><svg class="ic"><use href="#i-check"/></svg>Deeper progress insights</li><li><svg class="ic"><use href="#i-check"/></svg>Personalised recommendations</li><li><svg class="ic"><use href="#i-check"/></svg>Weak-topic revision suggestions</li></ul></div>
-      <div class="rd" data-a style="--i:3"><span class="when">Later</span><h3>Wider reach</h3><ul><li><svg class="ic"><use href="#i-check"/></svg>Accessibility and keyboard polish</li><li><svg class="ic"><use href="#i-check"/></svg>Performance and offline reading</li><li><svg class="ic"><use href="#i-check"/></svg>Community and mentor features</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<!-- 20 THANK YOU -->
-<section class="dk-slide s-end" id="thanks" data-title="Thank you">
-  <div class="pulse-ring" aria-hidden="true"></div><div class="pulse-ring r2" aria-hidden="true"></div>
-  <div class="in">
-    <div class="kick" data-a="blur"><svg class="ic"><use href="#i-sparkle"/></svg> Conclusion</div>
-    <h2 class="big" data-a="blur" style="--i:1" id="end-title">Thank <span>you.</span></h2>
-    <p class="dk-lead" data-a style="--i:2">Codify shows how structured lessons, quick revision, secure exams and verifiable certificates can come together in a platform built by students, for students. We’d love your questions.</p>
-    <div class="row c" data-a style="--i:3"><a class="btn p" href="/courses">Start learning on Codify <svg class="ic"><use href="#i-arrow"/></svg></a><a class="btn s" href="https://github.com/Mohammed-Owais-dev/Codify" target="_blank" rel="noopener noreferrer"><svg class="ic"><use href="#i-github"/></svg> View on GitHub</a><a class="btn s" href="/contact"><svg class="ic"><use href="#i-mail"/></svg> Contact us</a></div>
-    <div class="contact" data-a style="--i:4"><span><svg class="ic"><use href="#i-mail"/></svg><a href="mailto:codify.admin@gmail.com">codify.admin@gmail.com</a></span><span><svg class="ic"><use href="#i-github"/></svg><a href="https://github.com/Mohammed-Owais-dev/Codify" target="_blank" rel="noopener noreferrer">Mohammed-Owais-dev/Codify</a></span></div>
-  </div>
-</section>
-
+  <section class="panel">
+    <div class="ph"><h2>Recent admin activity</h2></div>
+    <div class="tw"><table><thead><tr><th>WHEN</th><th>ADMIN</th><th>ACTION</th><th>CERTIFICATE</th><th>REASON</th></tr></thead><tbody id="log"></tbody></table></div>
+  </section>
 </main>
 <div id="footer-placeholder"></div>
+
+<div class="modal" id="m"><div class="mp">
+  <h3 id="mT"></h3><p id="mP"></p>
+  <textarea id="mR" placeholder="Reason (kept private, saved in the activity log)"></textarea>
+  <div id="mBody"></div>
+  <div class="mrow"><button class="btn ghost" id="mNo" type="button">Close</button><button class="btn danger" id="mYes" type="button">Confirm</button></div>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+
 <script type="module" src="/src/js/components.js"></script>
-<script>
-(function(){
-  var slides=[].slice.call(document.querySelectorAll('.dk-slide'));
-  var root=document.documentElement, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var dots=document.getElementById('dkDots'), num=document.getElementById('dkNum'), tot=document.getElementById('dkTot'), ttl=document.getElementById('dkTitle');
-  var cur=0, pad=function(n){return String(n).padStart(2,'0')};
-  tot.textContent=pad(slides.length);
-  function go(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}
-  slides.forEach(function(s,i){
-    var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Go to slide '+(i+1)+': '+s.dataset.title);
-    b.innerHTML='<span>'+pad(i+1)+' · '+s.dataset.title+'</span>';b.onclick=function(){go(i)};dots.appendChild(b);
+<script type="module">
+import { supabase } from '/src/js/config/supabase-client.js';
+
+const $ = s => document.querySelector(s);
+const h = (tag, attrs = {}, ...kids) => {                     // builds DOM with textContent only, so user data can never inject HTML
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === 'class' ? e.className = v : k === 'onclick' ? e.onclick = v : e.setAttribute(k, v);
+  kids.flat().forEach(c => e.append(c instanceof Node ? c : document.createTextNode(c ?? '')));
+  return e;
+};
+const NAMES = { c: 'C', cpp: 'C++', html: 'HTML', css: 'CSS', javascript: 'JavaScript', java: 'Java', python: 'Python' };
+const course = id => NAMES[(id || '').split('-')[0]] || id;
+const fmt = (d, t) => d ? new Date(d).toLocaleString('en-GB', t ? { dateStyle: 'medium', timeStyle: 'short' } : { dateStyle: 'medium' }) : '-';
+let tt;
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3500); }
+const notFound = () => location.replace('/not-found');         // non-admins just see your normal 404 page
+
+/* ---- modal ---- */
+function modal({ title, text, reason, body, yes, yesClass = 'danger', onYes }) {
+  $('#mT').textContent = title; $('#mP').textContent = text || '';
+  $('#mR').style.display = reason ? '' : 'none'; $('#mR').value = '';
+  const b = $('#mBody'); b.replaceChildren(); if (body) b.append(body);
+  const y = $('#mYes'); y.style.display = onYes ? '' : 'none'; y.textContent = yes || 'Confirm'; y.className = 'btn ' + yesClass; y.disabled = false;
+  y.onclick = async () => {
+    if (reason && !$('#mR').value.trim()) return toast('Please enter a reason.', true);
+    y.disabled = true; await onYes($('#mR').value.trim()); y.disabled = false;
+  };
+  $('#m').classList.add('on');
+}
+const closeModal = () => $('#m').classList.remove('on');
+$('#mNo').onclick = closeModal;
+$('#m').addEventListener('click', e => { if (e.target === $('#m')) closeModal(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ---- data ---- */
+async function rpc(name, args) {
+  const { data, error } = await supabase.rpc(name, args);
+  if (error) { toast(error.message, true); return null; }
+  return data ?? true;   // void functions (revoke/restore) return null on success
+}
+async function loadStats() {
+  const s = await rpc('admin_stats'); if (!s) return;
+  $('#sCert').textContent = s.certificates; $('#sRev').textContent = s.revoked; $('#sAtt').textContent = s.attempts; $('#sWeek').textContent = s.attempts_7d;
+}
+async function loadLog() {
+  const rows = await rpc('admin_log_recent'); const tb = $('#log'); tb.replaceChildren();
+  if (!rows?.length) return tb.append(h('tr', {}, h('td', { colspan: 5, class: 'empty' }, 'No admin actions yet.')));
+  rows.forEach(r => tb.append(h('tr', {}, h('td', {}, fmt(r.created_at, 1)), h('td', {}, r.admin_email || '-'),
+    h('td', {}, h('span', { class: 'pill ' + (r.action === 'revoke' ? 'r' : 'v') }, r.action)), h('td', { class: 'id' }, r.target || '-'), h('td', {}, r.detail || '-'))));
+}
+async function search() {
+  const rows = await rpc('admin_search_certificates', { p_q: $('#q').value }); const tb = $('#rows'); tb.replaceChildren();
+  if (!rows) return;
+  if (!rows.length) return tb.append(h('tr', {}, h('td', { colspan: 7, class: 'empty' }, 'No certificates found.')));
+  rows.forEach(c => {
+    const acts = h('div', { class: 'acts' },
+      h('a', { class: 'btn ghost sm', href: '/certificate?id=' + encodeURIComponent(c.id), target: '_blank', rel: 'noopener' }, 'Open'),
+      h('button', { class: 'btn ghost sm', type: 'button', onclick: () => showAttempts(c) }, 'Attempts'),
+      c.revoked
+        ? h('button', { class: 'btn ok sm', type: 'button', onclick: () => restore(c) }, 'Restore')
+        : h('button', { class: 'btn danger sm', type: 'button', onclick: () => revoke(c) }, 'Revoke'));
+    tb.append(h('tr', {},
+      h('td', { class: 'id' }, c.id),
+      h('td', {}, c.full_name, h('small', {}, (c.username ? '@' + c.username + ' · ' : '') + (c.email || ''))),
+      h('td', {}, course(c.course_id)), h('td', {}, Math.round(c.percentage) + '%'), h('td', {}, fmt(c.issued_at)),
+      h('td', {}, h('span', { class: 'pill ' + (c.revoked ? 'r' : 'v') }, c.revoked ? 'Revoked' : 'Valid'), c.revoked && c.revoked_reason ? h('small', {}, c.revoked_reason) : ''),
+      h('td', {}, acts)));
   });
-  function setCur(i){cur=i;[].forEach.call(dots.children,function(d,k){d.classList.toggle('on',k===i)});num.textContent=pad(i+1);ttl.textContent=slides[i].dataset.title;}
-  // counters
-  function count(el){var to=+el.dataset.count,t0=null,d=1500;if(reduce){el.textContent=to;return}
-    function f(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/d),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
-  // typed code
-  var typed=document.getElementById('typed'),tid=null;
-  function type(){if(!typed)return;var raw=typed.dataset.text.replace(/\|\|/g,'\n\n').replace(/\|/g,'\n').replace(/&quot;/g,'"').replace(/\\n/g,'\\n');var i=0;clearInterval(tid);
-    function paint(t){var h=t.replace(/#include|&|<|>|"[^"\n]*"?|\b(?:int|return|void)\b/g,function(m){
-      if(m==='#include')return '<span class="p">#include</span>';
-      if(m==='&')return '&amp;';if(m==='<')return '&lt;';if(m==='>')return '&gt;';
-      if(m.charAt(0)==='"')return '<span class="g">'+m+'</span>';
-      return '<span class="b">'+m+'</span>';});
-      h=h.replace(/(&lt;stdio\.h&gt;)/,'<span class="g">$1</span>');
-      typed.innerHTML=h+'<span class="cur"></span>';}
-    if(reduce){paint(raw);return}
-    tid=setInterval(function(){i++;paint(raw.slice(0,i));if(i>=raw.length)clearInterval(tid)},38)}
-  // mock exam timer
-  var mt=document.getElementById('mockTime'),mid=null;
-  function timer(){if(!mt)return;clearInterval(mid);var s=39*60+42;mid=setInterval(function(){s--;if(s<0)s=39*60+42;mt.textContent=pad(Math.floor(s/60))+':'+pad(s%60)},1000)}
-  function on(s){
-    if(s.classList.contains('is-active'))return;
-    s.classList.add('is-active');
-    if(s.id==='numbers')s.querySelectorAll('[data-count]').forEach(count);
-    if(s.id==='introduction')setTimeout(type,300);
-    if(s.id==='exam')timer();
-  }
-  function off(s){
-    s.classList.remove('is-active');
-    if(s.id==='numbers')s.querySelectorAll('[data-count]').forEach(function(c){c.textContent='0'});
-    if(s.id==='exam')clearInterval(mid);
-    if(s.id==='introduction'){clearInterval(tid);if(typed)typed.innerHTML='<span class="cur"></span>'}
-  }
-  /* reveal a slide as soon as it starts entering (no waiting for the midpoint) */
-  var inObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)on(e.target)})},{rootMargin:'0px 0px -12% 0px',threshold:0});
-  /* only reset a slide once it has fully left the screen, so nothing vanishes mid-slide */
-  var outObs=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)off(e.target)})},{rootMargin:'0px',threshold:0});
-  /* current-slide indicator uses the screen centre */
-  var curObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setCur(slides.indexOf(e.target))})},{rootMargin:'-45% 0px -45% 0px',threshold:0});
-  slides.forEach(function(s){inObs.observe(s);outObs.observe(s);curObs.observe(s)});
-  // scroll progress + parallax var
-  var tick=false;
-  function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){
-    var max=document.getElementById('deck').offsetHeight-innerHeight;var p=max>0?Math.min(1,Math.max(0,scrollY/max)):0;
-    root.style.setProperty('--p',p.toFixed(4));tick=false})}
-  addEventListener('scroll',onScroll,{passive:true});onScroll();
-  // controls
-  document.addEventListener('click',function(e){var t=e.target.closest('[data-go]');if(t){e.preventDefault();go(+t.dataset.go)}});
-  document.getElementById('dkNext').onclick=function(){go(cur+1)};
-  document.getElementById('dkPrev').onclick=function(){go(cur-1)};
-  document.getElementById('dkFs').onclick=function(){
-    if(!document.fullscreenElement){(root.requestFullscreen||function(){}).call(root)}else{document.exitFullscreen()}};
-  addEventListener('keydown',function(e){
-    if(e.altKey||e.ctrlKey||e.metaKey)return;var tg=e.target.tagName;if(/INPUT|TEXTAREA|SELECT/.test(tg)||e.target.isContentEditable)return;
-    var k=e.key;
-    if(k==='ArrowDown'||k==='PageDown'||k==='ArrowRight'||(k===' '&&!e.shiftKey)){if(tg==='BUTTON'&&k===' ')return;e.preventDefault();go(cur+1)}
-    else if(k==='ArrowUp'||k==='PageUp'||k==='ArrowLeft'||(k===' '&&e.shiftKey)){e.preventDefault();go(cur-1)}
-    else if(k==='Home'){e.preventDefault();go(0)}else if(k==='End'){e.preventDefault();go(slides.length-1)}
-    else if(k==='f'||k==='F'){document.getElementById('dkFs').click()}
-  });
-  if(location.hash){var t=document.querySelector(location.hash);if(t&&t.classList.contains('dk-slide'))setTimeout(function(){t.scrollIntoView()},50)}
+}
+const refresh = () => Promise.all([search(), loadStats(), loadLog()]);
+
+/* ---- analytics, suspicious attempts, users, CSV ---- */
+const fill = (sel, rows, cols, empty) => { const tb = $(sel); tb.replaceChildren(); if (!rows) return;
+  if (!rows.length) return tb.append(h('tr', {}, h('td', { colspan: cols.length, class: 'empty' }, empty)));
+  rows.forEach(r => tb.append(h('tr', {}, cols.map(f => h('td', {}, f(r)))))); };
+const findCert = q => h('button', { class: 'btn ghost sm', type: 'button', onclick: () => { $('#q').value = q; search(); $('#sf').scrollIntoView({ behavior: 'smooth' }); } }, 'Certificates');
+async function loadCourses() {
+  fill('#courses', await rpc('admin_course_stats'), [r => course(r.course), r => r.enrolled, r => r.taken,
+    r => { const p = r.taken ? Math.round(100 * r.passed / r.taken) : 0; return [r.taken ? p + '%' : '-', h('div', { class: 'bar', style: `width:${p}%` })]; },
+    r => r.taken ? r.avg_pct + '%' : '-', r => r.certs], 'No data yet.');
+}
+async function loadSusp() {
+  fill('#susp', await rpc('admin_suspicious'), [a => [a.email, h('small', {}, fmt(a.started_at, 1))], a => course(a.course_id),
+    a => a.score == null ? '-' : `${a.score}/${a.total}`, a => a.warnings ?? 0,
+    a => a.minutes_taken == null ? '-' : `${a.minutes_taken} / ${a.minutes_allowed} min`, a => a.end_reason || '-', a => findCert(a.email)], 'Nothing suspicious found.');
+}
+async function loadUsers() {
+  fill('#users', await rpc('admin_users', { p_q: $('#uq').value }), [u => [u.full_name || '-', h('small', {}, u.email)], u => fmt(u.created_at), u => fmt(u.last_sign_in, 1),
+    u => u.enrolled, u => u.lessons, u => u.exams, u => u.certs, u => findCert(u.email)], 'No users found.');
+}
+$('#uf').onsubmit = e => { e.preventDefault(); loadUsers(); };
+$('#exp').onclick = async () => {
+  const r = await rpc('admin_export_certificates'); if (!r) return;
+  const cols = ['id', 'full_name', 'username', 'email', 'course_id', 'percentage', 'issued_at', 'status', 'revoked_reason'];
+  const esc = v => '"' + String(v ?? '').replace(/^[=+\-@]/, "'$&").replace(/"/g, '""') + '"';   // quote cells, defuse spreadsheet formulas
+  const csv = [cols.join(','), ...r.map(x => cols.map(k => esc(x[k])).join(','))].join('\n');
+  const a = h('a', { href: URL.createObjectURL(new Blob([csv], { type: 'text/csv' })), download: 'codify-certificates.csv' }); a.click(); toast('CSV downloaded.');
+};
+
+function revoke(c) {
+  modal({ title: 'Revoke certificate?', text: `${c.id} (${c.full_name}, ${course(c.course_id)}). It will show as REVOKED to anyone who verifies it.`, reason: true, yes: 'Revoke',
+    onYes: async reason => { if (await rpc('admin_set_revoked', { p_id: c.id, p_revoke: true, p_reason: reason }) !== null) { closeModal(); toast('Certificate revoked.'); refresh(); } } });
+}
+function restore(c) {
+  modal({ title: 'Restore certificate?', text: `${c.id} (${c.full_name}) will become valid again.`, yes: 'Restore', yesClass: 'ok',
+    onYes: async () => { if (await rpc('admin_set_revoked', { p_id: c.id, p_revoke: false }) !== null) { closeModal(); toast('Certificate restored.'); refresh(); } } });
+}
+async function showAttempts(c) {
+  const rows = await rpc('admin_attempts', { p_user: c.user_id }); if (!rows) return;
+  const t = h('table', { style: 'min-width:0' }, h('thead', {}, h('tr', {}, ['COURSE', 'SCORE', 'WARNINGS', 'ENDED BY', 'STARTED'].map(x => h('th', {}, x)))),
+    h('tbody', {}, rows.length ? rows.map(a => h('tr', {}, h('td', {}, course(a.course_id)), h('td', {}, a.score == null ? '-' : `${a.score}/${a.total}`),
+      h('td', {}, a.warnings ?? 0), h('td', {}, a.end_reason || 'in progress'), h('td', {}, fmt(a.started_at, 1)))) : h('tr', {}, h('td', { colspan: 5, class: 'empty' }, 'No attempts.'))));
+  modal({ title: `Exam attempts: ${c.full_name}`, text: 'Most recent first. Many warnings or a very quick pass can be signs of cheating.', body: h('div', { class: 'tw' }, t) });
+}
+
+$('#sf').onsubmit = e => { e.preventDefault(); search(); };
+
+/* ---- boot: only admins ever see this page ---- */
+(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return notFound();
+  const { data: ok, error } = await supabase.rpc('admin_check');
+  if (error || ok !== true) return notFound();
+  document.body.classList.remove('pending');
+  refresh(); loadCourses(); loadSusp(); loadUsers();
 })();
 </script>
 </body>
