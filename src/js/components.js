@@ -201,7 +201,7 @@ document.getElementById('footer-placeholder').innerHTML = `
                             <span class="member-dot"></span><span class="member-name">Mohammed Owais</span> <span class="student-id">(24030-CM-193)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('dhanush')">
-                            <span class="member-dot"></span><span class="member-name">M. Dhanush</span> <span class="student-id">(24030-CM-189)</span>
+                            <span class="member-dot"></span><span class="member-name">M. Dhanush</span> <span class="student-id">(24030-CM-188)</span>
                         </li>
                         <li class="team-member interactive" onclick="openEngineerModal('feroz')">
                             <span class="member-dot"></span><span class="member-name">MD. Feroz Basha</span> <span class="student-id">(24030-CM-190)</span>
@@ -747,6 +747,9 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
 (() => {
     const header = document.querySelector('.codify-main-header');
     if (!header || document.getElementById('codifyNavVisibilityToggle')) return;
+    const breadcrumb = currentPath.startsWith('/courses/')
+        ? document.querySelector('.codify-breadcrumb-bar')
+        : null;
 
     const style = document.createElement('style');
     style.id = 'codifyNavVisibilityStyles';
@@ -759,6 +762,14 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
             transform: translateY(calc(-100% - 2px));
             opacity: 0;
             pointer-events: none;
+        }
+        .codify-breadcrumb-bar.codify-nav-hidden {
+            transform: translateY(calc(-100% - 2px));
+            opacity: 0;
+            pointer-events: none;
+        }
+        .codify-breadcrumb-bar {
+            transition: transform .28s ease, opacity .28s ease;
         }
         #codifyNavVisibilityToggle {
             position: fixed;
@@ -827,6 +838,7 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     try {
         if (localStorage.getItem(visibilityStorageKey) === 'true') {
             header.classList.add('codify-nav-hidden');
+            breadcrumb?.classList.add('codify-nav-hidden');
         }
     } catch (_) {}
 
@@ -846,23 +858,23 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     try {
         const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
         if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
-            placeToggle(saved.x, saved.y);
+            const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+            const x = Math.abs(saved.x - edgeGap) <= Math.abs(maxX - saved.x) ? edgeGap : maxX;
+            placeToggle(x, saved.y);
         }
     } catch (_) {}
 
     const updateToggleState = () => {
         const hidden = header.classList.contains('codify-nav-hidden');
+        breadcrumb?.classList.toggle('codify-nav-hidden', hidden);
         toggle.setAttribute('aria-pressed', String(hidden));
         toggle.setAttribute('aria-label', hidden
             ? 'Show top navigation. Drag to move this button.'
             : 'Hide top navigation. Drag to move this button.');
         toggle.title = hidden ? 'Show top navigation — drag to move' : 'Hide top navigation — drag to move';
 
-        // A browser-window icon with an eye clearly communicates navbar visibility.
-        const icon = hidden
-            ? '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z"/><path d="M3 8h18"/><path d="M6 5.5h.01M8.5 5.5h.01"/><path d="M8 13s1.5-2.5 4-2.5 4 2.5 4 2.5-1.5 2.5-4 2.5S8 13 8 13Z"/><path d="m5 10 14 8"/>'
-            : '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z"/><path d="M3 8h18"/><path d="M6 5.5h.01M8.5 5.5h.01"/><path d="M7 14s1.8-3.5 5-3.5 5 3.5 5 3.5-1.8 3.5-5 3.5S7 14 7 14Z"/><circle cx="12" cy="14" r="1.3"/>';
-        toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icon + '</svg>';
+        // Use a clean browser-window SVG only; the icon stays the same in both states.
+        toggle.innerHTML = '<span class="codify-toggle-grip" aria-hidden="true"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3.5" width="18" height="17" rx="2.5"/><path d="M3 8h18"/><path d="M6 5.8h.01M8.5 5.8h.01"/></svg>';
     };
 
     let pointerStart = null;
@@ -895,30 +907,11 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
             const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
             const maxY = Math.max(edgeGap, innerHeight - toggle.offsetHeight - edgeGap);
 
-            // Magnetically snap to the nearest screen edge on release.
-            // Prefer left/right edges over top/bottom when snapping.
-            const horizontalDistances = [
-                { edge: 'left', distance: Math.abs(rect.left - edgeGap) },
-                { edge: 'right', distance: Math.abs(maxX - rect.left) }
-            ];
-            horizontalDistances.sort((a, b) => a.distance - b.distance);
-            const nearestHorizontal = horizontalDistances[0];
-            const nearestVertical = {
-                edge: Math.abs(rect.top - edgeGap) <= Math.abs(maxY - rect.top) ? 'top' : 'bottom',
-                distance: Math.min(Math.abs(rect.top - edgeGap), Math.abs(maxY - rect.top))
-            };
-
-            // Snap horizontally unless the button is clearly closer to a vertical edge.
-            // Side edges get a generous priority zone to make left/right placement natural.
-            let x = rect.left;
-            let y = rect.top;
-            if (nearestHorizontal.distance <= nearestVertical.distance + toggle.offsetWidth) {
-                x = nearestHorizontal.edge === 'left' ? edgeGap : maxX;
-            } else {
-                y = nearestVertical.edge === 'top' ? edgeGap : maxY;
-            }
-
-            placeToggle(x, y);
+            // Snap only to the left or right side; keep the dragged vertical position.
+            const leftDistance = Math.abs(rect.left - edgeGap);
+            const rightDistance = Math.abs(maxX - rect.left);
+            const x = leftDistance <= rightDistance ? edgeGap : maxX;
+            placeToggle(x, rect.top);
             const snapped = toggle.getBoundingClientRect();
             try {
                 localStorage.setItem(storageKey, JSON.stringify({ x: snapped.left, y: snapped.top }));
@@ -946,7 +939,9 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
     });
     window.addEventListener('resize', () => {
         const rect = toggle.getBoundingClientRect();
-        placeToggle(rect.left, rect.top);
+        const maxX = Math.max(edgeGap, innerWidth - toggle.offsetWidth - edgeGap);
+        const x = Math.abs(rect.left - edgeGap) <= Math.abs(maxX - rect.left) ? edgeGap : maxX;
+        placeToggle(x, rect.top);
         const adjusted = toggle.getBoundingClientRect();
         try { localStorage.setItem(storageKey, JSON.stringify({ x: adjusted.left, y: adjusted.top })); } catch (_) {}
     });
