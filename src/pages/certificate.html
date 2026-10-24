@@ -350,10 +350,10 @@ async function showCertificate(id) {
           .join(' ');
         const combinedName = String(meta.full_name || meta.name || '').trim();
 
-        if (metadataName.split(/\\s+/).filter(Boolean).length >= 2) {
+        if (metadataName.split(/\s+/).filter(Boolean).length >= 2) {
           fullName = metadataName;
-        } else if (combinedName.split(/\\s+/).filter(Boolean).length >= 2 &&
-                   (!fullName || fullName.split(/\\s+/).filter(Boolean).length < 2)) {
+        } else if (combinedName.split(/\s+/).filter(Boolean).length >= 2 &&
+                   (!fullName || fullName.split(/\s+/).filter(Boolean).length < 2)) {
           fullName = combinedName;
         }
       }
