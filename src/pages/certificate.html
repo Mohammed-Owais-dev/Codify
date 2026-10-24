@@ -318,48 +318,39 @@ async function showCertificate(id) {
   }
   const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
 
-  // Prefer the explicit first and last name returned by the certificate record.
-  let fullName = [c.first_name, c.last_name || c.surname].filter(Boolean).join(' ').trim();
+  // Start with the name stored on the certificate.
+  let fullName = [c.first_name, c.surname || c.last_name].filter(Boolean).join(' ').trim();
   const storedFullName = String(c.full_name || '').trim();
   if (!fullName) fullName = storedFullName;
 
-  // Older certificate records may contain only the first name. Recover the full
-  // name from the signed-in certificate owner's Supabase Auth user_metadata.
-  // This project stores profile fields in Auth metadata, not a profiles table.
-  if (c.user_id) {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user && user.id === c.user_id) {
+  // Prefer Auth metadata (first_name + surname) for the signed-in owner.
+  // verify_certificate may omit user_id, so confirm ownership through my_certificates.
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      let isOwner = c.user_id === user.id;
+      if (!isOwner && !c.user_id) {
+        const { data: mine } = await supabase.rpc('my_certificates');
+        isOwner = (mine || []).some(item => String(item.id).toUpperCase() === String(id).toUpperCase());
+      }
+
+      if (isOwner) {
         const meta = user.user_metadata || {};
-        const firstName = [
-          meta.first_name,
-          meta.fname,
-          meta.given_name,
-          meta.custom_first_name
-        ].find(value => String(value || '').trim());
-        const lastName = [
-          meta.last_name,
-          meta.sname,
-          meta.surname,
-          meta.family_name,
-          meta.custom_last_name
-        ].find(value => String(value || '').trim());
-        const metadataName = [firstName, lastName]
-          .map(value => String(value || '').trim())
-          .filter(Boolean)
-          .join(' ');
+        const firstName = String(meta.first_name || '').trim();
+        const surname = String(meta.surname || '').trim();
+        const metadataName = [firstName, surname].filter(Boolean).join(' ');
         const combinedName = String(meta.full_name || meta.name || '').trim();
 
-        if (metadataName.split(/\s+/).filter(Boolean).length >= 2) {
+        if (metadataName) {
           fullName = metadataName;
-        } else if (combinedName.split(/\s+/).filter(Boolean).length >= 2 &&
-                   (!fullName || fullName.split(/\s+/).filter(Boolean).length < 2)) {
+        } else if (combinedName.split(/\\s+/).filter(Boolean).length >= 2 &&
+                   (!fullName || fullName.split(/\\s+/).filter(Boolean).length < 2)) {
           fullName = combinedName;
         }
       }
-    } catch (err) {
-      console.warn('Could not load the certificate owner name from Auth metadata:', err);
     }
+  } catch (err) {
+    console.warn('Could not load the certificate owner name from Auth metadata:', err);
   }
   if (!fullName) fullName = '-';
 
