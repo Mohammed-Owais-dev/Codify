@@ -750,7 +750,7 @@ document.addEventListener('DOMContentLoaded', renderNavbarAuth);
 (() => {
     const header = document.querySelector('.codify-main-header');
     if (!header || document.getElementById('codifyNavVisibilityToggle')) return;
-    const breadcrumb = currentPath.startsWith('/courses/')
+    const breadcrumb = currentPath.startsWith('/courses/') || currentPath.startsWith('/quick-notes/')
         ? document.querySelector('.codify-breadcrumb-bar')
         : null;
 
