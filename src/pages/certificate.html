@@ -318,22 +318,47 @@ async function showCertificate(id) {
   }
   const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
 
-  // Prefer an explicit first + last name when the verification RPC returns them.
-  // Some older certificate records only contain the first name in full_name.
+  // Prefer the explicit first and last name returned by the certificate record.
   let fullName = [c.first_name, c.last_name || c.surname].filter(Boolean).join(' ').trim();
-  if (!fullName) fullName = String(c.full_name || '').trim();
+  const storedFullName = String(c.full_name || '').trim();
+  if (!fullName) fullName = storedFullName;
 
-  // If this is the signed-in user's own certificate, use their current profile
-  // metadata as a fallback for legacy records that stored only the first name.
-  if (c.user_id && (!fullName || fullName.split(/\\s+/).length < 2)) {
+  // Older certificates may store only the first name. For the certificate
+  // owner's own view, recover both names from their profile/auth metadata.
+  // Keep this lookup restricted to the signed-in owner.
+  if (c.user_id) {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user && user.id === c.user_id) {
+        let profile = null;
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('first_name, last_name, display_name')
+          .eq('id', user.id)
+          .maybeSingle();
+        profile = profileData;
+
         const meta = user.user_metadata || {};
-        const profileName = [meta.first_name || meta.given_name, meta.last_name || meta.surname].filter(Boolean).join(' ').trim();
-        if (profileName) fullName = profileName;
+        const profileName = [
+          profile?.first_name || meta.first_name || meta.given_name,
+          profile?.last_name || meta.last_name || meta.surname
+        ].filter(Boolean).join(' ').trim();
+        const displayName = String(profile?.display_name || '').trim();
+        const metadataFullName = String(meta.full_name || meta.name || '').trim();
+
+        if (profileName) {
+          fullName = profileName;
+        } else if (displayName.split(/\s+/).filter(Boolean).length >= 2 &&
+                   (!fullName || fullName.split(/\s+/).filter(Boolean).length < 2)) {
+          fullName = displayName;
+        } else if (metadataFullName.split(/\s+/).filter(Boolean).length >= 2 &&
+                   (!fullName || fullName.split(/\s+/).filter(Boolean).length < 2)) {
+          fullName = metadataFullName;
+        }
       }
-    } catch (_) {}
+    } catch (err) {
+      console.warn('Could not load the certificate owner name from their profile:', err);
+    }
   }
   if (!fullName) fullName = '-';
 
