@@ -216,6 +216,9 @@ document.getElementById('footer-placeholder').innerHTML = `
                 </div>
             </span>
         </div>
+        <div class="codify-footer-legal" style="margin-top:8px;font-size:.85em;opacity:.85">
+            <a href="/privacy" style="color:inherit;text-decoration:none;margin:0 8px">Privacy Policy</a>•<a href="/terms" style="color:inherit;text-decoration:none;margin:0 8px">Terms of Use</a>•<a href="/contact" style="color:inherit;text-decoration:none;margin:0 8px">Contact</a>
+        </div>
     </footer>
 
     <!-- ENGINEER MODAL -->

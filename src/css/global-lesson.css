@@ -386,7 +386,8 @@ body {
     letter-spacing: 0.05em;
 }
 
-#markdownOutputContainer h1 {
+#markdownOutputContainer h1,
+#markdownOutputContainer h2.md-h1 {
     display: none;
 }
 

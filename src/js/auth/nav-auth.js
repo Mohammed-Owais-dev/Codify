@@ -6,7 +6,7 @@ window.handleSignOut = async function() {
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
         localStorage.clear();
-        window.location.href = '/src/auth/login.html';
+        window.location.href = '/login';
     } catch (error) {
         console.error('Error signing out:', error.message);
     }
@@ -94,29 +94,29 @@ async function renderNavbarAuth() {
                         </div>
 
                         <div class="dropdown-body" style="display: flex; flex-direction: column; gap: 4px;">
-                            <a href="/src/pages/account/profile.html" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
+                            <a href="/profile" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                 Profile Settings
                             </a>
 
-                            <a href="/src/pages/certificate.html" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
+                            <a href="/certificate" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>
                                 Achievements
                             </a>
 
-                            <a href="/src/pages/account/activity.html" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
+                            <a href="/activity" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
                                 Activity
                             </a>
 
-                            <a href="/src/pages/account/account-security.html" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
+                            <a href="/account-security" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                 Account Security
                             </a>
 
                             <div class="dropdown-divider" style="height: 1px; background: rgba(0, 170, 255, 0.15); margin: 8px 0;"></div>
 
-                            <a href="/src/auth/login.html" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
+                            <a href="/login" class="dropdown-item" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: all 0.2s ease;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00aaff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"></path></svg>
                                 Switch Account
                             </a>
@@ -146,8 +146,8 @@ async function renderNavbarAuth() {
         } else {
             // Unauthenticated Guest state
             authNavGroup.innerHTML = `
-                <a href="/src/auth/login.html" class="codify-btn-outline">Login</a>
-                <a href="/src/auth/signup.html" class="codify-btn-outline">Signup</a>
+                <a href="/login" class="codify-btn-outline">Login</a>
+                <a href="/signup" class="codify-btn-outline">Signup</a>
             `;
         }
     } catch (error) {

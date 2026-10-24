@@ -147,7 +147,7 @@ async function checkOAuthSession() {
 
         // If they already completed setup previously, redirect to workspace
         if (metadata.username && metadata.username !== 'pending_setup') {
-            window.location.href = '../pages/courses.html';
+            window.location.href = '/courses';
             return;
         }
 
@@ -519,7 +519,7 @@ if (btnSaveAvatar) {
 
             showAlert('Account configured! Redirecting...', false);
             setTimeout(() => {
-                window.location.href = '../pages/courses.html';
+                window.location.href = '/courses';
             }, 800);
 
         } catch (err) {

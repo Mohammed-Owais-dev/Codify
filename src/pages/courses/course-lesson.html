@@ -15,6 +15,23 @@
     <link rel="stylesheet" href="/src/css/global-lesson.css">
     <link rel="stylesheet" href="/src/css/global.css">
     <title>Lesson | Codify</title>
+    <!-- SEO-BLOCK -->
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Codify">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Lesson | Codify">
+    <meta property="og:description" content="Interactive programming modules and documentation on Codify.">
+    <meta property="og:image" content="https://learn-codify.vercel.app/src/assets/images/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Codify: Learn. Practise. Grow.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lesson | Codify">
+    <meta name="twitter:description" content="Interactive programming modules and documentation on Codify.">
+    <meta name="twitter:image" content="https://learn-codify.vercel.app/src/assets/images/og-cover.png">
+    <meta name="theme-color" content="#0a0f1c">
+    <script src="/src/js/seo.js" defer></script>
 
     <!-- Locked, stable Marked.js Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
@@ -735,7 +752,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="codify-breadcrumbs">
-                <li><a href="/src/pages/courses.html">Courses</a></li>
+                <li><a href="/courses">Courses</a></li>
                 <li class="breadcrumb-chevron">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="m9 18 6-6-6-6"></path>
@@ -824,7 +841,7 @@
     <div class="lightbox-modal" id="globalLightbox" role="dialog" aria-hidden="true">
         <span class="lightbox-close" id="closeLightbox" title="Close Lightbox">&times;</span>
         <div class="lightbox-viewport" id="lightboxViewport">
-            <img class="lightbox-img" id="lightboxTargetImg" src="" alt="Active course diagram blueprint view">
+            <img class="lightbox-img" id="lightboxTargetImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Active course diagram blueprint view">
         </div>
         <div class="lightbox-hud-box" id="lightboxHudBox">
             <button class="hud-dismiss-btn" id="dismissHudBtn" title="Dismiss Hints">✕</button>
@@ -1279,7 +1296,7 @@
                 mdText = compileMarkdownQuiz(mdText);
 
                 const container = document.getElementById('markdownOutputContainer');
-                container.innerHTML = marked.parse(mdText);
+                container.innerHTML = marked.parse(mdText).replace(/<h1(\s|>)/g, '<h2 class="md-h1"$1').replace(/<\/h1>/g, '</h2>');
                 applyCyberStyles(container);
 
                 let activeIdx = flatTopics.findIndex(t => t.file.includes(targetFile));
@@ -1322,7 +1339,13 @@
 
             } catch (err) {
                 console.error("Lesson load error:", err);
-                document.getElementById('markdownOutputContainer').innerHTML = `<h2 style="color: #ff5252;">Module Load Error</h2><p>${err.message}</p>`;
+                const cp = window.location.pathname.split('/').filter(Boolean)[1];
+                const back = cp ? '/courses/' + encodeURIComponent(cp) : '/courses';
+                document.getElementById('pageMainHeading').textContent = 'Lesson not found';
+                document.title = 'Lesson not found | Codify';
+                var m=document.createElement('meta');m.name='robots';m.content='noindex, nofollow';document.head.appendChild(m);
+                const box = document.getElementById('markdownOutputContainer');
+                box.innerHTML = '<h2 style="color: #ff5252;">We could not load this lesson</h2><p>The lesson may have moved, or the link may be incorrect.</p><p><a style="color:#00aaff;font-weight:800" href="' + back + '">Back to the course</a></p>';
             }
         }
 
@@ -1406,7 +1429,7 @@
             showAccessToast(
                 'Please log in to mark this topic as completed.',
                 'Log In',
-                '/src/auth/login.html?redirect=' + encodeURIComponent(window.location.href)
+                '/login?redirect=' + encodeURIComponent(window.location.href)
             );
         }
 

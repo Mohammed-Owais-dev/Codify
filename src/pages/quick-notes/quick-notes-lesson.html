@@ -15,6 +15,23 @@
     <link rel="stylesheet" href="/src/css/global-lesson.css">
     <link rel="stylesheet" href="/src/css/global.css">
     <title>Quick Notes | Codify</title>
+    <!-- SEO-BLOCK -->
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Codify">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Quick Notes | Codify">
+    <meta property="og:description" content="Chapter-level quick revision notes on Codify.">
+    <meta property="og:image" content="https://learn-codify.vercel.app/src/assets/images/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Codify: Learn. Practise. Grow.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Quick Notes | Codify">
+    <meta name="twitter:description" content="Chapter-level quick revision notes on Codify.">
+    <meta name="twitter:image" content="https://learn-codify.vercel.app/src/assets/images/og-cover.png">
+    <meta name="theme-color" content="#0a0f1c">
+    <script src="/src/js/seo.js" defer></script>
 
     <!-- Locked, stable Marked.js Parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
@@ -809,7 +826,7 @@
     <div class="lightbox-modal" id="globalLightbox" role="dialog" aria-hidden="true">
         <span class="lightbox-close" id="closeLightbox" title="Close Lightbox">&times;</span>
         <div class="lightbox-viewport" id="lightboxViewport">
-            <img class="lightbox-img" id="lightboxTargetImg" src="" alt="Active course diagram blueprint view">
+            <img class="lightbox-img" id="lightboxTargetImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Active course diagram blueprint view">
         </div>
         <div class="lightbox-hud-box" id="lightboxHudBox">
             <button class="hud-dismiss-btn" id="dismissHudBtn" title="Dismiss Hints">✕</button>
@@ -1189,7 +1206,7 @@
                 document.getElementById('breadcrumbCourseLink').href = activeCourse.indexPage;
 
                 let activeIdx = chapters.findIndex(chapter => String(chapter.number) === String(lessonParam));
-                if (activeIdx < 0) activeIdx = 0;
+                if (activeIdx < 0) { window.location.replace(activeCourse.indexPage); return; }
                 const activeChapter = chapters[activeIdx];
 
                 // Quick Notes sidebar deliberately contains chapter links only: no topic tree.
@@ -1221,7 +1238,7 @@
                 }
                 markdownText = compileMarkdownQuiz(markdownText);
                 const container = document.getElementById('markdownOutputContainer');
-                container.innerHTML = marked.parse(markdownText);
+                container.innerHTML = marked.parse(markdownText).replace(/<h1(\s|>)/g, '<h2 class="md-h1"$1').replace(/<\/h1>/g, '</h2>');
                 applyCyberStyles(container);
 
                 const previous = chapters[activeIdx - 1];
@@ -1241,7 +1258,10 @@
                 // Quick Notes are revision pages and do not track course completion.
             } catch (error) {
                 console.error('Quick Notes load error:', error);
-                document.getElementById('markdownOutputContainer').innerHTML = '<h2 style="color:#ff5252">Quick Notes could not be loaded</h2><p>' + error.message + '</p>';
+                document.getElementById('pageMainHeading').textContent = 'Quick Notes not found';
+                document.title = 'Quick Notes not found | Codify';
+                var m=document.createElement('meta');m.name='robots';m.content='noindex, nofollow';document.head.appendChild(m);
+                document.getElementById('markdownOutputContainer').innerHTML = '<h2 style="color:#ff5252">We could not load these notes</h2><p>The page may have moved, or the link may be incorrect.</p><p><a style="color:#00aaff;font-weight:800" href="/quick-notes">Back to Quick Notes</a></p>';
             }
         }
 

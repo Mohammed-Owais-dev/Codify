@@ -1,4 +1,15 @@
 User-agent: *
 Allow: /
 
+# Private, account, admin and exam areas
+Disallow: /admin
+Disallow: /profile
+Disallow: /account-security
+Disallow: /activity
+Disallow: /exam/
+Disallow: /src/pages/admin.html
+Disallow: /src/pages/exams/
+Disallow: /src/pages/account/
+Disallow: /src/pages/certificates/
+
 Sitemap: https://learn-codify.vercel.app/sitemap.xml

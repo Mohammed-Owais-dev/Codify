@@ -10,6 +10,24 @@
 <link rel="icon" type="image/svg+xml" href="/src/assets/logos/main-logo.svg">
 <link rel="stylesheet" href="/src/css/global.css">
 <title>Certificate | Codify</title>
+    <!-- SEO-BLOCK -->
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://learn-codify.vercel.app/certificate">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Codify">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Certificate | Codify">
+    <meta property="og:description" content="View, verify and download your Codify course certificates.">
+    <meta property="og:url" content="https://learn-codify.vercel.app/certificate">
+    <meta property="og:image" content="https://learn-codify.vercel.app/src/assets/images/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Codify: Learn. Practise. Grow.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Certificate | Codify">
+    <meta name="twitter:description" content="View, verify and download your Codify course certificates.">
+    <meta name="twitter:image" content="https://learn-codify.vercel.app/src/assets/images/og-cover.png">
+    <meta name="theme-color" content="#0a0f1c">
 <style>
 body{min-width:0!important;overflow-x:hidden!important;font-family:'Nunito',sans-serif;background:#0a0f1c;color:#e0e6ed;margin:0}
 main{display:block!important;margin-top:100px!important;position:relative;z-index:2;padding:0 20px 70px;text-align:center}
@@ -362,14 +380,14 @@ async function showList() {
   wrap.querySelector('#openVerify').onclick = openVerify;
   const list = el('<div class="list"></div>');
   if (!session?.user) {
-    list.append(el('<div class="state" style="width:100%">Log in to see the certificates you have earned.<br><br><button class="btn" id="takeExam" type="button">Take an exam</button></div>'));
-    list.querySelector('#takeExam').onclick = () => showToast('Please log in to take an exam.', '/login', 'Log In');
+    list.append(el('<div class="state" style="width:100%">Log in to see the certificates you have earned.<br><br><button class="btn" id="takeExam" type="button">Log in</button></div>'));
+    list.querySelector('#takeExam').onclick = () => { window.location.href = '/login'; };
   } else {
     let { data, error } = await supabase.rpc('my_certificates');
     if (error) ({ data, error } = await supabase.from('certificates').select('id, course_id, percentage, issued_at, revoked_at')
       .eq('user_id', session.user.id).order('issued_at', { ascending: false }));
     if (error) list.append(el('<div class="state" style="width:100%"></div>')), list.firstChild.textContent = `We couldn't load your certificates (${error.message}). Please refresh and try again.`;
-    else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exams">Take an exam</a></div>'));
+    else if (!data?.length) list.append(el('<div class="state" style="width:100%">You have no certificates yet.<br><br><a class="btn" href="/exam">Take an exam</a></div>'));
     (data || []).forEach(c => {
       const slug = (c.course_id || '').split('-')[0];
       const a = el('<a class="card"><img alt=""><div class="mid"><h3></h3><p class="cid2"></p></div><span class="pill"></span><span class="d"></span><span class="go">View &rarr;</span></a>');

@@ -21,6 +21,14 @@
       "destination": "/src/pages/about.html"
     },
     {
+      "source": "/privacy",
+      "destination": "/src/pages/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/src/pages/terms.html"
+    },
+    {
       "source": "/quick-notes",
       "destination": "/src/pages/quick-notes.html"
     },
@@ -71,6 +79,52 @@
     {
       "source": "/courses/:course/:lesson",
       "destination": "/src/pages/courses/course-lesson.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(admin|profile|account-security|activity|login|signup)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/exam/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/courses/(.*)/enroll",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
     }
   ]
 }
