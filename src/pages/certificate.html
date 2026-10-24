@@ -317,6 +317,26 @@ async function showCertificate(id) {
     return;
   }
   const course = courseName(c.course_id), pct = Math.round(c.percentage), url = `${location.origin}/certificate?id=${encodeURIComponent(id)}`;
+
+  // Prefer an explicit first + last name when the verification RPC returns them.
+  // Some older certificate records only contain the first name in full_name.
+  let fullName = [c.first_name, c.last_name || c.surname].filter(Boolean).join(' ').trim();
+  if (!fullName) fullName = String(c.full_name || '').trim();
+
+  // If this is the signed-in user's own certificate, use their current profile
+  // metadata as a fallback for legacy records that stored only the first name.
+  if (c.user_id && (!fullName || fullName.split(/\\s+/).length < 2)) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user && user.id === c.user_id) {
+        const meta = user.user_metadata || {};
+        const profileName = [meta.first_name || meta.given_name, meta.last_name || meta.surname].filter(Boolean).join(' ').trim();
+        if (profileName) fullName = profileName;
+      }
+    } catch (_) {}
+  }
+  if (!fullName) fullName = '-';
+
   const page = el(`<div class="cv">
     
     <div class="phead">
@@ -333,9 +353,9 @@ async function showCertificate(id) {
     <p class="note">This certificate was issued by Codify. Anyone can confirm it is genuine by scanning its QR code with a phone camera, or by entering its ID under "Verify Certificate". It confirms completion of an online course exam and is not a professional licence or accredited qualification.</p>
   </div>`);
   view.replaceChildren(page);
-  txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${c.full_name || '-'}`);
+  txt(page, '.t2', `${course} Certificate`); txt(page, '.sub2', `Issued to ${fullName}`);
   txt(page, '#iCourse', course); txt(page, '#iScore', pct + '%'); txt(page, '#iDate', fmt(c.issued_at)); txt(page, '#iId', id);
-  document.title = `${c.full_name} - ${course} Certificate | Codify`;
+  document.title = `${fullName} - ${course} Certificate | Codify`;
 
   // QR (drawn at 2x so it stays sharp), then the certificate itself
   const tmp = document.createElement('div');
@@ -344,9 +364,9 @@ async function showCertificate(id) {
   await loadFonts();
   const [qr, logo, sig, clogo] = await Promise.all([loadImg(qrData), loadImg('/src/assets/logos/main-logo.svg'), loadImg('/src/assets/signature.png'), loadImg(logoUrl(c.course_id))]);
   const cv = $('#certCanvas');
-  drawCertificate(cv, { name: c.full_name || '-', user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
+  drawCertificate(cv, { name: fullName, user: c.username ? '@' + c.username : '-', email: c.email || '-', course: course + ' Examination',
                         pct, date: fmt(c.issued_at), id, url: location.host + '/certificate', revoked: !!c.revoked }, qr, logo, sig, clogo);
-  cv.setAttribute('aria-label', `Certificate of achievement for ${c.full_name}, ${course} exam, score ${pct}%`);
+  cv.setAttribute('aria-label', `Certificate of achievement for ${fullName}, ${course} exam, score ${pct}%`);
 
   if (c.revoked) {
     const bd = page.querySelector('.hero-badge'); bd.classList.add('bad');
