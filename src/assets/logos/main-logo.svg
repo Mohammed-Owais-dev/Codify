@@ -1,0 +1,53 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Soft Background Ambient Glow -->
+    <filter id="ambientGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="24" result="blur" />
+    </filter>
+
+    <!-- Sharp Neon Line Glow -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur1" />
+      <feGaussianBlur stdDeviation="16" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Vibrant Neon Blue Gradient -->
+    <linearGradient id="neonBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="50%" stop-color="#00aaff" />
+      <stop offset="100%" stop-color="#0066ff" />
+    </linearGradient>
+
+    <!-- Core Highlights for Ultra-Modern Finish -->
+    <linearGradient id="coreHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#80e5ff" stop-opacity="0.6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient Glow Layer -->
+  <g stroke="url(#neonBlueGrad)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.35" filter="url(#ambientGlow)">
+    <path d="M 160 168 L 72 256 L 160 344" />
+    <path d="M 288 128 L 224 384" />
+    <path d="M 352 168 L 440 256 L 352 344" />
+  </g>
+
+  <!-- Outer Neon Blur Layer -->
+  <g stroke="url(#neonBlueGrad)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#neonGlow)">
+    <path d="M 160 168 L 72 256 L 160 344" />
+    <path d="M 288 128 L 224 384" />
+    <path d="M 352 168 L 440 256 L 352 344" />
+  </g>
+
+  <!-- Sharp Inner Glass Core -->
+  <g stroke="url(#coreHighlight)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 160 168 L 72 256 L 160 344" />
+    <path d="M 288 128 L 224 384" />
+    <path d="M 352 168 L 440 256 L 352 344" />
+  </g>
+</svg>
