@@ -32,8 +32,3 @@ Thumbs.db
 dist/
 build/
 .output/
-
-# OS files
-desktop.ini
-Thumbs.db
-.DS_Store

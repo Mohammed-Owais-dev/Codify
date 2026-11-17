@@ -7,7 +7,7 @@ async function verifyAuthAndFetchProfile() {
 
     if (authError || !user) {
         // User not logged in -> redirect to login page
-        window.location.href = '/login';
+        window.location.href = '/login.html';
         return null;
     }
 
@@ -29,7 +29,7 @@ async function verifyAuthAndFetchProfile() {
 export async function handleSignOut() {
     const { error } = await supabase.auth.signOut();
     if (!error) {
-        window.location.href = '/login';
+        window.location.href = '/login.html';
     }
 }
 
