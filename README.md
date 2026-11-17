@@ -54,3 +54,12 @@ my-codify-project/
     └── profile/
         ├── profile.html
         └── settings.html
+
+## SEO & maintenance
+
+- `robots.txt` and `sitemap.xml` live in the project root.
+- After adding courses, chapters or lessons, regenerate the sitemap and commit it:
+  `node scripts/generate-sitemap.mjs`
+- `src/js/seo.js` keeps the canonical URL, Open Graph tags and breadcrumb data correct on the course, lesson and quick-notes pages.
+- Private pages (login, signup, account, admin, exams) are marked `noindex` in their HTML and in `vercel.json`.
+- Supabase: use the public anon key only. Never commit a `service_role` key, and keep Row Level Security enabled on every table.
