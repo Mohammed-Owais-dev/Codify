@@ -1494,4 +1494,62 @@ button, a, input, select, textarea {
         line-height: 1.45 !important;
     }
 }
+/* ==========================================================================
+   CONSISTENT INTERACTION TRANSITIONS
+   Standardize common hover effects while leaving dedicated menus, popovers,
+   and state-driven fade controls to their own animation rules.
+   ========================================================================== */
+:is(
+    button:not(.course-action-btn):not(.toast-login-btn),
+    [role="button"],
+    .btn:not(.course-action-btn):not(.toast-login-btn),
+    a[class],
+    .card,
+    [class*="-card"],
+    .tree-node,
+    .tree-leaves li a,
+    .feature-card,
+    .course-card
+) {
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease,
+        filter 0.25s ease,
+        opacity 0.25s ease;
+}
 
+/* Keep keyboard interaction as visible and smooth as pointer interaction. */
+:is(button, [role="button"], .btn, a[class]):focus-visible {
+    outline: 2px solid rgba(0, 170, 255, 0.8);
+    outline-offset: 3px;
+}
+
+/* Avoid hover-only movement on touch devices. */
+@media (hover: none) {
+    :is(button, [role="button"], .btn, a[class], .card, [class*="-card"], .tree-node) {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :is(
+        button:not(.course-action-btn):not(.toast-login-btn),
+        [role="button"],
+        .btn:not(.course-action-btn):not(.toast-login-btn),
+        a[class],
+        .card,
+        [class*="-card"],
+        .tree-node,
+        .tree-leaves li a,
+        .feature-card,
+        .course-card
+    ) {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
